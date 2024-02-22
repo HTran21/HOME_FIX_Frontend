@@ -1,0 +1,57 @@
+.titleForm {
+    display: flex;
+    align-items: center;
+
+    .titleRepair {
+        font-family: 'Reem Kufi', sans-serif;
+        font-weight: bold;
+
+    }
+
+    .imgLogo {
+        width: 50px;
+        display: inline-block;
+    }
+
+    .textLogo {
+        font-weight: bold;
+        font-family: 'Reem Kufi', sans-serif;
+        display: inline-block;
+        font-size: 26px;
+        margin-left: 5px;
+    }
+}
+
+.inputForm {
+    border: 1px solid rgba(63, 59, 59, 0.299);
+}
+
+
+.btnRepair {
+    background-image: linear-gradient(to right, #1FA2FF 0%, #12D8FA 51%, #1FA2FF 100%);
+    margin: 10px;
+    padding: 10px 45px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: block;
+    border: none;
+}
+
+.btnRepair:hover {
+    background-position: right center;
+    /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+}
+
+.btnCancel {
+    padding: 10px 30px;
+    border: none;
+    background-color: rgb(142, 142, 148);
+    border-radius: 10px;
+}

@@ -1,0 +1,239 @@
+.titleService {
+    height: 350px;
+    background-image: url("../../../../public/background/kitchen.png");
+    background-size: cover;
+    color: #fff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.ourService {
+    margin: 50px 0px;
+
+    .titleOurService {
+        text-align: center;
+
+        .textTiltle {
+            color: #337CD5;
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+
+            .iconTitle {
+                font-size: 15px;
+                margin-right: 5px;
+            }
+        }
+
+
+    }
+
+    .listService {
+        margin: 30px 0px;
+
+        .detailService {
+            height: 200px;
+            width: 200px;
+            margin: auto;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 7px;
+            border-radius: 5px;
+
+
+            .imageService {
+                width: 80px;
+            }
+
+            .titleDetailService {
+                font-size: 20px;
+                font-weight: 500;
+                margin-top: 10px;
+
+            }
+
+            .viewDetailService {
+                font-size: 14px;
+                margin-top: 10px;
+                font-weight: 500;
+                color: #727578;
+
+
+            }
+
+            &:hover {
+                .iconDetailService {
+                    display: inline-block;
+                }
+
+                .viewDetailService {
+                    color: #347DCF;
+                }
+
+
+            }
+
+            .iconDetailService {
+                display: none;
+                margin-left: 5px;
+
+            }
+        }
+
+    }
+}
+
+.detailService:hover {
+    border: 2px solid #347DCF;
+}
+
+.introService {
+    margin-top: 30px;
+}
+
+.line {
+    width: 60px;
+    border: 1px solid rgb(240, 67, 67);
+    margin: 15px 0px;
+}
+
+.imageIntroService img {
+    width: 450px;
+}
+
+.inforRepair {
+    background-color: #0D4C8D;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0px;
+}
+
+.detailRepair {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+
+    .numberInfor {
+        font-size: 45px;
+        color: #fff;
+    }
+
+    .titleInfor {
+        color: #fff;
+        font-size: 22px;
+    }
+}
+
+.posHomeFix {
+    margin-top: 50px;
+}
+
+.detailPos {
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 250px;
+    background-image: linear-gradient(to right, #49a9bf00 0%, #8be2e236 51%, #5296b534 100%);
+    background-size: 200% auto;
+    transition: 0.5s;
+    cursor: pointer;
+    border-radius: 10px;
+
+    .iconPos {
+        border: 1px solid #35A4DC;
+        display: flex;
+        font-size: 30px;
+        width: 60px;
+        height: 60px;
+        align-items: center;
+        justify-content: center;
+        color: #35A4DC;
+        margin: 10px auto;
+        border-radius: 5px;
+    }
+
+    .titlePos {
+        font-size: 22px;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .contentPos {
+        text-align: center;
+        color: #757d84;
+    }
+}
+
+.detailPos:hover {
+    background-position: right center;
+
+}
+
+.priceService {
+    margin: 30px 0px;
+}
+
+.titlePrice {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+
+}
+
+.listPrice {
+
+    .detailPrice {
+        border: 1px solid rgba(132, 132, 135, 0.69);
+        border-radius: 5px;
+        box-shadow: 5px 5px 5px #bebbbbbb;
+        transition: 0.3s;
+        cursor: pointer;
+
+        .titleDetailPrice {
+            font-size: 24px;
+            text-align: center;
+            font-weight: 500;
+            background-color: #35A4DC;
+            color: #fff;
+            padding: 5px 0px;
+            border-radius: 5px 5px 0px 0px;
+        }
+
+        .contentDetailPrice {
+            padding: 20px 10px;
+            text-align: center;
+
+            .priceDetailService {
+                font-size: 24px;
+                font-weight: bold;
+                color: #004B91;
+            }
+
+            .desService {
+                font-weight: 500;
+                color: #336FA7;
+            }
+        }
+    }
+
+}
+
+.detailPrice:hover {
+    transform: scale(1.01);
+}

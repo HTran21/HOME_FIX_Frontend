@@ -1,0 +1,188 @@
+.introHomePage {
+    // height: 400px;
+    background-image: url("../../../../public/background/kitchen.png");
+    background-size: cover;
+    color: #fff;
+}
+
+.titleIntro {
+    margin-top: 90px;
+    font-size: 40px;
+}
+
+.line {
+    width: 60px;
+    border: 1px solid rgb(240, 67, 67);
+    margin: 15px 0px;
+}
+
+
+.btnGet {
+    background-image: linear-gradient(to right, #e53935 0%, #e35d5b 51%, #e53935 100%);
+    margin: 30px 0px 90px 0px;
+    padding: 10px 20px;
+    text-align: center;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    border-radius: 30px;
+    display: block;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.btnGet:hover {
+    background-position: right center;
+    /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+}
+
+.imgHomePage {
+    display: flex;
+    margin: auto auto auto auto;
+    width: 100%;
+    max-width: 320px;
+    height: 400px;
+    margin-top: 20px;
+}
+
+.logoBrand {
+    border: 1px solid #35A4DC;
+    height: 150px;
+    background-color: #35A4DC;
+}
+
+.imageBrand {
+    height: 80px;
+    width: 150px;
+    margin: auto;
+}
+
+.serviceList {
+    margin: 30px auto 50px auto;
+}
+
+.service {
+    display: grid;
+    grid-template-columns: 90px auto;
+    width: 350px;
+}
+
+
+.imgService {
+    width: 70px;
+    margin-top: 5px;
+    margin-left: 10px;
+
+}
+
+
+
+.rightService {
+    display: grid;
+
+    .titleService {
+        font-weight: bold;
+        font-size: 20px;
+        margin-bottom: 5px;
+    }
+}
+
+.imageRepair {
+    width: 280px !important;
+    margin: auto;
+    height: 290px;
+}
+
+.responeUser {
+    height: 300px;
+    margin-top: 100px;
+    margin-bottom: 30px;
+}
+
+.comment {
+    padding: 50px 100px;
+}
+
+.contentComment {
+    text-align: center
+}
+
+.userComment {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    color: #35A4DC;
+}
+
+.question {
+    margin-bottom: 50px;
+    background-image: url("https://themes.webdevia.com/appliance/wp-content/uploads/2016/11/time-m-bg.jpg?id=2399");
+}
+
+.rightQuestion {
+    padding: 40px 30px;
+    margin-top: 50px;
+}
+
+.textQuestion {
+    font-size: 30px;
+    color: #fff;
+    font-weight: 400;
+    margin: 0px 0px 20px 0px;
+}
+
+.aboutQuestion {
+    width: 600px;
+
+}
+
+
+.cardNews {
+    height: 400px;
+    display: grid;
+    grid-template-rows: 200px auto;
+}
+
+.imgCard {
+    width: 370px;
+    height: 180px;
+    overflow: hidden;
+}
+
+.imgCard img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    object-position: center center;
+}
+
+.contentCard {
+    display: grid;
+    padding: 20px 10px;
+}
+
+.btnCard {
+    background-image: linear-gradient(to right, #314755 0%, #26a0da 51%, #314755 100%);
+    margin-top: 30px;
+    padding: 5px 10px;
+    width: 150px;
+    text-align: center;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: block;
+    cursor: pointer;
+}
+
+.btnCard:hover {
+    background-position: right center;
+    /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+}

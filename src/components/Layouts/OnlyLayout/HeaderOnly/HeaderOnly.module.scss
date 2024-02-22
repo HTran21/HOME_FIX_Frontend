@@ -1,0 +1,56 @@
+ @import url('https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&display=swap');
+
+ .imgLogo {
+     width: 50px;
+     display: inline-block;
+ }
+
+ .textLogo {
+     font-weight: bold;
+     font-family: 'Reem Kufi', sans-serif;
+     display: inline-block;
+     transform: translate(0, 7px);
+     font-size: 26px;
+     margin-left: 5px;
+ }
+
+ .navLink {
+     font-size: 20px;
+     font-weight: bold;
+     font-family: 'Reem Kufi', sans-serif;
+     color: #333340;
+     margin: 0px 5px;
+     width: 100px;
+     text-align: center;
+
+ }
+
+ .navLink:hover {
+     color: #1590c4;
+     border-bottom: 1px solid #21a3db;
+ }
+
+ .btnLogin {
+     background-image: linear-gradient(to right, #7474BF 0%, #21a3db 51%, #7474BF 100%);
+     padding: 10px 30px;
+     text-align: center;
+     text-transform: uppercase;
+     transition: 0.5s;
+     background-size: 200% auto;
+     color: white;
+     box-shadow: 0 0 20px #eee;
+     border-radius: 10px;
+     display: block;
+     border: none;
+     font-family: 'Reem Kufi', sans-serif;
+     font-weight: bold;
+
+
+ }
+
+ .btnLogin:hover {
+     background-position: right center;
+     /* change the direction of the change here */
+     color: #fff;
+     text-decoration: none;
+ }

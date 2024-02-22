@@ -1,0 +1,132 @@
+.loginForm {
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.leftCardLogin {
+    background-image: url("https://img.freepik.com/free-vector/dark-wallpaper-with-golden-details_23-2148415642.jpg?w=996&t=st=1708484693~exp=1708485293~hmac=8ed73c3cb0a37c35951419ac87a598900a61d4a39b3f1957fcffcad8237140ef");
+    background-size: cover;
+    border-radius: 6px 0px 0px 6px;
+    padding: 100px 30px 0px 30px;
+    text-align: center;
+    color: #fff;
+}
+
+.imgLogo {
+    width: 50px;
+    display: inline-block;
+}
+
+.textLogo {
+    font-weight: bold;
+    font-family: 'Reem Kufi', sans-serif;
+    display: inline-block;
+    font-size: 26px;
+    margin-left: 5px;
+}
+
+.titleLogin {
+    font-size: 36px;
+    font-weight: bold;
+    color: #337CD5;
+}
+
+.groupForm {
+    display: grid;
+    grid-template-columns: 40px auto;
+    border-radius: 25px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    margin-bottom: 20px;
+    padding: 5px;
+
+    .iconInputForm {
+        color: #337CD5;
+        padding: 5px 5px 5px 10px;
+        font-size: 18px;
+    }
+
+    .inputForm {
+        border: none;
+        border-radius: 25px;
+        width: 100%;
+        outline: none;
+    }
+}
+
+.groupForm2 {
+    display: grid;
+    grid-template-columns: 40px auto 30px;
+    border-radius: 25px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    margin-bottom: 20px;
+    padding: 5px;
+    // position: relative;
+
+    .iconInputForm2 {
+        color: #337CD5;
+        padding: 5px 5px 5px 15px;
+        font-size: 18px;
+    }
+
+    .inputForm2 {
+        border: none;
+        border-radius: 25px;
+        outline: none;
+        width: 100%;
+    }
+
+    .iconEye {
+
+        font-size: 18px;
+        color: #337CD5;
+        padding-top: 5px;
+    }
+}
+
+.groupForm3 {
+    display: grid;
+    grid-template-columns: 40px auto;
+    border-radius: 25px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    margin-bottom: 20px;
+    padding: 5px;
+
+    .iconInputForm3 {
+        color: #337CD5;
+        font-size: 18px;
+        margin: auto;
+    }
+
+    .inputForm3 {
+        border: none;
+        width: 100%;
+        outline: none;
+        border-radius: 5px;
+    }
+}
+
+
+.btnLogin {
+    background-image: linear-gradient(to right, #7474BF 0%, #21a3db 51%, #7474BF 100%);
+    padding: 10px 30px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: block;
+    border: none;
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: bold;
+
+
+}
+
+.btnLogin:hover {
+    background-position: right center;
+    /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+}
