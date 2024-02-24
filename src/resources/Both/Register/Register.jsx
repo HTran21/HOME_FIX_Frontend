@@ -48,7 +48,7 @@ function Register() {
                                                             <label htmlFor="username" className={cx("iconInputForm")}>
                                                                 <FontAwesomeIcon icon={faUser} />
                                                             </label>
-                                                            <input type="text" className={cx("inputForm")} name="username" id="username" autoComplete="off" />
+                                                            <input type="text" className={cx("inputForm")} name="username" id="username" autoComplete="off" placeholder="Họ tên" />
                                                         </div>
                                                     </div>
                                                     <div className="col-lg-6">
@@ -57,7 +57,7 @@ function Register() {
                                                                 <FontAwesomeIcon icon={faLock} />
                                                             </label>
                                                             <input type={showPassword ? 'text' : 'password'} className={cx("inputForm2")} value={password}
-                                                                name="password" id="password" onChange={(e) => setPassword(e.target.value)} />
+                                                                name="password" id="password" onChange={(e) => setPassword(e.target.value)} placeholder="Mật khẩu" />
                                                             <div className={cx("iconEye")} onClick={onChangeIcon}> {showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />} </div>
                                                         </div>
                                                     </div>
@@ -69,7 +69,7 @@ function Register() {
                                                             <label htmlFor="email" className={cx("iconInputForm")}>
                                                                 <FontAwesomeIcon icon={faEnvelope} />
                                                             </label>
-                                                            <input type="text" className={cx("inputForm")} name="email" id="email" autoComplete="off" />
+                                                            <input type="text" className={cx("inputForm")} name="email" id="email" autoComplete="off" placeholder="Email" />
                                                         </div>
                                                     </div>
                                                     <div className="col-lg-6">
@@ -77,7 +77,7 @@ function Register() {
                                                             <label htmlFor="phone" className={cx("iconInputForm")}>
                                                                 <FontAwesomeIcon icon={faPhone} />
                                                             </label>
-                                                            <input type="text" className={cx("inputForm")} name="phone" id="phone" autoComplete="off" />
+                                                            <input type="text" className={cx("inputForm")} name="phone" id="phone" autoComplete="off" placeholder="Điện thoại" />
                                                         </div>
                                                     </div>
 
@@ -87,14 +87,14 @@ function Register() {
                                                     <label htmlFor="image" className={cx("iconInputForm")}>
                                                         <FontAwesomeIcon icon={faImage} />
                                                     </label>
-                                                    <input type="text" className={cx("inputForm")} name="image" id="image" autoComplete="off" />
+                                                    <input type="text" className={cx("inputForm")} name="image" id="image" autoComplete="off" placeholder="Ảnh đại diện" />
                                                 </div>
 
                                                 <div className={cx("groupForm3")}>
                                                     <label htmlFor="address" className={cx("iconInputForm3")}>
                                                         <FontAwesomeIcon icon={faMap} />
                                                     </label>
-                                                    <textarea className={cx("inputForm3")} name="address" id="address" rows="3"></textarea>
+                                                    <textarea className={cx("inputForm3")} name="address" id="address" rows="3" placeholder="Địa chỉ"></textarea>
                                                 </div>
 
 

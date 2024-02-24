@@ -11,6 +11,7 @@ import Contact from './resources/Both/Contact/Contact';
 import Login from './resources/Both/Login/Login';
 import Register from './resources/Both/Register/Register';
 import FormRepair from './resources/User/FormRepair/FormRepair';
+import DetailRepair from './resources/Both/DetailRepair/DetailRepair';
 import PageNotFound from './resources/Both/PageNotFound/PageNotFound';
 
 
@@ -62,6 +63,10 @@ function App() {
         {
           path: "contact",
           element: <Contact />
+        },
+        {
+          path: "detail",
+          element: <DetailRepair />
         },
 
 

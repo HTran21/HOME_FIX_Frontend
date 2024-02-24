@@ -1,7 +1,7 @@
 import styles from "./Login.module.scss";
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faEye, faLock, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faEye, faLock, faEyeSlash, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -44,16 +44,16 @@ function Login() {
                                                 </h5>
                                                 <div className={cx("groupForm")}>
                                                     <label htmlFor="username" className={cx("iconInputForm")}>
-                                                        <FontAwesomeIcon icon={faUser} />
+                                                        <FontAwesomeIcon icon={faEnvelope} />
                                                     </label>
-                                                    <input type="text" className={cx("inputForm")} name="username" id="username" autoComplete="off" placeholder="Username" />
+                                                    <input type="text" className={cx("inputForm")} name="username" id="username" autoComplete="off" placeholder="Email" />
                                                 </div>
                                                 <div className={cx("groupForm2")}>
                                                     <label htmlFor="password" className={cx("iconInputForm2")}>
                                                         <FontAwesomeIcon icon={faLock} />
                                                     </label>
                                                     <input type={showPassword ? 'text' : 'password'} className={cx("inputForm2")} value={password}
-                                                        name="password" id="password" onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
+                                                        name="password" id="password" onChange={(e) => setPassword(e.target.value)} placeholder="Mật khẩu" />
                                                     <div className={cx("iconEye")} onClick={onChangeIcon}> {showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />} </div>
                                                 </div>
                                                 <div className="pt-1 mb-4">

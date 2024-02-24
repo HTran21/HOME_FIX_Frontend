@@ -1,0 +1,84 @@
+.titleDetail {
+    // border: 1px solid red;
+    margin-bottom: 30px;
+
+    .title {
+        font-family: 'Reem Kufi', sans-serif;
+        font-weight: bold;
+        font-size: 30px;
+    }
+}
+
+.imgLogo {
+    width: 60px;
+    display: inline-block;
+}
+
+.textLogo {
+    font-weight: bold;
+    font-family: 'Reem Kufi', sans-serif;
+    display: inline-block;
+    font-size: 30px;
+    margin: auto;
+}
+
+.rightContent {
+    padding: 0px 20px 20px 20px;
+}
+
+.imgDetailRepair {
+    max-width: 600px;
+    width: 100%;
+    display: flex;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.listService {
+    height: 500px;
+}
+
+.titleList {
+    font-size: 24px;
+    font-weight: bold;
+    font-family: 'Reem Kufi', sans-serif;
+    padding: 5px;
+    text-align: center;
+    background-color: #337CCF;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.listNameService {
+    padding: 30px;
+    list-style: none;
+
+    .nameService {
+        display: grid;
+        grid-template-columns: 90% 10%;
+        padding: 5px;
+        font-size: 20px;
+        font-weight: bold;
+        font-family: 'Reem Kufi', sans-serif;
+        align-items: center;
+        cursor: pointer;
+        margin: 20px 0px;
+    }
+
+    .iconNameService {
+        font-size: 14px;
+    }
+
+    .nameService:hover {
+        color: #337CCF;
+
+        .iconNameService {
+            transform: translate(3px);
+            transition: 0.2s;
+        }
+    }
+}
+
+.active {
+    color: #337CCF;
+}
