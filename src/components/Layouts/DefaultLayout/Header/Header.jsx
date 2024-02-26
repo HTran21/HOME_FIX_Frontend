@@ -6,10 +6,20 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
+import { useDispatch, useSelector } from "react-redux";
+
+// import useAuth from "../../../../hook/useAuth";
+
+// const { isAuthenticated, role, profile } = useAuth();
+
 
 const cx = classNames.bind(styles);
 
 function Header() {
+
+    const user = useSelector((state) => state.user.user);
+    const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
             <Container>
@@ -28,9 +38,10 @@ function Header() {
 
                     </Nav>
                 </Navbar.Collapse>
-                <Navbar.Collapse className="justify-content-end">
-                    <Nav.Link className={"text-decoration-none"} href="/login"><button className={cx("btnLogin")}>Login</button></Nav.Link>
+                <Navbar.Collapse className={cx("justify-content-end")}>
+                    {/* <Nav.Link className={"text-decoration-none"} href="/login"><button className={cx("btnLogin")}>Login</button></Nav.Link> */}
 
+                    {user && <p className={cx("username")}>Welcome to {user.username}</p>}
                 </Navbar.Collapse>
             </Container>
         </Navbar>

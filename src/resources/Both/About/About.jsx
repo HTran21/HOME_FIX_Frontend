@@ -87,7 +87,7 @@ function About() {
                         <div className="row">
                             <div className="col-lg-3 col-md-4 col-sm-6 m-auto mt-3">
                                 <div className={cx("profilePeople")}>
-                                    <img className={cx("imageProfile")} src="https://i.pinimg.com/564x/e2/0e/2f/e20e2f9c763e46f94e74efeae56cdee1.jpg" alt="" />
+                                    <img className={cx("imageProfile")} src="../public/User/user1.jpg" alt="" />
                                 </div>
                                 <div className={cx("desProfile")}>
                                     <h5 className="text-light">Alan Daunin</h5>
@@ -96,7 +96,7 @@ function About() {
                             </div>
                             <div className="col-lg-3 col-md-4 col-sm-6 m-auto mt-3">
                                 <div className={cx("profilePeople")}>
-                                    <img className={cx("imageProfile")} src="https://i.pinimg.com/564x/89/a4/2b/89a42b0d7f5c5717635691bc8333a4c4.jpg" alt="" />
+                                    <img className={cx("imageProfile")} src="../User/user2.jpg" alt="" />
                                 </div>
                                 <div className={cx("desProfile")}>
                                     <h5 className="text-light">Alan Daunin</h5>
@@ -105,7 +105,7 @@ function About() {
                             </div>
                             <div className="col-lg-3 col-md-4 col-sm-6 m-auto mt-3">
                                 <div className={cx("profilePeople")}>
-                                    <img className={cx("imageProfile")} src="https://i.pinimg.com/564x/5e/f1/6f/5ef16f67cb06eb4b6d4c2fbcccb1443a.jpg" alt="" />
+                                    <img className={cx("imageProfile")} src="../User/user3.jpg" alt="" />
                                 </div>
                                 <div className={cx("desProfile")}>
                                     <h5 className="text-light">Alan Daunin</h5>
@@ -115,7 +115,7 @@ function About() {
 
                             <div className="col-lg-3 col-md-4 col-sm-6 m-auto mt-3">
                                 <div className={cx("profilePeople")}>
-                                    <img className={cx("imageProfile")} src="https://i.pinimg.com/564x/b7/0a/96/b70a966d94950072bc0fbe7e797eeac9.jpg" alt="" />
+                                    <img className={cx("imageProfile")} src="../User/user4.jpg" alt="" />
                                 </div>
                                 <div className={cx("desProfile")}>
                                     <h5 className="text-light">Alan Daunin</h5>
@@ -134,9 +134,9 @@ function About() {
                                 <button className={cx("btnReadMore")}>Đọc thêm</button>
                             </div>
                         </div>
-                        <div className="col-lg-6 col-md-6 col-sm-12">
-                            <iframe className="m-auto d-flex" width="560" height="315" src="https://www.youtube.com/embed/SIEaicTT7Ms?si=cSKYg4bzeu3FFD_I" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                        </div>
+                        {/* <div className="col-lg-6 col-md-6 col-sm-12">
+                            <iframe className="m-auto d-flex" width="560" height="315" src="https://www.youtube.com/embed/SIEaicTT7Ms?si=cSKYg4bzeu3FFD_I" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+                        </div> */}
                     </div>
                 </div>
             </section>

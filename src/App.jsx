@@ -18,6 +18,10 @@ import PageNotFound from './resources/Both/PageNotFound/PageNotFound';
 import Loading from './components/Loading/Loading';
 import OnTopButton from './components/OnTopButton/OnTopButton';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { doLoginAction } from './redux/reducer/userSlice';
+import AuthService from './service/AuthService';
+
 
 const Layout = () => {
   return (
@@ -41,6 +45,29 @@ const LayoutOnly = () => {
 }
 
 function App() {
+
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+
+  const getAccount = async () => {
+    if (
+      window.location.pathname === "/login" ||
+      window.location.pathname === "/register"
+    ) {
+      return;
+    }
+
+    const res = await AuthService.fetchProfile();
+    if (res && res.data !== null) {
+      dispatch(doLoginAction(res.data));
+      console.log("Du lieu luu vao redux", res)
+    }
+  };
+
+  useEffect(() => {
+    getAccount();
+  }, []);
+
   const [isLoading, setIsLoading] = useState(true);
 
   const router = createBrowserRouter([
