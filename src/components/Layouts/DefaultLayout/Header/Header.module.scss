@@ -56,7 +56,14 @@
  }
 
  .username {
-     border: 1px solid blue;
      align-items: center;
      margin: auto 0px auto 0px;
+     cursor: pointer;
+ }
+
+ .dropdownItem {
+     font-size: 15px;
+     text-decoration: none;
+     padding: 5px;
+     margin: 0;
  }

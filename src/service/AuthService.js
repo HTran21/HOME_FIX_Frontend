@@ -5,6 +5,11 @@ const fetchProfile = async () => {
     return getUser;
 }
 
+const logoutApi = async () => {
+    return axios.get("http://localhost:3000/logout")
+}
+
 export default {
     fetchProfile,
+    logoutApi,
 };

@@ -3,12 +3,18 @@ import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faEye, faLock, faEyeSlash, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from '../../../service/customize_axios';
+import { doLoginAction } from "../../../redux/reducer/userSlice";
+import { useDispatch, useSelector } from 'react-redux';
+import toast from "react-hot-toast";
 
 const cx = classNames.bind(styles);
 
 function Login() {
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const [password, setPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false);
@@ -24,9 +30,14 @@ function Login() {
             .then(res => {
                 if (res.data.error) {
                     console.log(res.data.error.message)
+
                 }
                 else {
-                    console.log(res.data);
+
+                    dispatch(doLoginAction(res.data.data.infoUser))
+
+
+                    navigate("/");
                 }
             })
     }

@@ -7,18 +7,45 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
+import { doLogoutAction } from "../../../../redux/reducer/userSlice";
+import AuthenService from "../../../../service/AuthService";
 
-// import useAuth from "../../../../hook/useAuth";
-
-// const { isAuthenticated, role, profile } = useAuth();
+import { DownOutlined } from '@ant-design/icons';
+import { Dropdown, Space } from 'antd';
 
 
 const cx = classNames.bind(styles);
 
 function Header() {
 
+    const navigate = useNavigate();
+
+    const dispatch = useDispatch();
     const user = useSelector((state) => state.user.user);
     const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+
+    const handleLogout = async () => {
+        const res = await AuthenService.logoutApi();
+        if (res.status === 200) {
+            dispatch(doLogoutAction());
+            // toast.success("Đăng xuất thành công");
+            navigate("/login");
+            console.log("Logout thanh cong")
+        }
+
+    };
+
+    const items = [
+        {
+            label: <a href="#" className={cx("dropdownItem")}>Thông tin cá nhân</a>,
+            key: '0',
+        },
+        {
+            label: <p className={cx("dropdownItem")}>Đăng xuất</p>,
+            key: '1',
+            onClick: handleLogout,
+        }
+    ];
 
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
@@ -39,9 +66,26 @@ function Header() {
                     </Nav>
                 </Navbar.Collapse>
                 <Navbar.Collapse className={cx("justify-content-end")}>
-                    {/* <Nav.Link className={"text-decoration-none"} href="/login"><button className={cx("btnLogin")}>Login</button></Nav.Link> */}
 
-                    {user && <p className={cx("username")}>Welcome to {user.username}</p>}
+                    {isAuthenticated ? (
+                        <div className={cx("username")}>Welcome to{" "}
+                            <Dropdown
+                                menu={{
+                                    items,
+                                }}
+                                trigger={['click']}
+                                placement="bottom"
+                            >
+                                <a onClick={(e) => e.preventDefault()}>
+                                    <Space>
+                                        {user?.username || ""}
+                                        <DownOutlined />
+                                    </Space>
+                                </a>
+                            </Dropdown>
+                        </div>
+                    ) : (<Nav.Link className={"text-decoration-none"} href="/login"><button className={cx("btnLogin")}>Login</button></Nav.Link>)
+                    }
                 </Navbar.Collapse>
             </Container>
         </Navbar>

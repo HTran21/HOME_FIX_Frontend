@@ -1,0 +1,89 @@
+.containerPage {
+    padding: 10px 20px;
+}
+
+
+.cardBody {
+    height: 100px;
+    margin: 10px;
+    position: relative;
+    padding: 5px 5px 5px 15px;
+    cursor: pointer;
+    transition: 0.5s;
+    background-color: #dededee0;
+
+}
+
+.cardBody:hover {
+    transform: translateY(-5px);
+}
+
+.titleCard {
+    font-weight: bold;
+    color: #696464;
+    font-size: 17px;
+}
+
+.numberCard {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #000;
+}
+
+.iconCard {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 20px;
+
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 7px;
+}
+
+.cardBody.violet {
+    border-left: 4px solid rgba(202, 131, 204, 0.564);
+    color: #fff;
+
+    .iconCard {
+        color: rgba(202, 131, 204, 0.564);
+        background-color: rgba(217, 200, 218, 0.564);
+    }
+
+}
+
+.cardBody.blue {
+    border-left: 4px solid rgba(131, 198, 204, 0.564);
+    color: #fff;
+
+    .iconCard {
+        color: rgba(131, 198, 204, 0.564);
+        background-color: rgba(200, 216, 218, 0.564);
+    }
+
+}
+
+.cardBody.yellow {
+    border-left: 4px solid rgba(205, 195, 82, 0.564);
+    color: #fff;
+
+    .iconCard {
+        color: rgba(229, 219, 25, 0.667);
+        background-color: rgba(212, 211, 182, 0.564);
+    }
+}
+
+.cardBody.darkblue {
+    border-left: 4px solid rgba(55, 96, 209, 0.564);
+    color: #fff;
+
+    .iconCard {
+        color: rgba(30, 110, 201, 0.564);
+        background-color: rgba(200, 210, 218, 0.564);
+    }
+
+}
