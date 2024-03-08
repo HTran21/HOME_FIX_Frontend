@@ -4,7 +4,9 @@ import Header from './components/Layouts/DefaultLayout/Header/Header';
 import Footer from './components/Layouts/DefaultLayout/Footer/Footer';
 import HeaderOnly from './components/Layouts/OnlyLayout/HeaderOnly/HeaderOnly';
 import LayoutAdmin from './components/Layouts/LayoutAdmin/LayoutAdmin';
-import { Toaster } from 'react-hot-toast';
+// import { Toaster } from 'react-hot-toast';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import HomePage from './resources/Both/Home/Home';
 import Service from './resources/Both/Service/Service';
@@ -31,7 +33,7 @@ import AuthService from './service/AuthService';
 const Layout = () => {
   return (
     <div>
-      <Toaster position='top-right' />
+      {/* <Toaster position='top-right' /> */}
       <Header />
       <Outlet />
       <OnTopButton />
@@ -161,6 +163,18 @@ function App() {
   return (
     <>
       <RouterProvider router={router} />
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </>
   )
 }

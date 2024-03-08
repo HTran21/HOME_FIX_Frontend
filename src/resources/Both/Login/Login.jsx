@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from '../../../service/customize_axios';
 import { doLoginAction } from "../../../redux/reducer/userSlice";
 import { useDispatch, useSelector } from 'react-redux';
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 
 const cx = classNames.bind(styles);
 
@@ -29,11 +29,11 @@ function Login() {
         axios.post('http://localhost:3000/login', { email, password })
             .then(res => {
                 if (res.data.error) {
-                    console.log(res.data.error.message)
+                    toast.error("Tài khoản không tồn tại")
 
                 }
                 else {
-
+                    toast.success("Đăng nhập thành công")
                     dispatch(doLoginAction(res.data.data.infoUser))
 
 

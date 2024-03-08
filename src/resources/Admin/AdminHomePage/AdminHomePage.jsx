@@ -34,14 +34,6 @@ const cardData = [
 ];
 
 
-// Cấu hình biểu đồ
-const options = {
-    scales: {
-        y: {
-            beginAtZero: true,
-        },
-    },
-};
 
 
 function Card({ title, number, icon, color }) {
