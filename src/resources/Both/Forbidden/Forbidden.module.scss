@@ -1,0 +1,48 @@
+.pageNotFound {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    max-width: 500px;
+    text-align: center;
+}
+
+.titlePage {
+    font-size: 200px;
+    font-weight: bold;
+    color: #347DCF;
+    height: 270px;
+    align-items: center;
+    display: flex;
+
+}
+
+.desPage {
+    font-size: 34px;
+    font-weight: bold;
+}
+
+.btnBackHome {
+    background-image: linear-gradient(to right, #314755 0%, #26a0da 51%, #347DCF 100%);
+    margin-top: 50px;
+    padding: 12px 40px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: block;
+    border: none;
+    font-weight: bold;
+    width: 200px;
+}
+
+.btnBackHome:hover {
+    background-position: right center;
+    /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+}

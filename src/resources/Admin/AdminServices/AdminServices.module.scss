@@ -1,0 +1,146 @@
+.containerPage {
+    padding: 10px 20px;
+}
+
+.titleProduct {
+    display: flex;
+    align-items: center;
+
+    .buttonAdd {
+        display: flex;
+        justify-content: flex-end;
+        flex-grow: 1;
+
+        .btnAddService {
+            background-image: linear-gradient(to right, #77A1D3 0%, #79CBCA 51%, #77A1D3 100%);
+            margin-right: 10px;
+            padding: 10px 20px;
+            text-align: center;
+            text-transform: uppercase;
+            transition: 0.5s;
+            background-size: 200% auto;
+            color: white;
+            box-shadow: 0 0 20px #eee;
+            border-radius: 10px;
+            display: block;
+
+        }
+
+        .btnAddService:hover {
+            background-position: right center;
+            color: #fff;
+            text-decoration: none;
+        }
+    }
+
+
+
+}
+
+.contentPage {
+    padding: 10px 20px;
+    margin-top: 20px;
+}
+
+
+.cardService {
+    border: 1px solid red;
+    max-width: 250px;
+    margin: auto;
+    height: 230px;
+    padding: 10px;
+
+    .iconMore {
+        display: flex;
+        width: 25px;
+        height: 25px;
+        align-items: center;
+        justify-content: center;
+        transform: rotate(90deg);
+        color: #6f6c6c;
+        font-weight: bold;
+        font-size: 20px;
+        margin-left: auto;
+        border-radius: 5px;
+        transition: 0.2s;
+        cursor: pointer;
+    }
+
+    .iconMore:hover {
+        background-color: #1380c9;
+        color: #fff;
+    }
+
+}
+
+.detailService {
+    height: 200px;
+    max-width: 200px;
+    margin: 10px auto;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 7px;
+    border-radius: 5px;
+    border: 1px solid rgba(108, 105, 105, 0.27);
+
+    .iconMore {
+        display: flex;
+        width: 25px;
+        height: 25px;
+        align-items: center;
+        justify-content: center;
+        transform: rotate(90deg);
+        color: #6f6c6c;
+        font-weight: bold;
+        font-size: 20px;
+        border-radius: 5px;
+        transition: 0.2s;
+        cursor: pointer;
+        margin-left: auto;
+    }
+
+    .iconMore:hover {
+        background-color: #1380c9;
+        color: #fff;
+    }
+
+
+    .imageService {
+        width: 80px;
+    }
+
+    .titleDetailService {
+        font-size: 20px;
+        font-weight: 500;
+        margin-top: 10px;
+
+    }
+
+    .viewDetailService {
+        font-size: 14px;
+        margin-top: 10px;
+        font-weight: 500;
+        color: #727578;
+
+
+    }
+
+    &:hover {
+        .iconDetailService {
+            display: inline-block;
+        }
+
+        .viewDetailService {
+            color: #347DCF;
+        }
+
+
+    }
+
+    .iconDetailService {
+        display: none;
+        margin-left: 5px;
+
+    }
+}

@@ -1,24 +1,23 @@
 import React, { useState } from 'react';
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import className from "classnames/bind";
 import styles from "./LayoutAdmin.module.scss";
 import { DownOutlined } from '@ant-design/icons';
 import { Dropdown, Space, Button } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from "@fortawesome/free-solid-svg-icons";
-const items = [
-    {
-        label: <p className='m-0'>Đăng xuất</p>,
-        key: '0',
-    },
-];
+import AuthenService from "../../../service/AuthService";
+import { doLogoutAction } from "../../../redux/reducer/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+
 const cx = className.bind(styles);
 import {
     DesktopOutlined,
     FileOutlined,
     PieChartOutlined,
     TeamOutlined,
-    UserOutlined,
+    CodeSandboxOutlined,
+    DashboardOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
@@ -36,23 +35,51 @@ const itemsSlider = [
         display: "inline-block",
         transform: "translate(0, 7px)",
         fontSize: "20px",
-        marginFeft: "5px",
-        color: "#fff"
+        color: "#fff",
+        marginBottom: "10px"
     }}>HOME FIX</p>, '0', <img className='m-0' style={{
         width: "25px",
         display: "inline-block"
     }} src="../image/logo/logo8.png" alt="" />),
-    getItem('Option 1', '1', <PieChartOutlined />),
-    getItem('Option 2', '2', <DesktopOutlined />),
-    getItem('User', 'sub1', <UserOutlined />, [
-        getItem('Tom', '3'),
-        getItem('Bill', '4'),
-        getItem('Alex', '5'),
+    getItem(<Link to="/admin" className='text-decoration-none'>Dashboard</Link>, '1', <DashboardOutlined />),
+    getItem('Sản Phẩm', 'sub1', <CodeSandboxOutlined />, [
+        getItem(<Link to="/admin/product" className='text-decoration-none'>Danh Sách</Link>, '2'),
+        getItem('Thêm Sản Phẩm', '3'),
+        getItem('Danh mục', '4'),
     ]),
-    getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-    getItem('Files', '9', <FileOutlined />),
+    getItem('Dịch Vụ', 'sub2', <CodeSandboxOutlined />, [
+        getItem(<Link to="/admin/service" className='text-decoration-none'>Danh sách</Link>, '5'),
+        getItem(<Link to="/admin/addservice" className='text-decoration-none'>Thêm dịch vụ</Link>, '6'),
+        getItem('Danh mục', '7'),
+    ]),
 ];
+
+
+
 const LayoutAdmin = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const handleLogout = async () => {
+        const res = await AuthenService.logoutApi();
+        if (res.status === 200) {
+            dispatch(doLogoutAction());
+            // toast.success("Đăng xuất thành công");
+            navigate("/login");
+            console.log("Logout thanh cong")
+        }
+
+    };
+
+    const items = [
+        {
+            label: <p className='m-0'>Đăng xuất</p>,
+            key: '0',
+            onClick: handleLogout,
+        },
+    ];
+
+    const user = useSelector((state) => state.user.user);
+
     const [collapsed, setCollapsed] = useState(false);
     const {
         token: { colorBgContainer, borderRadiusLG },
@@ -100,7 +127,7 @@ const LayoutAdmin = () => {
                             }}
                             placement="top"
                         >
-                            <Button>Hoang tran</Button>
+                            <Button> {user?.username || ""}</Button>
                         </Dropdown>
                     </div>
                 </Header>

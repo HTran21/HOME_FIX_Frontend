@@ -29,15 +29,26 @@ function Login() {
         axios.post('http://localhost:3000/login', { email, password })
             .then(res => {
                 if (res.data.error) {
-                    toast.error("Tài khoản không tồn tại")
-
+                    toast.error(res.data.error.message)
                 }
                 else {
                     toast.success("Đăng nhập thành công")
-                    dispatch(doLoginAction(res.data.data.infoUser))
+                    // console.log("Role", res.data.data.role)
+                    if (res.data.data.role === 'AD') {
+                        dispatch(doLoginAction(res.data.data.infoStaff))
+                        console.log("Dang nhap voi tu cach admin")
+                        navigate("/admin");
+
+                    }
+                    else {
+
+                        dispatch(doLoginAction(res.data.data.infoUser))
+                        console.log("Dang nhap voi tu cach KH")
+
+                        navigate("/");
 
 
-                    navigate("/");
+                    }
                 }
             })
     }

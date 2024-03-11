@@ -1,0 +1,136 @@
+.containerPage {
+    padding: 10px 20px;
+}
+
+.contentPage {
+    padding: 10px 20px;
+}
+
+.filter {}
+
+.listProducts {}
+
+.titleFilter {
+    font-size: 16px;
+    font-weight: 500;
+    color: #000;
+}
+
+.listCategori {
+    list-style: none;
+    padding: 5px 0 0 0;
+}
+
+.listCategori>li {
+    padding: 2px 0px;
+    font-weight: 500;
+    color: #000;
+    cursor: pointer;
+    display: flex;
+}
+
+.listCategori>li:hover {
+    color: #1570c0;
+}
+
+.headerListProducts {
+    display: flex;
+    align-items: center;
+
+    .btnAddProduct {
+        background-image: linear-gradient(to right, #77A1D3 0%, #79CBCA 51%, #77A1D3 100%);
+        margin-right: 10px;
+        padding: 10px 20px;
+        text-align: center;
+        text-transform: uppercase;
+        transition: 0.5s;
+        background-size: 200% auto;
+        color: white;
+        box-shadow: 0 0 20px #eee;
+        border-radius: 10px;
+        display: block;
+    }
+
+    .btnAddProduct:hover {
+        background-position: right center;
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .searchGroup {
+        display: flex;
+        justify-content: flex-end;
+        flex-grow: 1;
+
+        .searchBorder {
+            padding: 5px 10px;
+            border-radius: 10px;
+            box-shadow: 5px 5px 5px #a3a1a1;
+            border: 1px solid rgba(143, 138, 138, 0.34);
+
+            .iconSearch {
+                padding: 5px;
+                cursor: pointer;
+
+            }
+
+            .inputSearch {
+                border: none;
+                outline: none;
+            }
+        }
+    }
+}
+
+.liList {
+    border: 1px solid red;
+    display: flex;
+}
+
+.contentListProduct {
+    margin-top: 30px;
+
+}
+
+.cardProduct {
+    margin: 10px auto;
+    max-width: 300px;
+    // box-shadow: 5px 5px 15px rgb(171, 168, 168);
+    box-shadow: rgba(147, 138, 138, 0.25) 0px 5px 5px, rgba(188, 179, 179, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.iconMore {
+    display: flex;
+    width: 25px;
+    height: 25px;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(90deg);
+    color: #6f6c6c;
+    font-weight: bold;
+    font-size: 20px;
+    margin-left: auto;
+    border-radius: 5px;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.iconMore:hover {
+    background-color: #1380c9;
+    color: #fff;
+}
+
+.imgProduct {
+    width: 100%;
+    max-width: 200px;
+    display: flex;
+    margin: auto;
+}
+
+.titleProduct {
+    text-align: center;
+    font-size: 17px;
+    font-weight: bold;
+}

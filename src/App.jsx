@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Outlet, createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { Outlet, createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import Header from './components/Layouts/DefaultLayout/Header/Header';
 import Footer from './components/Layouts/DefaultLayout/Footer/Footer';
 import HeaderOnly from './components/Layouts/OnlyLayout/HeaderOnly/HeaderOnly';
@@ -16,10 +16,14 @@ import Login from './resources/Both/Login/Login';
 import Register from './resources/Both/Register/Register';
 import FormRepair from './resources/User/FormRepair/FormRepair';
 import DetailRepair from './resources/Both/DetailRepair/DetailRepair';
+import Forbidden from './resources/Both/Forbidden/Forbidden';
 import PageNotFound from './resources/Both/PageNotFound/PageNotFound';
 
 
 import AdminHomePage from './resources/Admin/AdminHomePage/AdminHomePage';
+import Products from './resources/Admin/Products/Products';
+import AdminServices from './resources/Admin/AdminServices/AdminServices';
+import AddService from './resources/Admin/AddService/AddService';
 
 
 import Loading from './components/Loading/Loading';
@@ -52,33 +56,41 @@ const LayoutOnly = () => {
   )
 }
 
+// const checkAdminAccess = () => {
+//   const userRole = useSelector((state) => state.user.user.role);
+//   console.log("CHECK ROLE", userRole === 'AD')
+//   return userRole === 'AD';
+// }
+
+
 function App() {
+
 
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+  const getAccount = async () => {
+    if (
+      window.location.pathname === "/login" ||
+      window.location.pathname === "/register"
+    ) {
+      return;
+    }
 
-  // const getAccount = async () => {
-  //   if (
-  //     window.location.pathname === "/login" ||
-  //     window.location.pathname === "/register"
-  //   ) {
-  //     return;
-  //   }
+    const res = await AuthService.fetchProfile();
+    if (res.status === 200 && res.data.id) {
+      dispatch(doLoginAction(res.data));
+      // console.log("Du lieu luu vao redux", res)
+    }
+  };
 
-  //   const res = await AuthService.fetchProfile();
-  //   if (res.status === 200 && res.data.id) {
-  //     dispatch(doLoginAction(res.data));
-  //     console.log("Du lieu luu vao redux", res)
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getAccount();
-  // }, []);
+  useEffect(() => {
+    getAccount();
+  }, []);
 
   const [isLoading, setIsLoading] = useState(true);
 
   const router = createBrowserRouter([
+
     {
       path: "/",
       element: <Layout />,
@@ -89,7 +101,8 @@ function App() {
         },
         {
           path: "service",
-          element: <Service />
+          element: <Service />,
+
         },
         {
           path: "about",
@@ -106,18 +119,36 @@ function App() {
 
 
       ]
-    },
+    }
+    ,
     {
       path: "/admin",
+      // element: checkAdminAccess() ? <LayoutAdmin /> : <Navigate to="/403" />,
       element: <LayoutAdmin />,
+
       children: [
         {
           index: true,
-          element: <AdminHomePage />
+          element: <AdminHomePage />,
+        },
+        {
+          path: "product",
+          element: <Products />,
+
+
+        },
+        {
+          path: "service",
+          element: <AdminServices />
+
+        },
+        {
+          path: "addservice",
+          element: <AddService />
+
         },
       ]
-    }
-    ,
+    },
     {
       path: "/",
       element: <LayoutOnly />,
@@ -133,19 +164,23 @@ function App() {
       ]
     },
     {
-      path: "/:slug",
-      element: <PageNotFound />
-    },
-    {
       path: "repair",
       element: <FormRepair />
+    },
+    {
+      path: "403",
+      element: <Forbidden />
+    },
+    {
+      path: "/:slug",
+      element: <PageNotFound />
     }
   ])
 
   useEffect(() => {
     const loadingTimeout = setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 1000);
 
     return () => clearTimeout(loadingTimeout);
   }, []);

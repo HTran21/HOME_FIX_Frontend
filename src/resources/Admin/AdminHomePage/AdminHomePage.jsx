@@ -1,8 +1,16 @@
 import className from "classnames/bind";
+import { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWallet, faScrewdriverWrench, faCircleUser, faDesktop } from "@fortawesome/free-solid-svg-icons";
 import { Space, Table, Tag } from 'antd';
 import styles from "./AdminHomePage.module.scss";
+
+import Chart from 'chart.js/auto';
+import { Line } from 'react-chartjs-2';
+
+import 'rsuite/dist/rsuite.min.css';
+import { DateRangePicker } from 'rsuite';
+
 
 const cx = className.bind(styles);
 
@@ -124,7 +132,51 @@ const dataTable = [
     },
 ];
 
+
+const revenueData = {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    datasets: [
+        {
+            label: 'Doanh thu',
+            data: [10000, 12000, 15000, 18000, 20000, 22000, 25000, 28000, 30000, 32000, 35000, 38000],
+            fill: false,
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1
+        }
+    ]
+};
+
+// Cài đặt biểu đồ
+const chartOptions = {
+    scales: {
+        y: {
+            beginAtZero: true,
+            title: {
+                display: true,
+                text: 'Doanh thu (VND)'
+            }
+        },
+        x: {
+            title: {
+                display: true,
+                text: 'Tháng'
+            }
+        }
+    }
+};
+
+
+
+
+
 function AdminHomePage() {
+
+    const [dateRange, setDateRange] = useState([null, null]);
+
+    const handleDateRangeChange = (value) => {
+        setDateRange(value);
+    };
+
     return (
         <>
             <div className={cx("containerPage")}>
@@ -145,8 +197,71 @@ function AdminHomePage() {
                             ))}
                         </div>
                     </div>
-                    <div className="chartMoney">
+                    <div className={cx("chartMoney")}>
                         <h5>Monthly Earnings</h5>
+                        <div className="row mb-3">
+                            <div className="col-lg-7 col-md-12">
+                                <Line data={revenueData} options={chartOptions} />
+                            </div>
+                            <div className={`${cx("dateRange")} col-lg-5 col-md-12`}>
+                                <DateRangePicker format="MM/dd/yyyy" character=" – "
+                                    onChange={handleDateRangeChange} className={cx("dateRangePicker")} />
+                                {/* {dateRange && (
+                                    <div>
+                                        Từ: {dateRange[0] ? dateRange[0].toLocaleDateString() : 'Chưa chọn'}
+                                        <br />
+                                        Đến: {dateRange[1] ? dateRange[1].toLocaleDateString() : 'Chưa chọn'}
+                                    </div>
+                                )} */}
+                                <div className={cx("contentDateRange")}>
+                                    <div className="row">
+                                        <div className="col-6">
+                                            <div className={cx("totalEarning")}>
+                                                <div className={cx("number")}>
+                                                    65,802
+                                                </div>
+                                                <div className={cx("titleNumber")}>
+                                                    Orders
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-6">
+                                            <div className={cx("totalEarning")}>
+                                                <div className={cx("number")}>
+                                                    65,802
+                                                </div>
+                                                <div className={cx("titleNumber")}>
+                                                    Orders
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-6">
+                                            <div className={cx("totalEarning")}>
+                                                <div className={cx("number")}>
+                                                    65,802
+                                                </div>
+                                                <div className={cx("titleNumber")}>
+                                                    Orders
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-6">
+                                            <div className={cx("totalEarning")}>
+                                                <div className={cx("number")}>
+                                                    65,802
+                                                </div>
+                                                <div className={cx("titleNumber")}>
+                                                    Orders
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
 
                     </div>
                     <div className="recentOrders">

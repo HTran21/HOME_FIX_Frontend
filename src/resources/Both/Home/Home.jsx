@@ -200,7 +200,7 @@ function HomePage() {
                     </div>
                 </div>
             </section>
-            <section className="mb-5">
+            <section className="mb-5" style={{ overflow: "hidden" }}>
                 <Slider {...settings}>
                     <div >
                         <img className={cx("imageRepair")} src="../public/imagerepair/image2.jpg" alt="" />
@@ -273,7 +273,7 @@ function HomePage() {
                     <div className="col-5">
 
                     </div>
-                    <div className={`col-7 ${cx("rightQuestion")}`}>
+                    <div className={`col-lg-7 ${cx("rightQuestion")}`}>
                         <p className={cx("textQuestion")}>You’ve got questions, we’ve got answers.</p>
                         <div className={cx("line")}></div>
                         <div className="contentQuestion mt-4 mb-4">

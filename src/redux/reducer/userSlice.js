@@ -18,7 +18,7 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         doLoginAction: (state, action) => {
-            console.log("payload Redux >>> ", action);
+            // console.log("payload Redux >>> ", action);
             state.isAuthenticated = true;
             state.isLoading = false;
             state.user = action.payload;
