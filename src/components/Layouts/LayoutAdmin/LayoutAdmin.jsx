@@ -50,7 +50,7 @@ const itemsSlider = [
     getItem('Dịch Vụ', 'sub2', <CodeSandboxOutlined />, [
         getItem(<Link to="/admin/service" className='text-decoration-none'>Danh sách</Link>, '5'),
         getItem(<Link to="/admin/addservice" className='text-decoration-none'>Thêm dịch vụ</Link>, '6'),
-        getItem('Danh mục', '7'),
+        getItem(<Link to="/admin/operation" className='text-decoration-none'>Thao tác</Link>, '7'),
     ]),
 ];
 

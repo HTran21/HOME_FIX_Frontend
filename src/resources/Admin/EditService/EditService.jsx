@@ -32,7 +32,7 @@ function EditService() {
 
 
     useEffect(() => {
-        axios.get("http://localhost:3000/blog/getService/" + id)
+        axios.get("http://localhost:3000/service/getService/" + id)
             .then(res => {
                 setData(res.data.detailService)
             })
@@ -71,7 +71,7 @@ function EditService() {
             formData.append('nameService', nameService)
             formData.append('contentHTML', contentHTML)
             formData.append('contentMarkdown', contentMarkdown)
-            axios.put("http://localhost:3000/blog/updateService/" + id, formData)
+            axios.put("http://localhost:3000/service/updateService/" + id, formData)
                 .then(res => {
                     if (res.data.success === false) {
                         toast.error(res.data.message)

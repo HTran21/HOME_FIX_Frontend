@@ -25,6 +25,7 @@ import Products from './resources/Admin/Products/Products';
 import AdminServices from './resources/Admin/AdminServices/AdminServices';
 import AddService from './resources/Admin/AddService/AddService';
 import EditService from './resources/Admin/EditService/EditService';
+import ServiceOperation from './resources/Admin/ServiceOperation/ServiceOperation';
 
 
 import Loading from './components/Loading/Loading';
@@ -152,6 +153,11 @@ function App() {
         {
           path: "editService/:id",
           element: <EditService />
+
+        },
+        {
+          path: "operation",
+          element: <ServiceOperation />
 
         },
       ]

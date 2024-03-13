@@ -118,7 +118,7 @@ function AddService() {
                                     placeholder="Nhập tên dịch vụ"
                                     value={nameService}
                                     onChange={(e) => { setNameService(e.target.value) }}
-
+                                    autoComplete="off"
                                 />
                                 {errors.nameService && <p className={cx("errors")}>{errors.nameService}</p>}
                             </div>

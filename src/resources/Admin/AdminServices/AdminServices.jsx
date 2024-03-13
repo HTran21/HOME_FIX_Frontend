@@ -27,7 +27,7 @@ function AdminServices() {
     const [listService, setListService] = useState();
 
     const fetchData = () => {
-        axios.get("http://localhost:3000/blog/getService")
+        axios.get("http://localhost:3000/service/getService")
             .then(res => {
                 // console.log("list service", res.data.listService)
                 setListService(res.data.listService)
@@ -53,7 +53,7 @@ function AdminServices() {
     }
 
     const handleDelete = (id) => {
-        axios.delete('http://localhost:3000/blog/deletService/' + id)
+        axios.delete('http://localhost:3000/service/deletService/' + id)
             .then(res => {
                 toast.success(res.data.message);
                 setOpenDelete(false);
@@ -67,7 +67,7 @@ function AdminServices() {
                 <div className={cx("titleProduct")}>
                     <h4 className="d-inline-block">Danh sách dịch vụ</h4>
                     <div className={cx("buttonAdd")}>
-                        <button className={cx("btnAddService")}>Thêm dịch vụ</button>
+                        <Link to={"/admin/addService"} className="text-decoration-none"><button className={cx("btnAddService")}>Thêm dịch vụ</button></Link>
                     </div>
                 </div>
                 <div className={cx("contentPage")}>
@@ -106,6 +106,7 @@ function AdminServices() {
                                     </div>
                                 </div>
                             </div>
+
 
                         )}
 
