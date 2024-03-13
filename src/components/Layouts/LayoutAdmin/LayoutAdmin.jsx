@@ -105,7 +105,7 @@ const LayoutAdmin = () => {
 
                         </div>
 
-                        <img className={cx("imgAvatar")} src="https://i.pinimg.com/564x/f8/ed/03/f8ed03e9b4633dfa0f7901c62e6b206c.jpg" alt="" />
+                        <img className={cx("imgAvatar")} src={`http://localhost:3000/${user?.avatar}`} alt="" />
                         {/* <Dropdown
                             menu={{
                                 items,

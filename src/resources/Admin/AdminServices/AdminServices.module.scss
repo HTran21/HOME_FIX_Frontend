@@ -108,6 +108,7 @@
 
     .imageService {
         width: 80px;
+        height: 80px;
     }
 
     .titleDetailService {
@@ -142,5 +143,11 @@
         display: none;
         margin-left: 5px;
 
+    }
+}
+
+.modalDetail {
+    img {
+        max-width: 500px;
     }
 }
