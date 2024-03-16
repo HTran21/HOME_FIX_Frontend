@@ -5,94 +5,24 @@ const cx = className.bind(styles);
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
-import { Table } from 'antd';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import Accordion from 'react-bootstrap/Accordion';
 
 function ServiceOperation() {
 
-    const columns = [
-        {
-            title: 'ID',
-            dataIndex: 'key',
-            key: 'id',
-            render: (text) => <a>{text}</a>,
-        },
-        {
-            title: 'Tên thao tác',
-            dataIndex: 'nameOperation',
-            key: 'nameOperation',
-        },
-        {
-            title: 'Giá',
-            dataIndex: 'price',
-            key: 'price',
-        },
-        {
-            title: 'Action',
-            key: 'action',
-            render: (_, record) => (
-                <>
-                    <FontAwesomeIcon icon={faPenToSquare} size="lg" className="me-2" style={{ color: "#1166a6", }} />
-                    <FontAwesomeIcon icon={faTrash} size="lg" style={{ color: "#d30909", }} />
-                </>
-            ),
-        },
-    ];
+    const [data, setData] = useState();
+    const fecthData = () => {
+        axios.get("http://localhost:3000/service/getAllOperation")
+            .then(res => {
+                setData(res.data)
+            })
+            .catch((error) => console.log(error))
+    }
 
-    const data = [
-        {
-            key: '1',
-            nameOperation: 'Đi mới, thay thế nguồn điện',
-            price: '150.000đ'
-        },
-        {
-            key: '2',
-            nameOperation: 'Lắp quạt treo tường',
-            price: '50.000đ'
-        },
-        {
-            key: '3',
-            nameOperation: 'Lắp ổ điện',
-            price: '150.000đ'
-        },
-        {
-            key: '4',
-            nameOperation: 'Sửa điện',
-            price: '200.000đ'
-        },
-        {
-            key: '5',
-            nameOperation: 'Lắp đặt đèn chùm',
-            price: '150.000đ'
-        },
-    ];
-
-    const data2 = [
-        {
-            key: '1',
-            nameOperation: 'Sửa chữa sự cố ống nước',
-            price: '150.000đ'
-        },
-        {
-            key: '2',
-            nameOperation: 'Đi đường ông nước',
-            price: '50.000đ'
-        },
-        {
-            key: '3',
-            nameOperation: 'Chống dột',
-            price: '150.000đ'
-        },
-        {
-            key: '4',
-            nameOperation: 'Sửa nước',
-            price: '200.000đ'
-        },
-        {
-            key: '5',
-            nameOperation: 'Thay bộ xả bồn cầu',
-            price: '150.000đ'
-        },
-    ];
+    useEffect(() => {
+        fecthData();
+    }, [])
 
     return (
         <>
@@ -109,11 +39,43 @@ function ServiceOperation() {
                         </div>
                     </div>
                     <div className="listOperationService mt-4">
-                        <h5 className="mb-2">Dịch vụ điện</h5>
-                        <Table columns={columns} dataSource={data} />;
 
-                        <h5 className="mb-2">Dịch vụ nước</h5>
-                        <Table columns={columns} dataSource={data2} />;
+                        {data?.map((item, i) => (
+                            <div key={i}>
+                                <Accordion>
+                                    <Accordion.Item eventKey={i}>
+                                        <Accordion.Header style={{ border: '1px solid #CCD3CA', padding: 0 }}>{item.service.nameService}</Accordion.Header>
+                                        <Accordion.Body>
+                                            <table className="table table-secondary">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">STT</th>
+                                                        <th scope="col" style={{ maxWidth: "100px" }}>Tên thao tác</th>
+                                                        <th scope="col">Giá thao tác</th>
+                                                        <th scope="col">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {(item.operations)?.map((operation, index) => (
+                                                        <tr key={index}>
+                                                            <td>{index + 1}</td>
+                                                            <td style={{ maxWidth: "100px" }}>{operation.nameOperation}</td>
+                                                            <td>{operation.price}</td>
+                                                            <td>
+                                                                <FontAwesomeIcon icon={faPenToSquare} style={{ color: "#5680c8", marginRight: "10px" }} size="lg" />
+                                                                <FontAwesomeIcon icon={faTrash} size="lg" style={{ color: "#d72828", }} />
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </Accordion.Body>
+                                    </Accordion.Item>
+                                </Accordion>
+
+                            </div>
+
+                        ))}
                     </div>
                 </div>
             </div>

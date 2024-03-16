@@ -5,18 +5,16 @@ import { toast } from "react-toastify";
 
 
 const cx = className.bind(styles);
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
-import { Table } from 'antd';
 import { useEffect, useState } from "react";
 
 function CreatServiceOperation() {
 
     const [listService, setListService] = useState();
+    const [listCategories, setListCategories] = useState();
     const [nameOperation, setNameOperation] = useState("");
     const [priceOperation, setPriceOperation] = useState();
     const [idService, setIdService] = useState();
+    const [idCategori, setidCategori] = useState();
     const [errors, setErrors] = useState({});
 
     const fetchData = () => {
@@ -25,14 +23,24 @@ function CreatServiceOperation() {
                 setListService(res.data.listService)
             })
     }
+
+    const fetchCategories = () => {
+        axios.get("http://localhost:3000/product/categories")
+            .then(res => {
+                setListCategories(res.data)
+            })
+            .catch((error) => console.log(error));
+    }
     useEffect(() => {
         fetchData();
+        fetchCategories();
     }, [])
 
     const upload = () => {
         // console.log("Ten thao tac", nameOperation)
         // console.log("Gia thao tac", priceOperation)
         // console.log("Loai dich vu", idService)
+        // console.log("Loai thiet bi", idCategori);
 
 
         const newErrors = {};
@@ -50,9 +58,14 @@ function CreatServiceOperation() {
             newErrors.idService = "Chưa chọn dịch vụ"
         }
 
+        if (!idCategori) {
+            newErrors.idCategori = "Chưa chọn thiết bị"
+        }
+
         if (Object.keys(newErrors).length === 0) {
             setErrors({});
-            axios.post("http://localhost:3000/service/createOperation", { nameOperation, priceOperation, idService })
+
+            axios.post("http://localhost:3000/service/createOperation", { nameOperation, priceOperation, idService, idCategori })
                 .then(res => {
                     if (res.data.success === false) {
                         toast.error(res.data.message)
@@ -60,10 +73,9 @@ function CreatServiceOperation() {
                     else {
                         toast.success(res.data.message)
                         setNameOperation("")
-                        setPriceOperation("");
+                        setPriceOperation("")
                         setIdService("")
-
-
+                        setidCategori("")
                     }
                 })
                 .catch(err => console.log(err));
@@ -94,40 +106,41 @@ function CreatServiceOperation() {
                         </div>
                     </div>
 
-                    <div className="mb-3 mt-4">
-                        <h5>Chọn loại dịch vụ</h5>
-                        <select className={`form-control mt-2 ${cx("inputForm")} ${errors.idService ? ' border-danger' : ''} `} aria-label="Default select example"
-                            value={idService} onChange={(e) => setIdService(e.target.value)}
-                        >
-                            <option defaultValue="">Chọn dịch vụ</option>
-                            {
-                                listService?.map((service, i) =>
-                                    <option key={i} value={service.id}>{service.nameService}</option>
-                                )
-                            }
-                        </select>
-                        {errors.idService && <p className={cx("errors")}>{errors.idService}</p>}
-
-                    </div>
-
-                    <div className="mb-3 mt-4">
-                        <h5>Chọn thiết bị</h5>
-                        <select className={`form-control mt-2 ${cx("inputForm")} ${errors.idService ? ' border-danger' : ''} `} aria-label="Default select example"
-                            value={idService} onChange={(e) => setIdService(e.target.value)}
-                        >
-                            <option defaultValue="">Chọn thiết bị</option>
-                            {
-                                listService?.map((service, i) =>
-                                    <option key={i} value={service.id}>{service.nameService}</option>
-                                )
-                            }
-                        </select>
-                        {errors.idService && <p className={cx("errors")}>{errors.idService}</p>}
-
-                    </div>
 
 
                     <div className={cx("titleService")}>
+                        <div className="mb-3 mt-4">
+                            <h5>Chọn loại dịch vụ</h5>
+                            <select className={`form-control mt-2 ${cx("inputForm")} ${errors.idService ? ' border-danger' : ''} `} aria-label="Default select example"
+                                value={idService} onChange={(e) => setIdService(e.target.value)}
+                            >
+                                <option defaultValue="">Chọn dịch vụ</option>
+                                {
+                                    listService?.map((service, i) =>
+                                        <option key={i} value={service.id}>{service.nameService}</option>
+                                    )
+                                }
+                            </select>
+                            {errors.idService && <p className={cx("errors")}>{errors.idService}</p>}
+
+                        </div>
+
+                        <div className="mb-3 mt-4">
+                            <h5>Chọn thiết bị</h5>
+                            <select className={`form-control mt-2 ${cx("inputForm")} ${errors.idService ? ' border-danger' : ''} `} aria-label="Default select example"
+                                value={idCategori} onChange={(e) => setidCategori(e.target.value)}
+                            >
+                                <option defaultValue="">Chọn thiết bị</option>
+                                {
+                                    listCategories?.map((catagory, i) =>
+                                        <option key={i} value={catagory.id}>{catagory.nameCategories}</option>
+                                    )
+                                }
+                            </select>
+                            {errors.idCategori && <p className={cx("errors")}>{errors.idCategori}</p>}
+
+                        </div>
+
                         <div className="mb-3 mt-4">
                             <h5>Tên thao tác</h5>
                             <input

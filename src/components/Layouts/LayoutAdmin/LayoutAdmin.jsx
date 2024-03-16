@@ -43,7 +43,7 @@ const itemsSlider = [
     getItem('Sản Phẩm', 'sub1', <CodeSandboxOutlined />, [
         getItem(<Link to="/admin/product" className='text-decoration-none'>Danh Sách</Link>, '2'),
         getItem('Thêm Sản Phẩm', '3'),
-        getItem('Danh mục', '4'),
+        getItem(<Link to="/admin/categories" className='text-decoration-none'>Thể loại</Link>, '4'),
     ]),
     getItem('Dịch Vụ', 'sub2', <ToolOutlined />, [
         getItem(<Link to="/admin/service" className='text-decoration-none'>Danh sách</Link>, '5'),

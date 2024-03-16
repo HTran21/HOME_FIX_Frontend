@@ -28,6 +28,7 @@ import EditService from './resources/Admin/EditService/EditService';
 import ServiceOperation from './resources/Admin/ServiceOperation/ServiceOperation';
 import CreatServiceOperation from './resources/Admin/CreatServiceOperation/CreatServiceOperation';
 import Brand from './resources/Admin/Brand/Brand';
+import Categories from './resources/Admin/Categories/Categories';
 
 
 import Loading from './components/Loading/Loading';
@@ -170,6 +171,11 @@ function App() {
         {
           path: "brand",
           element: <Brand />
+
+        },
+        {
+          path: "categories",
+          element: <Categories />
 
         },
       ]
