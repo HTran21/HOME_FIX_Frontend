@@ -77,9 +77,6 @@ function AddService() {
                         setLogoService();
                         setContentMarkdown('');
                         setContentHTML('');
-
-
-
                     }
                 })
 
@@ -112,8 +109,8 @@ function AddService() {
                             <div className="mb-3 mt-4">
                                 <h5>Tên dịch vụ</h5>
                                 <input
-                                    type="email"
-                                    className={`form-control mt-2 ${errors.nameService ? 'border-danger' : ''}`}
+                                    type="text"
+                                    className={`form-control mt-2 ${cx("inputForm")} ${errors.nameService ? 'border border-danger' : ''} `}
                                     id="exampleFormControlInput1"
                                     placeholder="Nhập tên dịch vụ"
                                     value={nameService}
@@ -134,8 +131,6 @@ function AddService() {
                                         setShowImage(URL.createObjectURL(e.target.files[0]))
                                         setLogoService(e.target.files[0])
                                     }
-
-
                                 }} />
                             <label htmlFor="imgService" className={`${cx("labelImgService")} ${errors.logoService ? 'border-danger' : ''}`}>
                                 <img className={cx("imgService")} src={showImage} alt="" />

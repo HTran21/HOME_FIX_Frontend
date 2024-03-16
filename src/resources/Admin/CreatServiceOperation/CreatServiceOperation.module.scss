@@ -6,6 +6,31 @@
     padding: 10px 20px;
 }
 
+.titleContentService {
+    display: grid;
+    grid-template-columns: 50px auto;
+    margin-top: 10px;
+
+    .iconTitleContentService {
+        display: flex;
+        margin: auto;
+        width: 30px;
+        color: #4B93FF;
+    }
+
+    .contentTitleContentService>p {
+        color: rgb(136, 131, 131);
+    }
+}
+
+.containerPage {
+    padding: 10px 20px;
+}
+
+.contentPage {
+    padding: 10px 20px;
+}
+
 
 .titleContentService {
     display: grid;
@@ -38,26 +63,9 @@
     border: 1px solid rgba(173, 171, 171, 0.542);
 }
 
-.labelImgService {
-    border: 1px solid rgba(176, 174, 174, 0.693);
-    width: 200px;
-    height: 200px;
-    display: flex;
-    margin-top: 10px;
-    border-radius: 10px;
-}
-
-.imgService {
-    width: 100px;
-    height: 100px;
-    margin: auto;
-
-}
-
-
-.btnAddService {
+.btnCreat {
     background-image: linear-gradient(to right, #118961 0%, #71f1a0 51%, #13815a 100%);
-    margin-top: 20px;
+    margin-top: 30px;
     padding: 15px 45px;
     text-align: center;
     text-transform: uppercase;
@@ -69,7 +77,7 @@
     display: block;
 }
 
-.btnAddService:hover {
+.btnCreat:hover {
     background-position: right center;
     /* change the direction of the change here */
     color: #fff;

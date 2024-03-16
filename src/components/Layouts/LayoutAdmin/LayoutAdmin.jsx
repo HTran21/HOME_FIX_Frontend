@@ -12,12 +12,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 const cx = className.bind(styles);
 import {
-    DesktopOutlined,
-    FileOutlined,
-    PieChartOutlined,
-    TeamOutlined,
+    ToolOutlined,
     CodeSandboxOutlined,
     DashboardOutlined,
+    ShopOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
@@ -47,11 +45,14 @@ const itemsSlider = [
         getItem('Thêm Sản Phẩm', '3'),
         getItem('Danh mục', '4'),
     ]),
-    getItem('Dịch Vụ', 'sub2', <CodeSandboxOutlined />, [
+    getItem('Dịch Vụ', 'sub2', <ToolOutlined />, [
         getItem(<Link to="/admin/service" className='text-decoration-none'>Danh sách</Link>, '5'),
         getItem(<Link to="/admin/addservice" className='text-decoration-none'>Thêm dịch vụ</Link>, '6'),
         getItem(<Link to="/admin/operation" className='text-decoration-none'>Thao tác</Link>, '7'),
+        getItem(<Link to="/admin/creatoperation" className='text-decoration-none'>Tạo thao tác</Link>, '8'),
     ]),
+
+    getItem(<Link to="/admin/brand" className='text-decoration-none'>Nhãn hàng</Link>, '9', <ShopOutlined />),
 ];
 
 
