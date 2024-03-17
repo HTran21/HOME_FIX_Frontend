@@ -75,7 +75,7 @@
 }
 
 .detailService {
-    height: 200px;
+    min-height: 200px;
     max-width: 200px;
     margin: 10px auto;
     padding: 10px;
@@ -108,8 +108,9 @@
 
 
     .imageService {
-        width: 80px;
-        height: 80px;
+        max-width: 80px;
+        width: 100%;
+        height: auto;
     }
 
     .titleDetailService {

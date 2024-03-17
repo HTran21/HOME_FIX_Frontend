@@ -8,10 +8,17 @@ import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Accordion from 'react-bootstrap/Accordion';
+import { Modal } from 'antd';
+import { toast } from "react-toastify";
 
 function ServiceOperation() {
 
     const [data, setData] = useState();
+    const [nameOperation, setNameOperation] = useState("");
+    const [priceOperation, setPriceOperation] = useState();
+    const [idOperation, setIdOperation] = useState();
+    const [errors, setErrors] = useState();
+
     const fecthData = () => {
         axios.get("http://localhost:3000/service/getAllOperation")
             .then(res => {
@@ -20,9 +27,87 @@ function ServiceOperation() {
             .catch((error) => console.log(error))
     }
 
+
     useEffect(() => {
         fecthData();
     }, [])
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [operation, setOperation] = useState();
+    const showModal = (operation) => {
+        setIsModalOpen(true);
+        setOperation(operation);
+        setNameOperation(operation.nameOperation);
+        setPriceOperation(operation.price);
+        setIdOperation(operation.id);
+    };
+    const handleCancel = () => {
+        setIsModalOpen(false);
+        setNameOperation("");
+        setPriceOperation();
+        setIdOperation();
+
+        setErrors();
+    };
+    const handleOk = () => {
+        const newErrors = {};
+
+        if (nameOperation.trim() === "") {
+            newErrors.nameOperation = "Chưa nhập tên thao tác"
+        }
+
+        if (!priceOperation || priceOperation < 0) {
+            newErrors.priceOperation = "Nhập sai định dạng"
+        }
+
+        if (Object.keys(newErrors).length === 0) {
+            setErrors({});
+
+            axios.post("http://localhost:3000/service/updateOperation/" + idOperation, { nameOperation, priceOperation })
+                .then(res => {
+                    if (res.data.success === false) {
+                        toast.error(res.data.message)
+                    }
+                    else {
+                        toast.success(res.data.message);
+                        fecthData();
+                        setIsModalOpen(false);
+                        setNameOperation("");
+                        setPriceOperation("");
+                    }
+                })
+                .catch(err => console.log(err));
+
+
+        }
+        else {
+            setErrors(newErrors)
+            console.log(errors)
+        }
+    };
+
+    const [showModalDelete, setShowModalDelete] = useState(false);
+    const [idDelete, setIdDelete] = useState();
+    const handleShowDelete = (operation) => {
+        setShowModalDelete(true);
+        setIdDelete(operation);
+    }
+    const handleDelete = (id) => {
+        axios.delete('http://localhost:3000/service/deleteOperation/' + id)
+            .then(res => {
+                toast.success(res.data.message);
+                setShowModalDelete(false);
+                fecthData();
+            })
+            .catch((e) => console.log(e))
+    }
+    const handleCacleDelete = () => {
+        setShowModalDelete(false);
+        setIdDelete();
+    }
+
+
+
 
     return (
         <>
@@ -62,8 +147,8 @@ function ServiceOperation() {
                                                             <td style={{ maxWidth: "100px" }}>{operation.nameOperation}</td>
                                                             <td>{operation.price}</td>
                                                             <td>
-                                                                <FontAwesomeIcon icon={faPenToSquare} style={{ color: "#5680c8", marginRight: "10px" }} size="lg" />
-                                                                <FontAwesomeIcon icon={faTrash} size="lg" style={{ color: "#d72828", }} />
+                                                                <FontAwesomeIcon onClick={() => showModal(operation)} icon={faPenToSquare} style={{ color: "#5680c8", marginRight: "10px" }} size="lg" />
+                                                                <FontAwesomeIcon onClick={() => handleShowDelete(operation)} icon={faTrash} size="lg" style={{ color: "#d72828", }} />
                                                             </td>
                                                         </tr>
                                                     ))}
@@ -79,6 +164,46 @@ function ServiceOperation() {
                     </div>
                 </div>
             </div>
+
+            <Modal title="Chỉnh sửa thao tác" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} okText="Lưu" cancelText="Đóng">
+                <div>
+
+                    <div className="mb-3 mt-4">
+                        <h5>Tên thao tác</h5>
+                        <input
+                            type="text"
+                            className={`form-control mt-2 ${cx("inputForm")} ${errors?.nameOperation ? ' border-danger' : ''} `}
+                            id="exampleFormControlInput1"
+                            placeholder="Nhập tên thao tác"
+                            value={nameOperation}
+                            onChange={(e) => { setNameOperation(e.target.value) }}
+                            autoComplete="off"
+                        />
+                        {errors?.nameOperation && <p className={cx("errors")}>{errors.nameOperation}</p>}
+                    </div>
+
+                    <div className="mb-3 mt-4">
+                        <h5>Giá thao tác</h5>
+                        <input
+                            type="number"
+                            className={`form-control mt-2 ${cx("inputForm")} ${errors?.priceOperation ? ' border-danger' : ''} `}
+                            id="exampleFormControlInput1"
+                            placeholder="Nhập giá thao tác"
+                            value={priceOperation}
+                            onChange={(e) => { setPriceOperation(e.target.value) }}
+                            autoComplete="off"
+                        />
+                        {errors?.priceOperation && <p className={cx("errors")}>{errors.priceOperation}</p>}
+                    </div>
+
+                </div>
+            </Modal>
+            <Modal title="Xóa thao tác" open={showModalDelete}
+                onOk={() => handleDelete(idDelete?.id)}
+                onCancel={() => handleCacleDelete()}
+                okButtonProps={{ style: { backgroundColor: 'red' } }} >
+                <p>Bạn chắn chắn muốn xóa thao tác {idDelete?.nameOperation}</p>
+            </Modal>
         </>
     );
 }

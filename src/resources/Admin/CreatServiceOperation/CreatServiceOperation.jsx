@@ -84,7 +84,6 @@ function CreatServiceOperation() {
         }
         else {
             setErrors(newErrors)
-            console.log(errors)
         }
 
     }
@@ -145,7 +144,7 @@ function CreatServiceOperation() {
                             <h5>Tên thao tác</h5>
                             <input
                                 type="text"
-                                className={`form-control mt-2 ${cx("inputForm")} ${errors.priceOperation ? ' border-danger' : ''} `}
+                                className={`form-control mt-2 ${cx("inputForm")} ${errors.nameOperation ? ' border-danger' : ''} `}
                                 id="exampleFormControlInput1"
                                 placeholder="Nhập tên thao tác"
                                 value={nameOperation}
