@@ -15,8 +15,7 @@
     .iconTitleContentService {
         display: flex;
         margin: auto;
-        font-size: 20px;
-        color: #4B93FF;
+        width: 30px;
     }
 
     .contentTitleContentService>p {
@@ -48,9 +47,10 @@
 }
 
 .imgService {
-    width: 100px;
-    height: 100px;
+    max-width: 200px;
+    max-height: 190px;
     margin: auto;
+    display: flex;
 
 }
 

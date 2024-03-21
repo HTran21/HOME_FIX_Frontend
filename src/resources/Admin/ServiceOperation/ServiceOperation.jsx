@@ -5,7 +5,7 @@ const cx = className.bind(styles);
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
+import axios from '../../../service/customize_axios';
 import { useEffect, useState } from "react";
 import Accordion from 'react-bootstrap/Accordion';
 import { Modal } from 'antd';
@@ -141,6 +141,7 @@ function ServiceOperation() {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+
                                                     {(item.operations)?.map((operation, index) => (
                                                         <tr key={index}>
                                                             <td>{index + 1}</td>
@@ -152,6 +153,7 @@ function ServiceOperation() {
                                                             </td>
                                                         </tr>
                                                     ))}
+
                                                 </tbody>
                                             </table>
                                         </Accordion.Body>

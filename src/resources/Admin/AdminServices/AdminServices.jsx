@@ -55,9 +55,16 @@ function AdminServices() {
     const handleDelete = (id) => {
         axios.delete('http://localhost:3000/service/deletService/' + id)
             .then(res => {
-                toast.success(res.data.message);
-                setOpenDelete(false);
-                fetchData();
+                if (res.data.success === false) {
+                    toast.error(res.data.message)
+                    setOpenDelete(false);
+
+                }
+                else {
+                    toast.success(res.data.message)
+                    setOpenDelete(false);
+                    fetchData();
+                }
             })
     }
 

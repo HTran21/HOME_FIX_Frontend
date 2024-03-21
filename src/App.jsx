@@ -29,6 +29,8 @@ import ServiceOperation from './resources/Admin/ServiceOperation/ServiceOperatio
 import CreatServiceOperation from './resources/Admin/CreatServiceOperation/CreatServiceOperation';
 import Brand from './resources/Admin/Brand/Brand';
 import Categories from './resources/Admin/Categories/Categories';
+import AddProduct from './resources/Admin/AddProduct/AddProduct';
+import EditProduct from './resources/Admin/EditProduct/EditProduct';
 
 
 import Loading from './components/Loading/Loading';
@@ -176,6 +178,18 @@ function App() {
         {
           path: "categories",
           element: <Categories />
+
+        },
+        ,
+        {
+          path: "addproduct",
+          element: <AddProduct />
+
+        },
+        ,
+        {
+          path: "editproduct/:id",
+          element: <EditProduct />
 
         },
       ]

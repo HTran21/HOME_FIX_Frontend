@@ -56,6 +56,9 @@ function AddService() {
             newErrors.logoService = "Chưa chọn ảnh"
         }
 
+        if (contentMarkdown.trim() === "") {
+            newErrors.contentMarkdown = "Chưa nhập mô tả dịch vụ"
+        }
         if (Object.keys(newErrors).length === 0) {
             setErrors({});
             // console.log("reset noi dung")
@@ -138,9 +141,10 @@ function AddService() {
                             {errors.logoService && <p className={cx("errors")}>{errors.logoService}</p>}
                         </div>
                         <h5>Mô tả dịch vụ</h5>
-                        <div className="desService">
+                        <div className={`${cx("desService")} ${errors.contentMarkdown ? 'border-danger' : ''}`}>
                             <MdEditor style={{ height: '600px' }} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} value={contentMarkdown} />
                         </div>
+                        {errors.contentMarkdown && <p className={cx("errors")}>{errors.contentMarkdown}</p>}
 
                         <button type="button" className={cx("btnAddService")} onClick={uploadService}>
                             Lưu dịch vụ

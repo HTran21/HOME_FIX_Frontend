@@ -40,7 +40,6 @@ function Brand() {
     const showModal = () => {
         setIsModalOpen(true);
         setModalKey(prevKey => prevKey + 1);
-        console.log(modalKey)
     };
     const handleCancel = () => {
         setIsModalOpen(false);

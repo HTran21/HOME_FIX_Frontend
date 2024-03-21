@@ -94,6 +94,7 @@
 
 .cardProduct {
     margin: 10px auto;
+    min-height: 300px;
     max-width: 300px;
     // box-shadow: 5px 5px 15px rgb(171, 168, 168);
     box-shadow: rgba(147, 138, 138, 0.25) 0px 5px 5px, rgba(188, 179, 179, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
@@ -122,10 +123,14 @@
     color: #fff;
 }
 
+.layoutImage {
+    min-height: 220px;
+    display: flex;
+}
+
 .imgProduct {
     width: 100%;
-    max-width: 200px;
-    display: flex;
+    max-width: 80px;
     margin: auto;
 }
 
@@ -133,4 +138,26 @@
     text-align: center;
     font-size: 17px;
     font-weight: bold;
+    cursor: pointer;
+}
+
+.titleProduct:hover {
+    color: #1570c0;
+}
+
+.allProduct {
+    font-weight: 500;
+    color: #000;
+    cursor: pointer;
+}
+
+.allProduct:hover {
+    color: #1570c0;
+}
+
+.imgDrawer {
+    width: 100px;
+    margin: auto;
+    display: flex;
+    padding: 5px;
 }

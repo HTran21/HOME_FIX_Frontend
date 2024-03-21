@@ -54,31 +54,31 @@ function CreatServiceOperation() {
         }
 
 
-        if (!idService) {
+        if (idService <= 0 || !idService) {
             newErrors.idService = "Chưa chọn dịch vụ"
         }
 
-        if (!idCategori) {
+        if (idCategori <= 0 || !idCategori) {
             newErrors.idCategori = "Chưa chọn thiết bị"
         }
 
         if (Object.keys(newErrors).length === 0) {
             setErrors({});
-
-            axios.post("http://localhost:3000/service/createOperation", { nameOperation, priceOperation, idService, idCategori })
-                .then(res => {
-                    if (res.data.success === false) {
-                        toast.error(res.data.message)
-                    }
-                    else {
-                        toast.success(res.data.message)
-                        setNameOperation("")
-                        setPriceOperation("")
-                        setIdService("")
-                        setidCategori("")
-                    }
-                })
-                .catch(err => console.log(err));
+            // axios.post("http://localhost:3000/service/createOperation", { nameOperation, priceOperation, idService, idCategori })
+            //     .then(res => {
+            //         if (res.data.success === false) {
+            //             toast.error(res.data.message)
+            //         }
+            //         else {
+            //             toast.success(res.data.message)
+            //             setNameOperation("")
+            //             setPriceOperation("")
+            //             setIdService("")
+            //             setidCategori("")
+            //         }
+            //     })
+            //     .catch(err => console.log(err));
+            console.log("GIa", priceOperation)
 
 
         }
@@ -87,8 +87,6 @@ function CreatServiceOperation() {
         }
 
     }
-
-
 
     return (
         <>
@@ -113,7 +111,7 @@ function CreatServiceOperation() {
                             <select className={`form-control mt-2 ${cx("inputForm")} ${errors.idService ? ' border-danger' : ''} `} aria-label="Default select example"
                                 value={idService} onChange={(e) => setIdService(e.target.value)}
                             >
-                                <option defaultValue="">Chọn dịch vụ</option>
+                                <option value="0">Chọn dịch vụ</option>
                                 {
                                     listService?.map((service, i) =>
                                         <option key={i} value={service.id}>{service.nameService}</option>
@@ -126,10 +124,10 @@ function CreatServiceOperation() {
 
                         <div className="mb-3 mt-4">
                             <h5>Chọn thiết bị</h5>
-                            <select className={`form-control mt-2 ${cx("inputForm")} ${errors.idService ? ' border-danger' : ''} `} aria-label="Default select example"
+                            <select className={`form-control mt-2 ${cx("inputForm")} ${errors.idCategori ? ' border-danger' : ''} `} aria-label="Default select example"
                                 value={idCategori} onChange={(e) => setidCategori(e.target.value)}
                             >
-                                <option defaultValue="">Chọn thiết bị</option>
+                                <option value="0">Chọn thiết bị</option>
                                 {
                                     listCategories?.map((catagory, i) =>
                                         <option key={i} value={catagory.id}>{catagory.nameCategories}</option>
