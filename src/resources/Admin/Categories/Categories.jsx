@@ -16,9 +16,11 @@ import { Dropdown, Modal } from 'antd';
 function Categories() {
 
     const [data, setData] = useState();
+    const [listService, setListService] = useState();
     const [showImage, setShowImage] = useState("../public/icon/image-gallery.png")
     const [nameCategories, setNameCategories] = useState("");
     const [imageCategories, setImageCategories] = useState();
+    const [idService, setIdService] = useState()
     const [errors, setErrors] = useState({});
 
     const fetchData = () => {
@@ -29,8 +31,17 @@ function Categories() {
             .catch((error) => console.log(error));
     }
 
+    const fetchService = () => {
+        axios.get("http://localhost:3000/service/getService")
+            .then(res => {
+                // console.log("list service", res.data.listService)
+                setListService(res.data.listService)
+            })
+    }
+
     useEffect(() => {
         fetchData();
+        fetchService();
     }, [])
 
     const upload = () => {
@@ -39,6 +50,10 @@ function Categories() {
 
         if (nameCategories.trim() === "") {
             newErrors.nameCategories = "Chưa nhập loại thiết bị"
+        }
+
+        if (idService <= 0 || !idService) {
+            newErrors.idService = "Chưa chọn dịch vụ"
         }
 
         if (!imageCategories) {
@@ -50,6 +65,7 @@ function Categories() {
             const formData = new FormData();
             formData.append('imageCategories', imageCategories)
             formData.append('nameCategories', nameCategories)
+            formData.append('idService', idService)
             axios.post("http://localhost:3000/product/categories", formData)
                 .then(res => {
                     if (res.data.success === false) {
@@ -61,6 +77,7 @@ function Categories() {
                         setNameCategories('');
                         setShowImage('../public/icon/image-gallery.png')
                         setImageCategories();
+                        setIdService("");
                     }
                 })
 
@@ -103,6 +120,21 @@ function Categories() {
                         <div className="col-lg-3 col-sm-12">
                             <div className={cx("AddCategories")}>
                                 <h5>Tạo loại thiết bị</h5>
+                                <div className="mb-3 mt-4">
+                                    <h5>Chọn loại dịch vụ</h5>
+                                    <select className={`form-control mt-2 ${cx("inputForm")} ${errors.idService ? ' border-danger' : ''} `} aria-label="Default select example"
+                                        value={idService} onChange={(e) => setIdService(e.target.value)}
+                                    >
+                                        <option value="0">Chọn dịch vụ</option>
+                                        {
+                                            listService?.map((service, i) =>
+                                                <option key={i} value={service.id}>{service.nameService}</option>
+                                            )
+                                        }
+                                    </select>
+                                    {errors.idService && <p className={cx("errors")}>{errors.idService}</p>}
+
+                                </div>
                                 <div className="mb-3 mt-3">
                                     <h6>Tên loại thiết bị</h6>
                                     <input
@@ -151,7 +183,7 @@ function Categories() {
                                                     menu={{
                                                         items: [
                                                             {
-                                                                label: <p onClick={handleShowDelete(categoy)}  ><DeleteOutlined className="pe-2" />Xóa</p>,
+                                                                label: <p onClick={handleShowDelete(categoy.category)}  ><DeleteOutlined className="pe-2" />Xóa</p>,
                                                                 key: '0',
                                                             },
                                                         ]
@@ -165,13 +197,13 @@ function Categories() {
                                                     </a>
                                                 </Dropdown>
                                                 <div className={cx("borderImage")}>
-                                                    <img src={`http://localhost:3000/${categoy.imageCategories}`} className={cx("imgProduct")} alt="" />
+                                                    <img src={`http://localhost:3000/${categoy.category.imageCategories}`} className={cx("imgProduct")} alt="" />
                                                 </div>
                                                 <p className={cx("titleProduct")}>
-                                                    {categoy.nameCategories}
+                                                    {categoy.category.nameCategories}
                                                 </p>
                                                 <p className={cx("quantityItem")}>
-                                                    15 thiết bị
+                                                    {categoy.count} thiết bị
                                                 </p>
                                             </div>
                                         </div>
@@ -187,7 +219,7 @@ function Categories() {
                 onOk={() => handleDelete(deleteItem?.id)}
                 onCancel={() => setIsModalDelete(false)}
                 okButtonProps={{ style: { backgroundColor: 'red' } }} >
-                <p>Bạn chắn chắn muốn xóa nhãn hàng {deleteItem?.nameBrand}</p>
+                <p>Bạn chắn chắn muốn xóa loại thiết bị {deleteItem?.nameCategories}</p>
             </Modal>
         </>
     );

@@ -158,7 +158,7 @@ function Products() {
                                 <p style={{ fontWeight: "500" }}>Danh mục</p>
                                 <ul className={cx("listCategori")}>
                                     {listCategori?.map((categori, i) => (
-                                        <li key={i} onClick={() => filterProduct(categori.id, idBrand)} className={`ps-1 ${(idCategori === categori.id) ? 'text-info' : ''}`}>{categori.nameCategories} </li>
+                                        <li key={i} onClick={() => filterProduct(categori.category.id, idBrand)} className={`ps-1 ${(idCategori === categori.category.id) ? 'text-info' : ''}`}>{categori.category.nameCategories} </li>
                                     ))}
                                 </ul>
 

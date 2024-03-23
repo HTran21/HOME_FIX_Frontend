@@ -172,7 +172,7 @@ function FormRepair() {
                                                     <input
                                                         type="date"
                                                         id="dayRepair"
-                                                        className={`form-control ${cx("inputForm")}`}
+                                                        className={`form-control p-3s ${cx("inputForm")}`}
                                                     />
 
                                                 </div>
