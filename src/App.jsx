@@ -120,7 +120,7 @@ function App() {
           element: <Contact />
         },
         {
-          path: "detail",
+          path: "detail/:id",
           element: <DetailRepair />
         },
 

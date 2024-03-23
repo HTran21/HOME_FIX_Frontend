@@ -1,10 +1,66 @@
 import styles from "./FormRepair.module.scss";
 import classNames from 'classnames/bind';
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from '../../../service/customize_axios';
+import { toast } from "react-toastify";
 
 const cx = classNames.bind(styles);
 
 function FormRepair() {
+    const [listCategories, setListCategories] = useState();
+    const [listBrands, setListBrands] = useState();
+    const [listProduct, setListProduct] = useState();
+    const [idCategori, setidCategori] = useState();
+    const [idBrand, setidBrand] = useState();
+    const [errors, setErrors] = useState({});
+
+    const [idProduct, setIdProduct] = useState();
+    const [fullName, setFullName] = useState('');
+    const [address, setAddress] = useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
+    const [dateRepair, setDateRepair] = useState();
+    const [time, setTime] = useState();
+
+    const fetchCategories = () => {
+        axios.get("http://localhost:3000/product/categories")
+            .then(res => {
+                setListCategories(res.data)
+            })
+            .catch((error) => console.log(error));
+    }
+    const fetchBrands = () => {
+        axios.get("http://localhost:3000/product/brand")
+            .then(res => {
+                setListBrands(res.data)
+
+            })
+            .catch(err => console.log(err));
+
+    }
+
+    const filterProduct = (categori, brand) => {
+
+        setidBrand(brand)
+        setidCategori(categori)
+
+        axios.get(`http://localhost:3000/product?categori=${categori || ''}&brand=${brand || ''}`)
+            .then(res => {
+                setListProduct(res.data.rows)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+
+    }
+
+
+    useEffect(() => {
+        fetchCategories();
+        fetchBrands();
+
+    }, [])
     return (
         <>
             <section className="vh-100 gradient-custom">
@@ -23,7 +79,7 @@ function FormRepair() {
                                     </div>
                                     <form>
                                         <div className="row">
-                                            <h6>Thông tin khác hàng</h6>
+                                            <h6 className="mb-2">Thông tin khác hàng</h6>
                                             <div className="col-md-6 mb-4">
                                                 <div className="form-floating mb-3">
                                                     <input type="text" className={`form-control ${cx("inputForm")}`} placeholder="name@example.com" />
@@ -50,34 +106,64 @@ function FormRepair() {
                                             </div>
                                         </div>
                                         <div className="row">
-                                            <h6>Thông tin thiết bị</h6>
+                                            <h6 className="mb-2">Thông tin thiết bị</h6>
                                             <div className="col-md-6 mb-4">
                                                 <div className="form-floating mb-3">
-                                                    <input type="text" className={`form-control ${cx("inputForm")}`} placeholder="name@example.com" />
-                                                    <label htmlFor="floatingInput">Loại thiết bị</label>
-                                                </div>
-                                            </div>
-                                            <div className="col-md-6 mb-4">
-                                                <div className="form-floating mb-3">
-                                                    <input type="text" className={`form-control ${cx("inputForm")}`} placeholder="name@example.com" />
+                                                    {/* <input type="text" className={`form-control ${cx("inputForm")}`} placeholder="name@example.com" /> */}
+                                                    <select className={`form-control mt-2 ${cx("inputForm")} ${errors.idBrand ? ' border-danger' : ''} `} aria-label="Default select example"
+                                                        value={idBrand} onChange={(e) => filterProduct(idCategori, e.target.value)}
+                                                    >
+                                                        <option value="0">Chọn nhãn hàng</option>
+                                                        {
+                                                            listBrands?.map((brand, i) =>
+                                                                <option key={i} value={brand.id}>{brand.nameBrand}</option>
+                                                            )
+                                                        }
+                                                    </select>
                                                     <label htmlFor="floatingInput">Thương hiệu</label>
                                                 </div>
                                             </div>
                                             <div className="col-md-6 mb-4">
                                                 <div className="form-floating mb-3">
-                                                    <input type="text" className={`form-control ${cx("inputForm")}`} placeholder="name@example.com" />
-                                                    <label htmlFor="floatingInput">Mô hình</label>
+                                                    {/* <input type="text" className={`form-control ${cx("inputForm")}`} placeholder="name@example.com" /> */}
+                                                    <select className={`form-control mt-2 ${cx("inputForm")} ${errors.idCategori ? ' border-danger' : ''} `} aria-label="Default select example"
+                                                        value={idCategori} onChange={(e) => filterProduct(e.target.value, idBrand)}
+                                                    >
+                                                        <option value="0">Chọn loại thiết bị</option>
+                                                        {
+                                                            listCategories?.map((catagory, i) =>
+                                                                <option key={i} value={catagory.id}>{catagory.nameCategories}</option>
+                                                            )
+                                                        }
+                                                    </select>
+                                                    <label htmlFor="floatingInput">Loại thiết bị</label>
+                                                </div>
+                                            </div>
+                                            <div className="col-md-6 mb-4">
+                                                <div className="form-floating mb-3">
+                                                    {/* <input type="text" className={`form-control ${cx("inputForm")}`} placeholder="name@example.com" /> */}
+                                                    <select className={`form-control ${cx("inputForm")} ${errors.idCategori ? ' border-danger' : ''} `} aria-label="Default select example"
+                                                        value={idProduct} onChange={(e) => setIdProduct(e.target.value)}
+                                                    >
+                                                        <option value="0">Chọn thiết bị</option>
+                                                        {
+                                                            listProduct?.map((product, i) =>
+                                                                <option key={i} value={product.id}>{product.nameProduct}</option>
+                                                            )
+                                                        }
+                                                    </select>
+                                                    <label htmlFor="floatingInput">Thiết bị</label>
                                                 </div>
                                             </div>
                                             <div className="col-md-6 mb-4">
                                                 <div className="form-floating">
                                                     <textarea className={`form-control ${cx("inputForm")}`} placeholder="Leave a comment here" id="floatingTextarea2"></textarea>
-                                                    <label htmlFor="floatingTextarea2">Comments</label>
+                                                    <label htmlFor="floatingTextarea2">Mô tả lỗi</label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="row">
-                                            <h6>Thời gian sửa chữa</h6>
+                                            <h6 className="mb-1">Thời gian sửa chữa</h6>
                                             <div className="col-md-6 mb-4 pb-2">
                                                 <div className="form-outline">
                                                     <label className="form-label" htmlFor="dayRepair">
@@ -143,7 +229,7 @@ function FormRepair() {
                                                 className={`d-inline ${cx("btnRepair")}`}
                                             >ĐĂNG KÝ</button>
                                             <button className={`d-inline ${cx("btnCancel")}`}>
-                                                <Link className="text-decoration-none text-light" to="/">HỦY</Link>
+                                                <Link className="text-decoration-none text-light" to="http://localhost:5173/">HỦY</Link>
                                             </button>
                                         </div>
                                     </form>

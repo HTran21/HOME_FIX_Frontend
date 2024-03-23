@@ -1,11 +1,22 @@
 .titleDetail {
     // border: 1px solid red;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 
     .title {
         font-family: 'Reem Kufi', sans-serif;
         font-weight: bold;
         font-size: 30px;
+        text-transform: uppercase;
+    }
+}
+
+.leftContent {
+    line-height: 2;
+    font-size: 16px;
+
+    img {
+        width: 100%;
+        max-width: 600px;
     }
 }
 
@@ -50,7 +61,7 @@
 }
 
 .listNameService {
-    padding: 30px;
+    padding: 5px 20px 20px 20px;
     list-style: none;
 
     .nameService {
@@ -63,6 +74,7 @@
         align-items: center;
         cursor: pointer;
         margin: 20px 0px;
+        color: #000;
     }
 
     .iconNameService {
@@ -79,6 +91,7 @@
     }
 }
 
-.active {
+
+.nameService.active {
     color: #337CCF;
 }

@@ -5,10 +5,29 @@ const { TabPane } = Tabs;
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock, faMoneyBill1, faStar, faThumbsUp } from "@fortawesome/free-regular-svg-icons";
 import { faCalendarDay, faUsers, faScrewdriverWrench, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import axios from '../../../service/customize_axios';
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
 function Service() {
+
+    const [listService, setListService] = useState();
+
+    const fetchData = () => {
+        axios.get("http://localhost:3000/service/getService")
+            .then(res => {
+                // console.log("list service", res.data.listService)
+                setListService(res.data.listService)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+    useEffect(() => {
+        fetchData();
+    }, [])
 
     const onChange = (key) => {
     };
@@ -51,34 +70,16 @@ function Service() {
                     </div>
                     <div className={cx("listService")}>
                         <div className="row ">
-                            <div className="col-lg-3 col-md-4 col-sm-12 mt-2">
-                                <div className={cx("detailService")}>
-                                    <img className={cx("imageService")} src="../public/icon/plug.png" alt="" />
-                                    <div className={cx("titleDetailService")}>Dịch vụ điện</div>
-                                    <div className={cx("viewDetailService")}>XEM CHI TIẾT<FontAwesomeIcon className={cx("iconDetailService")} icon={faArrowRight} /></div>
+                            {listService?.map((service, i) => (
+                                <div className="col-lg-3 col-md-4 col-sm-12 mt-2" key={i}>
+                                    <div className={cx("detailService")}>
+                                        <img className={cx("imageService")} src={`http://localhost:3000/${service.logoService}`} alt="" />
+                                        <div className={cx("titleDetailService")}>{service.nameService}</div>
+                                        <Link className="text-decoration-none" to={`/detail/${service.id}`}><div className={cx("viewDetailService")}>XEM CHI TIẾT<FontAwesomeIcon className={cx("iconDetailService")} icon={faArrowRight} /></div></Link>
+
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="col-lg-3 col-md-4 col-sm-12 mt-2">
-                                <div className={cx("detailService")}>
-                                    <img className={cx("imageService")} src="../public/icon/pipeline.png" alt="" />
-                                    <div className={cx("titleDetailService")}>Dịch vụ nước</div>
-                                    <div className={cx("viewDetailService")}>XEM CHI TIẾT<FontAwesomeIcon className={cx("iconDetailService")} icon={faArrowRight} /></div>
-                                </div>
-                            </div>
-                            <div className="col-lg-3 col-md-4 col-sm-12 mt-2">
-                                <div className={cx("detailService")}>
-                                    <img className={cx("imageService")} src="../public/icon/microwave.png" alt="" />
-                                    <div className={cx("titleDetailService")}>Dịch vụ sửa chữa</div>
-                                    <div className={cx("viewDetailService")}>XEM CHI TIẾT<FontAwesomeIcon className={cx("iconDetailService")} icon={faArrowRight} /></div>
-                                </div>
-                            </div>
-                            <div className="col-lg-3 col-md-4 col-sm-12 mt-2">
-                                <div className={cx("detailService")}>
-                                    <img className={cx("imageService")} src="../public/icon/home-appliance.png" alt="" />
-                                    <div className={cx("titleDetailService")}>Dịch vụ thay mới</div>
-                                    <div className={cx("viewDetailService")}>XEM CHI TIẾT<FontAwesomeIcon className={cx("iconDetailService")} icon={faArrowRight} /></div>
-                                </div>
-                            </div>
+                            ))}
                         </div>
                     </div>
                 </div>
