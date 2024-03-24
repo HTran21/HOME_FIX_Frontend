@@ -11,10 +11,12 @@ function FormRepair() {
     const [listCategories, setListCategories] = useState();
     const [listBrands, setListBrands] = useState();
     const [listProduct, setListProduct] = useState();
+    const [listService, setListService] = useState();
     const [idCategori, setidCategori] = useState();
     const [idBrand, setidBrand] = useState();
     const [errors, setErrors] = useState({});
 
+    const [idService, setIdService] = useState();
     const [idProduct, setIdProduct] = useState();
     const [fullName, setFullName] = useState('');
     const [address, setAddress] = useState('');
@@ -23,13 +25,22 @@ function FormRepair() {
     const [dateRepair, setDateRepair] = useState();
     const [time, setTime] = useState();
 
-    const fetchCategories = () => {
-        axios.get("http://localhost:3000/product/categories")
+    const fetchService = () => {
+        axios.get("http://localhost:3000/service/getService")
             .then(res => {
-                setListCategories(res.data)
+                // console.log("list service", res.data.listService)
+                setListService(res.data.listService)
             })
-            .catch((error) => console.log(error));
     }
+
+    // const fetchCategories = () => {
+    //     axios.get("http://localhost:3000/product/categories/" + idService)
+    //         .then(res => {
+    //             setListCategories(res.data)
+    //             console.log("Categories", res.data)
+    //         })
+    //         .catch((error) => console.log(error));
+    // }
     const fetchBrands = () => {
         axios.get("http://localhost:3000/product/brand")
             .then(res => {
@@ -55,10 +66,23 @@ function FormRepair() {
 
     }
 
+    useEffect(() => {
+        if (idService) {
+            axios.get("http://localhost:3000/product/categories/" + idService)
+                .then(res => {
+                    setListCategories(res.data)
+                    console.log("Categories", res.data)
+                })
+                .catch((error) => console.log(error));
+        }
+
+    }, [idService])
 
     useEffect(() => {
-        fetchCategories();
+        // fetchCategories();
         fetchBrands();
+        fetchService();
+
 
     }, [])
     return (
@@ -105,62 +129,148 @@ function FormRepair() {
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div className="row">
+                                            <h6 className="mb-2">Dịch vụ mong muốn</h6>
+                                            <div className="col-md-6 mb-4">
+                                                <div className="form-floating mb-3">
+
+                                                    <select className={`form-control mt-2 ${cx("inputForm")} ${errors.idBrand ? ' border-danger' : ''} `} aria-label="Default select example"
+                                                        value={idService} onChange={(e) => setIdService(e.target.value)}
+                                                    >
+                                                        <option value="0">Chọn dịch vụ</option>
+                                                        {
+                                                            listService?.map((service, i) =>
+                                                                <option key={i} value={service.id}>{service.nameService}</option>
+                                                            )
+                                                        }
+                                                    </select>
+                                                    <label htmlFor="floatingInput">Dịch vụ</label>
+                                                </div>
+                                            </div>
+                                            <div className="col-md-6 mb-4">
+                                                <h2>{idService}</h2>
+                                            </div>
+
+                                        </div>
+
                                         <div className="row">
                                             <h6 className="mb-2">Thông tin thiết bị</h6>
-                                            <div className="col-md-6 mb-4">
-                                                <div className="form-floating mb-3">
-                                                    {/* <input type="text" className={`form-control ${cx("inputForm")}`} placeholder="name@example.com" /> */}
-                                                    <select className={`form-control mt-2 ${cx("inputForm")} ${errors.idBrand ? ' border-danger' : ''} `} aria-label="Default select example"
-                                                        value={idBrand} onChange={(e) => filterProduct(idCategori, e.target.value)}
-                                                    >
-                                                        <option value="0">Chọn nhãn hàng</option>
-                                                        {
-                                                            listBrands?.map((brand, i) =>
-                                                                <option key={i} value={brand.id}>{brand.nameBrand}</option>
-                                                            )
-                                                        }
-                                                    </select>
-                                                    <label htmlFor="floatingInput">Thương hiệu</label>
+
+                                            {idService === "1" ? (
+                                                <div className="row">
+                                                    <div className="col-md-6 mb-4">
+                                                        <div className="form-floating mb-3">
+
+                                                            <select className={`form-control mt-2 ${cx("inputForm")} ${errors.idCategori ? ' border-danger' : ''} `} aria-label="Default select example"
+                                                                value={idCategori} onChange={(e) => filterProduct(e.target.value, idBrand)}
+                                                            >
+                                                                <option value="0">Chọn loại thiết bị</option>
+                                                                {
+                                                                    listCategories?.map((catagory, i) =>
+                                                                        <option key={i} value={catagory.id}>{catagory.nameCategories}</option>
+                                                                    )
+                                                                }
+                                                            </select>
+                                                            <label htmlFor="floatingInput">Loại thiết bị</label>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-md-6 mb-4">
+                                                        <div className="form-floating">
+                                                            <textarea className={`form-control mt-2 ${cx("inputForm")}`} placeholder="Leave a comment here" id="floatingTextarea2"></textarea>
+                                                            <label htmlFor="floatingTextarea2">Mô tả lỗi</label>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="col-md-6 mb-4">
-                                                <div className="form-floating mb-3">
-                                                    {/* <input type="text" className={`form-control ${cx("inputForm")}`} placeholder="name@example.com" /> */}
-                                                    <select className={`form-control mt-2 ${cx("inputForm")} ${errors.idCategori ? ' border-danger' : ''} `} aria-label="Default select example"
-                                                        value={idCategori} onChange={(e) => filterProduct(e.target.value, idBrand)}
-                                                    >
-                                                        <option value="0">Chọn loại thiết bị</option>
-                                                        {
-                                                            listCategories?.map((catagory, i) =>
-                                                                <option key={i} value={catagory.id}>{catagory.nameCategories}</option>
-                                                            )
-                                                        }
-                                                    </select>
-                                                    <label htmlFor="floatingInput">Loại thiết bị</label>
+                                            ) : idService === "2" ? (
+                                                <div className="row">
+                                                    <div className="col-md-6 mb-4">
+                                                        <div className="form-floating mb-3">
+
+                                                            <select className={`form-control mt-2 ${cx("inputForm")} ${errors.idCategori ? ' border-danger' : ''} `} aria-label="Default select example"
+                                                                value={idCategori} onChange={(e) => filterProduct(e.target.value, idBrand)}
+                                                            >
+                                                                <option value="0">Chọn loại thiết bị</option>
+                                                                {
+                                                                    listCategories?.map((catagory, i) =>
+                                                                        <option key={i} value={catagory.id}>{catagory.nameCategories}</option>
+                                                                    )
+                                                                }
+                                                            </select>
+                                                            <label htmlFor="floatingInput">Loại thiết bị</label>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-md-6 mb-4">
+                                                        <div className="form-floating">
+                                                            <textarea className={`form-control mt-2 ${cx("inputForm")}`} placeholder="Leave a comment here" id="floatingTextarea2"></textarea>
+                                                            <label htmlFor="floatingTextarea2">Mô tả lỗi</label>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="col-md-6 mb-4">
-                                                <div className="form-floating mb-3">
-                                                    {/* <input type="text" className={`form-control ${cx("inputForm")}`} placeholder="name@example.com" /> */}
-                                                    <select className={`form-control ${cx("inputForm")} ${errors.idCategori ? ' border-danger' : ''} `} aria-label="Default select example"
-                                                        value={idProduct} onChange={(e) => setIdProduct(e.target.value)}
-                                                    >
-                                                        <option value="0">Chọn thiết bị</option>
-                                                        {
-                                                            listProduct?.map((product, i) =>
-                                                                <option key={i} value={product.id}>{product.nameProduct}</option>
-                                                            )
-                                                        }
-                                                    </select>
-                                                    <label htmlFor="floatingInput">Thiết bị</label>
+                                            ) : idService === "4" ? (
+                                                <div className="row">
+                                                    <div className="col-md-6 mb-4">
+                                                        <div className="form-floating mb-3">
+
+                                                            <select className={`form-control mt-2 ${cx("inputForm")} ${errors.idBrand ? ' border-danger' : ''} `} aria-label="Default select example"
+                                                                value={idBrand} onChange={(e) => filterProduct(idCategori, e.target.value)}
+                                                            >
+                                                                <option value="0">Chọn nhãn hàng</option>
+                                                                {
+                                                                    listBrands?.map((brand, i) =>
+                                                                        <option key={i} value={brand.id}>{brand.nameBrand}</option>
+                                                                    )
+                                                                }
+                                                            </select>
+                                                            <label htmlFor="floatingInput">Thương hiệu</label>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-md-6 mb-4">
+                                                        <div className="form-floating mb-3">
+
+                                                            <select className={`form-control mt-2 ${cx("inputForm")} ${errors.idCategori ? ' border-danger' : ''} `} aria-label="Default select example"
+                                                                style={{ color: "#000" }} value={idCategori} onChange={(e) => filterProduct(e.target.value, idBrand)}
+                                                            >
+                                                                <option value="0">Chọn loại thiết bị</option>
+                                                                {
+                                                                    listCategories?.map((categori, i) =>
+                                                                        <option key={i} value={categori.id}>{categori.nameCategories}</option>
+                                                                    )
+                                                                }
+                                                            </select>
+                                                            <label htmlFor="floatingInput">Loại thiết bị</label>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-md-6 mb-4">
+                                                        <div className="form-floating mb-3">
+
+                                                            <select className={`form-control ${cx("inputForm")} ${errors.idCategori ? ' border-danger' : ''} `} aria-label="Default select example"
+                                                                value={idProduct} onChange={(e) => setIdProduct(e.target.value)}
+                                                            >
+                                                                <option value="0">Chọn thiết bị</option>
+                                                                {
+                                                                    listProduct?.map((product, i) =>
+                                                                        <option key={i} value={product.id}>{product.nameProduct}</option>
+                                                                    )
+                                                                }
+                                                            </select>
+                                                            <label htmlFor="floatingInput">Thiết bị</label>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-md-6 mb-4">
+                                                        <div className="form-floating">
+                                                            <textarea className={`form-control ${cx("inputForm")}`} placeholder="Leave a comment here" id="floatingTextarea2"></textarea>
+                                                            <label htmlFor="floatingTextarea2">Mô tả lỗi</label>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="col-md-6 mb-4">
-                                                <div className="form-floating">
-                                                    <textarea className={`form-control ${cx("inputForm")}`} placeholder="Leave a comment here" id="floatingTextarea2"></textarea>
-                                                    <label htmlFor="floatingTextarea2">Mô tả lỗi</label>
+                                            ) : (
+                                                <div className={cx("pleaseChoose")}>
+                                                    <img className={cx("imgChoose")} src="../../public/icon/answer.png" alt="" />
+                                                    <h6>Vui lòng chọn dịch vụ</h6>
                                                 </div>
-                                            </div>
+                                            )}
+
                                         </div>
                                         <div className="row">
                                             <h6 className="mb-1">Thời gian sửa chữa</h6>

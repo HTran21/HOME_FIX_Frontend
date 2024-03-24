@@ -12,7 +12,7 @@ function CreatServiceOperation() {
     const [listService, setListService] = useState();
     const [listCategories, setListCategories] = useState();
     const [nameOperation, setNameOperation] = useState("");
-    const [priceOperation, setPriceOperation] = useState();
+    const [priceOperation, setPriceOperation] = useState(0);
     const [idService, setIdService] = useState();
     const [idCategori, setidCategori] = useState();
     const [errors, setErrors] = useState({});
@@ -24,17 +24,34 @@ function CreatServiceOperation() {
             })
     }
 
-    const fetchCategories = () => {
-        axios.get("http://localhost:3000/product/categories")
-            .then(res => {
-                setListCategories(res.data)
-            })
-            .catch((error) => console.log(error));
-    }
+    // const fetchCategories = () => {
+    //     axios.get("http://localhost:3000/product/categories")
+    //         .then(res => {
+    //             setListCategories(res.data)
+    //         })
+    //         .catch((error) => console.log(error));
+    // }
+
+
+
     useEffect(() => {
         fetchData();
-        fetchCategories();
+        // fetchCategories();
     }, [])
+
+    useEffect(() => {
+        if (idService !== '') {
+            const id = idService;
+            axios.get("http://localhost:3000/product/categories/" + id)
+                .then(res => {
+                    setListCategories(res.data)
+                })
+                .catch(err => console.log(err));
+        }
+        else {
+            setListCategories()
+        }
+    }, [idService])
 
     const upload = () => {
         // console.log("Ten thao tac", nameOperation)
@@ -64,21 +81,20 @@ function CreatServiceOperation() {
 
         if (Object.keys(newErrors).length === 0) {
             setErrors({});
-            // axios.post("http://localhost:3000/service/createOperation", { nameOperation, priceOperation, idService, idCategori })
-            //     .then(res => {
-            //         if (res.data.success === false) {
-            //             toast.error(res.data.message)
-            //         }
-            //         else {
-            //             toast.success(res.data.message)
-            //             setNameOperation("")
-            //             setPriceOperation("")
-            //             setIdService("")
-            //             setidCategori("")
-            //         }
-            //     })
-            //     .catch(err => console.log(err));
-            console.log("GIa", priceOperation)
+            axios.post("http://localhost:3000/service/createOperation", { nameOperation, priceOperation, idService, idCategori })
+                .then(res => {
+                    if (res.data.success === false) {
+                        toast.error(res.data.message)
+                    }
+                    else {
+                        toast.success(res.data.message)
+                        setNameOperation("")
+                        setPriceOperation(0)
+                        setIdService("")
+                        setidCategori("")
+                    }
+                })
+                .catch(err => console.log(err));
 
 
         }

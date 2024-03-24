@@ -31,6 +31,7 @@ import Brand from './resources/Admin/Brand/Brand';
 import Categories from './resources/Admin/Categories/Categories';
 import AddProduct from './resources/Admin/AddProduct/AddProduct';
 import EditProduct from './resources/Admin/EditProduct/EditProduct';
+import Specialization from './resources/Admin/Specialization/Specialization';
 
 
 import Loading from './components/Loading/Loading';
@@ -184,6 +185,11 @@ function App() {
         {
           path: "addproduct",
           element: <AddProduct />
+
+        },
+        {
+          path: "specialize",
+          element: <Specialization />
 
         },
         ,

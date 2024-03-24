@@ -51,8 +51,14 @@ const itemsSlider = [
         getItem(<Link to="/admin/operation" className='text-decoration-none'>Thao tác</Link>, '7'),
         getItem(<Link to="/admin/creatoperation" className='text-decoration-none'>Tạo thao tác</Link>, '8'),
     ]),
+    getItem('Nhân viên', 'sub3', <img src="../public/icon/group.png" className={cx("iconSidebar")} alt="" />, [
+        getItem(<Link to="" className='text-decoration-none'>Danh sách</Link>, '9'),
+        getItem(<Link to="" className='text-decoration-none'>Thêm dịch vụ</Link>, '10'),
+        getItem(<Link to="/admin/specialize" className='text-decoration-none'>Chuyên môn</Link>, '11'),
+        getItem(<Link to="" className='text-decoration-none'>Tạo thao tác</Link>, '12'),
+    ]),
 
-    getItem(<Link to="/admin/brand" className='text-decoration-none'>Nhãn hàng</Link>, '9', <ShopOutlined />),
+    getItem(<Link to="/admin/brand" className='text-decoration-none'>Nhãn hàng</Link>, '13', <ShopOutlined />),
 ];
 
 

@@ -183,7 +183,7 @@ function Categories() {
                                                     menu={{
                                                         items: [
                                                             {
-                                                                label: <p onClick={handleShowDelete(categoy.category)}  ><DeleteOutlined className="pe-2" />Xóa</p>,
+                                                                label: <p onClick={handleShowDelete(categoy)}  ><DeleteOutlined className="pe-2" />Xóa</p>,
                                                                 key: '0',
                                                             },
                                                         ]
@@ -197,14 +197,14 @@ function Categories() {
                                                     </a>
                                                 </Dropdown>
                                                 <div className={cx("borderImage")}>
-                                                    <img src={`http://localhost:3000/${categoy.category.imageCategories}`} className={cx("imgProduct")} alt="" />
+                                                    <img src={`http://localhost:3000/${categoy.imageCategories}`} className={cx("imgProduct")} alt="" />
                                                 </div>
                                                 <p className={cx("titleProduct")}>
-                                                    {categoy.category.nameCategories}
+                                                    {categoy.nameCategories}
                                                 </p>
-                                                <p className={cx("quantityItem")}>
-                                                    {categoy.count} thiết bị
-                                                </p>
+                                                {/* <p className={cx("quantityItem")}>
+                                                    thiết bị
+                                                </p> */}
                                             </div>
                                         </div>
 
