@@ -32,6 +32,7 @@ import Categories from './resources/Admin/Categories/Categories';
 import AddProduct from './resources/Admin/AddProduct/AddProduct';
 import EditProduct from './resources/Admin/EditProduct/EditProduct';
 import Specialization from './resources/Admin/Specialization/Specialization';
+import Staff from './resources/Admin/Staff/Staff';
 
 
 import Loading from './components/Loading/Loading';
@@ -190,6 +191,12 @@ function App() {
         {
           path: "specialize",
           element: <Specialization />
+
+        },
+        ,
+        {
+          path: "staff",
+          element: <Staff />
 
         },
         ,
