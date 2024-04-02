@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import RingLoader from "react-spinners/RingLoader";
 
 function Loading() {
@@ -19,7 +20,8 @@ function Loading() {
             <RingLoader color="#3DA8DD" />
             <div><b>Loading....</b></div>
         </div>
-    );
+
+    )
 }
 
 export default Loading;

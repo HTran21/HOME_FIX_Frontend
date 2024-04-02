@@ -37,7 +37,7 @@ function Header() {
 
     const items = [
         {
-            label: <a href="#" className={cx("dropdownItem")}>Thông tin cá nhân</a>,
+            label: <a href="#" className={`${cx("dropdownItem")} text-decoration-none`}>Thông tin cá nhân</a>,
             key: '0',
         },
         {
@@ -55,7 +55,7 @@ function Header() {
                     <p className={cx("textLogo")}>HOME FIX</p></Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="ms-5" style={{ flexWrap: "wrap" }}>
+                    <Nav className="" style={{ flexWrap: "wrap" }}>
                         <Nav.Link className={cx("navLink")} href="/">Home</Nav.Link>
                         <Nav.Link className={cx("navLink")} href="/service">Service</Nav.Link>
                         <Nav.Link className={cx("navLink")} href="/about">About</Nav.Link>
@@ -65,7 +65,7 @@ function Header() {
 
                     </Nav>
                 </Navbar.Collapse>
-                <Navbar.Collapse className={cx("justify-content-end")}>
+                <Navbar.Collapse className="justify-content-end">
 
                     {isAuthenticated ? (
                         <div className={cx("username")}>Welcome to{" "}

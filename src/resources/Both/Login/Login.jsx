@@ -40,6 +40,12 @@ function Login() {
                         navigate("/admin");
 
                     }
+                    else if (res.data.data.role === 'RP') {
+                        dispatch(doLoginAction(res.data.data.infoRepairer))
+                        console.log("Dang nhap voi tu cach admin")
+                        navigate("/repairer");
+
+                    }
                     else {
 
                         dispatch(doLoginAction(res.data.data.infoUser))

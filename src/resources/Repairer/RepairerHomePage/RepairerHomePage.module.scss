@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&display=swap');
+
+.introHomePage {
+    padding: 10px 0px;
+}
+
+.imgHomePage {
+    max-width: 250px;
+    width: auto;
+    max-height: 250px;
+    height: auto;
+    margin: auto;
+    display: flex;
+}
+
+.contentIntro {
+    background-color: #3fcde643;
+    padding: 0px 10px;
+    border-radius: 10px;
+}
+
+.textTitle {
+    font-family: 'Reem Kufi', sans-serif;
+    color: #000;
+    // font-size: 20px;
+    font-size: 4vw;
+    font-weight: bold;
+    text-align: center;
+}
+
+// .listWorkDay {}
+.titleWork {
+    font-family: 'Reem Kufi', sans-serif;
+    color: #000;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.cardWork {
+    padding: 5px 10px;
+    background-color: #1149b8c6;
+    border-radius: 10px;
+    box-shadow: 5px 10px 10px #bfacac8a;
+    color: #fff;
+    margin: 5px 0px;
+
+    .titleWorkContent {
+        font-family: 'Reem Kufi', sans-serif;
+        // color: #000;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .contentWork {
+        font-size: 14px;
+        // color: #000;
+        font-weight: 500;
+    }
+
+    .iconMore {
+        font-size: 20px;
+        display: flex;
+        margin: auto;
+    }
+
+}
+
+.emptyWork {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    img {
+        width: 60px;
+        opacity: 0.7;
+
+    }
+
+    p {
+        font-family: 'Reem Kufi', sans-serif;
+        // color: #000;
+        font-size: 16px;
+        font-weight: bold;
+    }
+}

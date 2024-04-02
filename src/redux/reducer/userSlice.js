@@ -31,6 +31,7 @@ export const userSlice = createSlice({
                 email: "",
                 phone: "",
                 username: "",
+                position: "",
                 avatar: "",
                 role: "",
             };

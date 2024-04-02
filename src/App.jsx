@@ -1,12 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Outlet, createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import Header from './components/Layouts/DefaultLayout/Header/Header';
 import Footer from './components/Layouts/DefaultLayout/Footer/Footer';
 import HeaderOnly from './components/Layouts/OnlyLayout/HeaderOnly/HeaderOnly';
 import LayoutAdmin from './components/Layouts/LayoutAdmin/LayoutAdmin';
+import LayoutRepairer from './components/Layouts/LayoutRepairer/LayoutRepairer';
+import LayoutUser from './components/Layouts/LayoutUser/LayoutUser';
 // import { Toaster } from 'react-hot-toast';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+import ProtectedRoute from './components/ProtectedRoute/ProtectRoute';
 
 import HomePage from './resources/Both/Home/Home';
 import Service from './resources/Both/Service/Service';
@@ -34,6 +38,13 @@ import EditProduct from './resources/Admin/EditProduct/EditProduct';
 import Specialization from './resources/Admin/Specialization/Specialization';
 import Staff from './resources/Admin/Staff/Staff';
 
+import ProfileUser from './resources/User/ProfileUser/ProfileUser';
+
+import RepairerHomePage from './resources/Repairer/RepairerHomePage/RepairerHomePage';
+import ListWork from './resources/Repairer/ListWork/ListWork';
+import CalanderRepairer from './resources/Repairer/Calender/Calender';
+import CreateCalenderRepair from './resources/Repairer/CreateCalender/CreateCalender';
+import ProfileRepairer from './resources/Repairer/ProfileRepairer/ProfileRepairer';
 
 import Loading from './components/Loading/Loading';
 import OnTopButton from './components/OnTopButton/OnTopButton';
@@ -41,6 +52,7 @@ import OnTopButton from './components/OnTopButton/OnTopButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { doLoginAction } from './redux/reducer/userSlice';
 import AuthService from './service/AuthService';
+import NotFound from './components/NotFound/NotFound';
 
 
 const Layout = () => {
@@ -74,18 +86,21 @@ const LayoutOnly = () => {
 
 function App() {
 
+  const isLoading = useSelector((state) => state.user.isLoading);
 
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   const getAccount = async () => {
-    if (
-      window.location.pathname === "/login" ||
-      window.location.pathname === "/register"
-    ) {
-      return;
-    }
+    // if (
+    //   window.location.pathname === "/login" ||
+    //   window.location.pathname === "/register"
+    // ) {
+    //   return;
+    // }
+    console.log("get Account")
 
     const res = await AuthService.fetchProfile();
+    console.log("fetchProfile", res);
     if (res.status === 200 && res.data.id) {
       dispatch(doLoginAction(res.data));
       // console.log("Du lieu luu vao redux", res)
@@ -96,7 +111,8 @@ function App() {
     getAccount();
   }, []);
 
-  const [isLoading, setIsLoading] = useState(true);
+
+  // const [isLoading, setIsLoading] = useState(true);
 
   const router = createBrowserRouter([
 
@@ -133,12 +149,17 @@ function App() {
     {
       path: "/admin",
       // element: checkAdminAccess() ? <LayoutAdmin /> : <Navigate to="/403" />,
-      element: <LayoutAdmin />,
+      element: (
+        <ProtectedRoute>
+          <LayoutAdmin />
+        </ProtectedRoute>
+      ),
+      // element: <LayoutAdmin />,
 
       children: [
         {
           index: true,
-          element: <AdminHomePage />,
+          element: <AdminHomePage />
         },
         {
           path: "product",
@@ -193,7 +214,6 @@ function App() {
           element: <Specialization />
 
         },
-        ,
         {
           path: "staff",
           element: <Staff />
@@ -204,6 +224,54 @@ function App() {
           path: "editproduct/:id",
           element: <EditProduct />
 
+        },
+      ]
+    },
+    {
+      path: "/user",
+      // element: checkAdminAccess() ? <LayoutAdmin /> : <Navigate to="/403" />,
+      element: (
+        <LayoutUser />
+      ),
+      // element: <LayoutAdmin />,
+
+      children: [
+        {
+          index: true,
+          element: <ProfileUser />
+        },
+        // {
+        //   path: "product",
+        //   element: <Products />,
+
+
+        // },
+
+      ]
+    },
+    {
+      path: "/repairer",
+      element: <LayoutRepairer />,
+      children: [
+        {
+          index: true,
+          element: <RepairerHomePage />
+        },
+        {
+          path: "work",
+          element: <ListWork />
+        },
+        {
+          path: "calendar",
+          element: <CalanderRepairer />
+        },
+        {
+          path: "calendar/create",
+          element: <CreateCalenderRepair />
+        },
+        {
+          path: "profile",
+          element: <ProfileRepairer />
         },
       ]
     },
@@ -235,13 +303,13 @@ function App() {
     }
   ])
 
-  useEffect(() => {
-    const loadingTimeout = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+  // useEffect(() => {
+  //   const loadingTimeout = setTimeout(() => {
+  //     setIsLoading(false);
+  //   }, 1000);
 
-    return () => clearTimeout(loadingTimeout);
-  }, []);
+  //   return () => clearTimeout(loadingTimeout);
+  // }, []);
 
   // return (
   //   <>
@@ -255,7 +323,22 @@ function App() {
 
   return (
     <>
-      <RouterProvider router={router} />
+
+      {isLoading === false ||
+        window.location.pathname === "/login" ||
+        window.location.pathname === "/register" ||
+        // window.location.pathname.startsWith("/") ||
+        window.location.pathname === "/" ||
+        window.location.pathname === "/service" ||
+        window.location.pathname === "/about" ||
+        window.location.pathname === "/contact"
+        ? (
+          <RouterProvider router={router} />
+        ) : (
+
+          <Loading />
+        )}
+      {/* <RouterProvider router={router} /> */}
       <ToastContainer
         position="top-right"
         autoClose={2000}

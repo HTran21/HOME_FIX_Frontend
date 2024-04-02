@@ -1,0 +1,88 @@
+.titlePage {
+
+    .searchGroup {
+        padding: 10px;
+        display: flex;
+
+        .searchBorder {
+            border: 1px solid rgba(145, 151, 145, 0.671);
+            margin: auto;
+            border-radius: 10px;
+            padding: 5px;
+            box-shadow: 0cap 5px 5px rgb(153, 153, 160);
+
+            .inputSearch {
+                padding: 7px;
+                border: none;
+                outline: none;
+                width: 200px;
+                background-color: transparent;
+            }
+
+            label {
+                padding: 7px;
+            }
+
+        }
+
+
+    }
+}
+
+.cardWork {
+    padding: 5px 10px;
+    background-color: #1149b8c6;
+    border-radius: 10px;
+    box-shadow: 5px 10px 10px #bfacac8a;
+    color: #fff;
+    margin: 5px 0px;
+
+    .titleWorkContent {
+        font-family: 'Reem Kufi', sans-serif;
+        // color: #000;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .contentWork {
+        font-size: 14px;
+        // color: #000;
+        font-weight: 500;
+    }
+
+    .iconMore {
+        font-size: 20px;
+        display: flex;
+        margin: auto;
+    }
+
+}
+
+.cardWorked {
+    padding: 5px 10px;
+    background-color: #adaeb067;
+    border-radius: 10px;
+    box-shadow: 5px 10px 10px #bfacacc0;
+    color: #000;
+    margin: 5px 0px;
+
+    .titleWorkContent {
+        font-family: 'Reem Kufi', sans-serif;
+        // color: #000;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .contentWork {
+        font-size: 14px;
+        // color: #000;
+        font-weight: 500;
+    }
+
+    .iconMore {
+        font-size: 20px;
+        display: flex;
+        margin: auto;
+    }
+
+}

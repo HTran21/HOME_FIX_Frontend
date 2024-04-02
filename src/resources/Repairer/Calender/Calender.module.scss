@@ -1,0 +1,76 @@
+ .btnAdd {
+     background-image: linear-gradient(to right, #77A1D3 0%, #79CBCA 51%, #77A1D3 100%);
+     //  margin: 10px;
+     padding: 10px 30px;
+     text-align: center;
+     text-transform: uppercase;
+     transition: 0.5s;
+     background-size: 200% auto;
+     color: white;
+     box-shadow: 0 0 20px #eee;
+     border-radius: 10px;
+     display: block;
+     font-weight: 500;
+     margin-left: auto;
+ }
+
+ .btnAdd:active {
+     background-position: right center;
+     /* change the direction of the change here */
+     color: #fff;
+ }
+
+ .titlePage {
+     display: flex;
+
+ }
+
+ .cardWork {
+     padding: 5px 10px;
+     background-color: #1149b8c6;
+     border-radius: 10px;
+     box-shadow: 5px 10px 10px #bfacac8a;
+     color: #fff;
+     margin: 5px 0px;
+
+     .titleWorkContent {
+         font-family: 'Reem Kufi', sans-serif;
+         // color: #000;
+         font-size: 16px;
+         font-weight: bold;
+     }
+
+     .contentWork {
+         font-size: 14px;
+         // color: #000;
+         font-weight: 500;
+     }
+
+     .iconMore {
+         font-size: 20px;
+         display: flex;
+         margin: auto;
+     }
+
+ }
+
+ .active {
+     background-color: rgb(20, 20, 193);
+ }
+
+ .calenderSelect {
+     border: 1px solid rgb(128, 121, 121);
+     box-shadow: 0px 5px 5px rgba(157, 155, 155, 0.651);
+     background-color: #9CAFAA;
+     border: none;
+     color: #fff;
+     width: 200px;
+     padding: 10px;
+     margin: 10px auto;
+     display: flex;
+ }
+
+ .calenderSelect:hover {
+     background-color: #9CAFAA;
+
+ }
