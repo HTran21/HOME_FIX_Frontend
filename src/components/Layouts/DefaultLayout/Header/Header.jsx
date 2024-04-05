@@ -37,7 +37,7 @@ function Header() {
 
     const items = [
         {
-            label: <a href="#" className={`${cx("dropdownItem")} text-decoration-none`}>Thông tin cá nhân</a>,
+            label: <Link to={"/user"} className={`${cx("dropdownItem")} text-decoration-none`}>Thông tin cá nhân</Link>,
             key: '0',
         },
         {

@@ -5,7 +5,7 @@ import styles from "./LayoutUser.module.scss";
 import { DownOutlined } from '@ant-design/icons';
 import { Dropdown, Space, Button } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faClipboardList } from "@fortawesome/free-solid-svg-icons";
 import AuthenService from "../../../service/AuthService";
 import { doLogoutAction } from "../../../redux/reducer/userSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,37 +29,45 @@ function getItem(label, key, icon, children) {
     };
 }
 const itemsSlider = [
-    getItem(<p style={{
-        fontWeight: "bold", fontFamily: "'Reem Kufi', sans-serif",
-        display: "inline-block",
-        transform: "translate(0, 7px)",
-        fontSize: "20px",
-        color: "#fff",
-        marginBottom: "10px",
-    }}>HOME FIX</p>, '0', <img className='m-0' style={{
-        width: "25px",
-        display: "inline-block"
-    }} src="../image/logo/logo8.png" alt="" />),
-    getItem(<Link to="/user" className='text-decoration-none'>Thông tin</Link>, '1', <UserOutlined />),
-    getItem('Sản Phẩm', 'sub1', <CodeSandboxOutlined />, [
-        getItem(<Link to="/" className='text-decoration-none'>Danh Sách</Link>, '2'),
-        getItem(<Link to="/" className='text-decoration-none'>Thêm sản phẩm</Link>, '3'),
-        getItem(<Link to="/" className='text-decoration-none'>Thể loại</Link>, '4'),
-    ]),
-    getItem('Dịch Vụ', 'sub2', <ToolOutlined />, [
-        getItem(<Link to="/" className='text-decoration-none'>Danh sách</Link>, '5'),
-        getItem(<Link to="/" className='text-decoration-none'>Thêm dịch vụ</Link>, '6'),
-        getItem(<Link to="/" className='text-decoration-none'>Thao tác</Link>, '7'),
-        getItem(<Link to="/" className='text-decoration-none'>Tạo thao tác</Link>, '8'),
-    ]),
-    getItem('Nhân viên', 'sub3', <img src="../public/icon/group.png" className={cx("iconSidebar")} alt="" />, [
-        getItem(<Link to="" className='text-decoration-none'>Danh sách</Link>, '9'),
-        getItem(<Link to="" className='text-decoration-none'>Thêm dịch vụ</Link>, '10'),
-        getItem(<Link to="" className='text-decoration-none'>Chuyên môn</Link>, '11'),
-        getItem(<Link to="" className='text-decoration-none'>Tạo thao tác</Link>, '12'),
-    ]),
+    getItem(
+        <Link to={"/"}>
+            <p style={{
+                fontWeight: "bold", fontFamily: "'Reem Kufi', sans-serif",
+                display: "inline-block",
+                transform: "translate(0, 7px)",
+                fontSize: "20px",
+                color: "#fff",
+                marginBottom: "10px",
+            }}>
+                HOME FIX</p></Link>
+        , '0',
+        <img className='m-0' style={{
+            width: "25px",
+            display: "inline-block"
+        }} src="../image/logo/logo8.png" alt="" />
+    ),
 
-    getItem(<Link to="" className='text-decoration-none'>Nhãn hàng</Link>, '13', <ShopOutlined />),
+    getItem(<Link to="/user" className='text-decoration-none'>Thông tin</Link>, '1', <UserOutlined />),
+    getItem(<Link to="/user/order" className='text-decoration-none'>Đơn hàng</Link>, '2', <FontAwesomeIcon icon={faClipboardList} />),
+    // getItem('Sản Phẩm', 'sub1', <CodeSandboxOutlined />, [
+    //     getItem(<Link to="/" className='text-decoration-none'>Danh Sách</Link>, '2'),
+    //     getItem(<Link to="/" className='text-decoration-none'>Thêm sản phẩm</Link>, '3'),
+    //     getItem(<Link to="/" className='text-decoration-none'>Thể loại</Link>, '4'),
+    // ]),
+    // getItem('Dịch Vụ', 'sub2', <ToolOutlined />, [
+    //     getItem(<Link to="/" className='text-decoration-none'>Danh sách</Link>, '5'),
+    //     getItem(<Link to="/" className='text-decoration-none'>Thêm dịch vụ</Link>, '6'),
+    //     getItem(<Link to="/" className='text-decoration-none'>Thao tác</Link>, '7'),
+    //     getItem(<Link to="/" className='text-decoration-none'>Tạo thao tác</Link>, '8'),
+    // ]),
+    // getItem('Nhân viên', 'sub3', <img src="../public/icon/group.png" className={cx("iconSidebar")} alt="" />, [
+    //     getItem(<Link to="" className='text-decoration-none'>Danh sách</Link>, '9'),
+    //     getItem(<Link to="" className='text-decoration-none'>Thêm dịch vụ</Link>, '10'),
+    //     getItem(<Link to="" className='text-decoration-none'>Chuyên môn</Link>, '11'),
+    //     getItem(<Link to="" className='text-decoration-none'>Tạo thao tác</Link>, '12'),
+    // ]),
+
+    // getItem(<Link to="" className='text-decoration-none'>Nhãn hàng</Link>, '13', <ShopOutlined />),
 ];
 
 

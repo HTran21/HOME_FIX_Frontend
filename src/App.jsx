@@ -39,6 +39,9 @@ import Specialization from './resources/Admin/Specialization/Specialization';
 import Staff from './resources/Admin/Staff/Staff';
 
 import ProfileUser from './resources/User/ProfileUser/ProfileUser';
+import EditProfile from './resources/User/EditProfile/EditProfile';
+import FormRepairEdit from './resources/User/FormRepairEdit/FormRepairEdit';
+import ListOrder from './resources/User/ListOrder/ListOrder';
 
 import RepairerHomePage from './resources/Repairer/RepairerHomePage/RepairerHomePage';
 import ListWork from './resources/Repairer/ListWork/ListWork';
@@ -97,10 +100,10 @@ function App() {
     // ) {
     //   return;
     // }
-    console.log("get Account")
+    // console.log("get Account")
 
     const res = await AuthService.fetchProfile();
-    console.log("fetchProfile", res);
+    // console.log("fetchProfile", res);
     if (res.status === 200 && res.data.id) {
       dispatch(doLoginAction(res.data));
       // console.log("Du lieu luu vao redux", res)
@@ -240,12 +243,15 @@ function App() {
           index: true,
           element: <ProfileUser />
         },
-        // {
-        //   path: "product",
-        //   element: <Products />,
+        {
+          path: "edit",
+          element: <EditProfile />,
+        },
+        {
+          path: "order",
+          element: <ListOrder />,
+        },
 
-
-        // },
 
       ]
     },
@@ -292,6 +298,10 @@ function App() {
     {
       path: "repair",
       element: <FormRepair />
+    },
+    {
+      path: "repair/edit/:id",
+      element: <FormRepairEdit />,
     },
     {
       path: "403",

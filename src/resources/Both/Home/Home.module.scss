@@ -40,12 +40,12 @@
 }
 
 .imgHomePage {
-    display: flex;
-    margin: auto auto auto auto;
+    display: block;
+    margin: auto;
+    transform: translateY(75px);
     width: 100%;
     max-width: 320px;
     height: 400px;
-    margin-top: 20px;
 }
 
 .logoBrand {

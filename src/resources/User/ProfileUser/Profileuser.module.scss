@@ -19,3 +19,81 @@
         margin: 20px auto 10px auto;
     }
 }
+
+.oder {
+    margin: 0px;
+
+    .inforUser {
+        .fullName {
+            font-weight: bold;
+        }
+
+        p {
+            // font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 15px;
+
+            span {
+                font-weight: bold;
+            }
+        }
+    }
+
+    .inforRepair {
+        p {
+            // font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 15px;
+
+            span {
+                font-weight: bold;
+            }
+        }
+    }
+
+    .statusOrder {
+        display: flex;
+        font-size: 15px;
+
+        span {
+            font-weight: bold;
+            margin: auto 0px;
+        }
+
+        .status {
+            padding: 5px;
+            margin-left: 10px;
+            border-radius: 5px;
+            border: 1px solid rgba(0, 0, 255, 0);
+        }
+    }
+}
+
+.inputForm {
+    border: 1px solid rgba(145, 139, 139, 0.566);
+}
+
+.titleForm {
+    display: flex;
+    align-items: center;
+
+    .titleRepair {
+        font-family: 'Reem Kufi', sans-serif;
+        font-weight: bold;
+        font-size: 20px;
+
+    }
+
+    .imgLogo {
+        width: 30px;
+        display: inline-block;
+    }
+
+    .textLogo {
+        font-weight: bold;
+        font-family: 'Reem Kufi', sans-serif;
+        display: inline-block;
+        font-size: 20px;
+        margin-left: 5px;
+    }
+}

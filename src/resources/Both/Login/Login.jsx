@@ -18,6 +18,7 @@ function Login() {
 
     const [password, setPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false);
+    const [errors, setErrors] = useState({});
 
     const [email, setEmail] = useState('');
 
@@ -26,37 +27,51 @@ function Login() {
     }
 
     const login = () => {
-        axios.post('http://localhost:3000/login', { email, password })
-            .then(res => {
-                if (res.data.error) {
-                    toast.error(res.data.error.message)
-                }
-                else {
-                    toast.success("Đăng nhập thành công")
-                    // console.log("Role", res.data.data.role)
-                    if (res.data.data.role === 'AD') {
-                        dispatch(doLoginAction(res.data.data.infoStaff))
-                        console.log("Dang nhap voi tu cach admin")
-                        navigate("/admin");
-
-                    }
-                    else if (res.data.data.role === 'RP') {
-                        dispatch(doLoginAction(res.data.data.infoRepairer))
-                        console.log("Dang nhap voi tu cach admin")
-                        navigate("/repairer");
-
+        const newErrors = {};
+        if (email.trim() === '') {
+            newErrors.email = 'Vui lòng nhập email';
+        } else if (!/\S+@\S+\.\S+/.test(email)) {
+            newErrors.email = 'Email không hợp lệ';
+        }
+        if (password.trim() === '') {
+            newErrors.password = 'Vui lòng nhập mật khẩu'
+        }
+        if (Object.keys(newErrors).length === 0) {
+            axios.post('http://localhost:3000/login', { email, password })
+                .then(res => {
+                    if (res.data.error) {
+                        toast.error(res.data.error.message)
                     }
                     else {
+                        toast.success("Đăng nhập thành công")
+                        // console.log("Role", res.data.data.role)
+                        if (res.data.data.role === 'AD') {
+                            dispatch(doLoginAction(res.data.data.infoStaff))
+                            console.log("Dang nhap voi tu cach admin")
+                            navigate("/admin");
 
-                        dispatch(doLoginAction(res.data.data.infoUser))
-                        console.log("Dang nhap voi tu cach KH")
+                        }
+                        else if (res.data.data.role === 'RP') {
+                            dispatch(doLoginAction(res.data.data.infoRepairer))
+                            console.log("Dang nhap voi tu cach admin")
+                            navigate("/repairer");
 
-                        navigate("/");
+                        }
+                        else {
+
+                            dispatch(doLoginAction(res.data.data.infoUser))
+                            console.log("Dang nhap voi tu cach KH")
+
+                            navigate("/");
 
 
+                        }
                     }
-                }
-            })
+                })
+        } else {
+            setErrors(newErrors);
+        }
+
     }
 
     return (
@@ -85,20 +100,30 @@ function Login() {
                                                 >
                                                     Sign into your account
                                                 </h5>
-                                                <div className={cx("groupForm")}>
-                                                    <label htmlFor="email" className={cx("iconInputForm")}>
-                                                        <FontAwesomeIcon icon={faEnvelope} />
-                                                    </label>
-                                                    <input type="text" className={cx("inputForm")} name="email" id="email" value={email} onChange={e => setEmail(e.target.value)} autoComplete="off" placeholder="Email" />
+                                                <div className={`${errors && errors.email ? '' : 'mb-4'}`}>
+                                                    <div className={`${cx("groupForm")} ${errors && errors.email ? 'border-danger' : ''}`}>
+                                                        <label htmlFor="email" className={cx("iconInputForm")}>
+                                                            <FontAwesomeIcon icon={faEnvelope} />
+                                                        </label>
+                                                        <input type="text" className={cx("inputForm")} name="email" id="email" value={email} onChange={e => setEmail(e.target.value)} autoComplete="off" placeholder="Email" />
+
+                                                    </div>
+                                                    {errors && <p className={cx("error")}>{errors.email}</p>}
                                                 </div>
-                                                <div className={cx("groupForm2")}>
-                                                    <label htmlFor="password" className={cx("iconInputForm2")}>
-                                                        <FontAwesomeIcon icon={faLock} />
-                                                    </label>
-                                                    <input type={showPassword ? 'text' : 'password'} className={cx("inputForm2")} value={password}
-                                                        name="password" id="password" onChange={(e) => setPassword(e.target.value)} placeholder="Mật khẩu" />
-                                                    <div className={cx("iconEye")} onClick={onChangeIcon}> {showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />} </div>
+                                                <div>
+
+                                                    <div className={`${cx("groupForm2")} ${errors && errors.password ? 'border-danger' : ''}`}>
+                                                        <label htmlFor="password" className={cx("iconInputForm2")}>
+                                                            <FontAwesomeIcon icon={faLock} />
+                                                        </label>
+                                                        <input type={showPassword ? 'text' : 'password'} className={cx("inputForm2")} value={password}
+                                                            name="password" id="password" onChange={(e) => setPassword(e.target.value)} placeholder="Mật khẩu" />
+                                                        <div className={cx("iconEye")} onClick={onChangeIcon}> {showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />} </div>
+
+                                                    </div>
+                                                    {errors && <p className={cx("error")}>{errors.password}</p>}
                                                 </div>
+
                                                 <div className="pt-1 mb-4">
                                                     <button onClick={login}
                                                         className={cx("btnLogin")}

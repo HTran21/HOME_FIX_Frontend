@@ -1,18 +1,19 @@
-import styles from "./FormRepair.module.scss";
+import styles from "./FormRepairEdit.module.scss";
 import classNames from 'classnames/bind';
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from '../../../service/customize_axios';
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import moment from "moment";
-
+import moment from 'moment';
 const cx = classNames.bind(styles);
 
-function FormRepair() {
-
+function FormRepairEdit() {
+    // const history = useHistory();
+    const navigate = useNavigate();
     const idUser = useSelector((state) => state.user.user.id);
-
+    const { id } = useParams();
+    const ID_Service = new URLSearchParams(window.location.search).get('ID_Service');
     const [listCategories, setListCategories] = useState();
     const [listBrands, setListBrands] = useState();
     const [listProduct, setListProduct] = useState();
@@ -21,14 +22,44 @@ function FormRepair() {
     const [idBrand, setidBrand] = useState();
     const [errors, setErrors] = useState();
 
-    const [idService, setIdService] = useState();
+    const [idService, setIdService] = useState(ID_Service);
     const [idProduct, setIdProduct] = useState();
-    const [fullName, setFullName] = useState('');
+    const [fullName, setFullName] = useState();
     const [address, setAddress] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [desRepair, setDesRepair] = useState('');
     const [dateRepair, setDateRepair] = useState('');
+    const [data, setData] = useState();
+
+    const getDetailOrder = async () => {
+        if (id) {
+            const detailOrder = await axios.get("http://localhost:3000/order/detail/" + id);
+            // console.log("Detail", detailOrder.data.data.data)
+            // setData(detailOrder.data.data.detailOrder);
+            setFullName(detailOrder.data.data.data.fullName)
+            setAddress(detailOrder.data.data.data.address)
+            setPhone(detailOrder.data.data.data.phone)
+            setEmail(detailOrder.data.data.data.email)
+            setidCategori(detailOrder.data.data.data.ID_Categori)
+            setDesRepair(detailOrder.data.data.data.desProblem)
+            setDateRepair(moment(detailOrder.data.data.data.desireDate).format('YYYY-MM-DD'))
+            if (detailOrder.data.data.data.ID_Product != undefined) {
+                setIdProduct(detailOrder.data.data.data.ID_Product)
+
+            }
+            if (detailOrder.data.data.data.Product && detailOrder.data.data.data.Product.ID_Brand != undefined) {
+                setidBrand(detailOrder.data.data.data.Product.ID_Brand)
+
+            }
+
+
+        }
+
+
+    }
+
+
 
     const fetchService = () => {
         axios.get("http://localhost:3000/service/getService")
@@ -37,15 +68,6 @@ function FormRepair() {
                 setListService(res.data.listService)
             })
     }
-
-    // const fetchCategories = () => {
-    //     axios.get("http://localhost:3000/product/categories/" + idService)
-    //         .then(res => {
-    //             setListCategories(res.data)
-    //             console.log("Categories", res.data)
-    //         })
-    //         .catch((error) => console.log(error));
-    // }
     const fetchBrands = () => {
         axios.get("http://localhost:3000/product/brand")
             .then(res => {
@@ -55,6 +77,10 @@ function FormRepair() {
             .catch(err => console.log(err));
 
     }
+
+    useEffect(() => {
+        filterProduct(idCategori, idBrand);
+    }, [idCategori, idBrand]);
 
     const filterProduct = (categori, brand) => {
 
@@ -83,29 +109,25 @@ function FormRepair() {
     }, [idService])
 
     useEffect(() => {
-        // fetchCategories();
+        getDetailOrder();
         fetchBrands();
         fetchService();
 
-
     }, [])
-
     const handleServiceChange = (e) => {
         const newService = e.target.value;
-        setIdService(newService); // Cập nhật state dịch vụ
-
-        // Nếu người dùng chọn lại dịch vụ sửa chữa thiết bị gia dụng, đặt các trường về rỗng
-        if (newService !== "1") {
-            setDesRepair(""); // Đặt mô tả lỗi về rỗng
-            setidCategori(""); // Đặt loại thiết bị về rỗng
-            setIdProduct(""); // Đặt thiết bị về rỗng
+        setIdService(newService);
+        if (newService !== ID_Service) {
+            setDesRepair("");
+            setidCategori("");
+            setIdProduct("");
+            setidBrand("");
         }
     };
 
     const uploadRepair = () => {
         const newErrors = {};
         const futureDate = moment().add(1, 'days');
-
         if (fullName.trim() === '') {
             newErrors.fullName = 'Vui lòng nhập họ tên'
         }
@@ -133,19 +155,16 @@ function FormRepair() {
         }
         if (Object.keys(newErrors).length === 0) {
             setErrors();
-            axios.post("http://localhost:3000/order", { idUser, fullName, address, phone, email, idCategori, idProduct, desRepair, dateRepair })
+            axios.put("http://localhost:3000/order/update/" + id, { idUser, fullName, address, phone, email, idCategori, idProduct, desRepair, dateRepair })
                 .then(res => {
-                    if (res.data.success === false) {
-                        toast.error(res.data.message)
+                    console.log(res.data)
+                    if (res.data.data.success === false) {
+                        toast.error(res.data.data.message)
                     }
                     else {
-                        toast.success(res.data.message)
-                        setFullName('');
-                        setAddress('');
-                        setPhone('');
-                        setEmail('');
-                        setIdService('');
-                        setDateRepair('');
+                        toast.success(res.data.data.message)
+
+
                     }
                 })
         }
@@ -167,8 +186,8 @@ function FormRepair() {
                             >
                                 <div className="card-body p-3 p-md-4">
                                     <div className={cx("titleForm")}>
-                                        <h3 className={cx("titleRepair")}>ĐĂNG KÝ SỬA CHỮA</h3>
-                                        <span className="h1 ms-auto "><img className={cx("imgLogo")} src="../image/logo/logo8.png" alt="" />
+                                        <h3 className={cx("titleRepair")}>CẬP NHẬT SỬA CHỮA</h3>
+                                        <span className="h1 ms-auto "><img className={cx("imgLogo")} src="../../image/logo/logo8.png" alt="" />
                                             <p className={cx("textLogo")}>HOME FIX</p></span>
                                     </div>
                                     <div className="row">
@@ -176,17 +195,18 @@ function FormRepair() {
                                         <div className="col-md-6 mb-3">
                                             <div className="form-floating">
                                                 <input type="text" className={`form-control ${cx("inputForm")} ${errors && errors.fullName ? 'is-invalid' : ''}`} placeholder="name@example.com"
-                                                    value={fullName} onChange={(e) => setFullName(e.target.value)} />
+                                                    value={fullName || ''} onChange={(e) => setFullName(e.target.value)} />
                                                 <label htmlFor="floatingInput">Họ và tên</label>
                                                 {errors && <p className={cx("errors")}>{errors.fullName}</p>}
 
 
                                             </div>
                                         </div>
+
                                         <div className="col-md-6 mb-3">
                                             <div className="form-floating">
                                                 <input type="text" className={`form-control ${cx("inputForm")} ${errors && errors.address ? 'is-invalid' : ''}`} placeholder="name@example.com"
-                                                    value={address} onChange={(e) => setAddress(e.target.value)} />
+                                                    value={address || ''} onChange={(e) => setAddress(e.target.value)} />
                                                 <label htmlFor="floatingInput">Địa chỉ</label>
                                                 {errors && <p className={cx("errors")}>{errors.address}</p>}
                                             </div>
@@ -194,7 +214,7 @@ function FormRepair() {
                                         <div className="col-md-6 mb-3">
                                             <div className="form-floating">
                                                 <input type="text" className={`form-control ${cx("inputForm")} ${errors && errors.phone ? 'is-invalid' : ''} `} placeholder="name@example.com"
-                                                    value={phone} onChange={(e) => setPhone(e.target.value)} />
+                                                    value={phone || ''} onChange={(e) => setPhone(e.target.value)} />
                                                 <label htmlFor="floatingInput">Số điện thoại</label>
                                                 {errors && <p className={cx("errors")}>{errors.phone}</p>}
                                             </div>
@@ -202,7 +222,7 @@ function FormRepair() {
                                         <div className="col-md-6 mb-3">
                                             <div className="form-floating">
                                                 <input type="text" className={`form-control ${cx("inputForm")} ${errors && errors.email ? 'is-invalid' : ''}`} placeholder="name@example.com"
-                                                    value={email} onChange={(e) => setEmail(e.target.value)} />
+                                                    value={email || ''} onChange={(e) => setEmail(e.target.value)} />
                                                 <label htmlFor="floatingInput">Email</label>
                                                 {errors && <p className={cx("errors")}>{errors.email}</p>}
                                             </div>
@@ -233,7 +253,6 @@ function FormRepair() {
 
                                     <div className="row">
                                         <h6 className="mb-2">Thông tin thiết bị</h6>
-
                                         {idService === "1" ? (
                                             <div className="row">
                                                 <div className="col-md-6 mb-4">
@@ -368,39 +387,7 @@ function FormRepair() {
                                                 {errors && <p className={cx("errors")}>{errors.dateRepair}</p>}
                                             </div>
                                         </div>
-                                        {/* <div className="col-md-6 mb-4 pb-2">
-                                                <div className="form-outline">
-                                                    <p className="mb-2 pb-1">Thời gian sửa chữa </p>
-                                                    <div className="form-check form-check-inline">
-                                                        <input
-                                                            className="form-check-input"
-                                                            type="radio"
-                                                            name="inlineRadioOptions"
-                                                            id="femaleGender"
-                                                            defaultValue="option1"
-                                                            defaultChecked=""
-                                                        />
-                                                        <label className="form-check-label" htmlFor="femaleGender">
-                                                            Sáng
-                                                        </label>
-                                                    </div>
-                                                    <div className="form-check form-check-inline">
-                                                        <input
-                                                            className="form-check-input"
-                                                            type="radio"
-                                                            name="inlineRadioOptions"
-                                                            id="femaleGender"
-                                                            defaultValue="option1"
-                                                            defaultChecked=""
-                                                        />
-                                                        <label className="form-check-label" htmlFor="femaleGender">
-                                                            Chiều
-                                                        </label>
-                                                    </div>
 
-
-                                                </div>
-                                            </div> */}
                                     </div>
                                     <div className="d-inline">
                                         <button
@@ -408,9 +395,12 @@ function FormRepair() {
                                             onClick={() => uploadRepair()}
                                         >
 
-                                            ĐĂNG KÝ</button>
-                                        <button className={`d-inline ${cx("btnCancel")}`}>
+                                            CẬP NHẬT</button>
+                                        {/* <button className={`d-inline ${cx("btnCancel")}`}>
                                             <Link className="text-decoration-none text-light" to="http://localhost:5173/">HỦY</Link>
+                                        </button> */}
+                                        <button className={`d-inline ${cx("btnCancel")}`}>
+                                            <Link className="text-decoration-none text-light" onClick={() => navigate(-1)}>QUAY VỀ</Link>
                                         </button>
                                     </div>
                                 </div>
@@ -424,4 +414,4 @@ function FormRepair() {
     );
 }
 
-export default FormRepair;
+export default FormRepairEdit;

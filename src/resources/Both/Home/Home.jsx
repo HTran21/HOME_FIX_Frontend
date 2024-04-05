@@ -73,7 +73,8 @@ function HomePage() {
                             <button className={cx("btnGet")}><Link className="text-decoration-none text-light" to={isAuthenticated ? '/repair' : '/login'}>Đăng ký sửa chữa ngay</Link></button>
                         </div>
                         <div className="col-md-6 col-lg-6 d-none d-lg-block">
-                            <img className={cx("imgHomePage")} src="../illustration/repairman.png" alt="" />
+                            <img className={cx("imgHomePage")} src="../illustration/repairmanNew.png" alt="" />
+
                         </div>
                     </div>
                 </div>

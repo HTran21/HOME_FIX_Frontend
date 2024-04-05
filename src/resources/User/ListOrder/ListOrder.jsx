@@ -1,40 +1,95 @@
 import axios from "../../../service/customize_axios";
 import { useEffect, useState } from "react";
 import className from "classnames/bind";
-import styles from "./ProfileUser.module.scss";
+import styles from "./ListOrder.module.scss";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faTwitter } from "@fortawesome/free-brands-svg-icons";
-import { Tabs, Space, Table, Tag, Drawer } from 'antd';
-import { faChevronRight, faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { Tabs, Space, Table, Tag, Drawer, Modal } from 'antd';
+import { faChevronRight, faCircleCheck, faCircleUser, faClockRotateLeft, faDesktop, faPenToSquare, faScrewdriverWrench, faTrash, faTrashCan, faWallet } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import moment from 'moment';
+import { toast } from "react-toastify";
 const cx = className.bind(styles);
 
-function ProfileUser() {
-    const idUser = useSelector((state) => state.user.user.id);
+function ListOrder() {
 
+    const idUser = useSelector((state) => state.user.user.id);
     const [data, setData] = useState();
     const [listOrder, setListOrder] = useState();
-
-    const fetchProfile = async () => {
-        let getUser = await axios.get("http://localhost:3000/getProfile");
-        setData(getUser.data);
-    }
-
     const fetchOrder = async () => {
         let getOrder = await axios.get("http://localhost:3000/order/user/" + idUser);
-        setListOrder(getOrder.data.data)
+        setListOrder(getOrder.data.data);
     }
 
     useEffect(() => {
-        fetchProfile();
         fetchOrder();
     }, [])
 
-    // const onChange = (key) => {
-    //     console.log(key);
-    // };
+    const overView = () => {
+        let awaitCount = 0;
+        let successCount = 0;
+        let cancelCount = 0;
+
+        listOrder?.forEach((order) => {
+            if (order.status === 'W') {
+                awaitCount++;
+            } else if (order.status === 'Y') {
+                successCount++;
+            } else {
+                cancelCount++;
+            }
+        });
+
+        return { awaitCount, successCount, cancelCount };
+    }
+
+    const awaitCount = overView();
+    const successCount = overView();
+    const cancleCount = overView();
+
+    const cardData = [
+        {
+            title: 'TỔNG ĐƠN',
+            number: `${listOrder?.length}`,
+            icon: faScrewdriverWrench,
+            color: 'blue',
+        },
+        {
+            title: 'HOÀN THÀNH',
+            number: `${successCount.successCount}`,
+            icon: faCircleCheck,
+            color: 'green',
+        },
+        {
+            title: 'ĐANG CHỜ',
+            number: `${awaitCount.awaitCount}`,
+            icon: faClockRotateLeft,
+            color: 'yellow',
+        },
+        {
+            title: 'ĐÃ HỦY',
+            number: `${cancleCount.cancelCount}`,
+            icon: faTrashCan,
+            color: 'red',
+        },
+    ];
+
+    function Card({ title, number, icon, color }) {
+        return (
+            <div className={cx("cardBody", color)}>
+                <div className={cx("iconCard")}>
+                    <FontAwesomeIcon icon={icon} />
+                </div>
+                <div className={cx("contentOverview")}>
+                    <p className={cx("numberCard")}>{number}</p>
+                    <p className={cx("titleCard")}>{title}</p>
+                </div>
+            </div>
+        );
+    }
+
+
 
     const columns = [
         {
@@ -43,6 +98,12 @@ function ProfileUser() {
             key: 'id',
             render: (text, record, index) => <a>{index + 1}</a>,
         },
+        {
+            title: 'Họ tên',
+            dataIndex: 'fullName',
+            key: 'fullName'
+        },
+
         {
             title: 'Dịch vụ',
             dataIndex: 'Categori',
@@ -68,9 +129,16 @@ function ProfileUser() {
             }
         },
         {
-            title: 'Ngày đăng ký',
+            title: 'Ngày mong muốn',
             dataIndex: 'desireDate',
             key: 'desireDate',
+            defaultSortOrder: 'descend',
+            sorter: (a, b) => {
+                const dateA = new Date(a.desireDate);
+                const dateB = new Date(b.desireDate);
+
+                return dateA - dateB;
+            },
             render: (_, { desireDate, index }) => {
                 return (
                     <div key={index + 1}>
@@ -83,6 +151,21 @@ function ProfileUser() {
             title: 'Trạng thái',
             key: 'status',
             dataIndex: 'status',
+            filters: [
+                {
+                    text: 'Đang chờ',
+                    value: 'W'
+                },
+                {
+                    text: 'Hoàn thành',
+                    value: 'Y'
+                },
+                {
+                    text: 'Đã hủy',
+                    value: 'D'
+                }
+            ],
+            onFilter: (value, record) => record.status.indexOf(value) === 0,
             render: (_, { status, index }) => {
                 let color = status === 'D' ? 'red' : (status === 'W' ? 'yellow' : 'green');
                 let text = status === 'D' ? 'Đã hủy' : (status === 'W' ? 'Đang chờ' : 'Đã duyệt');
@@ -101,33 +184,12 @@ function ProfileUser() {
             key: 'action',
             render: (_, record, index) => (
                 <Space size="middle" key={index + 1}>
-                    {/* <Link to={`/repair/edit/${record?.id}?ID_Service=${record.Categori.ID_Service}`}><FontAwesomeIcon icon={faPenToSquare} size="lg" style={{ color: "#024bca", }} /></Link> */}
-                    {/* <FontAwesomeIcon icon={faTrash} size="lg" style={{ color: "#cc0000", }} /> */}
+                    <Link to={`/repair/edit/${record?.id}?ID_Service=${record.Categori.ID_Service}`}><FontAwesomeIcon icon={faPenToSquare} size="lg" style={{ color: "#024bca", }} /></Link>
+                    <FontAwesomeIcon icon={faTrash} onClick={() => showModal(record)} size="lg" style={{ color: "#cc0000", }} />
                     <FontAwesomeIcon icon={faChevronRight} size="lg" style={{ color: "#005eff", marginLeft: "10px" }} onClick={() => showDrawer(record)} />
                 </Space>
             ),
         },
-    ];
-    const items = [
-        {
-            key: '1',
-            label: 'Đơn sửa chữa',
-            children: <Table columns={columns} dataSource={listOrder} pagination={{
-                defaultPageSize: 3,
-                showSizeChanger: true,
-                pageSizeOptions: ['3']
-            }}
-                onChange={handleTableChange} />,
-        },
-        {
-            key: '2',
-            label: 'Hóa đơn',
-            children:
-                <div className={cx("emptyData")}>
-                    <img src="../public/icon/file.png" alt="" />
-                    <h6>Dữ liệu rỗng</h6>
-                </div>,
-        }
     ];
 
     const [open, setOpen] = useState(false);
@@ -140,134 +202,71 @@ function ProfileUser() {
         setOpen(false);
     };
 
-    // const [pagination, setPagination] = useState({});
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [dataModal, setDataModal] = useState();
+    const showModal = (data) => {
+        setIsModalOpen(true);
+        setDataModal(data);
 
-    // function handleTableChange() {
-
-    //     requestToServer().then((data) => {
-    //         pagination.total = your_value;
-    //         setPagination(pagination);
-    //     })
-    // }
+    };
+    const handleOk = (id) => {
+        axios.delete("http://localhost:3000/order/delete/" + id)
+            .then(res => {
+                if (res.data.data.success === false) {
+                    toast.error(res.data.data.message)
+                } else {
+                    toast.success(res.data.data.message);
+                    fetchOrder();
+                    setIsModalOpen(false);
+                }
+            })
+    };
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
 
     const [pagination, setPagination] = useState({});
 
     function handleTableChange() {
         requestToServer().then((data) => {
-            const newPagination = { ...pagination };
-            newPagination.total = your_value;
-            setPagination(newPagination);
+            const newPagination = { ...pagination }; // Tạo một bản sao mới của pagination
+            newPagination.total = your_value; // Cập nhật giá trị total trong pagination mới
+            setPagination(newPagination); // Đặt lại state với pagination mới
         });
     }
 
 
     return (
-        <div className="containerPage">
-            <div className="contentPage">
-                <section style={{ backgroundColor: "#eee" }}>
-                    <div className="container mt-2">
-                        <div className="row">
-                            <div className="col-lg-4">
-                                <div className="card mb-4">
-                                    <div className="card-body text-center">
-                                        <img
-                                            src={`http://localhost:3000/${data?.avatar}`}
-                                            alt="avatar"
-                                            className="rounded-circle img-fluid"
-                                            style={{ width: 140, height: 140 }}
-                                        />
-                                        <h5 className="my-3 mb-1">{data?.username}</h5>
-                                        <h6 className="text-muted mb-1">{data?.role === "KH" ? ("Khách hàng") : ("")}</h6>
-                                        <div className="d-flex justify-content-center mb-2">
-                                            <Link to={"/user/edit"}>
-                                                <button type="button" className="btn btn-outline-dark mt-2">
-                                                    Chỉnh sửa
-                                                </button>
-                                            </Link>
+        <div className={cx("containerPage")}>
+            <div className="titlePage">
+                <h4>Danh sách đơn sửa chữa</h4>
+                <div className="overviewOrder">
+                    <div className="row">
+                        {cardData.map((card, index) => (
+                            <div className="col-sm-12 col-md-6 col-lg-3 mt-2" key={index}>
+                                <Card
+                                    icon={card.icon}
 
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="card mb-4 mb-lg-0">
-                                    <div className="card-body p-0">
-                                        <ul className="list-group list-group-flush rounded-3">
-                                            <li className="list-group-item d-flex justify-content-between align-items-center p-3">
-                                                <FontAwesomeIcon icon={faFacebook} size="lg" style={{ color: "#0085eb", }} />
-                                                <p className="mb-0">{data?.username}</p>
-                                            </li>
-                                            <li className="list-group-item d-flex justify-content-between align-items-center p-3">
-                                                <FontAwesomeIcon icon={faTwitter} size="lg" style={{ color: "#4194e1", }} />
-                                                <p className="mb-0">{data?.username}</p>
-                                            </li>
-                                            <li className="list-group-item d-flex justify-content-between align-items-center p-3">
-                                                <FontAwesomeIcon icon={faInstagram} size="lg" style={{ color: "#b69eff", }} />
-                                                <p className="mb-0">{data?.username}</p>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                    number={card.number}
+                                    title={card.title}
+
+                                    color={card.color}
+                                />
                             </div>
-                            <div className="col-lg-8">
-                                <div className="card mb-4">
-                                    <div className="card-body">
-                                        <div className="row">
-                                            <div className="col-sm-3">
-                                                <p className={cx("textProfile")}>Họ tên</p>
-                                            </div>
-                                            <div className="col-sm-9">
-                                                <p className={cx("textProfile")}>{data?.username}</p>
-                                            </div>
-                                        </div>
-                                        <hr />
-                                        <div className="row">
-                                            <div className="col-sm-3">
-                                                <p className={cx("textProfile")}>Email</p>
-                                            </div>
-                                            <div className="col-sm-9">
-                                                <p className={cx("textProfile")}>{data?.email}</p>
-                                            </div>
-                                        </div>
-                                        <hr />
-                                        <div className="row">
-                                            <div className="col-sm-3">
-                                                <p className={cx("textProfile")}>Số điện thoại</p>
-                                            </div>
-                                            <div className="col-sm-9">
-                                                <p className={cx("textProfile")}>{data?.phone}</p>
-                                            </div>
-                                        </div>
-                                        <hr />
-                                        <div className="row">
-                                            <div className="col-sm-3">
-                                                <p className={cx("textProfile")}>Địa chỉ</p>
-                                            </div>
-                                            <div className="col-sm-9">
-                                                <p className={cx("textProfile")}>{data?.address}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col">
-                                        <div className={cx("cardInfo")}>
-                                            <Tabs defaultActiveKey="1" items={items}
-                                            />
-                                            {/* <Table
-                                                dataSource={data} // Dữ liệu của bảng
-                                                columns={columns} // Các cột của bảng
-                                                pagination={pagination} // Props phân trang
-                                                onChange={handleTableChange} // Callback khi phân trang hoặc sắp xếp thay đổi
-                                            /> */}
 
-
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
+                        ))}
                     </div>
-                </section>
+                </div>
+            </div>
+            <div className="contentPage">
+                {/* <Table className="mt-4" columns={columns} dataSource={data} /> */}
+                <Table className="mt-4" columns={columns} dataSource={listOrder}
+                    pagination={{
+                        defaultPageSize: 5,
+                        showSizeChanger: true,
+                        pageSizeOptions: ['5', '10', '15']
+                    }}
+                    onChange={handleTableChange} />
             </div>
             <Drawer onClose={onClose} open={open} width={600} title={
                 <div className={cx("titleForm")}>
@@ -406,8 +405,11 @@ function ProfileUser() {
                     </div>
                 </div>
             </Drawer>
+            <Modal title="Xóa đơn sửa chữa" okText="Xóa" cancelText="Đóng" okButtonProps={{ style: { background: "red" } }} open={isModalOpen} onOk={() => handleOk(dataModal?.id)} onCancel={handleCancel}>
+                <p>Bạn có chắc chắn muốn xóa đơn sửa chữa {dataModal?.Categori.nameCategories}</p>
+            </Modal>
         </div >
     );
 }
 
-export default ProfileUser;
+export default ListOrder;
