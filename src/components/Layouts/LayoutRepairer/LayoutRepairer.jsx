@@ -63,7 +63,7 @@ function LayoutRepairer() {
                     </div>
 
                     <Navbar.Brand href="/">
-                        <img className={cx("imgLogo")} src="../image/logo/logo8.png" alt="" />
+                        <img className={cx("imgLogo")} src="../../../image/logo/logo8.png" alt="" />
                         <p className={cx("textLogo")}>HOME FIX</p>
                     </Navbar.Brand>
 

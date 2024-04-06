@@ -1,12 +1,15 @@
 import styles from "./Calender.module.scss";
 import classNames from 'classnames/bind';
 const cx = classNames.bind(styles);
-import { DatePicker, Space } from 'antd';
+import { DatePicker, Space, Calendar } from 'antd';
 import { Link } from "react-router-dom";
 
 function CalenderRepairer() {
     const onChange = (date, dateString) => {
         console.log(date, dateString);
+    };
+    const onPanelChange = (value, mode) => {
+        console.log(value.format('YYYY-MM-DD'), mode);
     };
     return (
         <div className="container">
@@ -16,7 +19,7 @@ function CalenderRepairer() {
             </div>
             <div className="contentPage">
 
-                <DatePicker placeholder="Chọn tuần" className={cx("calenderSelect")} onChange={onChange} picker="week" />
+                {/* <DatePicker placeholder="Chọn tuần" className={cx("calenderSelect")} onChange={onChange} picker="week" />
 
                 <div className="listDayWork mt-2 row">
                     <div className={` col-lg-4 col-md-6 col-sm-12`}>
@@ -86,8 +89,9 @@ function CalenderRepairer() {
                             </div>
                         </div>
 
-                    </div>
-                </div>
+                    </div> *
+                 </div> */}
+                <Calendar onPanelChange={onPanelChange} />
             </div>
         </div >
     );

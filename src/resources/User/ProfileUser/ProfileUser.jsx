@@ -247,12 +247,14 @@ function ProfileUser() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="row">
-                                    <div className="col">
-                                        <div className={cx("cardInfo")}>
-                                            <Tabs defaultActiveKey="1" items={items}
-                                            />
-                                            {/* <Table
+                                <div className="card p-0">
+                                    <div className="card-body p-0">
+                                        <div className="row">
+                                            <div className="col">
+                                                <div className={cx("cardInfo")}>
+                                                    <Tabs defaultActiveKey="1" items={items}
+                                                    />
+                                                    {/* <Table
                                                 dataSource={data} // Dữ liệu của bảng
                                                 columns={columns} // Các cột của bảng
                                                 pagination={pagination} // Props phân trang
@@ -260,10 +262,13 @@ function ProfileUser() {
                                             /> */}
 
 
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
-
                                 </div>
+
                             </div>
                         </div>
                     </div>

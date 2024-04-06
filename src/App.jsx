@@ -56,6 +56,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { doLoginAction } from './redux/reducer/userSlice';
 import AuthService from './service/AuthService';
 import NotFound from './components/NotFound/NotFound';
+import EditProfileRepairer from './resources/Repairer/EditProfileRepairer/EditProfileRepairer';
 
 
 const Layout = () => {
@@ -278,6 +279,10 @@ function App() {
         {
           path: "profile",
           element: <ProfileRepairer />
+        },
+        {
+          path: "profile/edit",
+          element: <EditProfileRepairer />
         },
       ]
     },

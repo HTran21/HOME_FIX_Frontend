@@ -1,26 +1,25 @@
 import { useSelector } from "react-redux";
-import styles from "./ProfileRepairer.module.scss";
+import styles from "./EditProfileRepairer.module.scss";
 import classNames from 'classnames/bind';
 import axios from '../../../service/customize_axios';
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCloudArrowUp } from "@fortawesome/free-solid-svg-icons";
 
 const cx = classNames.bind(styles);
 
 
-function ProfileRepairer() {
+function EditProfileRepairer() {
 
     const user = useSelector((state) => state.user.user);
     const id = user?.id;
 
     const [data, setData] = useState();
-
-
+    const [imageShow, setImageShow] = useState(`http://localhost:3000/${user?.avatar}`);
     const fetchData = () => {
         axios.get("http://localhost:3000/repair/profile/" + id)
             .then(res => {
                 setData(res.data.data.user)
-                console.log("Data", res.data.data.user)
             })
             .catch((error) => console.log(error));
 
@@ -49,16 +48,19 @@ function ProfileRepairer() {
                                         style={{ width: 130, marginTop: "70px" }}
                                     >
                                         <img
-                                            src={`http://localhost:3000/${user?.avatar}`}
+                                            src={imageShow}
                                             alt="Generic placeholder image"
                                             className="img-fluid img-thumbnail mt-4 mb-2"
                                             style={{ width: 150, zIndex: 1 }}
                                         />
-                                        <Link to={"/repairer/profile/edit"} className="btn btn-outline-dark text-decoration-none" data-mdb-ripple-color="dark"
-                                            style={{ zIndex: 1 }}>
-                                            Edit profile
-                                        </Link>
-
+                                        <input type="text" name="avatarRepairer" id="avatarRepairer" className="d-none" />
+                                        <label htmlFor="avatarRepairer"
+                                            className="btn btn-outline-dark"
+                                            data-mdb-ripple-color="dark"
+                                            style={{ zIndex: 1 }}
+                                        >
+                                            <FontAwesomeIcon icon={faCloudArrowUp} /> Upload
+                                        </label>
                                     </div>
                                     <div className="ms-3" style={{ marginTop: 150 }}>
                                         <h5>{data?.usernameRepairer}</h5>
@@ -82,7 +84,7 @@ function ProfileRepairer() {
                                                     type="email"
                                                     className={`form-control ${cx("inputForm")}`}
                                                     id="floatingInput"
-                                                    placeholder="name@example.com" readOnly
+                                                    placeholder="name@example.com"
                                                     value={data?.usernameRepairer || ''}
                                                     onChange={() => { }}
                                                 />
@@ -96,7 +98,7 @@ function ProfileRepairer() {
                                                     className={`form-control ${cx("inputForm")}`}
                                                     id="floatingInput"
                                                     placeholder="name@example.com"
-                                                    readOnly
+
                                                     value={data?.emailRepairer || ''} onChange={() => { }}
                                                 />
                                                 <label htmlFor="floatingInput">Email</label>
@@ -112,8 +114,8 @@ function ProfileRepairer() {
                                                     className={`form-control ${cx("inputForm")}`}
                                                     id="floatingInput"
                                                     placeholder="name@example.com"
-                                                    readOnly
                                                     value={data?.phoneRepairer || ''}
+                                                    onChange={() => { }}
                                                 />
                                                 <label htmlFor="floatingInput">Số điện thoại</label>
                                             </div>
@@ -125,8 +127,8 @@ function ProfileRepairer() {
                                                     className={`form-control ${cx("inputForm")}`}
                                                     id="floatingInput"
                                                     placeholder="name@example.com"
-                                                    readOnly
                                                     value={data?.addressRepairer || ''}
+                                                    onChange={() => { }}
                                                 />
                                                 <label htmlFor="floatingInput">Địa chỉ</label>
                                             </div>
@@ -163,4 +165,4 @@ function ProfileRepairer() {
     );
 }
 
-export default ProfileRepairer;
+export default EditProfileRepairer;

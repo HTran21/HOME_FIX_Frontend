@@ -16,20 +16,31 @@ import {
     DeleteOutlined
 } from '@ant-design/icons';
 
-import { Button, Modal, Table, Space, Tag, ConfigProvider } from 'antd';
+import { Modal, Table, Space, Tag } from 'antd';
 
 const cx = className.bind(styles);
 
 function Staff() {
     const [lisetSpecialize, setListSpecialize] = useState();
     const [data, setData] = useState();
-    const fetchSpecialize = () => {
-        axios.get("http://localhost:3000/specialization/")
+
+
+    // const fetchSpecialize = () => {
+    //     axios.get("http://localhost:3000/specialization/")
+    //         .then(res => {
+    //             setListSpecialize(res.data)
+    //         })
+    //         .catch((error) => console.log(error));
+    // }
+
+    const fetchService = () => {
+        axios.get("http://localhost:3000/service/getService")
             .then(res => {
-                setListSpecialize(res.data)
+                setListSpecialize(res.data.listService)
             })
             .catch((error) => console.log(error));
     }
+
 
     const fetchData = () => {
         axios.get("http://localhost:3000/admin/getAll")
@@ -40,9 +51,86 @@ function Staff() {
     }
 
     useEffect(() => {
-        fetchSpecialize();
         fetchData();
+        fetchService();
     }, [])
+
+    const columns = [
+        {
+            title: 'STT',
+            dataIndex: 'id',
+            key: 'id',
+            render: (text, object, index) => { return index + 1 },
+            align: 'center',
+        },
+        {
+            title: 'Họ tên',
+            dataIndex: 'username',
+            key: 'username',
+            align: 'center',
+        },
+        {
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email',
+            align: 'center',
+        },
+        {
+            title: 'Phone',
+            dataIndex: 'phone',
+            key: 'phone',
+            align: 'center',
+        },
+        {
+            title: 'Chức vụ',
+            dataIndex: 'position',
+            key: 'position',
+            align: 'center',
+        },
+        {
+            title: 'Role',
+            dataIndex: 'role',
+            key: 'role',
+            render: (_, { role, index }) => {
+                let color = role === '=AD' ? 'blue' : (role === 'RP' ? 'orange' : 'green');
+
+
+                return (
+                    <Tag key={index + 1} style={{ width: "70px", textAlign: "center" }} color={color} >
+                        {role}
+                    </Tag>
+
+                );
+            },
+            align: 'center',
+            filters: [
+                {
+                    text: 'Admin',
+                    value: 'AD',
+                },
+                {
+                    text: 'Thợ',
+                    value: 'RP',
+                },
+                {
+                    text: 'Khách hàng',
+                    value: 'KH',
+                },
+            ],
+            onFilter: (value, record) => record.role.indexOf(value) === 0,
+
+        },
+        {
+            title: 'Action',
+            key: 'action',
+            render: (_, record) => (
+                <div key={record.id}>
+                    <FontAwesomeIcon onClick={() => showModalEdit(record)} icon={faPenToSquare} size="lg" style={{ color: "#106cb2", padding: "3px" }} />
+                    <FontAwesomeIcon onClick={() => showModalDelete(record)} icon={faTrash} style={{ color: "#d12323", padding: "3px" }} /></div>
+            ),
+            align: 'center',
+        },
+    ];
 
 
     const [username, setUserName] = useState('');
@@ -77,6 +165,7 @@ function Staff() {
         setPosition('');
         setSpecialize(0);
     }
+
 
     const upload = () => {
         const newErrors = {};
@@ -137,7 +226,7 @@ function Staff() {
                         toast.error(res.data.message)
                     }
 
-                    // fetchData();
+                    fetchData();
                 })
                 .catch((e) => console.log(e))
         }
@@ -309,51 +398,8 @@ function Staff() {
 
                     </div>
 
+                    <Table className="mt-4" columns={columns} rowKey="email" dataSource={data} />
 
-
-                    <table className="mt-3 table-bordered table table-secondary table-hover text-center mt-4">
-                        <thead>
-                            <tr>
-                                <th scope="col">STT</th>
-                                <th scope="col">Họ tên</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Số điện thoại</th>
-                                <th scope="col">Chức vụ</th>
-                                <th scope="col">Role</th>
-                                <th scope="col">Thao tác</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {data?.length > 0 ? (
-                                data?.map((staff, i) => (
-                                    <tr key={i}>
-                                        <th scope="row">{i + 1}</th>
-                                        <td><img src={`http://localhost:3000/${staff.avatar}`} className={cx("avatarUser")} alt="" /> {staff.username}</td>
-                                        <td>{staff.email}</td>
-                                        <td>{staff.phone}</td>
-                                        <td>{staff.position}</td>
-                                        <td>{staff.role}</td>
-                                        <td className="text-center">
-                                            {staff.role === 'AD' ? (
-                                                <div></div>
-                                            ) : (
-                                                <div>
-                                                    <FontAwesomeIcon onClick={() => showModalEdit(staff)} icon={faPenToSquare} size="lg" style={{ color: "#106cb2", padding: "3px" }} />
-                                                    <FontAwesomeIcon onClick={() => showModalDelete(staff)} icon={faTrash} style={{ color: "#d12323", padding: "3px" }} />
-                                                </div>
-                                            )}
-
-                                        </td>
-                                    </tr>
-                                ))
-
-                            ) : (
-                                <tr key={`0`}>
-                                    <td colSpan={7} className={cx("dataEmpty")}><img src="../public/icon/file.png" alt="" /><p>Dữ liệu rỗng</p></td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
 
                 </div>
             </div>
@@ -411,7 +457,8 @@ function Staff() {
                     <div className="col-lg-6 col-md-6 col-sm-12">
                         <div className={`${errors?.avatar ? `${cx("borderError")}` : ''} ${cx("groupInput")}`}>
                             <label htmlFor="avatar"><FontAwesomeIcon icon={faImage} /></label>
-                            <input type="file" name="avatar" onChange={(e) => setAvatar(e.target.files[0])} id="avatar" placeholder="Ảnh đại diện" />
+                            <input type="file" name="avatar" onChange={(e) => setAvatar(e.target.files[0])}
+                                accept="image/jpeg, image/png, image/jpg" id="avatar" placeholder="Ảnh đại diện" />
                         </div>
                         {errors?.avatar && <p className={cx("errors")}>{errors.avatar}</p>}
                     </div>
@@ -421,7 +468,7 @@ function Staff() {
                                 value={specialize} onChange={(e) => setSpecialize(e.target.value)}>
                                 <option value="0">Chọn kỷ năng</option>
                                 {lisetSpecialize?.map((specialization, i) => (
-                                    <option value={specialization.id} key={i} >{specialization.nameSpecialization}</option>
+                                    <option value={specialization.id} key={i} >{specialization.nameService}</option>
                                 ))}
                             </select>
 
@@ -513,7 +560,8 @@ function Staff() {
                     <div className="col-lg-6 col-md-6 col-sm-12">
                         <div className={`${errors?.avatar ? `${cx("borderError")}` : ''} ${cx("groupInput")}`}>
                             <label htmlFor="avatar"><FontAwesomeIcon icon={faImage} /></label>
-                            <input type="file" name="avatar" onChange={(e) => setAvatarEdit(e.target.files[0])} id="avatar" placeholder="Ảnh đại diện" />
+                            <input type="file" name="avatar" onChange={(e) => setAvatarEdit(e.target.files[0])}
+                                accept="image/jpeg, image/png, image/jpg" id="avatar" placeholder="Ảnh đại diện" />
                         </div>
                         {errors?.avatar && <p className={cx("errors")}>{errors.avatar}</p>}
                     </div>
@@ -523,7 +571,7 @@ function Staff() {
                                 value={specializeEdit} onChange={(e) => setspecializeEdit(e.target.value)}>
                                 <option value="0">Chọn kỷ năng</option>
                                 {lisetSpecialize?.map((specialization, i) => (
-                                    <option value={specialization.id} key={i} >{specialization.nameSpecialization}</option>
+                                    <option value={specialization.id} key={i} >{specialization.nameService}</option>
                                 ))}
                             </select>
 
