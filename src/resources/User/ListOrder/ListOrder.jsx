@@ -167,8 +167,8 @@ function ListOrder() {
             ],
             onFilter: (value, record) => record.status.indexOf(value) === 0,
             render: (_, { status, index }) => {
-                let color = status === 'D' ? 'red' : (status === 'W' ? 'yellow' : 'green');
-                let text = status === 'D' ? 'Đã hủy' : (status === 'W' ? 'Đang chờ' : 'Đã duyệt');
+                let color = status === 'C' ? 'red' : (status === 'W' ? 'yellow' : 'green');
+                let text = status === 'C' ? 'Đã hủy' : (status === 'W' ? 'Đang chờ' : 'Đã duyệt');
 
                 return (
                     <Tag key={index + 1} style={{ width: "70px", textAlign: "center" }} color={color} >
@@ -184,8 +184,8 @@ function ListOrder() {
             key: 'action',
             render: (_, record, index) => (
                 <Space size="middle" key={index + 1}>
-                    <Link to={`/repair/edit/${record?.id}?ID_Service=${record.Categori.ID_Service}`}><FontAwesomeIcon icon={faPenToSquare} size="lg" style={{ color: "#024bca", }} /></Link>
-                    <FontAwesomeIcon icon={faTrash} onClick={() => showModal(record)} size="lg" style={{ color: "#cc0000", }} />
+                    <Link to={`/repair/edit/${record?.id}?ID_Service=${record.Categori.ID_Service}`}><FontAwesomeIcon className={`${(record?.status === 'C' || record?.status === 'Y') ? 'd-none' : ''}`} icon={faPenToSquare} size="lg" style={{ color: "#024bca", }} /></Link>
+                    <FontAwesomeIcon className={`${record?.status === 'C' ? 'd-none' : ''}`} icon={faTrash} onClick={() => showModal(record)} size="lg" style={{ color: "#cc0000", }} />
                     <FontAwesomeIcon icon={faChevronRight} size="lg" style={{ color: "#005eff", marginLeft: "10px" }} onClick={() => showDrawer(record)} />
                 </Space>
             ),
@@ -229,9 +229,9 @@ function ListOrder() {
 
     function handleTableChange() {
         requestToServer().then((data) => {
-            const newPagination = { ...pagination }; // Tạo một bản sao mới của pagination
-            newPagination.total = your_value; // Cập nhật giá trị total trong pagination mới
-            setPagination(newPagination); // Đặt lại state với pagination mới
+            const newPagination = { ...pagination };
+            newPagination.total = your_value;
+            setPagination(newPagination);
         });
     }
 
@@ -266,7 +266,8 @@ function ListOrder() {
                         showSizeChanger: true,
                         pageSizeOptions: ['5', '10', '15']
                     }}
-                    onChange={handleTableChange} />
+                    onChange={handleTableChange}
+                    rowKey={"id"} />
             </div>
             <Drawer onClose={onClose} open={open} width={600} title={
                 <div className={cx("titleForm")}>
@@ -401,7 +402,9 @@ function ListOrder() {
                         </div>
                     </div>
                     <div className={cx("statusOrder")}>
-                        <span>Trạng thái:</span> <div className={`${cx("status")} ${record && record?.status == 'W' ? 'text-warning border-warning' : (record?.status == 'Y' ? 'text-success border-success' : 'text-danger border-danger')}`}>Đang chờ</div>
+                        <span>Trạng thái:</span> <div className={`${cx("status")} ${record && record?.status == 'W' ? 'text-warning border-warning' : (record?.status == 'Y' ? 'text-success border-success' : 'text-danger border-danger')}`}>
+                            {record && record?.status === 'W' ? 'Đang chờ' : (record?.status == 'Y' ? 'Đã duyệt' : 'Đã hủy')}
+                        </div>
                     </div>
                 </div>
             </Drawer>

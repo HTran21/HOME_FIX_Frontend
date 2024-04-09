@@ -1,24 +1,97 @@
 import styles from "./Calender.module.scss";
 import classNames from 'classnames/bind';
 const cx = classNames.bind(styles);
-import { DatePicker, Space, Calendar } from 'antd';
+// import { DatePicker, Space, Calendar } from 'antd';
+import { Calendar } from 'rsuite';
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import axios from '../../../service/customize_axios';
+import moment from 'moment';
 
 function CalenderRepairer() {
+    const user = useSelector((state) => state.user.user);
+    const id = user?.id;
+    const [data, setData] = useState();
     const onChange = (date, dateString) => {
         console.log(date, dateString);
     };
     const onPanelChange = (value, mode) => {
         console.log(value.format('YYYY-MM-DD'), mode);
     };
+
+    const fetchData = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/schedule/dayWork/' + id);
+            setData(response.data.data)
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+    useEffect(() => {
+        fetchData();
+    }, [])
+    // const cellRender = (value) => {
+    //     const date = value.format('YYYY-MM-DD');
+    //     if (data && data.length > 0) {
+    //         const isHighlighted = data.find((item) => moment(item.workDay).format('YYYY-MM-DD') === date);
+    //         return isHighlighted ? <div className={cx("highlightedDay")} /> : '';
+    //     } else {
+    //         return;
+    //     }
+    // };
+    const cellRender = (value) => {
+        const date = value.format('YYYY-MM-DD');
+        if (data && data.length > 0) {
+            const isHighlighted = data.find((item) => moment(item.workDay).format('YYYY-MM-DD') === date);
+            console.log("isHiglth", isHighlighted)
+            if (isHighlighted) {
+                return <div className="highlighted-day" />;
+            }
+        }
+        return <></>; // Trả về một ReactNode rỗng cho các trường hợp không phù hợp
+    };
+
     return (
         <div className="container">
+            <style>
+                {`
+      .bg-gray {
+        background-color: #DBEAF8;
+      }
+      `}
+            </style>
             <div className={`${cx("titlePage")}`}>
                 <h4>Lịch làm việc</h4>
                 <Link to={"/repairer/calendar/create"} className={`${cx("btnAdd")} text-decoration-none text-light`}> Tạo lịch </Link>
             </div>
             <div className="contentPage">
-
+                {/* <Calendar onPanelChange={onPanelChange} fullCellRender={cellRender} /> */}
+                {/* <Calendar
+                    renderCell={(date) => {
+                        const dateString = moment(date).format('YYYY-MM-DD');
+                        if (data && data.length > 0) {
+                            const isHighlighted = data.find((item) => moment(item.workDay).format('YYYY-MM-DD') === dateString);
+                            console.log("isHiglth", isHighlighted)
+                            if (isHighlighted != undefined) {
+                                return <div className={cx("highlightedDay")} ></div>;
+                            }
+                        }
+                        return null;
+                    }}
+                /> */}
+                <Calendar
+                    bordered
+                    cellClassName={(date) => {
+                        const dateString = moment(date).format('YYYY-MM-DD');
+                        if (data && data.length > 0) {
+                            const isHighlighted = data.find((item) => moment(item.workDay).format('YYYY-MM-DD') === dateString);
+                            return isHighlighted ? 'bg-gray' : '';
+                        }
+                        return '';
+                    }}
+                />
+                {/* <Calendar bordered cellClassName={date => (date.getDay() % 2 ? 'bg-gray' : undefined)} /> */}
                 {/* <DatePicker placeholder="Chọn tuần" className={cx("calenderSelect")} onChange={onChange} picker="week" />
 
                 <div className="listDayWork mt-2 row">
@@ -91,7 +164,7 @@ function CalenderRepairer() {
 
                     </div> *
                  </div> */}
-                <Calendar onPanelChange={onPanelChange} />
+
             </div>
         </div >
     );

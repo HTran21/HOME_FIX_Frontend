@@ -37,6 +37,9 @@ import AddProduct from './resources/Admin/AddProduct/AddProduct';
 import EditProduct from './resources/Admin/EditProduct/EditProduct';
 import Specialization from './resources/Admin/Specialization/Specialization';
 import Staff from './resources/Admin/Staff/Staff';
+import CalendarStaff from './resources/Admin/Calendar/CalendarStaff';
+import ListAllOrder from './resources/Admin/ListAllOrder/ListAllOrder';
+import AcceptForm from './resources/Admin/AcceptForm/AcceptForm';
 
 import ProfileUser from './resources/User/ProfileUser/ProfileUser';
 import EditProfile from './resources/User/EditProfile/EditProfile';
@@ -57,6 +60,8 @@ import { doLoginAction } from './redux/reducer/userSlice';
 import AuthService from './service/AuthService';
 import NotFound from './components/NotFound/NotFound';
 import EditProfileRepairer from './resources/Repairer/EditProfileRepairer/EditProfileRepairer';
+
+import Test from './resources/Both/Test/Test';
 
 
 const Layout = () => {
@@ -223,12 +228,22 @@ function App() {
           element: <Staff />
 
         },
-        ,
+        {
+          path: "order",
+          element: <ListAllOrder />
+
+        },
+        {
+          path: "calendar",
+          element: <CalendarStaff />
+
+        },
         {
           path: "editproduct/:id",
           element: <EditProduct />
 
         },
+
       ]
     },
     {
@@ -307,6 +322,16 @@ function App() {
     {
       path: "repair/edit/:id",
       element: <FormRepairEdit />,
+    },
+    {
+      path: "repair/accept/:id",
+      element: <AcceptForm />
+
+    },
+    {
+      path: "test",
+      element: <Test />
+
     },
     {
       path: "403",

@@ -30,6 +30,15 @@ function CreateCalenderRepair() {
             }
             else {
                 axios.post("http://localhost:3000/schedule/create", { id, date })
+                    .then(res => {
+                        if (res.data.success) {
+                            toast.success(res.data.message);
+                        }
+                        else {
+                            toast.error(res.data.message);
+                        }
+
+                    })
             }
         } else {
             toast.warn("Vui lòng chọn ngày")

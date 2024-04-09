@@ -38,7 +38,41 @@ function RepairerHomePage() {
                 <div className="p-2">
                     <p className={cx("titleWork")}>Công việc hôm nay</p>
                     <div className="row listWork">
-                        {/* <div className={` col-lg-4 col-md-6 col-sm-12`}>
+                        <div className={`col-lg-4 col-md-6 col-sm-12`}>
+                            <div className={cx("cardWorK")} >
+                                <div className="row" >
+                                    <div className="col"><p className={cx("titleWorkContent")}>Sửa chữa tủ lạnh</p></div>
+                                    <div className="col text-end">8h 28/03/2024</div>
+                                </div>
+                                <div className="row">
+                                    <div className={`${cx("contentWork")}`}>
+                                        <p>Tên: Trần Văn A</p>
+                                        <p>Số điện thoại: 09754314</p>
+                                        <p>Địa Chỉ: Khu II, Phường Xuân Khánh, Quận Ninh Kiều, Thành Phố Cần Thơ</p>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div className={` col-lg-4 col-md-6 col-sm-12`}>
+                            <div className={cx("cardWorK")}>
+                                <div className="row">
+                                    <div className="col"><p className={cx("titleWorkContent")}>Sửa chữa tủ lạnh</p></div>
+                                    <div className="col text-end">8h 28/03/2024</div>
+                                </div>
+                                <div className="row">
+                                    <div className={`${cx("contentWork")}`}>
+                                        <p>Tên: Trần Văn A</p>
+                                        <p>Số điện thoại: 09754314</p>
+                                        <p>Địa Chỉ: Khu II, Phường Xuân Khánh, Quận Ninh Kiều, Thành Phố Cần Thơ</p>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div className={`col-lg-4 col-md-6 col-sm-12`}>
                             <div className={cx("cardWorK")}>
                                 <div className="row">
                                     <div className="col"><p className={cx("titleWorkContent")}>Sửa chữa tủ lạnh</p></div>
@@ -72,44 +106,10 @@ function RepairerHomePage() {
                             </div>
 
                         </div>
-                        <div className={` col-lg-4 col-md-6 col-sm-12`}>
-                            <div className={cx("cardWorK")}>
-                                <div className="row">
-                                    <div className="col"><p className={cx("titleWorkContent")}>Sửa chữa tủ lạnh</p></div>
-                                    <div className="col text-end">8h 28/03/2024</div>
-                                </div>
-                                <div className="row">
-                                    <div className={`${cx("contentWork")}`}>
-                                        <p>Tên: Trần Văn A</p>
-                                        <p>Số điện thoại: 09754314</p>
-                                        <p>Địa Chỉ: Khu II, Phường Xuân Khánh, Quận Ninh Kiều, Thành Phố Cần Thơ</p>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div>
-                        <div className={` col-lg-4 col-md-6 col-sm-12`}>
-                            <div className={cx("cardWorK")}>
-                                <div className="row">
-                                    <div className="col"><p className={cx("titleWorkContent")}>Sửa chữa tủ lạnh</p></div>
-                                    <div className="col text-end">8h 28/03/2024</div>
-                                </div>
-                                <div className="row">
-                                    <div className={`${cx("contentWork")}`}>
-                                        <p>Tên: Trần Văn A</p>
-                                        <p>Số điện thoại: 09754314</p>
-                                        <p>Địa Chỉ: Khu II, Phường Xuân Khánh, Quận Ninh Kiều, Thành Phố Cần Thơ</p>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div> */}
-                        <div className={cx("emptyWork")}>
+                        {/* <div className={cx("emptyWork")}>
                             <img src="../public/icon/emptyWork.png" alt="" />
                             <p>Không có công việc</p>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </section>

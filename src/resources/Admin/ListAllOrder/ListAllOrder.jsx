@@ -1,129 +1,95 @@
-import className from "classnames/bind";
-import { useEffect, useState } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faWallet, faScrewdriverWrench, faCircleUser, faDesktop, faPenToSquare, faTrash, faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import { Space, Table, Tag, Drawer } from 'antd';
-import styles from "./AdminHomePage.module.scss";
 import axios from "../../../service/customize_axios";
+import { useEffect, useState } from "react";
+import className from "classnames/bind";
+import styles from "./ListAllOrder.module.scss";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebook, faInstagram, faTwitter } from "@fortawesome/free-brands-svg-icons";
+import { Tabs, Space, Table, Tag, Drawer, Modal } from 'antd';
+import { faChevronRight, faCircleCheck, faCircleUser, faCircleXmark, faClockRotateLeft, faDesktop, faPenToSquare, faScrewdriverWrench, faTrash, faTrashCan, faWallet } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-
-import Chart from 'chart.js/auto';
-import { Line } from 'react-chartjs-2';
-
-import 'rsuite/dist/rsuite.min.css';
-import { DateRangePicker } from 'rsuite';
-
+import { useSelector } from "react-redux";
 import moment from 'moment';
-
-
+import { toast } from "react-toastify";
 const cx = className.bind(styles);
 
-const cardData = [
-    {
-        title: 'TOTAL EARNINGS',
-        number: '$98,851.35',
-        icon: faWallet,
-        color: 'violet',
-    },
-    {
-        title: 'REPAIR',
-        number: '65,802',
-        icon: faScrewdriverWrench,
-        color: 'blue',
-    },
-    {
-        title: 'CUSTOMERS',
-        number: '79,802',
-        icon: faCircleUser,
-        color: 'yellow',
-    },
-    {
-        title: 'PRODUCTS',
-        number: '36,758',
-        icon: faDesktop,
-        color: 'darkblue',
-    },
-];
+function ListAllOrder() {
 
-
-
-
-function Card({ title, number, icon, color }) {
-    return (
-        <div className={cx("cardBody", color)}>
-            <div className={cx("titleCard")}>
-                {title}
-            </div>
-            <div className={cx("numberCard")}>
-                {number}
-            </div>
-            <div className={cx("iconCard")}>
-                <FontAwesomeIcon icon={icon} />
-            </div>
-        </div>
-    );
-}
-
-
-const revenueData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-    datasets: [
-        {
-            label: 'Doanh thu',
-            data: [10000, 12000, 15000, 18000, 20000, 22000, 25000, 28000, 30000, 32000, 35000, 38000],
-            fill: false,
-            borderColor: 'rgb(75, 192, 192)',
-            tension: 0.1
-        }
-    ]
-};
-
-// Cài đặt biểu đồ
-const chartOptions = {
-    scales: {
-        y: {
-            beginAtZero: true,
-            title: {
-                display: true,
-                text: 'Doanh thu (VND)'
-            }
-        },
-        x: {
-            title: {
-                display: true,
-                text: 'Tháng'
-            }
-        }
-    }
-};
-
-
-
-
-
-function AdminHomePage() {
-
-    const [dateRange, setDateRange] = useState([null, null]);
-    const [dataTable, setDataTable] = useState();
-
-    const handleDateRangeChange = (value) => {
-        setDateRange(value);
-    };
-
+    const idUser = useSelector((state) => state.user.user.id);
+    const [data, setData] = useState();
+    const [listOrder, setListOrder] = useState();
     const fetchOrder = async () => {
         let getOrder = await axios.get("http://localhost:3000/order/getAllOrder");
-        setDataTable(getOrder.data.data);
+        setListOrder(getOrder.data.data);
     }
 
-    const [pagination, setPagination] = useState({});
 
-    function handleTableChange() {
-        requestToServer().then((data) => {
-            const newPagination = { ...pagination };
-            newPagination.total = your_value;
-            setPagination(newPagination);
+    useEffect(() => {
+        fetchOrder();
+    }, [])
+
+    const overView = () => {
+        let awaitCount = 0;
+        let successCount = 0;
+        let cancelCount = 0;
+
+        listOrder?.forEach((order) => {
+            if (order.status === 'W') {
+                awaitCount++;
+            } else if (order.status === 'Y') {
+                successCount++;
+            } else {
+                cancelCount++;
+            }
         });
+
+        return { awaitCount, successCount, cancelCount };
     }
+
+    const awaitCount = overView();
+    const successCount = overView();
+    const cancleCount = overView();
+
+    const cardData = [
+        {
+            title: 'TỔNG ĐƠN',
+            number: `${listOrder?.length}`,
+            icon: faScrewdriverWrench,
+            color: 'blue',
+        },
+        {
+            title: 'HOÀN THÀNH',
+            number: `${successCount.successCount}`,
+            icon: faCircleCheck,
+            color: 'green',
+        },
+        {
+            title: 'ĐANG CHỜ',
+            number: `${awaitCount.awaitCount}`,
+            icon: faClockRotateLeft,
+            color: 'yellow',
+        },
+        {
+            title: 'ĐÃ HỦY',
+            number: `${cancleCount.cancelCount}`,
+            icon: faTrashCan,
+            color: 'red',
+        },
+    ];
+
+    function Card({ title, number, icon, color }) {
+        return (
+            <div className={cx("cardBody", color)}>
+                <div className={cx("iconCard")}>
+                    <FontAwesomeIcon icon={icon} />
+                </div>
+                <div className={cx("contentOverview")}>
+                    <p className={cx("numberCard")}>{number}</p>
+                    <p className={cx("titleCard")}>{title}</p>
+                </div>
+            </div>
+        );
+    }
+
 
 
     const columns = [
@@ -164,6 +130,25 @@ function AdminHomePage() {
             }
         },
         {
+            title: 'Ngày đăng ký',
+            dataIndex: 'createdAt',
+            key: 'createdAt',
+            defaultSortOrder: 'ascend',
+            sorter: (a, b) => {
+                const dateA = new Date(a.createdAt);
+                const dateB = new Date(b.createdAt);
+
+                return dateA - dateB;
+            },
+            render: (_, { createdAt, index }) => {
+                return (
+                    <div key={index + 1}>
+                        {moment(createdAt).format('DD/MM/YYYY')}
+                    </div>
+                )
+            }
+        },
+        {
             title: 'Ngày mong muốn',
             dataIndex: 'desireDate',
             key: 'desireDate',
@@ -192,18 +177,27 @@ function AdminHomePage() {
                     value: 'W'
                 },
                 {
+                    text: 'Đã duyệt',
+                    value: 'A'
+                },
+                {
+                    text: 'Đang sửa',
+                    value: 'R'
+                },
+                {
                     text: 'Hoàn thành',
                     value: 'Y'
                 },
                 {
                     text: 'Đã hủy',
                     value: 'D'
-                }
+                },
+
             ],
             onFilter: (value, record) => record.status.indexOf(value) === 0,
             render: (_, { status, index }) => {
-                let color = status === 'D' ? 'red' : (status === 'W' ? 'yellow' : 'green');
-                let text = status === 'D' ? 'Đã hủy' : (status === 'W' ? 'Đang chờ' : 'Đã duyệt');
+                let color = status === 'C' ? 'red' : (status === 'W' ? 'yellow' : (status === 'A' ? 'green' : (status === 'R' ? 'orange' : 'blue')));
+                let text = status === 'C' ? 'Đã hủy' : (status === 'W' ? 'Đang chờ' : (status === 'A' ? 'Đã duyệt' : (status === 'R' ? 'Đang sửa' : 'Hoàn thành')));
 
                 return (
                     <Tag key={index + 1} style={{ width: "70px", textAlign: "center" }} color={color} >
@@ -219,17 +213,16 @@ function AdminHomePage() {
             key: 'action',
             render: (_, record, index) => (
                 <Space size="middle" key={index + 1}>
-                    {/* <Link to={`/repair/edit/${record?.id}?ID_Service=${record.Categori.ID_Service}`}><FontAwesomeIcon icon={faPenToSquare} size="lg" style={{ color: "#024bca", }} /></Link>
-                    <FontAwesomeIcon icon={faTrash} onClick={() => showModal(record)} size="lg" style={{ color: "#cc0000", }} /> */}
+                    <Link to={`/repair/accept/${record?.id}`}>
+                        <FontAwesomeIcon icon={faCircleCheck} className={`${cx("iconAccept")} ${(record?.status === 'W') ? '' : 'd-none'}`} size="xl" style={{ color: "#00a851", }} />
+                    </Link>
+                    <FontAwesomeIcon icon={faCircleXmark} onClick={() => showModal(record)}
+                        className={`${cx("iconDenied")} ${record?.status === 'W' ? '' : 'd-none'}`} size="xl" style={{ color: "#e00000", }} />
                     <FontAwesomeIcon icon={faChevronRight} size="lg" style={{ color: "#005eff", marginLeft: "10px" }} onClick={() => showDrawer(record)} />
                 </Space>
             ),
         },
     ];
-
-    useEffect(() => {
-        fetchOrder();
-    }, [])
 
     const [open, setOpen] = useState(false);
     const [record, setRecord] = useState();
@@ -241,106 +234,73 @@ function AdminHomePage() {
         setOpen(false);
     };
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [dataModal, setDataModal] = useState();
+    const showModal = (data) => {
+        setIsModalOpen(true);
+        setDataModal(data);
+
+    };
+    const handleOk = (id) => {
+        axios.put("http://localhost:3000/order/denied/" + id)
+            .then(res => {
+                if (res.data.data.success === false) {
+                    toast.error(res.data.data.message)
+                } else {
+                    toast.success(res.data.data.message);
+                    fetchOrder();
+                    setIsModalOpen(false);
+                }
+            })
+    };
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+
+    const [pagination, setPagination] = useState({});
+
+    function handleTableChange() {
+        requestToServer().then((data) => {
+            const newPagination = { ...pagination };
+            newPagination.total = your_value;
+            setPagination(newPagination);
+        });
+    }
 
 
     return (
-        <>
-            <div className={cx("containerPage")}>
-                <div className={cx("contentPage")}>
-                    <div className={cx("overviewList")}>
-                        <div className="row">
-                            {cardData.map((card, index) => (
-                                <div className="col-sm-12 col-lg-3" key={index}>
-                                    <Card
+        <div className={cx("containerPage")}>
+            <div className="titlePage">
+                <h4>Danh sách đơn sửa chữa</h4>
+                <div className="overviewOrder">
+                    <div className="row">
+                        {cardData.map((card, index) => (
+                            <div className="col-sm-12 col-md-6 col-lg-3 mt-2" key={index}>
+                                <Card
+                                    icon={card.icon}
 
-                                        title={card.title}
-                                        number={card.number}
-                                        icon={card.icon}
-                                        color={card.color}
-                                    />
-                                </div>
+                                    number={card.number}
+                                    title={card.title}
 
-                            ))}
-                        </div>
-                    </div>
-                    <div className={cx("chartMoney")}>
-                        <h5>Monthly Earnings</h5>
-                        <div className="row mb-3">
-                            <div className="col-lg-7 col-md-12">
-                                <Line data={revenueData} options={chartOptions} />
+                                    color={card.color}
+                                />
                             </div>
-                            <div className={`${cx("dateRange")} col-lg-5 col-md-12`}>
-                                <DateRangePicker format="MM/dd/yyyy" character=" – "
-                                    onChange={handleDateRangeChange} className={cx("dateRangePicker")} />
-                                {/* {dateRange && (
-                                    <div>
-                                        Từ: {dateRange[0] ? dateRange[0].toLocaleDateString() : 'Chưa chọn'}
-                                        <br />
-                                        Đến: {dateRange[1] ? dateRange[1].toLocaleDateString() : 'Chưa chọn'}
-                                    </div>
-                                )} */}
-                                <div className={cx("contentDateRange")}>
-                                    <div className="row">
-                                        <div className="col-6">
-                                            <div className={cx("totalEarning")}>
-                                                <div className={cx("number")}>
-                                                    65,802
-                                                </div>
-                                                <div className={cx("titleNumber")}>
-                                                    Orders
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-6">
-                                            <div className={cx("totalEarning")}>
-                                                <div className={cx("number")}>
-                                                    65,802
-                                                </div>
-                                                <div className={cx("titleNumber")}>
-                                                    Orders
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-6">
-                                            <div className={cx("totalEarning")}>
-                                                <div className={cx("number")}>
-                                                    65,802
-                                                </div>
-                                                <div className={cx("titleNumber")}>
-                                                    Orders
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-6">
-                                            <div className={cx("totalEarning")}>
-                                                <div className={cx("number")}>
-                                                    65,802
-                                                </div>
-                                                <div className={cx("titleNumber")}>
-                                                    Orders
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-
-                    </div>
-                    <div className="recentOrders">
-                        <h5>Đơn sửa chữa gần đây</h5>
-                        <Table className="mt-3" rowKey={"id"} columns={columns} dataSource={dataTable}
-                            pagination={{
-                                defaultPageSize: 5,
-                                showSizeChanger: true,
-                                pageSizeOptions: ['5', '10', '15']
-                            }}
-                            onChange={handleTableChange} />
+                        ))}
                     </div>
                 </div>
+            </div>
+            <div className="contentPage">
+                {/* <Table className="mt-4" columns={columns} dataSource={data} /> */}
+                <Table className="mt-4" columns={columns} dataSource={listOrder}
+                    pagination={{
+                        defaultPageSize: 5,
+                        showSizeChanger: true,
+                        pageSizeOptions: ['5', '10', '15']
+                    }}
+                    onChange={handleTableChange}
+                    rowKey={"id"}
+                />
             </div>
             <Drawer onClose={onClose} open={open} width={600} title={
                 <div className={cx("titleForm")}>
@@ -475,12 +435,18 @@ function AdminHomePage() {
                         </div>
                     </div>
                     <div className={cx("statusOrder")}>
-                        <span>Trạng thái:</span> <div className={`${cx("status")} ${record && record?.status == 'W' ? 'text-warning border-warning' : (record?.status == 'Y' ? 'text-success border-success' : 'text-danger border-danger')}`}>Đang chờ</div>
+                        <span>Trạng thái:</span> <div className={`${cx("status")} ${record && record?.status == 'W' ? 'text-warning border-warning' :
+                            (record?.status == 'A' ? 'text-success border-success' : (record?.status === 'R' ? 'text-danger border-success-subtle' : (record?.state === 'S' ? 'text-primary border-primary' : 'text-danger border-danger')))}`}>
+                            {record && record?.status === 'W' ? 'Đang chờ' : (record?.status == 'A' ? 'Đã duyệt' : (record?.status === 'R' ? 'Đang sửa' : (record?.status === 'S' ? 'Hoàn thành' : 'Đã hủy')))}
+                        </div>
                     </div>
                 </div>
             </Drawer>
-        </>
+            <Modal title="Xóa đơn sửa chữa" okText="Từ chối" cancelText="Đóng" okButtonProps={{ style: { background: "red" } }} open={isModalOpen} onOk={() => handleOk(dataModal?.id)} onCancel={handleCancel}>
+                <p>Bạn có chắc chắn muốn từ chối đơn sửa chữa {dataModal?.Categori.nameCategories}</p>
+            </Modal>
+        </div >
     );
 }
 
-export default AdminHomePage;
+export default ListAllOrder;

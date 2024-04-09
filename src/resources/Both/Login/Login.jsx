@@ -77,7 +77,7 @@ function Login() {
     return (
         <div className="container">
             <section >
-                <div className="container">
+                <div className="container mt-4">
                     <div className="row d-flex justify-content-center align-items-center">
                         <div className="col col-xl-10">
                             <div className={`card ${cx("loginForm")}`} >

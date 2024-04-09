@@ -117,7 +117,7 @@ function ProfileUser() {
                 showSizeChanger: true,
                 pageSizeOptions: ['3']
             }}
-                onChange={handleTableChange} />,
+                onChange={handleTableChange} rowKey={"id"} />,
         },
         {
             key: '2',

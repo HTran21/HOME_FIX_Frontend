@@ -3,117 +3,91 @@
 }
 
 
-.cardBody {
-    height: 100px;
-    margin: 10px;
-    position: relative;
-    padding: 5px 5px 5px 15px;
-    cursor: pointer;
-    transition: 0.5s;
-    background-color: #dedede3c;
-
-}
-
 .cardBody:hover {
     transform: translateY(-5px);
 }
 
-.titleCard {
-    font-weight: bold;
-    color: #696464;
-    font-size: 17px;
-}
-
-.numberCard {
-    font-size: 20px;
-    font-weight: bold;
-    margin-top: 10px;
-    color: #000;
-}
-
-.iconCard {
-    position: absolute;
-    top: 5px;
-    right: 10px;
-    font-size: 20px;
-
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 7px;
-}
-
-.cardBody.violet {
-    border-left: 4px solid rgba(202, 131, 204, 0.564);
-    color: #fff;
+.cardBody {
+    max-width: 300px;
+    display: grid;
+    grid-template-columns: 60px auto;
+    padding: 10px;
+    transition: 0.5s;
+    cursor: pointer;
 
     .iconCard {
-        color: rgba(202, 131, 204, 0.564);
-        background-color: rgba(236, 189, 239, 0.77);
+        font-size: 20px;
+        display: flex;
+        margin: auto;
+        padding: 15px;
+        border-radius: 5px;
+        background-color: #DBE9FF;
+        color: #4B93FF;
     }
+
+    .contentOverview {
+        margin-left: 10px;
+
+        .numberCard {
+            margin: 0px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .titleCard {
+            margin: 0px;
+            font-family: 'Reem Kufi', sans-serif;
+            font-size: 16px;
+            color: #000;
+
+        }
+    }
+
+
+
 
 }
 
 .cardBody.blue {
-    border-left: 4px solid rgba(131, 198, 204, 0.564);
     color: #fff;
 
     .iconCard {
-        color: rgba(131, 198, 204, 0.564);
-        background-color: rgba(186, 233, 239, 0.564);
+        color: rgba(26, 102, 208, 0.564);
+        background-color: rgba(200, 206, 218, 0.564);
+    }
+
+}
+
+.cardBody.green {
+    color: #fff;
+
+    .iconCard {
+        color: rgba(8, 166, 98, 0.564);
+        background-color: rgba(200, 218, 210, 0.564);
     }
 
 }
 
 .cardBody.yellow {
-    border-left: 4px solid rgba(205, 195, 82, 0.564);
     color: #fff;
 
     .iconCard {
         color: rgba(229, 219, 25, 0.667);
-        background-color: rgba(245, 243, 187, 0.563);
+        background-color: rgba(212, 211, 182, 0.564);
     }
 }
 
-.cardBody.darkblue {
-    border-left: 4px solid rgba(55, 96, 209, 0.564);
+.cardBody.red {
     color: #fff;
 
     .iconCard {
-        color: rgba(30, 110, 201, 0.564);
-        background-color: rgba(188, 219, 245, 0.564);
+        color: rgba(201, 30, 30, 0.564);
+        background-color: rgba(218, 200, 200, 0.564);
     }
 
 }
 
-
-.chartMoney {
-    padding: 10px;
-}
-
-.dateRangePicker {
-    border: 1px solid rgb(191, 187, 187);
-    padding: 5px;
-    border-radius: 10px;
-    box-shadow: 5px 5px 5px #817e7ed4;
-}
-
-.contentDateRange {
-    padding: 10px;
-    margin-top: 10px;
-}
-
-.totalEarning {
-    padding: 5px;
-
-    .number {
-        font-size: 20px;
-        font-weight: bold;
-    }
-
-}
 
 .oder {
     margin: 0px;
@@ -191,4 +165,23 @@
         font-size: 20px;
         margin-left: 5px;
     }
+}
+
+.iconAccept,
+.iconDenied {
+    transition: 0.5s;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.iconAccept:hover {
+    transform: scale(1.2);
+    box-shadow: rgba(0, 144, 96, 0.777) 0px 4px 16px, rgba(0, 152, 101, 0.656) 0px 8px 24px, rgba(0, 149, 67, 0.678) 0px 10px 56px;
+    border-radius: 50%;
+}
+
+.iconDenied:hover {
+    transform: scale(1.2);
+    box-shadow: rgba(144, 0, 0, 0.777) 0px 4px 16px, rgba(152, 0, 0, 0.656) 0px 6px 24px, rgba(149, 0, 0, 0.678) 0px 8px 56px;
+    border-radius: 50%;
 }

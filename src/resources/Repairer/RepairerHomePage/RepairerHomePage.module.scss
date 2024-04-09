@@ -28,7 +28,10 @@
     text-align: center;
 }
 
-// .listWorkDay {}
+.listWorkDay {
+    border: 1px solid red;
+}
+
 .titleWork {
     font-family: 'Reem Kufi', sans-serif;
     color: #000;
@@ -43,6 +46,7 @@
     box-shadow: 5px 10px 10px #bfacac8a;
     color: #fff;
     margin: 5px 0px;
+    border: 1px solid red;
 
     .titleWorkContent {
         font-family: 'Reem Kufi', sans-serif;
