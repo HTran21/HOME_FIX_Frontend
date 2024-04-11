@@ -92,6 +92,15 @@
     color: #47db62;
 }
 
+.titleCardProduct {
+    display: flex;
+
+    .serviceProduct {
+        font-weight: 500;
+        padding-top: 2px;
+    }
+}
+
 .iconMore {
     display: flex;
     width: 25px;

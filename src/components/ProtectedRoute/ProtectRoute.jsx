@@ -10,7 +10,7 @@ const RoleBaseRoute = (props) => {
     const isAdminRoute = window.location.pathname.startsWith("/admin");
     const user = useSelector((state) => state.user.user);
     const userRole = user?.role;
-    console.log("Role", userRole)
+    // console.log("Role", userRole)
 
     if (isAdminRoute && userRole === "AD") {
         return <>{props.children}</>;
@@ -21,8 +21,8 @@ const RoleBaseRoute = (props) => {
 
 function ProtectedRoute(props) {
     const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
-    console.log("isAuthenticated protect", isAuthenticated)
-    console.log("Protect route")
+    // console.log("isAuthenticated protect", isAuthenticated)
+    // console.log("Protect route")
     return (
         <>
             {isAuthenticated === true ? (

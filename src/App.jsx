@@ -42,9 +42,12 @@ import ListAllOrder from './resources/Admin/ListAllOrder/ListAllOrder';
 import AcceptForm from './resources/Admin/AcceptForm/AcceptForm';
 
 import ProfileUser from './resources/User/ProfileUser/ProfileUser';
+import Chat from './resources/User/Chat/Chat';
 import EditProfile from './resources/User/EditProfile/EditProfile';
 import FormRepairEdit from './resources/User/FormRepairEdit/FormRepairEdit';
 import ListOrder from './resources/User/ListOrder/ListOrder';
+import FormRepairRepairer from './resources/Repairer/FormRepairRepairer/FormRepairRepairer';
+import TaskDetail from './resources/Repairer/TaskDetail/TaskDetail';
 
 import RepairerHomePage from './resources/Repairer/RepairerHomePage/RepairerHomePage';
 import ListWork from './resources/Repairer/ListWork/ListWork';
@@ -267,6 +270,10 @@ function App() {
           path: "order",
           element: <ListOrder />,
         },
+        {
+          path: "chat",
+          element: <Chat />,
+        },
 
 
       ]
@@ -282,6 +289,14 @@ function App() {
         {
           path: "work",
           element: <ListWork />
+        },
+        {
+          path: "work/:id",
+          element: <FormRepairRepairer />
+        },
+        {
+          path: "task/:id",
+          element: <TaskDetail />
         },
         {
           path: "calendar",

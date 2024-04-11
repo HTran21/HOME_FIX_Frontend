@@ -119,7 +119,7 @@ function LayoutRepairer() {
                 </div>
 
             </Drawer>
-            <Modal title="Đăng xuất" open={isModalOpen}
+            <Modal title="Đăng xuất" open={isModalOpen} centered
                 onOk={handleLogout} onCancel={handleCancel}
                 okButtonProps={{ style: { backgroundColor: "red" } }}
                 okText="Đăng xuất"

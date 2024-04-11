@@ -84,8 +84,9 @@ function ProfileUser() {
             key: 'status',
             dataIndex: 'status',
             render: (_, { status, index }) => {
-                let color = status === 'D' ? 'red' : (status === 'W' ? 'yellow' : 'green');
-                let text = status === 'D' ? 'Đã hủy' : (status === 'W' ? 'Đang chờ' : 'Đã duyệt');
+                let color = status === 'C' ? 'red' : (status === 'W' ? 'yellow' : (status === 'A' ? 'green' : (status === 'R' ? 'orange' : 'blue')));
+                let text = status === 'C' ? 'Đã hủy' : (status === 'W' ? 'Đang chờ' : (status === 'A' ? 'Đã duyệt' : (status === 'R' ? 'Đang sửa' : 'Hoàn thành')));
+
 
                 return (
                     <Tag key={index + 1} style={{ width: "70px", textAlign: "center" }} color={color} >
@@ -121,7 +122,7 @@ function ProfileUser() {
         },
         {
             key: '2',
-            label: 'Hóa đơn',
+            label: 'Thanh toán',
             children:
                 <div className={cx("emptyData")}>
                     <img src="../public/icon/file.png" alt="" />
@@ -407,7 +408,11 @@ function ProfileUser() {
                         </div>
                     </div>
                     <div className={cx("statusOrder")}>
-                        <span>Trạng thái:</span> <div className={`${cx("status")} ${record && record?.status == 'W' ? 'text-warning border-warning' : (record?.status == 'Y' ? 'text-success border-success' : 'text-danger border-danger')}`}>Đang chờ</div>
+
+                        <span>Trạng thái:</span> <div className={`${cx("status")} ${record && record?.status == 'W' ? 'text-warning border-warning' :
+                            (record?.status == 'A' ? 'text-success border-success' : (record?.status === 'R' ? 'text-warning text-opacity-50 border-warning-subtle' : (record?.state === 'S' ? 'text-primary border-primary' : 'text-danger border-danger')))}`}>
+                            {record && record?.status === 'W' ? 'Đang chờ' : (record?.status == 'A' ? 'Đã duyệt' : (record?.status === 'R' ? 'Đang sửa' : (record?.status === 'S' ? 'Hoàn thành' : 'Đã hủy')))}
+                        </div>
                     </div>
                 </div>
             </Drawer>

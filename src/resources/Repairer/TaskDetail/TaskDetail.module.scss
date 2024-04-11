@@ -1,0 +1,94 @@
+.titlePage {
+    position: relative;
+
+    .iconBack {
+        position: absolute;
+        margin: 4px;
+        font-size: 18px;
+    }
+
+    h4 {
+        text-align: center;
+        margin: 5px 0px;
+        // font-family: 'Reem Kufi', sans-serif;
+
+    }
+}
+
+.textInfor {
+    font-size: 15px;
+    margin-top: 5px;
+
+
+    .tileInfo {
+        text-align: center;
+    }
+}
+
+.cardTask {
+    margin: 5px 0;
+    height: 70px;
+    border-radius: 10px;
+    background-color: #1677ffca;
+    color: #fff;
+    box-shadow: 5px 5px 5px #cdcdcd;
+    padding: 10px;
+
+    .titleTask {
+        display: grid;
+        grid-template-columns: auto 20px;
+        font-size: 15px;
+        font-weight: bold;
+
+        .iconCancle {
+            margin: auto;
+            color: #fff;
+        }
+
+    }
+
+    .textTask {
+        font-size: 15px;
+    }
+
+    .priceTask {
+        font-size: 15px;
+        text-align: end;
+    }
+}
+
+.payment {
+    position: fixed;
+    display: flex;
+    align-items: end;
+    bottom: 0;
+    left: 0px;
+    right: 0px;
+    // width: 100%;
+    padding: 10px;
+    background-color: #ffffff;
+
+
+    p {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .btnPayment {
+        width: 300px;
+        padding: 10px;
+        border-radius: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #fff;
+        background: #FEAC5E;
+        background: -webkit-linear-gradient(to right, #4BC0C8, #C779D0, #FEAC5E);
+
+        background: linear-gradient(to right, #4BC0C8, #C779D0, #FEAC5E);
+
+
+
+
+    }
+}

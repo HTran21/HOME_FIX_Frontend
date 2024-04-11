@@ -234,7 +234,7 @@ function Specialization() {
                                                                 key: '0',
                                                             },
                                                             {
-                                                                label: <p onClick={handleShowDelete(specialize)}  ><DeleteOutlined className="pe-2" />Xóa</p>,
+                                                                label: <p onClick={() => handleShowDelete(specialize)}  ><DeleteOutlined className="pe-2" />Xóa</p>,
                                                                 key: '1',
                                                             },
                                                         ]
@@ -272,7 +272,7 @@ function Specialization() {
                 <p className={cx("textDrawer")}>{itemDrawer?.desSpecialization}</p>
             </Drawer>
 
-            <Modal title="Chỉnh sửa chuyên môn" open={isModalEdit}
+            <Modal title="Chỉnh sửa chuyên môn" open={isModalEdit} key={modalKey}
                 onOk={() => handleEdit(record?.id)}
                 onCancel={() => handleCloseEdit()} >
                 <>

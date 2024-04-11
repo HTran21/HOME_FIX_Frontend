@@ -10,6 +10,7 @@ import {
     SearchOutlined,
     DeleteOutlined,
     MoreOutlined,
+    EditOutlined,
 } from '@ant-design/icons';
 import { Dropdown, Modal } from 'antd';
 import NotFound from '../../../components/NotFound/NotFound';
@@ -122,15 +123,67 @@ function Brand() {
     }
 
     const handleDelete = (id) => {
-        console.log("id", id)
         axios.delete('http://localhost:3000/product/brand/' + id)
             .then(res => {
-                toast.success(res.data.message);
-                setIsModalDelete(false);
-                fetchData();
+                if (res.data.success === false) {
+                    toast.error(res.data.message)
+                    setDeleteItem("")
+                    setIsModalDelete(false)
+
+                }
+                else {
+                    toast.success(res.data.message)
+                    setDeleteItem("")
+                    setIsModalDelete(false)
+                    fetchData();
+
+                }
             })
             .catch((e) => console.log(e))
     }
+
+    const [isModelEdit, setIsModalEdit] = useState(false);
+    const [editBrand, setEditBrand] = useState();
+
+    const handleShowEdit = (brand) => {
+        setIsModalEdit(true);
+        console.log("brand", brand);
+        setEditBrand(brand);
+        setNameBrand(brand.nameBrand)
+        setShowImageBrand(`http://localhost:3000/${brand.imageBrand}`)
+
+    }
+
+    const handleCloseEdit = () => {
+        setIsModalEdit(false)
+        setEditBrand();
+        setNameBrand("")
+        setShowImageBrand(undefined);
+        setImageBrand(undefined)
+    }
+
+    const handleEdit = (id) => {
+        if (id) {
+            const formData = new FormData();
+            formData.append('imageBrand', imageBrand)
+            formData.append('nameBrand', nameBrand)
+            axios.put("http://localhost:3000/product/brand/" + id, formData)
+                .then(res => {
+                    if (res.data.success === false) {
+                        toast.error(res.data.message)
+                        handleCloseEdit();
+                    }
+                    else {
+                        toast.success(res.data.message)
+                        handleCloseEdit();
+                        fetchData()
+
+                    }
+                })
+        }
+    }
+
+
 
     return (
         <>
@@ -166,8 +219,12 @@ function Brand() {
                                                 menu={{
                                                     items: [
                                                         {
-                                                            label: <p onClick={handleShowDelete(brand)}><DeleteOutlined className="pe-2" />Xóa</p>,
+                                                            label: <p onClick={() => handleShowEdit(brand)}><EditOutlined className="pe-2" />Sửa</p>,
                                                             key: '0',
+                                                        },
+                                                        {
+                                                            label: <p onClick={handleShowDelete(brand)}><DeleteOutlined className="pe-2" />Xóa</p>,
+                                                            key: '1',
                                                         },
                                                     ]
                                                 }}
@@ -243,6 +300,42 @@ function Brand() {
                         {errors.nameBrand && <p className={cx("errors")}>{errors.nameBrand}</p>}
                     </div>
                 </form>
+            </Modal>
+
+            <Modal title="Chỉnh sửa thông tin thương hiệu" open={isModelEdit} onOk={() => handleEdit(editBrand?.id)} onCancel={() => handleCloseEdit()} okText="Tạo" cancelText="Đóng" >
+
+                <div className="group">
+                    <input type="file" name="imgBrand" id="imgBrand" className="d-none"
+                        accept="image/jpeg, image/png, image/jpg"
+
+                        onChange={(e) => {
+                            if (e.target.files && e.target.files[0]) {
+                                setShowImageBrand(URL.createObjectURL(e.target.files[0]))
+                                setImageBrand(e.target.files[0])
+                            }
+
+
+                        }}
+                    />
+                    <label htmlFor="imgBrand" className={`${cx("labelImgBrand")} ${errors.imageBrand ? 'border-danger' : ''}`} >
+                        <img src={showimageBrand} alt="" className={cx("imgBrand")} />
+                    </label>
+                    {errors.imageBrand && <p className={cx("errors")}>{errors.imageBrand}</p>}
+                </div>
+                <div className="mt-2">
+                    <p style={{ fontWeight: 500, fontSize: " 16px" }}>Tên thương hiệu</p>
+                    <input
+                        type="text"
+                        className={`form-control mt-2 ${cx("inputForm")} ${errors.nameBrand ? 'border-danger' : ''} `}
+                        id="exampleFormControlInput1"
+                        placeholder="Nhập tên thương hiệu"
+                        value={nameBrand}
+                        onChange={(e) => setNameBrand(e.target.value)}
+                        autoComplete="off"
+                    />
+                    {errors.nameBrand && <p className={cx("errors")}>{errors.nameBrand}</p>}
+                </div>
+
             </Modal>
 
             <Modal title="Xóa dịch vụ" open={isModalDelete}

@@ -24,6 +24,7 @@ function CalenderRepairer() {
         try {
             const response = await axios.get('http://localhost:3000/schedule/dayWork/' + id);
             setData(response.data.data)
+            console.log("Date", response.data.data)
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -90,6 +91,25 @@ function CalenderRepairer() {
                         }
                         return '';
                     }}
+
+                    renderCell={(value) => {
+                        if (data && data.length > 0) {
+                            const filteredData = data.filter(item => moment(item.workDay).format('YYYY-MM-DD') === moment(value).format('YYYY-MM-DD'));
+                            if (filteredData.length === 0) {
+                                return null;
+                            }
+                            const workToday = filteredData[0].DetailOrders;
+                            if (workToday.length) {
+                                return (
+                                    <div>
+                                        Đơn: {workToday.length}
+                                    </div>
+                                )
+                            }
+                        }
+
+                    }}
+
                 />
                 {/* <Calendar bordered cellClassName={date => (date.getDay() % 2 ? 'bg-gray' : undefined)} /> */}
                 {/* <DatePicker placeholder="Chọn tuần" className={cx("calenderSelect")} onChange={onChange} picker="week" />

@@ -5,13 +5,26 @@
 }
 
 .imgHomePage {
-    max-width: 250px;
+    max-width: 150px;
     width: auto;
     max-height: 250px;
     height: auto;
     margin: auto;
     display: flex;
 }
+
+@media only screen and (min-width: 600px) {
+    .imgHomePage {
+        max-width: 250px;
+        width: auto;
+        max-height: 250px;
+        height: auto;
+        margin: auto;
+        display: flex;
+    }
+
+}
+
 
 .contentIntro {
     background-color: #3fcde643;
@@ -28,10 +41,6 @@
     text-align: center;
 }
 
-.listWorkDay {
-    border: 1px solid red;
-}
-
 .titleWork {
     font-family: 'Reem Kufi', sans-serif;
     color: #000;
@@ -46,13 +55,14 @@
     box-shadow: 5px 10px 10px #bfacac8a;
     color: #fff;
     margin: 5px 0px;
-    border: 1px solid red;
 
     .titleWorkContent {
         font-family: 'Reem Kufi', sans-serif;
-        // color: #000;
         font-size: 16px;
         font-weight: bold;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .contentWork {

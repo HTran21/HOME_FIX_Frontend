@@ -1,0 +1,82 @@
+.containerPage {
+    padding: 10px 20px;
+}
+
+.peopleContact {
+    border-bottom: 1px solid rgba(182, 182, 182, 0.534);
+    height: 85vh;
+    background-color: #fff;
+    // padding: 10px;
+
+    .listContact {
+        border-bottom: 1px solid rgba(182, 182, 182, 0.534);
+        border-top: 1px solid rgba(182, 182, 182, 0.534);
+
+        // padding: 0px 10px;
+
+        .userContact {
+            display: grid;
+            grid-template-columns: 70px auto;
+            padding: 5px 15px;
+            cursor: pointer;
+
+            img {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+            }
+
+            p {
+                margin-left: 10px;
+                margin: auto 0px;
+                font-size: 17px;
+            }
+        }
+
+        .userContact:hover {
+            background-color: #d7d7d781;
+        }
+    }
+}
+
+.messageContact {
+    border-bottom: 1px solid rgba(182, 182, 182, 0.534);
+    height: 85vh;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+
+    .titleContentContact {
+        border-bottom: 1px solid rgba(182, 182, 182, 0.534);
+        display: flex;
+        padding: 0px 10px;
+        cursor: pointer;
+
+        .userContact {
+            display: grid;
+            grid-template-columns: 70px auto;
+            padding: 5px;
+            justify-content: start;
+
+
+            img {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+            }
+
+            p {
+                margin-left: 10px;
+                margin: auto 0px;
+                font-size: 17px;
+                font-weight: bold;
+            }
+        }
+
+        .iconMore {
+            margin: auto 10px auto auto;
+            font-size: 20px;
+
+        }
+    }
+}

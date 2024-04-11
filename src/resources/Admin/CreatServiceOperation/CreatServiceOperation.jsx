@@ -12,7 +12,7 @@ function CreatServiceOperation() {
     const [listService, setListService] = useState();
     const [listCategories, setListCategories] = useState();
     const [nameOperation, setNameOperation] = useState("");
-    const [priceOperation, setPriceOperation] = useState(0);
+    const [priceOperation, setPriceOperation] = useState('');
     const [idService, setIdService] = useState();
     const [idCategori, setidCategori] = useState();
     const [errors, setErrors] = useState({});
@@ -71,9 +71,9 @@ function CreatServiceOperation() {
         }
 
 
-        if (idService <= 0 || !idService) {
-            newErrors.idService = "Chưa chọn dịch vụ"
-        }
+        // if (idService <= 0 || !idService) {
+        //     newErrors.idService = "Chưa chọn dịch vụ"
+        // }
 
         if (idCategori <= 0 || !idCategori) {
             newErrors.idCategori = "Chưa chọn thiết bị"
@@ -81,7 +81,7 @@ function CreatServiceOperation() {
 
         if (Object.keys(newErrors).length === 0) {
             setErrors({});
-            axios.post("http://localhost:3000/service/createOperation", { nameOperation, priceOperation, idService, idCategori })
+            axios.post("http://localhost:3000/service/createOperation", { nameOperation, priceOperation, idCategori })
                 .then(res => {
                     if (res.data.success === false) {
                         toast.error(res.data.message)
@@ -89,9 +89,9 @@ function CreatServiceOperation() {
                     else {
                         toast.success(res.data.message)
                         setNameOperation("")
-                        setPriceOperation(0)
-                        setIdService("")
+                        setPriceOperation("")
                         setidCategori("")
+                        setIdService("")
                     }
                 })
                 .catch(err => console.log(err));

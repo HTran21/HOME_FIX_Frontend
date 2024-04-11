@@ -40,8 +40,8 @@ function Service() {
                     <p>Chất lượng là nỗi ám ảnh của chúng tôi hôm nay và nút chỉnh sửa ngày mai để thay đổi văn bản này.
                         Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi.
                         Là đất của đất, là tang vật cũng không phải là hạ thi của đất, là gối của sư tử.s</p>
-                    <img src="https://themes.webdevia.com/appliance/wp-content/uploads/2016/11/badge_pc-1-100x100.png" alt="Tab 1" style={{ width: "80px" }} />
-                    <img src="https://themes.webdevia.com/appliance/wp-content/uploads/2016/11/BBB_logo-1.png" alt="Tab 1" />
+                    <img src="../illustration/ISO9001.png" alt="Tab 1" style={{ width: "60px" }} />
+                    <img src="../illustration/certificate.jpg" alt="Tab 1" style={{ width: "100px", marginLeft: "10px" }} />
                 </div>
             ),
         },
@@ -89,7 +89,7 @@ function Service() {
                 <div className="row ">
                     <div className="col-lg-5">
                         <div className={cx("imageIntroService")}>
-                            <img src="https://themes.webdevia.com/appliance/wp-content/uploads/2016/11/man-1-900x1000.jpg" alt="" />
+                            <img src="../illustration/repairmanService.png" alt="" />
                         </div>
                     </div>
                     <div className="col-lg-7">
@@ -97,12 +97,16 @@ function Service() {
                             <h3>CHÚNG TÔI LÀM BẠN YÊU THÍCH THIẾT BIỆT CỦA BẠN!</h3>
                             <h6>Hôm nay không phải ngày mai</h6>
                             <div className={cx("line")}></div>
-                            <Tabs defaultActiveKey="1" tabPosition="left" items={items} onChange={onChange}>
+                            {/* <Tabs defaultActiveKey="1" tabPosition="left" items={items} onChange={onChange}>
                                 {items.map((item) => (
                                     <TabPane key={item.key} tab={item.tab}>
                                         {item.content}
                                     </TabPane>
                                 ))}
+                            </Tabs> */}
+                            <Tabs defaultActiveKey="1" tabPosition="left" items={items} onChange={onChange}>
+
+
                             </Tabs>
                         </div>
                     </div>

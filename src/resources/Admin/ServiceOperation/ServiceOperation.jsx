@@ -23,6 +23,7 @@ function ServiceOperation() {
         axios.get("http://localhost:3000/service/getAllOperation")
             .then(res => {
                 setData(res.data)
+                console.log(res.data)
             })
             .catch((error) => console.log(error))
     }
@@ -124,8 +125,78 @@ function ServiceOperation() {
                         </div>
                     </div>
                     <div className="listOperationService mt-4">
-
                         {data?.map((item, i) => (
+                            <div key={i}>
+                                <Accordion>
+                                    <Accordion.Item eventKey={i}>
+                                        <Accordion.Header style={{ border: '1px solid #CCD3CA', padding: 0 }}>{item.nameService}</Accordion.Header>
+                                        <Accordion.Body>
+                                            {item.Categoris.map((category, index) => (
+                                                <Accordion key={index}>
+                                                    <Accordion.Item eventKey={i}>
+                                                        <Accordion.Header style={{ border: '1px solid #CCD3CA' }}>{category.nameCategories}</Accordion.Header>
+                                                        <Accordion.Body>
+                                                            <table className="table table-bordered text-center">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th scope="col">STT</th>
+                                                                        <th scope="col" style={{ maxWidth: "100px" }}>Tên thao tác</th>
+                                                                        <th scope="col">Giá thao tác</th>
+                                                                        <th scope="col">Action</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+
+                                                                    {(category.Operations)?.map((operation, keyindex) => (
+                                                                        <tr key={keyindex}>
+                                                                            <td>{keyindex + 1}</td>
+                                                                            <td style={{ maxWidth: "100px" }}>{operation.nameOperation}</td>
+                                                                            <td>{operation.price}</td>
+                                                                            <td>
+                                                                                <FontAwesomeIcon onClick={() => showModal(operation)} icon={faPenToSquare} style={{ color: "#5680c8", marginRight: "10px" }} size="lg" />
+                                                                                <FontAwesomeIcon onClick={() => handleShowDelete(operation)} icon={faTrash} size="lg" style={{ color: "#d72828", }} />
+                                                                            </td>
+                                                                        </tr>
+                                                                    ))}
+
+                                                                </tbody>
+                                                            </table>
+                                                        </Accordion.Body>
+                                                    </Accordion.Item>
+                                                </Accordion>
+                                            ))}
+
+                                            {/* <table className="table table-secondary">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">STT</th>
+                                                        <th scope="col" style={{ maxWidth: "100px" }}>Tên thao tác</th>
+                                                        <th scope="col">Giá thao tác</th>
+                                                        <th scope="col">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    {(item.operations)?.map((operation, index) => (
+                                                        <tr key={index}>
+                                                            <td>{index + 1}</td>
+                                                            <td style={{ maxWidth: "100px" }}>{operation.nameOperation}</td>
+                                                            <td>{operation.price}</td>
+                                                            <td>
+                                                                <FontAwesomeIcon onClick={() => showModal(operation)} icon={faPenToSquare} style={{ color: "#5680c8", marginRight: "10px" }} size="lg" />
+                                                                <FontAwesomeIcon onClick={() => handleShowDelete(operation)} icon={faTrash} size="lg" style={{ color: "#d72828", }} />
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+
+                                                </tbody>
+                                            </table> */}
+                                        </Accordion.Body>
+                                    </Accordion.Item>
+                                </Accordion>
+                            </div>
+                        ))}
+                        {/* {data?.map((item, i) => (
                             <div key={i}>
                                 <Accordion>
                                     <Accordion.Item eventKey={i}>
@@ -162,7 +233,7 @@ function ServiceOperation() {
 
                             </div>
 
-                        ))}
+                        ))} */}
                     </div>
                 </div>
             </div>

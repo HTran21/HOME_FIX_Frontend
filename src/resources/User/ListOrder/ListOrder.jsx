@@ -157,18 +157,27 @@ function ListOrder() {
                     value: 'W'
                 },
                 {
+                    text: 'Đã duyệt',
+                    value: 'A'
+                },
+                {
+                    text: 'Đang sửa',
+                    value: 'R'
+                },
+                {
                     text: 'Hoàn thành',
                     value: 'Y'
                 },
                 {
                     text: 'Đã hủy',
                     value: 'D'
-                }
+                },
+
             ],
             onFilter: (value, record) => record.status.indexOf(value) === 0,
             render: (_, { status, index }) => {
-                let color = status === 'C' ? 'red' : (status === 'W' ? 'yellow' : 'green');
-                let text = status === 'C' ? 'Đã hủy' : (status === 'W' ? 'Đang chờ' : 'Đã duyệt');
+                let color = status === 'C' ? 'red' : (status === 'W' ? 'yellow' : (status === 'A' ? 'green' : (status === 'R' ? 'orange' : 'blue')));
+                let text = status === 'C' ? 'Đã hủy' : (status === 'W' ? 'Đang chờ' : (status === 'A' ? 'Đã duyệt' : (status === 'R' ? 'Đang sửa' : 'Hoàn thành')));
 
                 return (
                     <Tag key={index + 1} style={{ width: "70px", textAlign: "center" }} color={color} >
@@ -184,8 +193,8 @@ function ListOrder() {
             key: 'action',
             render: (_, record, index) => (
                 <Space size="middle" key={index + 1}>
-                    <Link to={`/repair/edit/${record?.id}?ID_Service=${record.Categori.ID_Service}`}><FontAwesomeIcon className={`${(record?.status === 'C' || record?.status === 'Y') ? 'd-none' : ''}`} icon={faPenToSquare} size="lg" style={{ color: "#024bca", }} /></Link>
-                    <FontAwesomeIcon className={`${record?.status === 'C' ? 'd-none' : ''}`} icon={faTrash} onClick={() => showModal(record)} size="lg" style={{ color: "#cc0000", }} />
+                    <Link to={`/repair/edit/${record?.id}?ID_Service=${record.Categori.ID_Service}`}><FontAwesomeIcon className={`${(record?.status === 'W') ? '' : 'd-none'}`} icon={faPenToSquare} size="lg" style={{ color: "#024bca", }} /></Link>
+                    <FontAwesomeIcon className={`${record?.status === 'W' ? '' : 'd-none'}`} icon={faTrash} onClick={() => showModal(record)} size="lg" style={{ color: "#cc0000", }} />
                     <FontAwesomeIcon icon={faChevronRight} size="lg" style={{ color: "#005eff", marginLeft: "10px" }} onClick={() => showDrawer(record)} />
                 </Space>
             ),
@@ -271,7 +280,7 @@ function ListOrder() {
             </div>
             <Drawer onClose={onClose} open={open} width={600} title={
                 <div className={cx("titleForm")}>
-                    <h3 className={cx("titleRepair")}>ĐĂNG KÝ SỬA CHỮA</h3>
+                    <h3 className={cx("titleRepair")}>ĐƠN SỬA CHỮA</h3>
                     <span className="h1 ms-auto "><img className={cx("imgLogo")} src="../image/logo/logo8.png" alt="" />
                         <p className={cx("textLogo")}>HOME FIX</p></span>
                 </div>
@@ -402,8 +411,9 @@ function ListOrder() {
                         </div>
                     </div>
                     <div className={cx("statusOrder")}>
-                        <span>Trạng thái:</span> <div className={`${cx("status")} ${record && record?.status == 'W' ? 'text-warning border-warning' : (record?.status == 'Y' ? 'text-success border-success' : 'text-danger border-danger')}`}>
-                            {record && record?.status === 'W' ? 'Đang chờ' : (record?.status == 'Y' ? 'Đã duyệt' : 'Đã hủy')}
+                        <span>Trạng thái:</span> <div className={`${cx("status")} ${record && record?.status == 'W' ? 'text-warning border-warning' :
+                            (record?.status == 'A' ? 'text-success border-success' : (record?.status === 'R' ? 'text-warning text-opacity-50 border-warning-subtle' : (record?.state === 'S' ? 'text-primary border-primary' : 'text-danger border-danger')))}`}>
+                            {record && record?.status === 'W' ? 'Đang chờ' : (record?.status == 'A' ? 'Đã duyệt' : (record?.status === 'R' ? 'Đang sửa' : (record?.status === 'S' ? 'Hoàn thành' : 'Đã hủy')))}
                         </div>
                     </div>
                 </div>

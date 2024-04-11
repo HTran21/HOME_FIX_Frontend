@@ -436,7 +436,7 @@ function ListAllOrder() {
                     </div>
                     <div className={cx("statusOrder")}>
                         <span>Trạng thái:</span> <div className={`${cx("status")} ${record && record?.status == 'W' ? 'text-warning border-warning' :
-                            (record?.status == 'A' ? 'text-success border-success' : (record?.status === 'R' ? 'text-danger border-success-subtle' : (record?.state === 'S' ? 'text-primary border-primary' : 'text-danger border-danger')))}`}>
+                            (record?.status == 'A' ? 'text-success border-success' : (record?.status === 'R' ? 'text-warning text-opacity-50 border-warning-subtle' : (record?.state === 'S' ? 'text-primary border-primary' : 'text-danger border-danger')))}`}>
                             {record && record?.status === 'W' ? 'Đang chờ' : (record?.status == 'A' ? 'Đã duyệt' : (record?.status === 'R' ? 'Đang sửa' : (record?.status === 'S' ? 'Hoàn thành' : 'Đã hủy')))}
                         </div>
                     </div>

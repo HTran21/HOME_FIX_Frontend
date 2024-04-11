@@ -208,34 +208,32 @@ function AcceptForm() {
 
                                     <div className="row">
                                         <h6 className="mb-2">Thông tin thiết bị</h6>
-                                        <div className="row">
-                                            <div className="col-md-6 mb-4">
-                                                <div className="form-floating">
-                                                    <input type="text" className={`form-control ${cx("inputForm")} `} placeholder="name@example.com"
-                                                        value={brand || ''} onChange={() => { }} readOnly />
-                                                    <label htmlFor="floatingInput">Nhãn hàng</label>
-                                                </div>
+                                        <div className="col-md-6 mb-4">
+                                            <div className="form-floating">
+                                                <input type="text" className={`form-control ${cx("inputForm")} `} placeholder="name@example.com"
+                                                    value={brand || ''} onChange={() => { }} readOnly />
+                                                <label htmlFor="floatingInput">Nhãn hàng</label>
                                             </div>
-                                            <div className="col-md-6 mb-4">
-                                                <div className="form-floating">
-                                                    <input type="text" className={`form-control ${cx("inputForm")}`} placeholder="name@example.com"
-                                                        value={category || ''} onChange={() => { }} readOnly />
-                                                    <label htmlFor="floatingInput">Loại thiết bị</label>
-                                                </div>
+                                        </div>
+                                        <div className="col-md-6 mb-4">
+                                            <div className="form-floating">
+                                                <input type="text" className={`form-control ${cx("inputForm")}`} placeholder="name@example.com"
+                                                    value={category || ''} onChange={() => { }} readOnly />
+                                                <label htmlFor="floatingInput">Loại thiết bị</label>
                                             </div>
-                                            <div className="col-md-6 mb-4">
-                                                <div className="form-floating">
-                                                    <input type="text" className={`form-control ${cx("inputForm")} `} placeholder="name@example.com"
-                                                        value={product} onChange={() => { }} readOnly />
-                                                    <label htmlFor="floatingInput">Thiết bị</label>
-                                                </div>
+                                        </div>
+                                        <div className="col-md-6 mb-4">
+                                            <div className="form-floating">
+                                                <input type="text" className={`form-control ${cx("inputForm")} `} placeholder="name@example.com"
+                                                    value={product} onChange={() => { }} readOnly />
+                                                <label htmlFor="floatingInput">Thiết bị</label>
                                             </div>
-                                            <div className="col-md-6 mb-4">
-                                                <div className="form-floating">
-                                                    <textarea className={`form-control ${cx("inputForm")}`} placeholder="Leave a comment here" id="floatingTextarea2"
-                                                        value={desRepair} onChange={(e) => setDesRepair(e.target.value)} readOnly></textarea>
-                                                    <label htmlFor="floatingTextarea2">Mô tả lỗi</label>
-                                                </div>
+                                        </div>
+                                        <div className="col-md-6 mb-4">
+                                            <div className="form-floating">
+                                                <textarea className={`form-control ${cx("inputForm")}`} placeholder="Leave a comment here" id="floatingTextarea2"
+                                                    value={desRepair} onChange={(e) => setDesRepair(e.target.value)} readOnly></textarea>
+                                                <label htmlFor="floatingTextarea2">Mô tả lỗi</label>
                                             </div>
                                         </div>
                                     </div>

@@ -10,6 +10,7 @@ import {
     SearchOutlined,
     DeleteOutlined,
     MoreOutlined,
+    EditOutlined
 } from '@ant-design/icons';
 import { Dropdown, Modal } from 'antd';
 
@@ -27,6 +28,7 @@ function Categories() {
         axios.get("http://localhost:3000/product/categories")
             .then(res => {
                 setData(res.data)
+                // console.log("Data", res.data)
             })
             .catch((error) => console.log(error));
     }
@@ -90,7 +92,7 @@ function Categories() {
     const [isModalDelete, setIsModalDelete] = useState(false);
     const [deleteItem, setDeleteItem] = useState();
 
-    const handleShowDelete = (categori) => () => {
+    const handleShowDelete = (categori) => {
         setIsModalDelete(true);
         setDeleteItem(categori);
     }
@@ -98,15 +100,61 @@ function Categories() {
     const handleDelete = (id) => {
         axios.delete('http://localhost:3000/product/categories/' + id)
             .then(res => {
-                toast.success(res.data.message);
-                setIsModalDelete(false);
-                fetchData();
+                if (res.data.success) {
+                    toast.success(res.data.message)
+                    setIsModalDelete(false);
+                    fetchData();
+                } else {
+                    toast.error(res.data.message)
+                    setIsModalDelete(false);
+                }
             })
             .catch((e) => console.log(e))
     }
 
+    const [showImageEdit, setShowImageEdit] = useState("")
+    const [nameCategoryEdit, setNameCategoryEdit] = useState("");
+    const [imageCategoryEdit, setImageCategoryEdit] = useState();
+    const [idServiceEdit, setIdServiceEdit] = useState()
+    const [editItem, setEditItem] = useState();
+    const [isModalEdit, setIsModalEdit] = useState(false)
+    const [modalKey, setModalKey] = useState(0);
 
+    const handleShowEdit = (item) => {
+        setIsModalEdit(true)
+        setEditItem(item);
+        setNameCategoryEdit(item.nameCategories);
+        setIdServiceEdit(item.ID_Service);
+        setModalKey(prevKey => prevKey + 1);
+    }
 
+    const handleCloseEdit = () => {
+        setEditItem()
+        setIsModalEdit(false);
+        setShowImageEdit(undefined);
+        setImageCategoryEdit(undefined)
+    }
+    const handleEdit = (id) => {
+        if (id) {
+            const formData = new FormData();
+            formData.append('imageCategories', imageCategoryEdit)
+            formData.append('nameCategories', nameCategoryEdit)
+            formData.append('idService', idServiceEdit)
+            axios.put("http://localhost:3000/product/categories/" + id, formData)
+                .then(res => {
+                    if (res.data.success === false) {
+                        toast.error(res.data.message)
+                    }
+                    else {
+                        toast.success(res.data.message)
+                        handleCloseEdit();
+                        fetchData()
+
+                    }
+                })
+
+        }
+    }
 
 
     return (
@@ -176,31 +224,38 @@ function Categories() {
                         <div className="col-lg-9 col-sm-12">
                             <div className={cx("listCategories")}>
                                 <div className="row">
-                                    {data?.map((categoy, i) => (
+                                    {data?.map((category, i) => (
                                         <div className="col-lg-3 col-md-6 col-sm-12" key={i}>
                                             <div className={cx("cardProduct")}>
-                                                <Dropdown className={cx("iconMore")}
-                                                    menu={{
-                                                        items: [
-                                                            {
-                                                                label: <p onClick={handleShowDelete(categoy)}  ><DeleteOutlined className="pe-2" />Xóa</p>,
-                                                                key: '0',
-                                                            },
-                                                        ]
-                                                    }}
-                                                    trigger={['click']}
-                                                    placement="bottomRight"
-                                                >
-                                                    <a onClick={(e) => e.preventDefault()} >
-                                                        <MoreOutlined />
+                                                <div className={cx("titleCardProduct")}>
+                                                    <p className={cx("serviceProduct")}>{category.Service.nameService}</p>
+                                                    <Dropdown className={cx("iconMore")}
+                                                        menu={{
+                                                            items: [
+                                                                {
+                                                                    label: <p onClick={() => handleShowEdit(category)}  ><EditOutlined className="pe-2" />Sửa</p>,
+                                                                    key: '0',
+                                                                },
+                                                                {
+                                                                    label: <p onClick={() => handleShowDelete(category)}  ><DeleteOutlined className="pe-2" />Xóa</p>,
+                                                                    key: '1',
+                                                                },
+                                                            ]
+                                                        }}
+                                                        trigger={['click']}
+                                                        placement="bottomRight"
+                                                    >
+                                                        <a onClick={(e) => e.preventDefault()} >
+                                                            <MoreOutlined />
 
-                                                    </a>
-                                                </Dropdown>
+                                                        </a>
+                                                    </Dropdown>
+                                                </div>
                                                 <div className={cx("borderImage")}>
-                                                    <img src={`http://localhost:3000/${categoy.imageCategories}`} className={cx("imgProduct")} alt="" />
+                                                    <img src={`http://localhost:3000/${category.imageCategories}`} className={cx("imgProduct")} alt="" />
                                                 </div>
                                                 <p className={cx("titleProduct")}>
-                                                    {categoy.nameCategories}
+                                                    {category.nameCategories}
                                                 </p>
                                                 {/* <p className={cx("quantityItem")}>
                                                     thiết bị
@@ -215,7 +270,51 @@ function Categories() {
                     </div>
                 </div>
             </div>
-            <Modal title="Xóa dịch vụ" open={isModalDelete}
+            <Modal title="Chỉnh sửa thiết bị" open={isModalEdit}
+                onOk={() => handleEdit(editItem?.id)}
+                onCancel={() => handleCloseEdit()}>
+                <select className={`form-control mt-2 ${cx("inputForm")} ${errors.idService ? ' border-danger' : ''} `} aria-label="Default select example"
+                    value={idServiceEdit} onChange={(e) => setIdServiceEdit(e.target.value)}
+                >
+                    <option value="0">Chọn dịch vụ</option>
+                    {
+                        listService?.map((service, i) =>
+                            <option key={i} value={service.id}>{service.nameService}</option>
+                        )
+                    }
+                </select>
+                <div className="mb-3">
+                    <label htmlFor="exampleInputPassword1" className="form-label">
+                        Tên chuyên môn
+                    </label>
+                    <input
+                        type="text"
+                        value={nameCategoryEdit}
+                        onChange={(e) => setNameCategoryEdit(e.target.value)}
+                        className="form-control"
+                        id="exampleInputPassword1"
+                        autoComplete="off"
+                    />
+                </div>
+                <h6>Hình ảnh</h6>
+                <div className="group">
+                    <input type="file" name="imgEdit" id="imgEdit" className="d-none"
+                        accept="image/jpeg, image/png, image/jpg"
+                        onChange={(e) => {
+                            if (e.target.files && e.target.files[0]) {
+                                setShowImageEdit(URL.createObjectURL(e.target.files[0]));
+                                setImageCategoryEdit(e.target.files[0])
+                            }
+                        }}
+                    />
+                    <label htmlFor="imgEdit" className={`${cx("labelImgBrand")}`}>
+                        <img src={showImageEdit || `http://localhost:3000/${editItem?.imageCategories}`} alt="" className={cx("imgBrand")} />
+                    </label>
+
+
+                </div>
+            </Modal>
+            <Modal title="Xóa thiết bị" open={isModalDelete}
                 onOk={() => handleDelete(deleteItem?.id)}
                 onCancel={() => setIsModalDelete(false)}
                 okButtonProps={{ style: { backgroundColor: 'red' } }} >
