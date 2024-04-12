@@ -1,33 +1,32 @@
-import { faArrowLeft, faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import styles from "./TaskDetail.module.scss";
-import classNames from 'classnames/bind';
-import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-
-import { AndroidOutlined, AppleOutlined } from '@ant-design/icons';
-import { Tabs, DatePicker, Modal, Button, Drawer } from 'antd';
-import axios from '../../../service/customize_axios';
-import moment from 'moment';
+import styles from "./ConfirmOrder.module.scss";
+import classNames from 'classnames/bind';
 import { toast } from "react-toastify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Tabs, DatePicker, Modal, Button, Drawer } from 'antd';
+import { Link, useNavigate, useParams } from "react-router-dom";
+import moment from 'moment';
+import axios from '../../../service/customize_axios';
+
+import { faArrowLeft, faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
 const cx = classNames.bind(styles);
-function TaskDetail() {
 
+function ConfirmOrder() {
     const { id } = useParams();
-    const navigate = useNavigate();
-
+    const [totalAmount, setTotalAmount] = useState(0);
     const [data, setData] = useState();
+    const [taskRepair, setTaskRepair] = useState();
+    const [listTask, setListTask] = useState();
     const [listService, setListService] = useState();
     const [listCategories, setListCategories] = useState();
     const [listOperations, setListOperations] = useState();
     const [idService, setIdService] = useState();
     const [idCategori, setidCategori] = useState();
-    const [operation, setOperation] = useState({});
-    const [listTask, setListTask] = useState([]);
-    const [listOperationShow, setListOperationShow] = useState();
-
-    const [totalAmount, setTotalAmount] = useState(0);
+    const [operation, setOperation] = useState();
+    const VND = new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+    });
 
     const getDetailOrder = async () => {
         if (id) {
@@ -37,10 +36,16 @@ function TaskDetail() {
         }
     }
 
-    const VND = new Intl.NumberFormat('vi-VN', {
-        style: 'currency',
-        currency: 'VND',
-    });
+    const fetchListTask = () => {
+        axios.get("http://localhost:3000/order/detailTaskRepair/" + id)
+            .then(res => {
+                setTaskRepair(res.data)
+                setListTask(res.data.TaskRepairs)
+                setTotalAmount(res.data.totalAmount)
+            })
+            .catch((e) => console.log(e))
+    }
+
     const fetchData = () => {
         axios.get("http://localhost:3000/service/getService")
             .then(res => {
@@ -73,18 +78,11 @@ function TaskDetail() {
                 })
         }
     }, [idCategori])
-    useEffect(() => {
-        if (operation !== "0") {
-            axios.get("http://localhost:3000/service/getOperation")
-                .then(res => {
-                    setListOperationShow(res.data)
-                })
-        }
-    }, [operation])
+
     useEffect(() => {
         getDetailOrder();
+        fetchListTask();
         fetchData();
-
     }, [])
 
     const [open, setOpen] = useState(false);
@@ -95,24 +93,11 @@ function TaskDetail() {
         setOpen(false);
     };
 
+    const [loadings, setLoadings] = useState();
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const showModal = () => {
         setIsModalOpen(true);
-    };
-    const handleOk = () => {
-        if (operation !== "0") {
-            let total = totalAmount;
-            const selectedeOperation = listOperationShow.find(op => op.id == operation)
-            total += selectedeOperation.price;
-            setTotalAmount(total)
-            console.log("Tong", total)
-            setListTask(prevState => [...prevState, selectedeOperation]);
-            setIsModalOpen(false);
-            setIdService("");
-            setidCategori("")
-            setOperation("")
-            setListOperations()
-        }
     };
     const handleCancel = () => {
         setIsModalOpen(false);
@@ -120,91 +105,105 @@ function TaskDetail() {
         setidCategori("")
         setOperation("")
     };
-
-    const deleteTask = (task) => {
-        const id = task.id;
-        let total = totalAmount;
-        total -= task.price;
-
-        let deleted = false;
-
-        const newListTask = listTask.filter(op => {
-            if (op.id === id && !deleted) {
-                deleted = true;
-                return false;
-            }
-            return true;
-        });
-
-        setListTask(newListTask);
-        setTotalAmount(total);
-    }
-
-
-    const paymentTask = () => {
-        console.log("Danh sach cac thao tac", listTask);
-        console.log("Tong so tien phai tra", totalAmount);
-        if (listTask.length > 0) {
-            axios.post("http://localhost:3000/order/taskRepair/" + id, { totalAmount, listTask })
+    const handleOk = () => {
+        if (operation !== "0") {
+            setLoadings(true)
+            let total = totalAmount;
+            const selectedeOperation = listOperations.find(op => op.id == operation)
+            total += selectedeOperation.price;
+            axios.put("http://localhost:3000/order/updateTaskRepair/" + id, { total, operation })
                 .then(res => {
                     if (res.data.success) {
+                        setLoadings(false)
+                        handleCancel();
                         toast.success(res.data.message);
-                        navigate("/repairer/confirm/" + id);
+                        getDetailOrder();
+                        fetchListTask();
+                        fetchData();
                     }
                     else {
-                        toast.error(res.data.message)
+                        toast.error(res.data.message);
                     }
                 })
         }
-        else {
-            toast.warn("Vui lòng thêm thao tác")
+    };
+
+
+    const deleteTask = async (task) => {
+        if (task) {
+            let total = totalAmount;
+            let ID_TaskRepair = task.id;
+            console.log("ID_Task", ID_TaskRepair)
+            // console.log("Task", task)
+            total -= task.Operation.price;
+            console.log("Task", total)
+
+            axios.delete("http://localhost:3000/order/deleteTaskRepair/" + ID_TaskRepair)
+                .then(res => {
+                    if (res.data.success) {
+                        toast.success(res.data.message)
+                        fetchListTask();
+
+                    }
+                    else {
+                        toast.success(res.data.message)
+                    }
+                })
         }
+
     }
 
     return (
-        <div className="container">
-            <div className={cx("titlePage")}>
-                <div className={cx("iconBack")} onClick={() => navigate(-1)}>
-                    <FontAwesomeIcon icon={faArrowLeft} />
-                </div>
-                <h4>Thao tác tiến hành</h4>
-                <div className="d-flex">
-                    <Button className="d-inline" type="primary" onClick={showDrawer}>Đơn sửa chữa</Button>
-                    <Button className="d-inline ms-auto" type="primary" onClick={showModal}>Thêm thao tác</Button>
-                </div>
-
-            </div>
-            <div className="contentPage">
-                <div className="listTask mt-3 mb-5">
-
-                    <div className="row">
-                        {listTask && listTask.length > 0 && listTask.map((task, index) => (
-                            <div key={index} className="col-lg-4 col-md-6 col-sm-12">
-                                <div className={cx("cardTask")}>
-                                    <div className={cx("titleTask")}>
-                                        <p>Sửa chữa {task.Categori.nameCategories}</p>
-                                        <div className={cx("iconCancle")} onClick={() => deleteTask(task)}><FontAwesomeIcon icon={faXmark} /></div>
-                                    </div>
-                                    <div className="row mt-1">
-                                        <div className={`col-9 ${cx("textTask")}`}>{task.nameOperation}</div>
-                                        <div className={`col-3 ${cx("priceTask")}`}>{VND.format(task.price)}</div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        ))}
-                    </div>
-
-
-                </div>
-                <div className={cx("payment")} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <p>Tổng tiền: {VND.format(totalAmount)}</p>
+        <>
+            <div className="container">
+                <div className={cx("titlePage")}>
+                    <h4>Xác nhận đơn sửa chữa</h4>
                     <div className="d-flex">
-                        <button className={cx("btnPayment")} onClick={paymentTask}>Thanh toán</button>
+                        <Button className="d-inline" type="primary" onClick={showDrawer}>Đơn sửa chữa</Button>
+                        <div className={`d-inline ms-auto ${cx("amountNumber")}`}>Tổng tiền: {VND.format(totalAmount)}</div>
+                    </div>
+                    <div className={cx("statusPayment")}>
+                        <div>
+                            <Button onClick={() => showModal()} className="d-inline" type="primary" >Thêm thao tác</Button>
+                        </div>
+                        <p className="p-2 ms-auto">Thanh toán: {taskRepair?.paymentStatus == 'UP' ? 'Chưa thanh toán' : 'Đã thanh toán'}</p>
+
                     </div>
                 </div>
-            </div>
-            <Modal title="Thêm thao tác" okText="Thêm" cancelText="Đóng" centered open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                <div className="contentPage">
+                    <div className="listTask mt-2 mb-2">
+
+                        <div className="row">
+                            {listTask?.map((task, index) => (
+                                <div key={index} className="col-lg-4 col-md-6 col-sm-12">
+                                    <div className={cx("cardTask")}>
+                                        <div className={cx("titleTask")}>
+                                            <p>Sửa chữa {task.Operation.Categori.nameCategories}</p>
+                                            <div className={cx("iconCancle")} onClick={() => deleteTask(task)}><FontAwesomeIcon icon={faXmark} /></div>
+                                        </div>
+                                        <div className="row mt-1">
+                                            <div className={`col-9 ${cx("textTask")}`}>{task.Operation.nameOperation}</div>
+                                            <div className={`col-3 ${cx("priceTask")}`}>{task.Operation.price}</div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            ))}
+
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div className={cx("backHome")}>
+                        <Link to={'/repairer'} className="text-decoration"> <button className={cx("btnBackHome")}>Về trang chủ</button></Link>
+                    </div>
+                </div>
+
+            </div >
+            <Modal title="Thêm thao tác" okText="Thêm" cancelText="Đóng" centered open={isModalOpen} onOk={handleOk} onCancel={handleCancel} confirmLoading={loadings} >
                 <select className="form-select mb-2" value={idService} onChange={(e) => setIdService(e.target.value)} aria-label="Default select example">
                     <option value="0">Chọn dịch vụ</option>
                     {
@@ -260,8 +259,8 @@ function TaskDetail() {
                     <p className={cx("textInfor")}><span className={cx("tileInfo")}>Thời gian</span> {data?.timeRepair}</p>
                 </div>
             </Drawer>
-        </div>
+        </>
     );
 }
 
-export default TaskDetail;
+export default ConfirmOrder;

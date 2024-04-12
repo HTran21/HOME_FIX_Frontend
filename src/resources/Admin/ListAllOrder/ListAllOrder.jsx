@@ -259,12 +259,8 @@ function ListAllOrder() {
 
     const [pagination, setPagination] = useState({});
 
-    function handleTableChange() {
-        requestToServer().then((data) => {
-            const newPagination = { ...pagination };
-            newPagination.total = your_value;
-            setPagination(newPagination);
-        });
+    function handleTableChange(data) {
+        setPagination(data);
     }
 
 

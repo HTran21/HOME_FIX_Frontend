@@ -54,6 +54,7 @@ import ListWork from './resources/Repairer/ListWork/ListWork';
 import CalanderRepairer from './resources/Repairer/Calender/Calender';
 import CreateCalenderRepair from './resources/Repairer/CreateCalender/CreateCalender';
 import ProfileRepairer from './resources/Repairer/ProfileRepairer/ProfileRepairer';
+import ConfirmOrder from './resources/Repairer/ConfirmOrder/ConfirmOrder';
 
 import Loading from './components/Loading/Loading';
 import OnTopButton from './components/OnTopButton/OnTopButton';
@@ -299,6 +300,10 @@ function App() {
           element: <TaskDetail />
         },
         {
+          path: "confirm/:id",
+          element: <ConfirmOrder />
+        },
+        {
           path: "calendar",
           element: <CalanderRepairer />
         },
@@ -314,6 +319,7 @@ function App() {
           path: "profile/edit",
           element: <EditProfileRepairer />
         },
+
       ]
     },
     {

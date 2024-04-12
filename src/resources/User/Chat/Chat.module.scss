@@ -79,4 +79,49 @@
 
         }
     }
+
+    .contentContact {
+        max-height: 440px;
+        overflow-y: scroll;
+        overflow-y: auto;
+
+        .listText {
+            min-height: 480px;
+
+
+        }
+
+    }
+
+    .uploadTextContact {
+        padding: 20px;
+
+        .groupInput {
+            display: grid;
+            grid-template-columns: auto 40px;
+            // border: 1px solid red;
+            background-color: #d6d3d361;
+            border-radius: 20px;
+
+            input {
+                border: none;
+                outline: none;
+                padding: 10px 0px 10px 15px;
+                border-top-left-radius: 20px;
+                border-bottom-left-radius: 20px;
+                background-color: transparent;
+            }
+
+            .iconSend {
+                background-color: blue;
+                border-radius: 50%;
+                justify-content: center;
+                display: flex;
+                align-items: center;
+                color: #fff;
+                cursor: pointer;
+            }
+
+        }
+    }
 }

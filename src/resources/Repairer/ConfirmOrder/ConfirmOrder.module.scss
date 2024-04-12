@@ -1,12 +1,4 @@
 .titlePage {
-    position: relative;
-
-    .iconBack {
-        position: absolute;
-        margin: 4px;
-        font-size: 18px;
-    }
-
     h4 {
         text-align: center;
         margin: 5px 0px;
@@ -15,14 +7,9 @@
     }
 }
 
-.textInfor {
-    font-size: 15px;
-    margin-top: 5px;
-
-
-    .tileInfo {
-        text-align: center;
-    }
+.amountNumber {
+    font-weight: bold;
+    padding: 5px;
 }
 
 .cardTask {
@@ -61,38 +48,37 @@
     }
 }
 
-.payment {
-    position: fixed;
-    display: flex;
-    align-items: end;
-    bottom: 0;
-    left: 0px;
-    right: 0px;
-    // width: 100%;
-    padding: 10px;
-    background-color: #ffffff;
+.textInfor {
+    font-size: 15px;
+    margin-top: 5px;
 
 
-    p {
-        font-size: 16px;
-        font-weight: bold;
-        margin-bottom: 5px;
+    .tileInfo {
+        text-align: center;
     }
+}
 
-    .btnPayment {
-        width: 300px;
+.backHome {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+
+    .btnBackHome {
         padding: 10px;
-        border-radius: 10px;
-        font-size: 18px;
+        width: 300px;
+        margin-bottom: 5px;
+        background-color: #4693FF;
         font-weight: bold;
         color: #fff;
-        background: #FEAC5E;
-        background: -webkit-linear-gradient(to right, #4BC0C8, #C779D0, #FEAC5E);
-
-        background: linear-gradient(to right, #4BC0C8, #C779D0, #FEAC5E);
-
-
-
-
+        border-radius: 5px;
     }
+}
+
+.statusPayment {
+    font-weight: bold;
+    margin-top: 10px;
+    display: flex;
 }

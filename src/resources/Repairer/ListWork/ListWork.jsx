@@ -41,7 +41,7 @@ function ListWork() {
             })
                 .then(res => {
                     setListworkToDay(res.data[0].DetailOrders)
-                    console.log("Date", res.data[0].DetailOrders)
+                    // console.log("Date", res.data[0].DetailOrders)
                 })
         }
 
@@ -53,6 +53,9 @@ function ListWork() {
     }
     const navigatoTask = (work) => {
         navigate("/repairer/task/" + work.id)
+    }
+    const navigatoConfirm = (work) => {
+        navigate("/repairer/confirm/" + work.id)
     }
 
 
@@ -102,8 +105,8 @@ function ListWork() {
 
         },
         {
-            key: '2',
-            label: 'Công việc đang sửa',
+            key: '3',
+            label: 'Đang tiến hành',
             children: (
                 <div className="row listWork">
                     <div className="d-flex justify-content-center mb-2">
@@ -129,7 +132,57 @@ function ListWork() {
                                     </div>
 
                                 </div>
-                            ) : ''
+                            ) : (
+                                <div key={index} className={`${cx("emptyWork")}`}>
+                                    <img className="mt-5" src="../public/icon/emptyWork.png" alt="" />
+                                    <p>Không có công việc</p>
+                                </div>
+                            )
+
+                        ))
+                    ) : (
+                        <div className={`${cx("emptyWork")}`}>
+                            <img className="mt-5" src="../public/icon/emptyWork.png" alt="" />
+                            <p>Không có công việc</p>
+                        </div>
+                    )}
+                </div>
+            )
+        },
+        {
+            key: '',
+            label: 'Hoàn thanh',
+            children: (
+                <div className="row listWork">
+                    <div className="d-flex justify-content-center mb-2">
+                        <DatePicker onChange={onChange} style={{ width: "200px", padding: "10px" }} />
+                    </div>
+                    {listWorkToDay && listWorkToDay.length > 0 ? (
+                        listWorkToDay?.map((work, index) => (
+                            work.Order.status === 'S' ? (
+                                <div key={index} className={`col-lg-4 col-md-6 col-sm-12`} >
+                                    <div className={cx("cardWork")} onClick={() => navigatoConfirm(work)} >
+                                        <div className="row" >
+                                            <div className="col-6"><p className={cx("titleWorkContent")}>Sửa chữa {work.Order.Categori.nameCategories}</p></div>
+                                            <div className="col-6 text-end">{work.timeRepair} {dateSelect}</div>
+                                        </div>
+                                        <div className="row">
+                                            <div className={`${cx("contentWork")}`}>
+                                                <p>Tên: {work.Order.fullName}</p>
+                                                <p>Số điện thoại: {work.Order.phone}</p>
+                                                <p>Địa Chỉ:  {work.Order.address}</p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            ) : (
+                                <div key={index} className={`${cx("emptyWork")}`}>
+                                    <img className="mt-5" src="../public/icon/emptyWork.png" alt="" />
+                                    <p>Không có công việc</p>
+                                </div>
+                            )
 
                         ))
                     ) : (
