@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import className from "classnames/bind";
 import styles from "./ProfileUser.module.scss";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFacebook, faInstagram, faTwitter } from "@fortawesome/free-brands-svg-icons";
-import { Tabs, Space, Table, Tag, Drawer } from 'antd';
-import { faChevronRight, faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faFacebook, faInstagram, faPaypal, faTwitter } from "@fortawesome/free-brands-svg-icons";
+import { Tabs, Space, Table, Tag, Drawer, Tooltip } from 'antd';
+import { faAnglesRight, faChevronRight, faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import moment from 'moment';
@@ -25,6 +25,7 @@ function ProfileUser() {
     const fetchOrder = async () => {
         let getOrder = await axios.get("http://localhost:3000/order/user/" + idUser);
         setListOrder(getOrder.data.data)
+        console.log(getOrder.data.data)
     }
 
     useEffect(() => {
@@ -89,7 +90,7 @@ function ProfileUser() {
 
 
                 return (
-                    <Tag key={index + 1} style={{ width: "70px", textAlign: "center" }} color={color} >
+                    <Tag key={index + 1} style={{ width: "78px", textAlign: "center" }} color={color} >
                         {text}
                     </Tag>
 
@@ -104,7 +105,18 @@ function ProfileUser() {
                 <Space size="middle" key={index + 1}>
                     {/* <Link to={`/repair/edit/${record?.id}?ID_Service=${record.Categori.ID_Service}`}><FontAwesomeIcon icon={faPenToSquare} size="lg" style={{ color: "#024bca", }} /></Link> */}
                     {/* <FontAwesomeIcon icon={faTrash} size="lg" style={{ color: "#cc0000", }} /> */}
-                    <FontAwesomeIcon icon={faChevronRight} size="lg" style={{ color: "#005eff", marginLeft: "10px" }} onClick={() => showDrawer(record)} />
+                    {record.DetailOrder && record.DetailOrder.paymentStatus == 'UP' ? (
+                        <Link to={`/user/order/` + record.DetailOrder.id}>
+                            <Tooltip title="Thanh toán" className={cx("btnPay")}>
+                                <FontAwesomeIcon icon={faPaypal} />
+                            </Tooltip>
+                        </Link>
+                    ) : (
+                        <Tooltip title="Xem thêm">
+                            <FontAwesomeIcon icon={faChevronRight} size="lg" style={{ color: "#005eff", marginLeft: "10px", cursor: "pointer" }} onClick={() => showDrawer(record)} />
+                        </Tooltip>
+
+                    )}
                 </Space>
             ),
         },
@@ -122,12 +134,13 @@ function ProfileUser() {
         },
         {
             key: '2',
-            label: 'Thanh toán',
-            children:
-                <div className={cx("emptyData")}>
-                    <img src="../public/icon/file.png" alt="" />
-                    <h6>Dữ liệu rỗng</h6>
-                </div>,
+            label: 'Hóa đơn',
+            children: <Table columns={columns} dataSource={listOrder?.filter(order => order.status === 'S')} pagination={{
+                defaultPageSize: 3,
+                showSizeChanger: true,
+                pageSizeOptions: ['3']
+            }}
+                onChange={handleTableChange} rowKey={"id"} />,
         }
     ];
 
@@ -141,24 +154,11 @@ function ProfileUser() {
         setOpen(false);
     };
 
-    // const [pagination, setPagination] = useState({});
-
-    // function handleTableChange() {
-
-    //     requestToServer().then((data) => {
-    //         pagination.total = your_value;
-    //         setPagination(pagination);
-    //     })
-    // }
 
     const [pagination, setPagination] = useState({});
 
     function handleTableChange() {
-        requestToServer().then((data) => {
-            const newPagination = { ...pagination };
-            newPagination.total = your_value;
-            setPagination(newPagination);
-        });
+        setPagination(data);
     }
 
 
@@ -410,7 +410,7 @@ function ProfileUser() {
                     <div className={cx("statusOrder")}>
 
                         <span>Trạng thái:</span> <div className={`${cx("status")} ${record && record?.status == 'W' ? 'text-warning border-warning' :
-                            (record?.status == 'A' ? 'text-success border-success' : (record?.status === 'R' ? 'text-warning text-opacity-50 border-warning-subtle' : (record?.state === 'S' ? 'text-primary border-primary' : 'text-danger border-danger')))}`}>
+                            (record?.status == 'A' ? 'text-success border-success' : (record?.status === 'R' ? 'text-warning text-opacity-50 border-warning-subtle' : (record?.status === 'S' ? 'text-primary border-primary' : 'text-danger border-danger')))}`}>
                             {record && record?.status === 'W' ? 'Đang chờ' : (record?.status == 'A' ? 'Đã duyệt' : (record?.status === 'R' ? 'Đang sửa' : (record?.status === 'S' ? 'Hoàn thành' : 'Đã hủy')))}
                         </div>
                     </div>

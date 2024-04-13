@@ -43,6 +43,7 @@ import AcceptForm from './resources/Admin/AcceptForm/AcceptForm';
 
 import ProfileUser from './resources/User/ProfileUser/ProfileUser';
 import Chat from './resources/User/Chat/Chat';
+import DetailOrder from './resources/User/DetailOrder/DetailOrder';
 import EditProfile from './resources/User/EditProfile/EditProfile';
 import FormRepairEdit from './resources/User/FormRepairEdit/FormRepairEdit';
 import ListOrder from './resources/User/ListOrder/ListOrder';
@@ -270,6 +271,10 @@ function App() {
         {
           path: "order",
           element: <ListOrder />,
+        },
+        {
+          path: "order/:id",
+          element: <DetailOrder />,
         },
         {
           path: "chat",

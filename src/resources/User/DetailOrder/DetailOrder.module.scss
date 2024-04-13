@@ -1,0 +1,121 @@
+.titleRepair {
+    font-family: 'Reem Kufi', sans-serif;
+    font-weight: bold;
+    font-size: 22px;
+    text-align: center;
+
+
+}
+
+.inforUser {
+    .fullName {
+        font-weight: bold;
+    }
+
+    p {
+        // font-weight: bold;
+        margin-bottom: 10px;
+        font-size: 15px;
+
+        span {
+            font-weight: bold;
+        }
+    }
+}
+
+.inforRepair {
+    p {
+        // font-weight: bold;
+        margin-bottom: 10px;
+        font-size: 15px;
+
+        span {
+            font-weight: bold;
+        }
+    }
+}
+
+.statusOrder {
+    display: flex;
+    font-size: 15px;
+
+    span {
+        font-weight: bold;
+        margin: auto 0px;
+    }
+
+    .status {
+        padding: 5px;
+        margin-left: 10px;
+        border-radius: 5px;
+        border: 1px solid rgba(0, 0, 255, 0);
+    }
+}
+
+.totalAmout {
+    font-size: 18px;
+    font-weight: bold;
+
+}
+
+.titlePay {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.selectPayMethoid {
+    border: 1px solid rgba(220, 220, 220, 0.704);
+    padding: 10px;
+    font-size: 16px;
+    display: flex;
+    width: 120px;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    color: #8e8989;
+    cursor: pointer;
+    height: 50px;
+
+    .iconPay {
+        padding: 5px;
+    }
+}
+
+.active {
+    background-color: #3194D2;
+    color: #fff;
+    border: none;
+}
+
+.selectGroup {
+    display: flex;
+}
+
+
+.btnPay {
+    background-image: linear-gradient(to right, #1FA2FF 0%, #12D8FA 51%, #1FA2FF 100%);
+    padding: 15px 45px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: block;
+    margin: 10px auto 1px auto;
+    width: 100%;
+}
+
+.btnPay:hover {
+    background-position: right center;
+    /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+}
+
+.imageVNPay {
+    width: 20px;
+    margin-right: 5px;
+}

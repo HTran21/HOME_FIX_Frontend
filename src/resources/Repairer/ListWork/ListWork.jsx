@@ -151,7 +151,7 @@ function ListWork() {
         },
         {
             key: '',
-            label: 'Hoàn thanh',
+            label: 'Hoàn thành',
             children: (
                 <div className="row listWork">
                     <div className="d-flex justify-content-center mb-2">

@@ -44,7 +44,7 @@ const itemsSlider = [
         <img className='m-0' style={{
             width: "25px",
             display: "inline-block"
-        }} src="../image/logo/logo8.png" alt="" />
+        }} src="../../image/logo/logo8.png" alt="" />
     ),
 
     getItem(<Link to="/user" className='text-decoration-none'>Thông tin</Link>, '1', <UserOutlined />),
