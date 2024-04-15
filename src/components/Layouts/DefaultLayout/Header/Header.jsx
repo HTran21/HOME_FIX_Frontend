@@ -36,16 +36,31 @@ function Header() {
     };
 
     const items = [
-        {
-            label: <Link to={"/user"} className={`${cx("dropdownItem")} text-decoration-none`}>Thông tin cá nhân</Link>,
-            key: '0',
-        },
+        // {
+        //     label: <Link to={"/user"} className={`${cx("dropdownItem")} text-decoration-none`}>Thông tin cá nhân</Link>,
+        //     key: '0',
+        // },
         {
             label: <p className={cx("dropdownItem")}>Đăng xuất</p>,
             key: '1',
             onClick: handleLogout,
         }
     ];
+
+    if (user.role === 'KH') {
+        items.unshift({
+            label: <Link to={"/user"} className={`${cx("dropdownItem")} text-decoration-none`}>Thông tin cá nhân</Link>,
+            key: '0',
+        });
+    }
+
+    const itemOnly = [
+        {
+            label: <p className={cx("dropdownItem")}>Đăng xuất</p>,
+            key: '0',
+            onClick: handleLogout,
+        }
+    ]
 
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
@@ -70,9 +85,9 @@ function Header() {
                     {isAuthenticated ? (
                         <div className={cx("username")}>Welcome to{" "}
                             <Dropdown
-                                menu={{
-                                    items,
-                                }}
+                                menu={
+                                    { items, }
+                                }
                                 trigger={['click']}
                                 placement="bottom"
                             >

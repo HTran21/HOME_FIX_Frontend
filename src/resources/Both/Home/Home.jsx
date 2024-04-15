@@ -14,6 +14,7 @@ const cx = classNames.bind(styles);
 function HomePage() {
 
     const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+    const user = useSelector((state) => state.user.user);
 
     const settings = {
         infinite: true,
@@ -70,7 +71,13 @@ function HomePage() {
                             </div>
                             <div className={cx("line")} ></div>
                             <h4>Chúng tôi ưu tiên cung cấp các dịch vụ linh hoạt để đáp ứng nhu cầu của bạn</h4>
-                            <button className={cx("btnGet")}><Link className="text-decoration-none text-light" to={isAuthenticated ? '/repair' : '/login'}>Đăng ký sửa chữa ngay</Link></button>
+                            <button className={cx("btnGet")}>
+                                {user.role === 'KH' ? (
+                                    <Link className="text-decoration-none text-light" to={isAuthenticated ? '/repair' : '/login'}>Đăng ký sửa chữa ngay</Link>
+                                ) : (
+                                    <span className="text-light">Đăng ký sửa chữa ngay</span>
+                                )}
+                            </button>
                         </div>
                         <div className="col-md-6 col-lg-6 d-none d-lg-block">
                             <img className={cx("imgHomePage")} src="../illustration/repairmanNew.png" alt="" />

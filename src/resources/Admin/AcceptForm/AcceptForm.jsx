@@ -36,21 +36,27 @@ function AcceptForm() {
     const getDetailOrder = async () => {
         if (id) {
             const detailOrder = await axios.get("http://localhost:3000/order/detail/" + id);
-            setFullName(detailOrder.data.data.data.fullName)
-            // console.log("data", detailOrder.data.data.data)
-            setAddress(detailOrder.data.data.data.address)
-            setPhone(detailOrder.data.data.data.phone)
-            setEmail(detailOrder.data.data.data.email)
-            setIdService(detailOrder.data.data.data.Categori.ID_Service)
-            setDesRepair(detailOrder.data.data.data.desProblem)
-            setNameService(detailOrder.data.data.data.Categori.Service.nameService)
-            setDateRepair(moment(detailOrder.data.data.data.desireDate).format('YYYY-MM-DD'))
-            setCategory(detailOrder.data.data.data.Categori.nameCategories)
-            if (detailOrder.data.data.data.ID_Product != undefined) {
-                setProduct(detailOrder.data.data.data.Product.nameProduct)
-                setBrand(detailOrder.data.data.data.Product.Brand.nameBrand)
+            if (detailOrder.data.data.data) {
+                setFullName(detailOrder.data.data.data.fullName)
+                // console.log("data", detailOrder.data.data.data)
+                setAddress(detailOrder.data.data.data.address)
+                setPhone(detailOrder.data.data.data.phone)
+                setEmail(detailOrder.data.data.data.email)
+                setIdService(detailOrder.data.data.data.Categori.ID_Service)
+                setDesRepair(detailOrder.data.data.data.desProblem)
+                setNameService(detailOrder.data.data.data.Categori.Service.nameService)
+                setDateRepair(moment(detailOrder.data.data.data.desireDate).format('YYYY-MM-DD'))
+                setCategory(detailOrder.data.data.data.Categori.nameCategories)
+                if (detailOrder.data.data.data.ID_Product != undefined) {
+                    setProduct(detailOrder.data.data.data.Product.nameProduct)
+                    setBrand(detailOrder.data.data.data.Product.Brand.nameBrand)
 
+                }
             }
+            else {
+                toast.error(detailOrder.data.data.message)
+            }
+
         }
     }
     useEffect(() => {
@@ -384,7 +390,7 @@ function AcceptForm() {
                                             Duyệt
                                         </Button>
                                         <Button className="ms-2">
-                                            <Link className="text-decoration-none" onClick={() => navigate(-1)}>Đóng</Link>
+                                            <Link className="text-decoration-none" to={"/admin/order"}>Đóng</Link>
                                         </Button>
 
                                     </div>

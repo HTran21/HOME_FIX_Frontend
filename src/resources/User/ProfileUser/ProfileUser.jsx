@@ -113,9 +113,12 @@ function ProfileUser() {
                         </Link>
                     ) : (
                         record.DetailOrder && record.DetailOrder.paymentStatus == 'P' ? (
-                            <Tooltip title="Đã thanh toán">
-                                <FontAwesomeIcon size="lg" icon={faMoneyBill} style={{ color: "#3e9ce5", }} />
-                            </Tooltip>
+                            <Link to={`/user/order/` + record.DetailOrder.id}>
+                                <Tooltip title="Đã thanh toán">
+                                    <FontAwesomeIcon size="lg" icon={faMoneyBill} style={{ color: "#3e9ce5", }} />
+                                </Tooltip>
+                            </Link>
+
                         ) : (
                             <Tooltip title="Xem thêm">
                                 <FontAwesomeIcon icon={faChevronRight} size="lg" style={{ color: "#005eff", marginLeft: "10px", cursor: "pointer" }} onClick={() => showDrawer(record)} />

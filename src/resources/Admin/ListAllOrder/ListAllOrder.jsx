@@ -35,7 +35,7 @@ function ListAllOrder() {
         listOrder?.forEach((order) => {
             if (order.status === 'W') {
                 awaitCount++;
-            } else if (order.status === 'Y') {
+            } else if (order.status === 'S') {
                 successCount++;
             } else {
                 cancelCount++;

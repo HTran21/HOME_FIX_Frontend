@@ -168,40 +168,48 @@ function DetailOrder() {
                                 <div className="card p-0">
                                     <div className="card-body">
                                         <p className={cx("totalAmout")}>Tổng thành tiền: {VND.format(data?.totalAmount)}</p>
-                                        <p className={cx("titlePay")}>Chọn phương thức thanh toán</p>
+                                        {data?.paymentStatus === 'P' ?
+                                            (
+                                                <>
+                                                    <p><span className="fw-bold">Trạng thái thanh toán: </span>Đã thanh toán</p>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <p className={cx("titlePay")}>Chọn phương thức thanh toán</p>
 
-                                        <div className={cx("selectGroup")}>
+                                                    <div className={cx("selectGroup")}>
 
-                                            <div className="form-check m-0">
-                                                <input
-                                                    className="form-check-input d-none"
-                                                    type="radio"
-                                                    name="flexRadioDefault"
-                                                    id="cashMethod"
-                                                    value={"cash"}
-                                                    onChange={(e) => setPaymentMethod(e.target.value)}
-                                                />
-                                                <label className={`${cx("selectPayMethoid", `${paymentMethod === 'cash' ? 'active' : ''}`)} form-check-label`} htmlFor="cashMethod">
-                                                    <FontAwesomeIcon className={cx("iconPay")} icon={faMoneyBill1} />Tiền mặt
-                                                </label>
-                                            </div>
-                                            <div className="form-check m-0">
-                                                <input
-                                                    className="form-check-input d-none"
-                                                    type="radio"
-                                                    name="flexRadioDefault"
-                                                    id="vnpayMethod"
-                                                    value={"vnpay"}
-                                                    onChange={(e) => setPaymentMethod(e.target.value)}
-                                                />
-                                                <label className={`${cx("selectPayMethoid", `${paymentMethod === 'vnpay' ? 'active' : ''}`)} form-check-label`} htmlFor="vnpayMethod">
-                                                    <img src="../../icon/iconVNPay.png" className={cx("imageVNPay")} alt="" /> VNPay
-                                                </label>
-                                            </div>
+                                                        <div className="form-check m-0">
+                                                            <input
+                                                                className="form-check-input d-none"
+                                                                type="radio"
+                                                                name="flexRadioDefault"
+                                                                id="cashMethod"
+                                                                value={"cash"}
+                                                                onChange={(e) => setPaymentMethod(e.target.value)}
+                                                            />
+                                                            <label className={`${cx("selectPayMethoid", `${paymentMethod === 'cash' ? 'active' : ''}`)} form-check-label`} htmlFor="cashMethod">
+                                                                <FontAwesomeIcon className={cx("iconPay")} icon={faMoneyBill1} />Tiền mặt
+                                                            </label>
+                                                        </div>
+                                                        <div className="form-check m-0">
+                                                            <input
+                                                                className="form-check-input d-none"
+                                                                type="radio"
+                                                                name="flexRadioDefault"
+                                                                id="vnpayMethod"
+                                                                value={"vnpay"}
+                                                                onChange={(e) => setPaymentMethod(e.target.value)}
+                                                            />
+                                                            <label className={`${cx("selectPayMethoid", `${paymentMethod === 'vnpay' ? 'active' : ''}`)} form-check-label`} htmlFor="vnpayMethod">
+                                                                <img src="../../icon/iconVNPay.png" className={cx("imageVNPay")} alt="" /> VNPay
+                                                            </label>
+                                                        </div>
 
-                                        </div>
-                                        <Button type="primary" className={cx("btnPay")} loading={loadings} onClick={paymentMethod === 'cash' ? paymentCash : () => paymentVNPay(data?.id)} disabled={paymentMethod.trim() === "" ? true : false}>Thanh Toán</Button>
-
+                                                    </div>
+                                                    <Button type="primary" className={cx("btnPay")} loading={loadings} onClick={paymentMethod === 'cash' ? paymentCash : () => paymentVNPay(data?.id)} disabled={paymentMethod.trim() === "" ? true : false}>Thanh Toán</Button>
+                                                </>
+                                            )}
 
                                     </div>
                                 </div>

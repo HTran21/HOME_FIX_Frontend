@@ -35,23 +35,28 @@ function FormRepairEdit() {
     const getDetailOrder = async () => {
         if (id) {
             const detailOrder = await axios.get("http://localhost:3000/order/detail/" + id);
-            // console.log("Detail", detailOrder.data.data.data)
+            console.log("Detail", detailOrder.data.data.data)
+            if (detailOrder.data.data.data) {
+                setFullName(detailOrder.data.data.data.fullName)
+                setAddress(detailOrder.data.data.data.address)
+                setPhone(detailOrder.data.data.data.phone)
+                setEmail(detailOrder.data.data.data.email)
+                setidCategori(detailOrder.data.data.data.ID_Categori)
+                setDesRepair(detailOrder.data.data.data.desProblem)
+                setDateRepair(moment(detailOrder.data.data.data.desireDate).format('YYYY-MM-DD'))
+                if (detailOrder.data.data.data.ID_Product != undefined) {
+                    setIdProduct(detailOrder.data.data.data.ID_Product)
+
+                }
+                if (detailOrder.data.data.data.Product && detailOrder.data.data.data.Product.ID_Brand != undefined) {
+                    setidBrand(detailOrder.data.data.data.Product.ID_Brand)
+
+                }
+
+            } else {
+                toast.error(detailOrder.data.data.message)
+            }
             // setData(detailOrder.data.data.detailOrder);
-            setFullName(detailOrder.data.data.data.fullName)
-            setAddress(detailOrder.data.data.data.address)
-            setPhone(detailOrder.data.data.data.phone)
-            setEmail(detailOrder.data.data.data.email)
-            setidCategori(detailOrder.data.data.data.ID_Categori)
-            setDesRepair(detailOrder.data.data.data.desProblem)
-            setDateRepair(moment(detailOrder.data.data.data.desireDate).format('YYYY-MM-DD'))
-            if (detailOrder.data.data.data.ID_Product != undefined) {
-                setIdProduct(detailOrder.data.data.data.ID_Product)
-
-            }
-            if (detailOrder.data.data.data.Product && detailOrder.data.data.data.Product.ID_Brand != undefined) {
-                setidBrand(detailOrder.data.data.data.Product.ID_Brand)
-
-            }
 
 
         }
@@ -400,7 +405,7 @@ function FormRepairEdit() {
                                             <Link className="text-decoration-none text-light" to="http://localhost:5173/">HỦY</Link>
                                         </button> */}
                                         <button className={`d-inline ${cx("btnCancel")}`}>
-                                            <Link className="text-decoration-none text-light" onClick={() => navigate(-1)}>QUAY VỀ</Link>
+                                            <Link className="text-decoration-none text-light" to={"/user/order"}>QUAY VỀ</Link>
                                         </button>
                                     </div>
                                 </div>
