@@ -94,26 +94,27 @@
 
 
 .btnPay {
-    background-image: linear-gradient(to right, #1FA2FF 0%, #12D8FA 51%, #1FA2FF 100%);
-    padding: 15px 45px;
+    // background-image: linear-gradient(to right, #1FA2FF 0%, #12D8FA 51%, #1FA2FF 100%);
     text-align: center;
     text-transform: uppercase;
     transition: 0.5s;
     background-size: 200% auto;
-    color: white;
+    // color: white;
     box-shadow: 0 0 20px #eee;
     border-radius: 10px;
     display: block;
     margin: 10px auto 1px auto;
     width: 100%;
+    height: 55px;
+    font-weight: bold;
 }
 
-.btnPay:hover {
-    background-position: right center;
-    /* change the direction of the change here */
-    color: #fff;
-    text-decoration: none;
-}
+// .btnPay:hover {
+//     background-position: right center;
+//     /* change the direction of the change here */
+//     color: #fff;
+//     text-decoration: none;
+// }
 
 .imageVNPay {
     width: 20px;

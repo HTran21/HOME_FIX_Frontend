@@ -16,7 +16,7 @@ function RepairerHomePage() {
     // console.log("ID", id)
 
     const currentDate = moment().format('YYYY-MM-DD');
-    // const currentDate = '2024-04-10';
+    // const currentDate = '2024-04-13';
     // console.log("CurrentDay", currentDate);
     const [listWorkToDay, setListworkToDay] = useState();
     useEffect(() => {
@@ -28,7 +28,9 @@ function RepairerHomePage() {
         })
             .then(res => {
                 // console.log("List work", res.data[0].DetailOrders)
-                setListworkToDay(res.data[0].DetailOrders)
+                if (res.data) {
+                    setListworkToDay(res.data.DetailOrders)
+                }
             })
     }, [])
 
@@ -69,7 +71,7 @@ function RepairerHomePage() {
                                 <div key={index} className={`col-lg-4 col-md-6 col-sm-12`}>
                                     <div className={cx("cardWork")} >
                                         <div className="row" >
-                                            <div className="col" style={{ overflow: "hidden" }}><p className={cx("titleWorkContent")}>Sửa chữa {work.Order.Categori.nameCategories}</p></div>
+                                            <div className="col"><p className={cx("titleWorkContent")}>Sửa chữa {work.Order.Categori.nameCategories}</p></div>
                                             <div className="col text-end">{work.timeRepair} {currentDate}</div>
                                         </div>
                                         <div className="row">

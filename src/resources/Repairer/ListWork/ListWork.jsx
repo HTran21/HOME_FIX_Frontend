@@ -40,7 +40,11 @@ function ListWork() {
                 }
             })
                 .then(res => {
-                    setListworkToDay(res.data[0].DetailOrders)
+                    if (res.data) {
+                        setListworkToDay(res.data.DetailOrders)
+                        console.log("Data", res.data.DetailOrders)
+                    }
+
                     // console.log("Date", res.data[0].DetailOrders)
                 })
         }
@@ -132,12 +136,11 @@ function ListWork() {
                                     </div>
 
                                 </div>
-                            ) : (
-                                <div key={index} className={`${cx("emptyWork")}`}>
-                                    <img className="mt-5" src="../public/icon/emptyWork.png" alt="" />
-                                    <p>Không có công việc</p>
-                                </div>
-                            )
+                            ) :
+
+                                null
+
+
 
                         ))
                     ) : (
@@ -177,12 +180,7 @@ function ListWork() {
                                     </div>
 
                                 </div>
-                            ) : (
-                                <div key={index} className={`${cx("emptyWork")}`}>
-                                    <img className="mt-5" src="../public/icon/emptyWork.png" alt="" />
-                                    <p>Không có công việc</p>
-                                </div>
-                            )
+                            ) : null
 
                         ))
                     ) : (

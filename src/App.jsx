@@ -22,6 +22,7 @@ import FormRepair from './resources/User/FormRepair/FormRepair';
 import DetailRepair from './resources/Both/DetailRepair/DetailRepair';
 import Forbidden from './resources/Both/Forbidden/Forbidden';
 import PageNotFound from './resources/Both/PageNotFound/PageNotFound';
+import Result from './resources/Both/Result/Result';
 
 
 import AdminHomePage from './resources/Admin/AdminHomePage/AdminHomePage';
@@ -40,6 +41,7 @@ import Staff from './resources/Admin/Staff/Staff';
 import CalendarStaff from './resources/Admin/Calendar/CalendarStaff';
 import ListAllOrder from './resources/Admin/ListAllOrder/ListAllOrder';
 import AcceptForm from './resources/Admin/AcceptForm/AcceptForm';
+import ChatAdmin from './resources/Admin/ChatAdmin/ChatAdmin';
 
 import ProfileUser from './resources/User/ProfileUser/ProfileUser';
 import Chat from './resources/User/Chat/Chat';
@@ -244,6 +246,11 @@ function App() {
 
         },
         {
+          path: "chat",
+          element: <ChatAdmin />
+
+        },
+        {
           path: "editproduct/:id",
           element: <EditProduct />
 
@@ -357,6 +364,11 @@ function App() {
     {
       path: "test",
       element: <Test />
+
+    },
+    {
+      path: "result",
+      element: <Result />
 
     },
     {

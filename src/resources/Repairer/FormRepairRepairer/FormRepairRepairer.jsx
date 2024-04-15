@@ -19,9 +19,13 @@ function FormRepairRepairer() {
     const getDetailOrder = async () => {
         if (id) {
             const detailOrder = await axios.get("http://localhost:3000/order/fullDetail/" + id);
-            // setFullName(detailOrder.data.data.data.fullName)
-            console.log("data", detailOrder.data)
-            setData(detailOrder.data)
+            if (detailOrder.data.success) {
+                // console.log(detailOrder.data.exsitDetailOrder)
+                setData(detailOrder.data.exsitDetailOrder)
+            }
+            else {
+                toast.error("Không tìm thấy đơn sửa chữa")
+            }
 
         }
     }
@@ -42,7 +46,6 @@ function FormRepairRepairer() {
                         toast.error(res.data.message)
                     }
                 })
-            // navigate("/repairer/task/" + id)
         }
     }
 

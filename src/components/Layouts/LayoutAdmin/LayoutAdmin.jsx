@@ -5,7 +5,7 @@ import styles from "./LayoutAdmin.module.scss";
 import { DownOutlined } from '@ant-design/icons';
 import { Dropdown, Space, Button } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faHeadset } from "@fortawesome/free-solid-svg-icons";
 import AuthenService from "../../../service/AuthService";
 import { doLogoutAction } from "../../../redux/reducer/userSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -64,6 +64,7 @@ const itemsSlider = [
     ]),
     getItem(<Link to="/admin/calendar" className='text-decoration-none'>Lịch làm việc</Link>, '14', <CalendarOutlined />),
     getItem(<Link to="/admin/brand" className='text-decoration-none'>Nhãn hàng</Link>, '15', <ShopOutlined />),
+    getItem(<Link to="/admin/chat" className='text-decoration-none'>Hỗ trợ</Link>, '16', <FontAwesomeIcon icon={faHeadset} />),
 ];
 
 

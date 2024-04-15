@@ -10,13 +10,18 @@ import { store } from './redux/store/store.js';
 ReactDOM.createRoot(document.getElementById('root')).render(
 
 
-  <React.StrictMode>
-    <GlobalStyles>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </GlobalStyles>
-  </React.StrictMode>
+  // <React.StrictMode>
+  //   <GlobalStyles>
+  //     <Provider store={store}>
+  //       <App />
+  //     </Provider>
+  //   </GlobalStyles>
+  // </React.StrictMode>
+  <GlobalStyles>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </GlobalStyles>
   ,
 
 

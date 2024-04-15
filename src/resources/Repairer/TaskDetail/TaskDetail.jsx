@@ -32,7 +32,7 @@ function TaskDetail() {
     const getDetailOrder = async () => {
         if (id) {
             const detailOrder = await axios.get("http://localhost:3000/order/fullDetail/" + id);
-            setData(detailOrder.data)
+            setData(detailOrder.data.exsitDetailOrder)
 
         }
     }

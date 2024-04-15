@@ -1,7 +1,7 @@
 import axios from "../../../service/customize_axios";
 import { useEffect, useState, useRef } from "react";
 import className from "classnames/bind";
-import styles from "./Chat.module.scss";
+import styles from "./ChatAdmin.module.scss";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { Tabs, Space, Table, Tag, Drawer, Modal } from 'antd';
@@ -19,7 +19,7 @@ const socket = io.connect("http://localhost:3000", {
 });
 
 
-function Chat() {
+function ChatAdmin() {
 
     const messagesEndRef = useRef(null);
 
@@ -28,40 +28,54 @@ function Chat() {
     const [senderType, setSenderType] = useState();
     const [text, setText] = useState('');
     const [listMessage, setListMessage] = useState([])
+    const [lisetUserChat, setListUserChat] = useState([])
     const [checkRoom, setCheckRoom] = useState();
+    const [nameUserChat, setNameUserChat] = useState();
+    const [avatarUserChat, setAvatarUserChat] = useState();
 
-
-    // const getListRoomOfUser = async () => {
-    //     const res = await axios.get("http://localhost:3000/message/listRoomOfUser", {
-    //         params: {
-    //             userOne: user.id
-    //         }
-    //     })
-    //     if (res.data) {
-    //         setListMessage(res.data.room)
-    //         console.log("Data", res.data.room)
-    //     }
-    // }
+    const getListRoomOfAdmin = async () => {
+        const res = await axios.get("http://localhost:3000/message/listRoomOfAdmin")
+        if (res.data) {
+            setListUserChat(res.data.room)
+            // console.log("Data", res.data)
+        }
+    }
     useEffect(() => {
         setSenderId(user?.id)
         setSenderType(user?.role)
-        // getListRoomOfUser()
+        getListRoomOfAdmin()
     }, [user])
 
-
-
-    const joinRoom = () => {
-        if (senderId !== '') {
-            socket.emit("join_room", { senderId })
-        }
+    const handleRoomMessageUser = async (data) => {
+        let room = data.id;
+        setCheckRoom(data.id);
+        setNameUserChat(data.User.username)
+        setAvatarUserChat(data.User.avatar)
+        socket.emit("join_room_admin", { room })
+        axios.get("http://localhost:3000/message/listMessage", {
+            params: {
+                ID_Room: room
+            }
+        })
+            .then(res => {
+                // console.log(res.data.listMessage)
+                setListMessage(res.data.listMessage)
+            })
     }
 
-
+    // const joinRoom = () => {
+    //     if (senderId !== '') {
+    //         socket.emit("join_room", { senderId })
+    //     }
+    // }
 
 
 
     const sendMessage = () => {
-        const room = localStorage.getItem("room");
+        // const room = localStorage.getItem("room");
+        // const room = listMessage[0].id
+        // console.log("Admin room", room)
+        let room = checkRoom;
         if (!room) {
             toast.warn("Vui lòng chọn đoạn chat");
         }
@@ -72,15 +86,10 @@ function Chat() {
             toast.warn("Vui lòng nhập tin nhắn")
         }
         else {
-
-            // console.log("room", room)
-            // console.log("ID_User", senderId)
-            // console.log("senderType", user.role)
-            // console.log("text", text)
             axios.post("http://localhost:3000/message/create", { room, senderId, senderType, text })
                 .then(res => {
                     if (res.data.success) {
-                        // console.log("tao tin nhan", res.data)
+                        // console.log("tao tin nhan admin", res.data)
                         axios.get("http://localhost:3000/message/listMessage", {
                             params: {
                                 ID_Room: room
@@ -89,7 +98,7 @@ function Chat() {
                             .then(res => {
                                 // console.log(res.data.listMessage)
                                 setListMessage(res.data.listMessage)
-                                socket.emit("send_message", { text, room: +room, senderId: user?.id })
+                                socket.emit("send_message", { text, room: +checkRoom, senderId: user?.id })
                                 setText("")
                             })
                     }
@@ -107,24 +116,19 @@ function Chat() {
             sendMessage();
         }
     };
+
     useEffect(() => {
-        socket.on("room_created", (room) => {
-            setCheckRoom(room)
-            localStorage.setItem("room", room)
-            console.log("Set id Room", room)
-            axios.get("http://localhost:3000/message/listMessage", {
-                params: {
-                    ID_Room: room
-                }
-            })
-                .then(res => {
-                    // console.log(res.data.listMessage)
-                    setListMessage(res.data.listMessage)
-                })
-        })
+
+        socket.on("update_admin_room_list", () => {
+            getListRoomOfAdmin();
+        });
+
+        // socket.on("room_created", (room) => {
+        //     console.log(room)
+        // })
 
         socket.on("receive_message", async (data) => {
-            // console.log(data)
+            // console.log("Khi nguoi dung nhan toi admin", data)
             if (data) {
                 axios.get("http://localhost:3000/message/listMessage", {
                     params: {
@@ -132,7 +136,7 @@ function Chat() {
                     }
                 })
                     .then(res => {
-                        // console.log("Danh sach tin nhan khi nhan", res.data.listMessage)
+                        // console.log("Danh sach tin nhan khi nhan Admin", res.data.listMessage)
                         setListMessage(res.data.listMessage)
                     })
             }
@@ -144,9 +148,8 @@ function Chat() {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [listMessage]);
 
-
     return (
-        <div className={cx("containerPage")}>
+        <div className={cx("containerPage")} style={{ backgroundColor: "#F5F5F5" }}>
             <div className="contentPage row">
                 <div className="col-lg-3 col-md-4 col-sm-12">
                     <div className={cx("peopleContact")}>
@@ -161,12 +164,17 @@ function Chat() {
                         </div>
 
                         <div className={cx("listContact")}>
-                            <div className={cx("userContact", { active: checkRoom })}
-                                onClick={() => joinRoom()}>
-                                <img src="../public/User/profileSupport.png" alt="" />
-                                <p className="fw-bold">Home Fix</p>
-                            </div>
-                            <hr className="m-0" />
+                            {
+                                lisetUserChat?.map((item, index) => (
+                                    <div key={index}>
+                                        <div className={cx("userContact", { active: item.id === checkRoom })} onClick={() => handleRoomMessageUser(item)}>
+                                            <img src={`http://localhost:3000/${item.User.avatar}`} alt="" />
+                                            <p className="fw-bold">{item.User.username}</p>
+                                        </div>
+                                        <hr className="m-0" />
+                                    </div>
+                                ))
+                            }
 
 
                         </div>
@@ -174,16 +182,17 @@ function Chat() {
                 </div>
                 <div className="col-lg-9 col-md-8 col-sm-12">
                     {checkRoom ? (
-                        <div className={`${cx("messageContact")}`}>
+                        <div className={cx("messageContact")}>
                             <div className={cx("titleContentContact")}>
                                 <div className={cx("userContact")}>
-                                    <img src="../public/User/profileSupport.png" alt="" />
-                                    <p>Home Fix  <FontAwesomeIcon icon={faCircleCheck} style={{ color: "#0091ff", }} /></p>
+                                    {avatarUserChat &&
+                                        <img src={`http://localhost:3000/${avatarUserChat}`} alt="" />}
+                                    {nameUserChat && <p>{nameUserChat}</p>}
                                 </div>
                                 <FontAwesomeIcon className={cx("iconMore")} icon={faEllipsisVertical} />
                             </div>
                             {/* <hr className="m-0" /> */}
-                            <div className={`${cx("contentContact")}`}>
+                            <div className={cx("contentContact")}>
                                 <div className={cx("listText")}>
                                     {
                                         listMessage?.map((message, index) =>
@@ -196,15 +205,13 @@ function Chat() {
                                                             <div className={cx("timeMessage")}>{moment(message.createdAt).format('HH:mm')}</div>
                                                             <p className={cx("text")}>{message.text}</p>
                                                             <div className={cx("messageImage")}>
-                                                                <img src={`http://localhost:3000/${user.avatar}`} alt="" />
+                                                                <img src={"../public/User/profileSupport.png"} alt="" />
                                                             </div>
-
-
                                                         </>
                                                     ) : (
                                                         <>
                                                             <div className={cx("messageImage")}>
-                                                                <img src={"../public/User/profileSupport.png"} alt="" />
+                                                                <img src={`http://localhost:3000/${avatarUserChat}`} alt="" />
                                                             </div>
                                                             <p className={cx("text")}>{message.text}</p>
                                                             <div className={cx("timeMessage")}>{moment(message.createdAt).format('HH:mm')}</div>
@@ -219,7 +226,6 @@ function Chat() {
                                         )
                                     }
                                     <div ref={messagesEndRef} />
-
                                 </div>
                             </div>
                             {/* <hr className="m-0" /> */}
@@ -232,19 +238,16 @@ function Chat() {
                                 </div>
                             </div>
                         </div>
-
                     ) : (
                         <div className={cx("chooseContact")}>
                             <img className={cx("imgaeContact")} src="../illustration/chat.png" alt="" />
                             <p>Vui lòng chọn phòng chat để được hỗ trợ</p>
                         </div>
                     )}
-
-
                 </div>
             </div>
         </div >
     );
 }
 
-export default Chat;
+export default ChatAdmin;

@@ -5,7 +5,7 @@ import styles from "./ProfileUser.module.scss";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faPaypal, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { Tabs, Space, Table, Tag, Drawer, Tooltip } from 'antd';
-import { faAnglesRight, faChevronRight, faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faAnglesRight, faChevronRight, faMoneyBill, faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import moment from 'moment';
@@ -112,9 +112,15 @@ function ProfileUser() {
                             </Tooltip>
                         </Link>
                     ) : (
-                        <Tooltip title="Xem thêm">
-                            <FontAwesomeIcon icon={faChevronRight} size="lg" style={{ color: "#005eff", marginLeft: "10px", cursor: "pointer" }} onClick={() => showDrawer(record)} />
-                        </Tooltip>
+                        record.DetailOrder && record.DetailOrder.paymentStatus == 'P' ? (
+                            <Tooltip title="Đã thanh toán">
+                                <FontAwesomeIcon size="lg" icon={faMoneyBill} style={{ color: "#3e9ce5", }} />
+                            </Tooltip>
+                        ) : (
+                            <Tooltip title="Xem thêm">
+                                <FontAwesomeIcon icon={faChevronRight} size="lg" style={{ color: "#005eff", marginLeft: "10px", cursor: "pointer" }} onClick={() => showDrawer(record)} />
+                            </Tooltip>
+                        )
 
                     )}
                 </Space>

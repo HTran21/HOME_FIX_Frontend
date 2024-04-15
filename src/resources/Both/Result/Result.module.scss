@@ -1,0 +1,46 @@
+.iconSuccess {
+    color: #20BE79;
+    font-size: 50px;
+    margin-top: 100px;
+    margin-bottom: 60px;
+    border: none;
+
+    .iconS {
+        display: flex;
+        margin: auto;
+        box-shadow:
+            0 0px 10px #80f0bd,
+            0 0px 0 10px #80f0bed8,
+            0 0px 1px 20px #80f0bea4,
+            0 0px 0 30px#80f0be67,
+            0 0px 1px 40px #80f0be2e;
+        border-radius: 50%;
+    }
+}
+
+.iconError {
+    color: #be2020;
+    font-size: 50px;
+    margin-top: 100px;
+    margin-bottom: 60px;
+
+    .iconE {
+        display: flex;
+        margin: auto;
+        box-shadow: 0px 0px 50px blue;
+        border-radius: 50%;
+        box-shadow:
+            0 0px 10px #f08080,
+            0 0px 0 10px #f08080d8,
+            0 0px 1px 20px #f08080a4,
+            0 0px 0 30px#f0808067,
+            0 0px 1px 40px #f080802e;
+        border-radius: 50%;
+    }
+}
+
+
+.contentPage {
+    text-align: center;
+    font-family: 'Reem Kufi', sans-serif;
+}

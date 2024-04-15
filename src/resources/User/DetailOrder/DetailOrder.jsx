@@ -2,7 +2,7 @@ import axios from "../../../service/customize_axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Tabs, Space, Table, Tag, Drawer, Tooltip } from 'antd';
+import { Tabs, Space, Table, Tag, Drawer, Tooltip, Button } from 'antd';
 
 import className from "classnames/bind";
 import styles from "./DetailOrder.module.scss";
@@ -17,6 +17,7 @@ function DetailOrder() {
 
     const { id } = useParams();
     const [data, setData] = useState();
+    const navigation = useNavigate();
     const [paymentMethod, setPaymentMethod] = useState("");
 
     const VND = new Intl.NumberFormat('vi-VN', {
@@ -29,7 +30,7 @@ function DetailOrder() {
             .then(res => {
                 if (res.data.success) {
                     setData(res.data.detailOrder)
-                    console.log(res.data.detailOrder)
+                    // console.log(res.data.detailOrder)
                 }
                 else {
                     toast.error(res.data.message)
@@ -79,13 +80,31 @@ function DetailOrder() {
 
     const [pagination, setPagination] = useState({});
 
+    const [loadings, setLoadings] = useState(false);
+
     function handleTableChange() {
         setPagination(data);
     }
 
-    useEffect(() => {
-        console.log("Payment", paymentMethod)
-    }, [paymentMethod])
+    const paymentCash = () => {
+        console.log("Thanh toan tien mat")
+    }
+
+    const paymentVNPay = (id) => {
+        setLoadings(true);
+
+        axios.post("http://localhost:3000/payment/vnpay/create_payment_url", { ID_DetailOrder: id, paymentMethod: paymentMethod })
+            .then(res => {
+                if (res.data.success) {
+                    setTimeout(() => {
+                        setLoadings(false);
+                        window.location.href = res.data.data.url;
+                    }, 2000);
+                } else {
+                    toast.error(res.data.message)
+                }
+            })
+    }
 
     return (
         <div className="containerPage">
@@ -152,30 +171,7 @@ function DetailOrder() {
                                         <p className={cx("titlePay")}>Chọn phương thức thanh toán</p>
 
                                         <div className={cx("selectGroup")}>
-                                            {/* <div className="form-check">
-                                                <input
-                                                    className="form-check-input d-none"
-                                                    type="radio"
-                                                    name="flexRadioDefault"
-                                                    id="flexRadioDefault1"
-                                                    value={"cash"} onChange={(e) => setPaymentMethod(e.target.value)}
-                                                />
-                                                <label className={`${cx("selectPayMethoid", `${paymentMethod === 'cash' ? 'active' : ''}`)} form-check-label`} htmlFor="flexRadioDefault1">
-                                                    <FontAwesomeIcon className={cx("iconPay")} icon={faMoneyBill1} />Tiền mặt
-                                                </label>
-                                            </div>
-                                            <div className="form-check">
-                                                <input
-                                                    className="form-check-input d-none"
-                                                    type="radio"
-                                                    name="flexRadioDefault"
-                                                    id="flexRadioDefault"
-                                                    value={"vnpay"} onChange={(e) => setPaymentMethod(e.target.value)}
-                                                />
-                                                <label className={`${cx("selectPayMethoid", `${paymentMethod === 'vnpay' ? 'active' : ''}`)} form-check-label`} htmlFor="flexRadioDefault1">
-                                                    <img src="../../icon/iconVNPay.png" className={cx("imageVNPay")} alt="" /> VNPay
-                                                </label>
-                                            </div> */}
+
                                             <div className="form-check m-0">
                                                 <input
                                                     className="form-check-input d-none"
@@ -204,7 +200,7 @@ function DetailOrder() {
                                             </div>
 
                                         </div>
-                                        <button className={cx("btnPay")}>Thanh Toán</button>
+                                        <Button type="primary" className={cx("btnPay")} loading={loadings} onClick={paymentMethod === 'cash' ? paymentCash : () => paymentVNPay(data?.id)} disabled={paymentMethod.trim() === "" ? true : false}>Thanh Toán</Button>
 
 
                                     </div>
