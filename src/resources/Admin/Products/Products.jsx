@@ -20,16 +20,6 @@ import NotFound from "../../../components/NotFound/NotFound";
 
 function Products() {
 
-    // const items = [
-    //     {
-    //         label: <p><EditOutlined className="pe-2" />Sửa</p>,
-    //         key: '0',
-    //     },
-    //     {
-    //         label: <p><DeleteOutlined className="pe-2" />Xóa</p>,
-    //         key: '1',
-    //     },
-    // ];
 
     const [data, setData] = useState();
     const [listCategori, setListCategories] = useState();
@@ -129,16 +119,27 @@ function Products() {
         setIsModalOpen(true);
         setRecord(item);
     };
-    const handleOk = () => {
+    const handleOk = (id) => {
         setIsModalOpen(false);
+        console.log(id)
+        axios.delete("http://localhost:3000/product", {
+            params: {
+                ID_Product: id
+            }
+        })
+            .then(res => {
+                if (res.data.success) {
+                    toast.success(res.data.message)
+                    fetchData();
+                }
+                else {
+                    toast.error(res.data.message)
+                }
+            })
     };
     const handleCancel = () => {
         setIsModalOpen(false);
     };
-
-    const handleDeleteProduct = () => {
-
-    }
 
 
 
@@ -240,7 +241,7 @@ function Products() {
                 </div>
             </Drawer>
 
-            <Modal title="Xóa thiết bị" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} okButtonProps={{ style: { backgroundColor: "red" } }}>
+            <Modal title="Xóa thiết bị" open={isModalOpen} onOk={() => handleOk(record?.id)} onCancel={handleCancel} okButtonProps={{ style: { backgroundColor: "red" } }}>
                 <div className="mb-3 mt-4">
                     <p>Bạn chắc chắn muốn xóa thiết bị {record?.nameProduct}</p>
                 </div>
