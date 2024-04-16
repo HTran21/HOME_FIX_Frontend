@@ -167,7 +167,7 @@ function ConfirmOrder() {
                         <div>
                             <Button onClick={() => showModal()} className="d-inline" type="primary" >Thêm thao tác</Button>
                         </div>
-                        <p className="p-2 ms-auto">Thanh toán: {taskRepair?.paymentStatus == 'UP' ? 'Chưa thanh toán' : 'Đã thanh toán'}</p>
+                        <p className="p-2 ms-auto">Thanh toán: {taskRepair?.paymentStatus == 'UP' ? 'Chưa thanh toán' : (taskRepair?.paymentStatus == 'W' ? 'Chờ xác nhận' : 'Đã thanh toán')}</p>
 
                     </div>
                 </div>
@@ -180,7 +180,10 @@ function ConfirmOrder() {
                                     <div className={cx("cardTask")}>
                                         <div className={cx("titleTask")}>
                                             <p>Sửa chữa {task.Operation.Categori.nameCategories}</p>
-                                            <div className={cx("iconCancle")} onClick={() => deleteTask(task)}><FontAwesomeIcon icon={faXmark} /></div>
+                                            {taskRepair.paymentStatus === 'P' ? '' : (
+                                                <div className={cx("iconCancle")} onClick={() => deleteTask(task)}><FontAwesomeIcon icon={faXmark} /></div>
+
+                                            )}
                                         </div>
                                         <div className="row mt-1">
                                             <div className={`col-9 ${cx("textTask")}`}>{task.Operation.nameOperation}</div>
@@ -199,7 +202,7 @@ function ConfirmOrder() {
 
 
                     <div className={cx("backHome")}>
-                        <Link to={'/repairer'} className="text-decoration"> <button className={cx("btnBackHome")}>Về trang chủ</button></Link>
+                        <Link to={'/repairer/work'} className="text-decoration"> <button className={cx("btnBackHome")}>Về trang công việc </button></Link>
                     </div>
                 </div>
 

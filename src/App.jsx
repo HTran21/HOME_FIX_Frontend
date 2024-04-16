@@ -42,6 +42,8 @@ import CalendarStaff from './resources/Admin/Calendar/CalendarStaff';
 import ListAllOrder from './resources/Admin/ListAllOrder/ListAllOrder';
 import AcceptForm from './resources/Admin/AcceptForm/AcceptForm';
 import ChatAdmin from './resources/Admin/ChatAdmin/ChatAdmin';
+import Statistical from './resources/Admin/Statistical/Statistical';
+import StatisticalOrder from './resources/Admin/StatisticalOrder/StatisticalOrder';
 
 import ProfileUser from './resources/User/ProfileUser/ProfileUser';
 import Chat from './resources/User/Chat/Chat';
@@ -243,6 +245,16 @@ function App() {
         {
           path: "calendar",
           element: <CalendarStaff />
+
+        },
+        {
+          path: "statistic/earn",
+          element: <Statistical />
+
+        },
+        {
+          path: "statistic/order",
+          element: <StatisticalOrder />
 
         },
         {

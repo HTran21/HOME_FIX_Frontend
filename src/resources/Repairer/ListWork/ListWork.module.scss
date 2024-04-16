@@ -118,3 +118,14 @@
         font-weight: bold;
     }
 }
+
+.layoutIcon {
+    display: flex;
+
+    .iconModalWarning {
+        margin: auto;
+        font-size: 35px;
+        color: rgba(231, 225, 55, 0.756);
+    }
+
+}

@@ -2,7 +2,7 @@ import className from "classnames/bind";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWallet, faScrewdriverWrench, faCircleUser, faDesktop, faPenToSquare, faTrash, faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import { Space, Table, Tag, Drawer } from 'antd';
+import { Space, Table, Tag, Drawer, DatePicker } from 'antd';
 import styles from "./AdminHomePage.module.scss";
 import axios from "../../../service/customize_axios";
 import { Link } from "react-router-dom";
@@ -11,104 +11,62 @@ import Chart from 'chart.js/auto';
 import { Line } from 'react-chartjs-2';
 
 import 'rsuite/dist/rsuite.min.css';
-import { DateRangePicker } from 'rsuite';
+// import { DateRangePicker } from 'rsuite';
 
 import moment from 'moment';
 
-
+const { RangePicker } = DatePicker;
 const cx = className.bind(styles);
 
-const cardData = [
-    {
-        title: 'TOTAL EARNINGS',
-        number: '$98,851.35',
-        icon: faWallet,
-        color: 'violet',
-    },
-    {
-        title: 'REPAIR',
-        number: '65,802',
-        icon: faScrewdriverWrench,
-        color: 'blue',
-    },
-    {
-        title: 'CUSTOMERS',
-        number: '79,802',
-        icon: faCircleUser,
-        color: 'yellow',
-    },
-    {
-        title: 'PRODUCTS',
-        number: '36,758',
-        icon: faDesktop,
-        color: 'darkblue',
-    },
-];
-
-
-
-
-function Card({ title, number, icon, color }) {
-    return (
-        <div className={cx("cardBody", color)}>
-            <div className={cx("titleCard")}>
-                {title}
-            </div>
-            <div className={cx("numberCard")}>
-                {number}
-            </div>
-            <div className={cx("iconCard")}>
-                <FontAwesomeIcon icon={icon} />
-            </div>
-        </div>
-    );
-}
-
-
-const revenueData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-    datasets: [
-        {
-            label: 'Doanh thu',
-            data: [10000, 12000, 15000, 18000, 20000, 22000, 25000, 28000, 30000, 32000, 35000, 38000],
-            fill: false,
-            borderColor: 'rgb(75, 192, 192)',
-            tension: 0.1
-        }
-    ]
-};
-
-// Cài đặt biểu đồ
-const chartOptions = {
-    scales: {
-        y: {
-            beginAtZero: true,
-            title: {
-                display: true,
-                text: 'Doanh thu (VND)'
-            }
-        },
-        x: {
-            title: {
-                display: true,
-                text: 'Tháng'
-            }
-        }
-    }
-};
-
-
-
+const VND = new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
+});
 
 
 function AdminHomePage() {
 
     const [dateRange, setDateRange] = useState([null, null]);
     const [dataTable, setDataTable] = useState();
+    const [dataStatisticalOverview, setDataStatitsticalOverview] = useState();
+    const [dataEarning, setDataEarning] = useState();
+    const [date, setDate] = useState([]);
 
     const handleDateRangeChange = (value) => {
         setDateRange(value);
     };
+
+    const onChange = (date, dateString) => {
+        if (dateString != null) {
+            setDate(dateString)
+            axios.get("http://localhost:3000/statistical/earning", {
+                params: {
+                    date
+                }
+            })
+                .then(res => {
+                    // console.log("Data doanh thu", res.data.earningTotal)
+                    setDataEarning(res.data.earningTotal)
+                })
+
+        }
+    };
+
+    const featchStatistical = async () => {
+        let res = await axios.get("http://localhost:3000/statistical/overview");
+        if (res && res.data) {
+            // console.log(res.data.data)
+            setDataStatitsticalOverview(res.data.data)
+        }
+    }
+
+    const featchEarning = async () => {
+        let res = await axios.get("http://localhost:3000/statistical/earning");
+        if (res && res.data) {
+            console.log(res.data)
+            setDataEarning(res.data.earningTotal)
+        }
+    }
 
     const fetchOrder = async () => {
         let getOrder = await axios.get("http://localhost:3000/order/getAllOrder");
@@ -117,13 +75,18 @@ function AdminHomePage() {
 
     const [pagination, setPagination] = useState({});
 
-    function handleTableChange() {
-        requestToServer().then((data) => {
-            const newPagination = { ...pagination };
-            newPagination.total = your_value;
-            setPagination(newPagination);
-        });
+    // function handleTableChange() {
+    //     requestToServer().then((data) => {
+    //         const newPagination = { ...pagination };
+    //         newPagination.total = your_value;
+    //         setPagination(newPagination);
+    //     });
+    // }
+
+    function handleTableChange(data) {
+        setPagination(data);
     }
+
 
 
     const columns = [
@@ -164,9 +127,9 @@ function AdminHomePage() {
             }
         },
         {
-            title: 'Ngày mong muốn',
-            dataIndex: 'desireDate',
-            key: 'desireDate',
+            title: 'Ngày đăng ký',
+            dataIndex: 'createdAt',
+            key: 'createdAt',
             defaultSortOrder: 'descend',
             sorter: (a, b) => {
                 const dateA = new Date(a.desireDate);
@@ -229,6 +192,8 @@ function AdminHomePage() {
 
     useEffect(() => {
         fetchOrder();
+        featchStatistical()
+        featchEarning()
     }, [])
 
     const [open, setOpen] = useState(false);
@@ -241,6 +206,83 @@ function AdminHomePage() {
         setOpen(false);
     };
 
+
+    const cardData = [
+        {
+            title: 'TỔNG THU NHẬP',
+            number: VND.format(dataStatisticalOverview?.totalEarning),
+            icon: faWallet,
+            color: 'violet',
+        },
+        {
+            title: 'SỬA CHỮA',
+            number: dataStatisticalOverview?.totalRepair,
+            icon: faScrewdriverWrench,
+            color: 'blue',
+        },
+        {
+            title: 'NGƯỜI DÙNG',
+            number: dataStatisticalOverview?.totalUser,
+            icon: faCircleUser,
+            color: 'yellow',
+        },
+        {
+            title: 'THIẾT BỊ',
+            number: dataStatisticalOverview?.totalCategori,
+            icon: faDesktop,
+            color: 'darkblue',
+        },
+    ];
+
+    function Card({ title, number, icon, color }) {
+        return (
+            <div className={cx("cardBody", color)}>
+                <div className={cx("titleCard")}>
+                    {title}
+                </div>
+                <div className={cx("numberCard")}>
+                    {number}
+                </div>
+                <div className={cx("iconCard")}>
+                    <FontAwesomeIcon icon={icon} />
+                </div>
+            </div>
+        );
+    }
+
+    const labels = dataEarning?.map(item => moment(item.updatedAt).format('DD/MM/YYYY'));
+    const data = dataEarning?.map(item => +item.totalAmount);
+
+    const revenueData = {
+        labels: labels,
+        datasets: [
+            {
+                label: 'Doanh thu',
+                data: data,
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }
+        ]
+    };
+
+    const chartOptions = {
+        scales: {
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Doanh thu (VND)'
+                }
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: 'Ngày'
+                }
+            }
+        }
+    };
 
 
     return (
@@ -264,14 +306,15 @@ function AdminHomePage() {
                         </div>
                     </div>
                     <div className={cx("chartMoney")}>
-                        <h5>Monthly Earnings</h5>
+                        <h5>Thống kê doanh thu</h5>
                         <div className="row mb-3">
-                            <div className="col-lg-7 col-md-12">
+                            <div className="col-lg-7 col-md-12" style={{ minHeight: "300px" }}>
                                 <Line data={revenueData} options={chartOptions} />
                             </div>
                             <div className={`${cx("dateRange")} col-lg-5 col-md-12`}>
-                                <DateRangePicker format="MM/dd/yyyy" character=" – "
-                                    onChange={handleDateRangeChange} className={cx("dateRangePicker")} />
+                                {/* <DateRangePicker format="MM/dd/yyyy" character=" – "
+                                    onChange={handleDateRangeChange} className={cx("dateRangePicker")} /> */}
+                                <RangePicker onChange={onChange} className={cx("dateRangePicker")} />
                                 {/* {dateRange && (
                                     <div>
                                         Từ: {dateRange[0] ? dateRange[0].toLocaleDateString() : 'Chưa chọn'}

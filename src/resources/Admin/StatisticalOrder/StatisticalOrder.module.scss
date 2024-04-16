@@ -1,0 +1,241 @@
+.containerPage {
+    padding: 10px 20px;
+}
+
+.peopleContact {
+    border-bottom: 1px solid rgba(182, 182, 182, 0.534);
+    height: 85vh;
+    background-color: #fff;
+    border-radius: 10px;
+    // padding: 10px;
+
+    .listContact {
+        border-bottom: 1px solid rgba(182, 182, 182, 0.534);
+        border-top: 1px solid rgba(182, 182, 182, 0.534);
+
+        // padding: 0px 10px;
+
+        .userContact {
+            display: grid;
+            grid-template-columns: 70px auto;
+            padding: 5px 15px;
+            cursor: pointer;
+
+            img {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+            }
+
+            p {
+                margin-left: 10px;
+                margin: auto 0px;
+                font-size: 17px;
+            }
+        }
+
+        .userContact:hover {
+            background-color: #d7d7d781;
+        }
+    }
+}
+
+.messageContact {
+    border-bottom: 1px solid rgba(182, 182, 182, 0.534);
+    height: 85vh;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    display: grid;
+    grid-template-rows: 61px auto 80px;
+
+
+    .titleContentContact {
+        border-bottom: 1px solid rgba(182, 182, 182, 0.534);
+        display: flex;
+        padding: 0px 10px;
+        cursor: pointer;
+
+        .userContact {
+            display: grid;
+            grid-template-columns: 70px auto;
+            padding: 5px;
+            justify-content: start;
+
+
+            img {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+            }
+
+            p {
+                margin-left: 10px;
+                margin: auto 0px;
+                font-size: 17px;
+                font-weight: bold;
+            }
+        }
+
+        .iconMore {
+            margin: auto 10px auto auto;
+            font-size: 20px;
+
+        }
+    }
+
+    .contentContact {
+        max-height: 440px;
+        overflow-y: scroll;
+        overflow-y: auto;
+        background-color: #ffffff37;
+        padding: 10px;
+
+        // .listText {
+        //     // min-height: 480px;
+
+
+        // }
+
+    }
+
+    .uploadTextContact {
+        padding: 20px;
+
+        .groupInput {
+            display: grid;
+            grid-template-columns: auto 40px;
+            // border: 1px solid red;
+            background-color: #d6d3d361;
+            border-radius: 20px;
+
+            input {
+                border: none;
+                outline: none;
+                padding: 10px 0px 10px 15px;
+                border-top-left-radius: 20px;
+                border-bottom-left-radius: 20px;
+                background-color: transparent;
+            }
+
+            .iconSend {
+                background-color: blue;
+                border-radius: 50%;
+                justify-content: center;
+                display: flex;
+                align-items: center;
+                color: #fff;
+                cursor: pointer;
+            }
+
+        }
+    }
+}
+
+.chooseContact {
+    border-bottom: 1px solid rgba(182, 182, 182, 0.534);
+    height: 85vh;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .imgaeContact {
+        max-width: 300px;
+    }
+
+    p {
+        margin-top: 10px;
+        font-size: 20px;
+        font-weight: bold;
+        color: #7f7c7c;
+        text-align: center;
+
+    }
+}
+
+.messageTextOwner {
+    display: flex;
+    justify-content: end;
+
+    .layoutMessage {
+        display: grid;
+        grid-template-columns: 60px auto 60px;
+        margin: 5px 0px;
+
+        .messageImage {
+
+            img {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                margin-left: 10px;
+
+            }
+        }
+
+        .text {
+            display: flex;
+            align-items: center;
+            padding: 0px 10px;
+            border-radius: 20px;
+            background-color: #007AFF;
+            color: #fff;
+            font-weight: 500;
+
+        }
+    }
+
+    .timeMessage {
+        margin: 0px;
+        margin: auto;
+    }
+
+
+}
+
+.messageText {
+    display: flex;
+
+    .layoutMessage {
+        display: grid;
+        grid-template-columns: 60px auto 60px;
+        margin: 5px 0px;
+
+        .messageImage {
+            img {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+            }
+
+        }
+
+        .text {
+            display: flex;
+            align-items: center;
+            padding: 0px 10px;
+            border-radius: 20px;
+            background-color: #F2F2F7;
+            color: #000000;
+            font-weight: 500;
+
+        }
+
+        .timeMessage {
+            margin: auto auto auto 10px;
+
+        }
+
+    }
+
+
+
+}
+
+.active {
+    background-color: #d7d7d781;
+}

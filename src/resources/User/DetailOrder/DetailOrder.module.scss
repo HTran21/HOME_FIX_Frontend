@@ -120,3 +120,55 @@
     width: 20px;
     margin-right: 5px;
 }
+
+.waitConfirm {
+    text-align: center;
+
+    .layoutIcon {
+        width: 70px;
+        height: 70px;
+        border: 4px solid #f7d43a;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        margin: 25px auto 10px auto;
+
+        .iconWait {
+            font-size: 40px;
+            color: #f7d43a;
+
+        }
+    }
+
+    h5 {
+        color: #6f6f6f;
+    }
+
+}
+
+.paymentSuccess {
+    text-align: center;
+
+    .layoutIcon {
+        width: 70px;
+        height: 70px;
+        border: 4px solid #2AAC75;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        margin: 25px auto 10px auto;
+
+        .iconSuccess {
+            font-size: 40px;
+            color: #2AAC75;
+
+        }
+    }
+
+    h5 {
+        color: #6f6f6f;
+    }
+
+}

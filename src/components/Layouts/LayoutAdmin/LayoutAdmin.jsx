@@ -17,6 +17,7 @@ import {
     DashboardOutlined,
     ShopOutlined,
     CalendarOutlined,
+    LineChartOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
@@ -39,7 +40,7 @@ const itemsSlider = [
     }}>HOME FIX</p>, '0', <img className='m-0' style={{
         width: "25px",
         display: "inline-block"
-    }} src="../image/logo/logo8.png" alt="" />),
+    }} src="../../image/logo/logo8.png" alt="" />),
     getItem(<Link to="/admin" className='text-decoration-none'>Dashboard</Link>, '1', <DashboardOutlined />),
     getItem('Sản Phẩm', 'sub1', <CodeSandboxOutlined />, [
         getItem(<Link to="/admin/product" className='text-decoration-none'>Danh Sách</Link>, '2'),
@@ -52,19 +53,24 @@ const itemsSlider = [
         getItem(<Link to="/admin/operation" className='text-decoration-none'>Thao tác</Link>, '7'),
         getItem(<Link to="/admin/creatoperation" className='text-decoration-none'>Tạo thao tác</Link>, '8'),
     ]),
-    getItem('Nhân viên', 'sub3', <img src="../public/icon/group.png" className={cx("iconSidebar")} alt="" />, [
+    getItem('Nhân viên', 'sub3', <img src="../../public/icon/group.png" className={cx("iconSidebar")} alt="" />, [
         getItem(<Link to="/admin/staff" className='text-decoration-none'>Danh sách</Link>, '9'),
         getItem(<Link to="" className='text-decoration-none'>Thêm dịch vụ</Link>, '10'),
         getItem(<Link to="/admin/specialize" className='text-decoration-none'>Chuyên môn</Link>, '11'),
         getItem(<Link to="" className='text-decoration-none'>Tạo thao tác</Link>, '12'),
     ]),
-    getItem('Sửa chữa', 'sub4', <img src="../public/icon/car-repair.png" style={{ width: "15px" }} className={cx("iconSidebar")} alt="" />, [
+    getItem('Sửa chữa', 'sub4', <img src="../../public/icon/car-repair.png" style={{ width: "15px" }} className={cx("iconSidebar")} alt="" />, [
         getItem(<Link to="/admin/order" className='text-decoration-none'>Danh sách</Link>, '13'),
 
     ]),
     getItem(<Link to="/admin/calendar" className='text-decoration-none'>Lịch làm việc</Link>, '14', <CalendarOutlined />),
     getItem(<Link to="/admin/brand" className='text-decoration-none'>Nhãn hàng</Link>, '15', <ShopOutlined />),
-    getItem(<Link to="/admin/chat" className='text-decoration-none'>Hỗ trợ</Link>, '16', <FontAwesomeIcon icon={faHeadset} />),
+    getItem('Thống kê', 'sub5', <LineChartOutlined />, [
+        getItem(<Link to="/admin/statistic/earn" className='text-decoration-none'>Doanh thu</Link>, '16'),
+        getItem(<Link to="/admin/statistic/order" className='text-decoration-none'>Sửa chữa</Link>, '17'),
+    ]),
+    getItem(<Link to="/admin/chat" className='text-decoration-none'>Hỗ trợ</Link>, '18', <FontAwesomeIcon icon={faHeadset} />),
+
 ];
 
 

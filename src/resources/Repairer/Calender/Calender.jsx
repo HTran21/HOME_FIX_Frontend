@@ -32,15 +32,6 @@ function CalenderRepairer() {
     useEffect(() => {
         fetchData();
     }, [])
-    // const cellRender = (value) => {
-    //     const date = value.format('YYYY-MM-DD');
-    //     if (data && data.length > 0) {
-    //         const isHighlighted = data.find((item) => moment(item.workDay).format('YYYY-MM-DD') === date);
-    //         return isHighlighted ? <div className={cx("highlightedDay")} /> : '';
-    //     } else {
-    //         return;
-    //     }
-    // };
     const cellRender = (value) => {
         const date = value.format('YYYY-MM-DD');
         if (data && data.length > 0) {
@@ -52,6 +43,10 @@ function CalenderRepairer() {
         }
         return <></>; // Trả về một ReactNode rỗng cho các trường hợp không phù hợp
     };
+
+    const handleCalendar = () => {
+        console.log("Chon ngay")
+    }
 
     return (
         <div className="container">
@@ -105,6 +100,20 @@ function CalenderRepairer() {
                                         Đơn: {workToday.length}
                                     </div>
                                 )
+                            }
+                        }
+
+                    }}
+
+                    onSelect={(value) => {
+                        if (data && data.length > 0) {
+                            const filteredData = data.filter(item => moment(item.workDay).format('YYYY-MM-DD') === moment(value).format('YYYY-MM-DD'));
+                            if (filteredData.length === 0) {
+                                return null;
+                            }
+                            const workToday = filteredData[0].DetailOrders;
+                            if (workToday) {
+                                console.log("Chon ngay", moment(value).format('DD/MM/YYYY'))
                             }
                         }
 
