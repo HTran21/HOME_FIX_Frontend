@@ -124,10 +124,10 @@ function HomePage() {
                                 </div>
                                 <div className={cx("rightService")}>
                                     <div className={cx("titleService")}>
-                                        Washing Machine Repair
+                                        Sửa Chữa Máy Giặt
                                     </div>
                                     <div className="detailService">
-                                        Fusce non hendrerit ante. Curabitur in libero neque. Nulla at vestibulum massa. Fusce feugiat tellus fermen tum.
+                                        Sửa chữa và bảo trì máy giặt để duy trì hoạt động tối ưu và kéo dài tuổi thọ.
                                     </div></div>
                             </div>
 
@@ -139,10 +139,10 @@ function HomePage() {
                                 </div>
                                 <div className={cx("rightService")}>
                                     <div className={cx("titleService")}>
-                                        Washing Machine Repair
+                                        Sửa Chữa Máy Pha Cafe
                                     </div>
                                     <div className="detailService">
-                                        Fusce non hendrerit ante. Curabitur in libero neque. Nulla at vestibulum massa. Fusce feugiat tellus fermen tum.
+                                        khắc phục sự cố và bảo dưỡng để đảm bảo hiệu suất tốt nhất
                                     </div></div>
                             </div>
 
@@ -154,10 +154,10 @@ function HomePage() {
                                 </div>
                                 <div className={cx("rightService")}>
                                     <div className={cx("titleService")}>
-                                        Washing Machine Repair
+                                        Sửa Chữa Lò Nướng
                                     </div>
                                     <div className="detailService">
-                                        Fusce non hendrerit ante. Curabitur in libero neque. Nulla at vestibulum massa. Fusce feugiat tellus fermen tum.
+                                        Chuyên nghiệp, đáng tin cậy để duy trì hiệu suất và an toàn
                                     </div></div>
                             </div>
 
@@ -172,10 +172,10 @@ function HomePage() {
                                 </div>
                                 <div className={cx("rightService")}>
                                     <div className={cx("titleService")}>
-                                        Washing Machine Repair
+                                        Sửa Chữa Tủ Lạnh
                                     </div>
                                     <div className="detailService">
-                                        Fusce non hendrerit ante. Curabitur in libero neque. Nulla at vestibulum massa. Fusce feugiat tellus fermen tum.
+                                        Đảm bảo tủ lạnh hoạt động ổn định và bảo quản thực phẩm tốt
                                     </div></div>
                             </div>
 
@@ -187,10 +187,10 @@ function HomePage() {
                                 </div>
                                 <div className={cx("rightService")}>
                                     <div className={cx("titleService")}>
-                                        Washing Machine Repair
+                                        Sửa Chữa Bếp Điện
                                     </div>
                                     <div className="detailService">
-                                        Fusce non hendrerit ante. Curabitur in libero neque. Nulla at vestibulum massa. Fusce feugiat tellus fermen tum.
+                                        Sửa chữa, bảo dưỡng và nâng cấp bếp điện để đảm bảo hoạt động an toàn
                                     </div></div>
                             </div>
 
@@ -202,10 +202,10 @@ function HomePage() {
                                 </div>
                                 <div className={cx("rightService")}>
                                     <div className={cx("titleService")}>
-                                        Washing Machine Repair
+                                        Sửa Chữa Mọi Thiết Bị
                                     </div>
                                     <div className="detailService">
-                                        Fusce non hendrerit ante. Curabitur in libero neque. Nulla at vestibulum massa. Fusce feugiat tellus fermen tum.
+                                        Sửa chữa, bảo trì, cải tiến mọi thiết bị để giữ chúng hoạt động mạnh mẽ, hiệu quả
                                     </div></div>
                             </div>
 
@@ -248,34 +248,34 @@ function HomePage() {
                 <Slider {...singleItem} className="container">
                     <div className={cx("comment")}>
                         <div className={cx("contentComment")}>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam incidunt ipsam voluptas veritatis ab! Libero esse corporis iusto assumenda culpa modi fuga, magnam autem quaerat ipsum similique deleniti possimus corrupti?
+                            Hệ thống sửa chữa đa dạng, từ máy móc đến điện tử, đảm bảo tiện ích cho mọi gia đình
                         </div>
                         <div className={cx("userComment")}>
-                            Alexander Mitarono
+                            Nguyễn Văn Minh
                         </div>
                     </div>
                     <div className={cx("comment")}>
                         <div className={cx("contentComment")}>
-                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellendus nobis necessitatibus, beatae consequuntur debitis tempora iusto cum, optio quod magnam, laboriosam vel ipsa?
+                            Chất lượng dịch vụ hàng đầu, đội ngũ kỹ thuật viên chuyên nghiệp, luôn sẵn lòng hỗ trợ.
                         </div>
                         <div className={cx("userComment")}>
-                            Leonard Jane
+                            Trần Văn Tiến
                         </div>
                     </div>
                     <div className={cx("comment")}>
                         <div className={cx("contentComment")}>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum laborum voluptate consectetur illo placeat adipisci?
+                            Phản hồi nhanh chóng, giải quyết vấn đề một cách chuyên nghiệp, tiết kiệm thời gian và công sức.
                         </div>
                         <div className={cx("userComment")}>
-                            Harvey Stephen
+                            Lý Minh Hào
                         </div>
                     </div>
                     <div className={cx("comment")}>
                         <div className={cx("contentComment")}>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic, necessitatibus.
+                            Sự lựa chọn hoàn hảo cho việc bảo dưỡng và sửa chữa thiết bị, mang lại sự yên tâm và hài lòng cho khách hàng.
                         </div>
                         <div className={cx("userComment")}>
-                            Dennis Jyotsna
+                            Đặng Thu Mai
                         </div>
                     </div>
 
@@ -288,44 +288,33 @@ function HomePage() {
 
                     </div>
                     <div className={`col-lg-7 ${cx("rightQuestion")}`}>
-                        <p className={cx("textQuestion")}>You’ve got questions, we’ve got answers.</p>
+                        <p className={cx("textQuestion")}>Bạn có câu hỏi, chúng tôi có câu trả lời</p>
                         <div className={cx("line")}></div>
                         <div className="contentQuestion mt-4 mb-4">
                             <Accordion className={cx("aboutQuestion")} >
                                 <Accordion.Item eventKey="0">
-                                    <Accordion.Header>Accordion Item #1</Accordion.Header>
+                                    <Accordion.Header>Hệ thống sửa chữa tại nhà là gì?</Accordion.Header>
                                     <Accordion.Body className="bg-transparent">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                                        minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                        aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                        reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                                        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                                        culpa qui officia deserunt mollit anim id est laborum.
+                                        Hệ thống sửa chữa tại nhà là một nền tảng kết nối giữa người sửa chữa và người cần sửa chữa. Người dùng có thể yêu cầu dịch vụ sửa chữa cho các vấn đề liên quan đến nhà cửa, thiết bị điện tử, cơ điện, cơ khí, và nhiều hạng mục khác. Hệ thống cung cấp một giao diện để người dùng tạo yêu cầu, lựa chọn dịch vụ, đặt lịch, và thanh toán trực tuyến.
                                     </Accordion.Body>
                                 </Accordion.Item>
                                 <Accordion.Item eventKey="1">
-                                    <Accordion.Header>Accordion Item #2</Accordion.Header>
+                                    <Accordion.Header>Lợi ích của việc sử dụng hệ thống sửa chữa tại nhà là gì?</Accordion.Header>
                                     <Accordion.Body>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                                        minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                        aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                        reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                                        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                                        culpa qui officia deserunt mollit anim id est laborum.
+                                        <ul>
+                                            <li>Hệ thống sửa chữa tại nhà mang lại sự tiện lợi cho người dùng bằng cách đặt lịch trực tuyến và chờ kỹ thuật viên đến tận nơi.</li>
+                                            <li>Cung cấp một loạt các dịch vụ sửa chữa từ điện tử đến gia dụng và vệ sinh.</li>
+                                            <li>Giúp tiết kiệm chi phí bằng cách cung cấp các dịch vụ với mức giá cạnh tranh.</li>
+                                        </ul>
                                     </Accordion.Body>
                                 </Accordion.Item>
                                 <Accordion.Item eventKey="2">
-                                    <Accordion.Header>Accordion Item #3</Accordion.Header>
+                                    <Accordion.Header>Các tính năng chính của hệ thống sửa chữa tại nhà là gì?</Accordion.Header>
                                     <Accordion.Body>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                                        minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                        aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                        reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                                        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                                        culpa qui officia deserunt mollit anim id est laborum.
+                                        <ul>
+                                            <li>Các tính năng quan trọng bao gồm đặt lịch trực tuyến, thanh toán trực tuyến và chức năng đánh giá dịch vụ.</li>
+                                            <li>Thanh toán trực tuyến cung cấp sự an toàn và tiện lợi, giúp tiết kiệm thời gian và tránh rủi ro khi mang theo tiền mặt.</li>
+                                        </ul>
                                     </Accordion.Body>
                                 </Accordion.Item>
                             </Accordion>

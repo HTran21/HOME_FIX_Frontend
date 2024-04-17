@@ -19,7 +19,8 @@ function Contact() {
             <section className={cx("introContact")}>
                 <h2>VĂN PHÒNG CHÚNG TÔI</h2>
                 <p className={cx("desIntro")}>
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam illo tempora cum, consectetur adipisci soluta sit a hic architecto accusamus.
+                    Hãy liên hệ với chúng tôi, bạn sẽ được tận hưởng những dịch vụ tuyệt vời mà bạn chưa từng trải nghiệm. Mọi thứ chúng
+                    tôi tạo ra sẽ khiến bạn hài lòng
                 </p>
             </section>
             <section className={`container ${cx("contactUser")}`}>

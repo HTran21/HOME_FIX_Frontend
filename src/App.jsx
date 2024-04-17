@@ -23,6 +23,7 @@ import DetailRepair from './resources/Both/DetailRepair/DetailRepair';
 import Forbidden from './resources/Both/Forbidden/Forbidden';
 import PageNotFound from './resources/Both/PageNotFound/PageNotFound';
 import Result from './resources/Both/Result/Result';
+import Product from './resources/Both/Product/Product';
 
 
 import AdminHomePage from './resources/Admin/AdminHomePage/AdminHomePage';
@@ -150,6 +151,10 @@ function App() {
         {
           path: "about",
           element: <About />
+        },
+        {
+          path: "product",
+          element: <Product />
         },
         {
           path: "contact",
@@ -420,6 +425,7 @@ function App() {
         // window.location.pathname.startsWith("/") ||
         window.location.pathname === "/" ||
         window.location.pathname === "/service" ||
+        window.location.pathname === "/product" ||
         window.location.pathname === "/about" ||
         window.location.pathname === "/contact"
         ? (

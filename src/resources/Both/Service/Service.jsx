@@ -37,9 +37,7 @@ function Service() {
             label: 'Đảm bảo chất lượng',
             children: (
                 <div>
-                    <p>Chất lượng là nỗi ám ảnh của chúng tôi hôm nay và nút chỉnh sửa ngày mai để thay đổi văn bản này.
-                        Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi.
-                        Là đất của đất, là tang vật cũng không phải là hạ thi của đất, là gối của sư tử.s</p>
+                    <p>Hệ thống sửa chữa tại nhà cam kết cung cấp dịch vụ chất lượng hàng đầu, từ việc chọn lựa kỹ thuật viên tới quy trình làm việc, mang lại sự an tâm và hài lòng cho mọi khách hàng</p>
                     <img src="../illustration/ISO9001.png" alt="Tab 1" style={{ width: "60px" }} />
                     <img src="../illustration/certificate.jpg" alt="Tab 1" style={{ width: "100px", marginLeft: "10px" }} />
                 </div>
@@ -50,8 +48,7 @@ function Service() {
             label: 'Dịch vụ cùng ngày',
             children: (
                 <div>
-                    <p>Tôi là một khối văn bản. Nhấp vào nút chỉnh sửa để thay đổi văn bản này. Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi.
-                        Là đất của đất, là tang vật cũng không phải là hạ thi của đất, là gối của sư tử.</p>
+                    <p>Dịch vụ cùng ngày của chúng tôi giúp khách hàng giải quyết sự cố nhanh chóng và hiệu quả, từ việc kiểm tra, sửa chữa đến bảo dưỡng, đảm bảo thiết bị hoạt động tốt ngay tức thì.</p>
                 </div>
             ),
         }

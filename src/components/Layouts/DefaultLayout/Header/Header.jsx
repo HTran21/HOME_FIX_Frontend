@@ -20,6 +20,9 @@ function Header() {
 
     const navigate = useNavigate();
 
+    const location = useLocation();
+    const url = location.pathname;
+
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user.user);
     const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
@@ -71,12 +74,12 @@ function Header() {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="" style={{ flexWrap: "wrap" }}>
-                        <Nav.Link className={cx("navLink")} href="/">Home</Nav.Link>
-                        <Nav.Link className={cx("navLink")} href="/service">Service</Nav.Link>
-                        <Nav.Link className={cx("navLink")} href="/about">About</Nav.Link>
-                        <Nav.Link className={cx("navLink")} href="">Blog</Nav.Link>
-                        <Nav.Link className={cx("navLink")} href="">Shop</Nav.Link>
-                        <Nav.Link className={cx("navLink")} href="/contact">Contact</Nav.Link>
+                        <Nav.Link className={`${cx("navLink", { active: url === "/" })}`} href="/">Home</Nav.Link>
+                        <Nav.Link className={`${cx("navLink", { active: url.includes("/service") })}`} href="/service">Service</Nav.Link>
+                        <Nav.Link className={`${cx("navLink", { active: url.includes("/about") })}`} href="/about">About</Nav.Link>
+                        <Nav.Link className={`${cx("navLink", { active: url.includes("/product") })}`} href="/product">Product</Nav.Link>
+                        {/* <Nav.Link className={cx("navLink")} href="">Shop</Nav.Link> */}
+                        <Nav.Link className={`${cx("navLink", { active: url.includes("/contact") })}`} href="/contact">Contact</Nav.Link>
 
                     </Nav>
                 </Navbar.Collapse>

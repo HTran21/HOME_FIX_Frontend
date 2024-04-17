@@ -23,7 +23,7 @@ function Footer() {
                                 About us
                             </h6>
                             <p>
-                                Praesent tincidunt vulputate, Fusce non hendrerit ante. Curabitur in libero neque. Nulla at vestibulum massa. Fusce feugiat tellus fermentum lorem cursus, at vestibulum mentmt.
+                                Dịch vụ của chúng tôi cung cấp các giải pháp sửa chữa đa dạng cho mọi thiết bị gia dụng, từ máy rửa chén, máy giặt đến tủ lạnh và lò vi sóng, đảm bảo sự thuận tiện và an tâm cho khách hàng.
                             </p>
                         </div>
                         <div className="col-md-3 col-lg-3 col-xl-3 mx-auto mb-4">
@@ -39,7 +39,7 @@ function Footer() {
                                 Email: homefix@gmail.com</p>
                             <p className={cx("textContactFooter")}>
                                 <FontAwesomeIcon className={cx("iconFa")} icon={faLocationDot} style={{ color: "#ffffff", }} />
-                                Address: 124BP, Lacasa Ave New York</p>
+                                Address: Quận Ninh Kiều, Thành phố Cần Thơ</p>
 
 
 
@@ -50,16 +50,19 @@ function Footer() {
                                 Link
                             </h6>
                             <p>
-                                <a className={cx("linkFooter")}>Home</a>
+                                <a className={cx("linkFooter")} href="/">Home</a>
                             </p>
                             <p>
-                                <a className={cx("linkFooter")}>Service</a>
+                                <a className={cx("linkFooter")} href="/service">Service</a>
                             </p>
                             <p>
-                                <a className={cx("linkFooter")}>About</a>
+                                <a className={cx("linkFooter")} href="/about">About</a>
                             </p>
                             <p>
-                                <a className={cx("linkFooter")}>Blog</a>
+                                <a className={cx("linkFooter")} href="/product">Product</a>
+                            </p>
+                            <p>
+                                <a className={cx("linkFooter")} href="/contact">Contact</a>
                             </p>
                         </div>
                         <div className="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">

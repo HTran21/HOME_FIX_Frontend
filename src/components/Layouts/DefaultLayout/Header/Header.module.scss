@@ -32,6 +32,12 @@
      text-decoration: none;
  }
 
+ .active {
+     color: #1590c4;
+     border-bottom: 1px solid #21a3db;
+     text-decoration: none;
+ }
+
  .btnLogin {
      background-image: linear-gradient(to right, #7474BF 0%, #21a3db 51%, #7474BF 100%);
      padding: 10px 30px;

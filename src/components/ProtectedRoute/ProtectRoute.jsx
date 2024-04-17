@@ -21,7 +21,7 @@ const RoleBaseRoute = (props) => {
 
 function ProtectedRoute(props) {
     const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
-    // console.log("isAuthenticated protect", isAuthenticated)
+    console.log("isAuthenticated protect", isAuthenticated)
     // console.log("Protect route")
     return (
         <>
