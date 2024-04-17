@@ -1,0 +1,56 @@
+.titlePage {
+    margin-top: 5px;
+
+    .overviewCard {
+        border: 1px solid rgb(217, 210, 210);
+        border-radius: 10px;
+        box-shadow: 5px 5px 5px #e0dede;
+        height: 80px;
+        margin: 5px 0px;
+        display: grid;
+        grid-template-columns: 60px auto;
+
+        .layoutIconS {
+            background-color: rgb(14, 203, 0);
+            color: #fff;
+            font-size: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin: auto;
+        }
+
+        .contentOverViewCard {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            .numberOverview {
+                font-size: 24px;
+                font-weight: bold;
+            }
+
+            p {
+                font-size: 16px;
+                font-weight: bold;
+            }
+        }
+
+    }
+}
+
+.layoutIconW {
+    background-color: rgb(236, 232, 31);
+    color: #fff;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: auto;
+}

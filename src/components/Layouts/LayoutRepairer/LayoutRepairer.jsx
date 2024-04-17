@@ -7,7 +7,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import { Button, Drawer, Modal } from 'antd';
 import { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarDays, faHouse, faRightFromBracket, faScrewdriverWrench, faToolbox, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarDays, faChartLine, faChartPie, faHouse, faRightFromBracket, faScrewdriverWrench, faToolbox, faUser } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import AuthenService from "../../../service/AuthService";
@@ -110,6 +110,9 @@ function LayoutRepairer() {
                     </Link>
                     <Link to={"/repairer/profile"} className="text-decoration-none" onClick={() => setOpen(false)}>
                         <div className={cx("item")}><FontAwesomeIcon className={cx("iconItem")} icon={faUser} /><p className={cx("contentItem")}>Thông tin</p></div>
+                    </Link>
+                    <Link to={"/repairer/statistic"} className="text-decoration-none" onClick={() => setOpen(false)}>
+                        <div className={cx("item")}><FontAwesomeIcon className={cx("iconItem")} icon={faChartPie} /><p className={cx("contentItem")}>Thống kê</p></div>
                     </Link>
 
                     <div onClick={() => showModal()} className={`${cx("item")} mt-5`}><FontAwesomeIcon className={cx("iconItem")} icon={faRightFromBracket} /><p className={cx("contentItem")}>Đăng xuất</p></div>
