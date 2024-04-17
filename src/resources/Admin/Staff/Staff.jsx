@@ -332,7 +332,7 @@ function Staff() {
             formData.append('phone', phoneEdit)
             formData.append('address', addressEdit)
             formData.append('specialize', specializeEdit)
-            axios.put('http://localhost:3000/repair/update/' + id, formData)
+            axios.put('http://localhost:3000/admin/repairer/' + id, formData)
                 .then(res => {
                     if (res.data.success) {
                         toast.success(res.data.message);
@@ -368,6 +368,7 @@ function Staff() {
                     fetchData();
                 }
                 else {
+                    setIsModalDelete(false)
                     toast.error(res.data.message)
                 }
 

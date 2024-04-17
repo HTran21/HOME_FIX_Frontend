@@ -4,6 +4,7 @@ import classNames from 'classnames/bind';
 import axios from '../../../service/customize_axios';
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 const cx = classNames.bind(styles);
 
@@ -41,7 +42,7 @@ function ProfileRepairer() {
                                 <div
                                     className="rounded-top text-white d-flex flex-row"
                                     // style={{ backgroundColor: "#000", height: 200 }}
-                                    style={{ backgroundImage: "url(https://img.freepik.com/free-vector/abstract-technology-particle-background_23-2148426649.jpg?w=900&t=st=1711892962~exp=1711893562~hmac=8d7d2ad0aa9d5071e176aaea5f94045dc5fd7410917053a8b9b7af4ca468e80c)", height: 200 }}
+                                    style={{ backgroundImage: "url(../imageRepair/backgroundProfileRepair.jpg)", height: 200 }}
 
                                 >
                                     <div
