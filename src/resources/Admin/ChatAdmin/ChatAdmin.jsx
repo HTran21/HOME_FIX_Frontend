@@ -32,6 +32,7 @@ function ChatAdmin() {
     const [checkRoom, setCheckRoom] = useState();
     const [nameUserChat, setNameUserChat] = useState();
     const [avatarUserChat, setAvatarUserChat] = useState();
+    const [newMessage, setNewMessage] = useState(false);
 
     const getListRoomOfAdmin = async () => {
         const res = await axios.get("http://localhost:3000/message/listRoomOfAdmin")
@@ -170,6 +171,9 @@ function ChatAdmin() {
                                         <div className={cx("userContact", { active: item.id === checkRoom })} onClick={() => handleRoomMessageUser(item)}>
                                             <img src={`http://localhost:3000/${item.User.avatar}`} alt="" />
                                             <p className="fw-bold">{item.User.username}</p>
+                                            <div className={`${cx("notificationMess")} ${newMessage ? '' : 'd-none'}`}>
+
+                                            </div>
                                         </div>
                                         <hr className="m-0" />
                                     </div>

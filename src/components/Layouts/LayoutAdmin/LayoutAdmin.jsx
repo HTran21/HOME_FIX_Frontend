@@ -30,14 +30,16 @@ function getItem(label, key, icon, children) {
     };
 }
 const itemsSlider = [
-    getItem(<p style={{
-        fontWeight: "bold", fontFamily: "'Reem Kufi', sans-serif",
-        display: "inline-block",
-        transform: "translate(0, 7px)",
-        fontSize: "20px",
-        color: "#fff",
-        marginBottom: "10px"
-    }}>HOME FIX</p>, '0', <img className='m-0' style={{
+    getItem(<Link to={"/"}>
+        <p style={{
+            fontWeight: "bold", fontFamily: "'Reem Kufi', sans-serif",
+            display: "inline-block",
+            transform: "translate(0, 7px)",
+            fontSize: "20px",
+            color: "#fff",
+            marginBottom: "10px"
+        }}>HOME FIX</p>
+    </Link>, '0', <img className='m-0' style={{
         width: "25px",
         display: "inline-block"
     }} src="../../image/logo/logo8.png" alt="" />),

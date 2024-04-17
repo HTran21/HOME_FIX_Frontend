@@ -9,6 +9,12 @@ import moment from 'moment';
 const cx = classNames.bind(styles);
 import { Button, Flex } from 'antd';
 
+import { io } from "socket.io-client";
+
+const socket = io.connect("http://localhost:3000", {
+    transports: ["websocket"],
+});
+
 function AcceptForm() {
     // const history = useHistory();
     const navigate = useNavigate();
@@ -129,6 +135,7 @@ function AcceptForm() {
                     if (res.data.success) {
                         setLoadings(false)
                         toast.success("Duyệt đơn sửa chữa thành công")
+                        socket.emit("accept_form")
                     }
                 })
         } else {

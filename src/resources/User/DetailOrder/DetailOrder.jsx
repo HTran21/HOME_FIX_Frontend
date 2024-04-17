@@ -191,23 +191,29 @@ function DetailOrder() {
                                     </div>
                                 </div>
                                 <div className="card p-0">
-                                    <div className="card-body" style={{ minHeight: "212px" }}>
+                                    <div className="card-body" >
                                         <p className={cx("totalAmout")}>Tổng thành tiền: {VND.format(data?.totalAmount)}</p>
                                         {data?.paymentStatus === 'P' ?
                                             (
-                                                <div className={cx("paymentSuccess")}>
-                                                    <div className={cx("layoutIcon")}>
-                                                        <FontAwesomeIcon className={cx("iconSuccess")} icon={faCheck} />
+                                                <div>
+                                                    <p className={cx("paymentMethod")}>Phương thức thanh toán: {data?.paymentMethod === 'cash' ? 'Tiền mặt' : 'VNPay'}</p>
+                                                    <div className={cx("paymentSuccess")}>
+                                                        <div className={cx("layoutIcon")}>
+                                                            <FontAwesomeIcon className={cx("iconSuccess")} icon={faCheck} />
+                                                        </div>
+                                                        <h5>Thanh toán thành công</h5>
                                                     </div>
-                                                    <h5>Thanh toán thành công</h5>
                                                 </div>
                                             ) : (
                                                 data?.paymentStatus === 'W' ? (
-                                                    <div className={cx("waitConfirm")}>
-                                                        <div className={cx("layoutIcon")}>
-                                                            <FontAwesomeIcon className={cx("iconWait")} icon={faHourglassHalf} />
+                                                    <div>
+                                                        <p className={cx("paymentMethod")}>Phương thức thanh toán: {data?.paymentMethod === 'cash' ? 'Tiền mặt' : 'VNPay'}</p>
+                                                        <div className={cx("waitConfirm")}>
+                                                            <div className={cx("layoutIcon")}>
+                                                                <FontAwesomeIcon className={cx("iconWait")} icon={faHourglassHalf} />
+                                                            </div>
+                                                            <h5>Vui lòng chờ xác nhận</h5>
                                                         </div>
-                                                        <h5>Vui lòng chờ xác nhận</h5>
                                                     </div>
                                                 ) : (
                                                     <>

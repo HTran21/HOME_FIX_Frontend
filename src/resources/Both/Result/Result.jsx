@@ -73,7 +73,7 @@ function Result() {
                             <h3 >BẠN ĐÃ THANH TOÁN THÀNH CÔNG</h3>
                             <h4>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi</h4>
                             <p style={{ fontSize: "16px" }}> Mã chi tiết sửa chữa: {data?.id} | Số tiền: {data?.totalAmount} đ | Ngày sửa: {data?.createdAt} | Thời gian sửa chữa: {data?.timeRepair}</p>
-                            <Link ><Button type="primary" className="me-3 mt-3">Xem chi tiết đơn</Button></Link>
+                            <Link to={`/user/order/` + data?.id}><Button type="primary" className="me-3 mt-3">Xem chi tiết đơn</Button></Link>
                             <Link to={"/"}> <Button type="primary">Về trang chủ</Button></Link>
                         </div>
                     </div>
@@ -85,7 +85,7 @@ function Result() {
                         <div className={cx("contentPage")}>
                             <h3 >THANH TOÁN KHÔNG THÀNH CÔNG</h3>
                             <h4>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi</h4>
-                            <Link ><Button type="primary" className="me-3 mt-3">Xem chi tiết đơn</Button></Link>
+                            {/* <Link><Button type="primary" className="me-3 mt-3">Xem chi tiết đơn</Button></Link> */}
                             <Link to={"/"}> <Button type="primary">Về trang chủ</Button></Link>
                         </div>
                     </div>

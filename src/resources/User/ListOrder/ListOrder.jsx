@@ -3,14 +3,20 @@ import { useEffect, useState } from "react";
 import className from "classnames/bind";
 import styles from "./ListOrder.module.scss";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFacebook, faInstagram, faTwitter } from "@fortawesome/free-brands-svg-icons";
-import { Tabs, Space, Table, Tag, Drawer, Modal } from 'antd';
-import { faChevronRight, faCircleCheck, faCircleUser, faClockRotateLeft, faDesktop, faPenToSquare, faScrewdriverWrench, faTrash, faTrashCan, faWallet } from "@fortawesome/free-solid-svg-icons";
+import { faFacebook, faInstagram, faPaypal, faTwitter } from "@fortawesome/free-brands-svg-icons";
+import { Tabs, Space, Table, Tag, Drawer, Modal, Tooltip } from 'antd';
+import { faChevronRight, faCircleCheck, faCircleUser, faClockRotateLeft, faDesktop, faMoneyBill, faPenToSquare, faScrewdriverWrench, faTrash, faTrashCan, faWallet } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import moment from 'moment';
 import { toast } from "react-toastify";
 const cx = className.bind(styles);
+
+import { io } from "socket.io-client";
+
+const socket = io.connect("http://localhost:3000", {
+    transports: ["websocket"],
+});
 
 function ListOrder() {
 
@@ -20,6 +26,7 @@ function ListOrder() {
     const fetchOrder = async () => {
         let getOrder = await axios.get("http://localhost:3000/order/user/" + idUser);
         setListOrder(getOrder.data.data);
+        console.log("Data", getOrder.data.data)
     }
 
     useEffect(() => {
@@ -148,6 +155,30 @@ function ListOrder() {
             }
         },
         {
+            title: 'Ngày sửa chữa',
+            dataIndex: 'Schedule',
+            key: 'workDay',
+            defaultSortOrder: 'descend',
+            // sorter: (a, b) => {
+            //     const dateA = new Date(a.workDay);
+            //     const dateB = new Date(b.workDay);
+
+            //     return dateA - dateB;
+            // },
+            render: (_, { DetailOrder, index }) => {
+                if (DetailOrder && DetailOrder.Schedule && DetailOrder.Schedule.workDay) {
+                    return (
+                        <div key={index + 1}>
+                            {moment(DetailOrder.Schedule.workDay).format('DD/MM/YYYY')}
+                        </div>
+                    );
+                } else {
+                    return 'Chưa duyệt'; // Hoặc trả về một giá trị khác nếu cần thiết
+                }
+            }
+        },
+
+        {
             title: 'Trạng thái',
             key: 'status',
             dataIndex: 'status',
@@ -166,7 +197,7 @@ function ListOrder() {
                 },
                 {
                     text: 'Hoàn thành',
-                    value: 'Y'
+                    value: 'S'
                 },
                 {
                     text: 'Đã hủy',
@@ -191,11 +222,31 @@ function ListOrder() {
         {
             title: 'Action',
             key: 'action',
+            align: 'center',
             render: (_, record, index) => (
                 <Space size="middle" key={index + 1}>
-                    <Link to={`/repair/edit/${record?.id}?ID_Service=${record.Categori.ID_Service}`}><FontAwesomeIcon className={`${(record?.status === 'W') ? '' : 'd-none'}`} icon={faPenToSquare} size="lg" style={{ color: "#024bca", }} /></Link>
-                    <FontAwesomeIcon className={`${record?.status === 'W' ? '' : 'd-none'}`} icon={faTrash} onClick={() => showModal(record)} size="lg" style={{ color: "#cc0000", }} />
-                    <FontAwesomeIcon icon={faChevronRight} size="lg" style={{ color: "#005eff", marginLeft: "10px" }} onClick={() => showDrawer(record)} />
+                    {record.DetailOrder && record.DetailOrder.paymentStatus == 'P' ? (
+                        <Link to={`/user/order/` + record?.DetailOrder.id}>
+                            <Tooltip title="Đã thanh toán">
+                                <FontAwesomeIcon size="lg" icon={faMoneyBill} style={{ color: "#3e9ce5", }} />
+                            </Tooltip>
+                        </Link>
+                    ) : (
+                        record.DetailOrder && record?.DetailOrder.paymentStatus == 'UP' ? (
+                            <Link to={`/user/order/` + record.DetailOrder.id}>
+                                <Tooltip title="Thanh toán" className={cx("btnPay")}>
+                                    <FontAwesomeIcon icon={faPaypal} />
+                                </Tooltip>
+                            </Link>
+                        ) : (
+                            <>
+                                <Link to={`/repair/edit/${record?.id}?ID_Service=${record.Categori.ID_Service}`}><FontAwesomeIcon className={`${(record?.status === 'W') ? '' : 'd-none'}`} icon={faPenToSquare} size="lg" style={{ color: "#024bca", }} /></Link>
+                                <FontAwesomeIcon className={`${record?.status === 'W' ? '' : 'd-none'}`} icon={faTrash} onClick={() => showModal(record)} size="lg" style={{ color: "#cc0000", }} />
+                                <FontAwesomeIcon icon={faChevronRight} size="lg" style={{ color: "#005eff", marginLeft: "10px" }} onClick={() => showDrawer(record)} />
+                            </>
+                        )
+                    )}
+
                 </Space>
             ),
         },
@@ -243,6 +294,14 @@ function ListOrder() {
             setPagination(newPagination);
         });
     }
+
+    useEffect(() => {
+
+        socket.on("accept_form_success", () => {
+            fetchOrder();
+        });
+
+    }, [socket])
 
 
     return (
@@ -410,6 +469,86 @@ function ListOrder() {
                             </div>
                         </div>
                     </div>
+                    {record && record.DetailOrder ? (
+                        <div className={cx("inforRepair")}>
+                            <h5 className="mb-2">Thông tin Sửa chữa</h5>
+                            <div className="row">
+                                <div className="col-lg-6 col-md-6 col-sm-12">
+                                    <div className="form-floating mb-3" >
+                                        <input
+                                            type="text"
+                                            className={`${cx("inputForm")} form-control`}
+                                            id="floatingInput"
+                                            placeholder="name@example.com"
+                                            readOnly value={moment(record?.DetailOrder.Schedule.workDay).format("DD/MM/YYYY")} onChange={() => { }}
+                                        />
+
+                                        <label htmlFor="floatingInput">Thời gian sửa chữa</label>
+                                    </div>
+
+                                </div>
+                                <div className="col-lg-6 col-md-6 col-sm-12">
+                                    <div className="form-floating mb-3">
+                                        <input
+                                            type="text"
+                                            className={`${cx("inputForm")} form-control`}
+                                            id="floatingInput"
+                                            placeholder="name@example.com"
+                                            readOnly value={record?.DetailOrder.timeRepair} onChange={() => { }}
+                                        />
+                                        <label htmlFor="floatingInput">Giờ dự kiến</label>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-lg-6 col-md-6 col-sm-12">
+                                    <div className="form-floating mb-3" >
+                                        <input
+                                            type="text"
+                                            className={`${cx("inputForm")} form-control`}
+                                            id="floatingInput"
+                                            placeholder="name@example.com"
+                                            readOnly defaultValue={record?.DetailOrder.Schedule.Repairer.usernameRepairer} onChange={() => { }}
+                                        />
+
+                                        <label htmlFor="floatingInput">Họ tên thợ</label>
+                                    </div>
+
+                                </div>
+                                <div className="col-lg-6 col-md-6 col-sm-12">
+                                    <div className="form-floating mb-3" >
+                                        <input
+                                            type="text"
+                                            className={`${cx("inputForm")} form-control`}
+                                            id="floatingInput"
+                                            placeholder="name@example.com"
+                                            readOnly defaultValue={record?.DetailOrder.Schedule.Repairer.phoneRepairer} onChange={() => { }}
+                                        />
+
+                                        <label htmlFor="floatingInput">Số điện thoại thợ</label>
+                                    </div>
+
+                                </div>
+                                <div className="col-lg-6 col-md-6 col-sm-12">
+                                    <div className="form-floating mb-3" >
+                                        <input
+                                            type="text"
+                                            className={`${cx("inputForm")} form-control`}
+                                            id="floatingInput"
+                                            placeholder="name@example.com"
+                                            readOnly defaultValue={record?.DetailOrder.Schedule.Repairer.emailRepairer} onChange={() => { }}
+                                        />
+
+                                        <label htmlFor="floatingInput">Email thợ</label>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    ) : (
+                        null
+                    )}
                     <div className={cx("statusOrder")}>
                         <span>Trạng thái:</span>
                         <div className={`${cx("status")} ${record && record?.status === 'W' ? 'text-warning border-warning' :
