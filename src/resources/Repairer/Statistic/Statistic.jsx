@@ -141,7 +141,7 @@ function Statistic() {
         labels: labels,
         datasets: [
             {
-                label: 'Doanh thu',
+                label: 'Đơn sửa chữa',
                 data: jobData,
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
@@ -156,8 +156,8 @@ function Statistic() {
                 beginAtZero: true,
                 title: {
                     display: true,
-                    text: 'Doanh thu (VND)'
-                }
+                    text: 'Đơn sửa chữa'
+                },
             },
             x: {
                 title: {
@@ -234,7 +234,7 @@ function Statistic() {
                         <Button loading={loadings} type="primary" className="ms-auto" onClick={handleConfirm}>Thống kê</Button>
                     </div>
                     <Space className="mt-2">
-                        <Select style={{ width: "130px" }} value={type} onChange={setType}>
+                        <Select style={{ width: "120px" }} value={type} onChange={setType}>
                             <Option value="datepicker">Khoảng ngày</Option>
                             {/* <Option value="week">Tuần</Option> */}
                             <Option value="month">Tháng</Option>

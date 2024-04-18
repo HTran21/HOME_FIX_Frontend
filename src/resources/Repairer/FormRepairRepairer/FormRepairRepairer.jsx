@@ -9,6 +9,13 @@ import moment from 'moment';
 const cx = classNames.bind(styles);
 import { Button, Flex } from 'antd';
 
+import { io } from "socket.io-client";
+
+const socket = io.connect("http://localhost:3000", {
+    transports: ["websocket"],
+});
+
+
 function FormRepairRepairer() {
     // const history = useHistory();
     const navigate = useNavigate();
@@ -41,6 +48,7 @@ function FormRepairRepairer() {
                     if (res.data.success) {
                         toast.success("Tiến hành sửa chữa")
                         navigate("/repairer/task/" + id)
+                        socket.emit("orderStatusChange")
                     }
                     else {
                         toast.error(res.data.message)

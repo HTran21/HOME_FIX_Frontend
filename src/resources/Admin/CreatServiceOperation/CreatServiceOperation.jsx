@@ -2,10 +2,16 @@ import className from "classnames/bind";
 import styles from "./CreatServiceOperation.module.scss";
 import axios from '../../../service/customize_axios';
 import { toast } from "react-toastify";
-
+import { Space, Table, Tag } from 'antd';
 
 const cx = className.bind(styles);
 import { useEffect, useState } from "react";
+
+const VND = new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
+});
+
 
 function CreatServiceOperation() {
 
@@ -16,6 +22,7 @@ function CreatServiceOperation() {
     const [idService, setIdService] = useState();
     const [idCategori, setidCategori] = useState();
     const [errors, setErrors] = useState({});
+    const [listOperation, setListOperation] = useState();
 
     const fetchData = () => {
         axios.get("http://localhost:3000/service/getService")
@@ -104,6 +111,46 @@ function CreatServiceOperation() {
 
     }
 
+    const columns = [
+        {
+            title: 'STT',
+            dataIndex: 'key',
+            key: 'id',
+            render: (text, record, index) => <a>{index + 1}</a>,
+        },
+        {
+            title: 'Tên thao tác',
+            dataIndex: 'nameOperation',
+            key: 'nameOperation',
+        },
+        {
+            title: 'Giá',
+            dataIndex: 'price',
+            key: 'price',
+        },
+    ];
+
+    useEffect(() => {
+        if (idCategori) {
+            axios.get("http://localhost:3000/operation/operationbycategori", {
+                params: {
+                    ID_Categori: idCategori
+                }
+            })
+                .then(res => {
+                    if (res.data.success) {
+                        setListOperation(res.data.listOperationByCategori)
+                    }
+                    else {
+                        toast.error(res.data.message)
+                    }
+                })
+        }
+    }, [idCategori])
+
+
+
+
     return (
         <>
             <div className={cx("containerPage")}>
@@ -120,72 +167,84 @@ function CreatServiceOperation() {
                     </div>
 
 
+                    <div className="row">
+                        <div className="col-lg-6 col-md-6 col-sm-12">
+                            <div>
+                                <div className="mb-3 mt-4">
+                                    <h5>Chọn loại dịch vụ</h5>
+                                    <select className={`form-control mt-2 ${cx("inputForm")} ${errors.idService ? ' border-danger' : ''} `} aria-label="Default select example"
+                                        value={idService} onChange={(e) => setIdService(e.target.value)}
+                                    >
+                                        <option value="0">Chọn dịch vụ</option>
+                                        {
+                                            listService?.map((service, i) =>
+                                                <option key={i} value={service.id}>{service.nameService}</option>
+                                            )
+                                        }
+                                    </select>
+                                    {errors.idService && <p className={cx("errors")}>{errors.idService}</p>}
 
-                    <div className={cx("titleService")}>
-                        <div className="mb-3 mt-4">
-                            <h5>Chọn loại dịch vụ</h5>
-                            <select className={`form-control mt-2 ${cx("inputForm")} ${errors.idService ? ' border-danger' : ''} `} aria-label="Default select example"
-                                value={idService} onChange={(e) => setIdService(e.target.value)}
-                            >
-                                <option value="0">Chọn dịch vụ</option>
-                                {
-                                    listService?.map((service, i) =>
-                                        <option key={i} value={service.id}>{service.nameService}</option>
-                                    )
-                                }
-                            </select>
-                            {errors.idService && <p className={cx("errors")}>{errors.idService}</p>}
+                                </div>
 
+                                <div className="mb-3 mt-4">
+                                    <h5>Chọn thiết bị</h5>
+                                    <select className={`form-control mt-2 ${cx("inputForm")} ${errors.idCategori ? ' border-danger' : ''} `} aria-label="Default select example"
+                                        value={idCategori} onChange={(e) => setidCategori(e.target.value)}
+                                    >
+                                        <option value="0">Chọn thiết bị</option>
+                                        {
+                                            listCategories?.map((catagory, i) =>
+                                                <option key={i} value={catagory.id}>{catagory.nameCategories}</option>
+                                            )
+                                        }
+                                    </select>
+                                    {errors.idCategori && <p className={cx("errors")}>{errors.idCategori}</p>}
+
+                                </div>
+
+                                <div className="mb-3 mt-4">
+                                    <h5>Tên thao tác</h5>
+                                    <input
+                                        type="text"
+                                        className={`form-control mt-2 ${cx("inputForm")} ${errors.nameOperation ? ' border-danger' : ''} `}
+                                        id="exampleFormControlInput1"
+                                        placeholder="Nhập tên thao tác"
+                                        value={nameOperation}
+                                        onChange={(e) => { setNameOperation(e.target.value) }}
+                                        autoComplete="off"
+                                    />
+                                    {errors.nameOperation && <p className={cx("errors")}>{errors.nameOperation}</p>}
+                                </div>
+
+                                <div className="mb-3 mt-4">
+                                    <h5>Giá thao tác</h5>
+                                    <input
+                                        type="number"
+                                        className={`form-control mt-2 ${cx("inputForm")} ${errors.priceOperation ? ' border-danger' : ''} `}
+                                        id="exampleFormControlInput1"
+                                        placeholder="Nhập giá thao tác"
+                                        value={priceOperation}
+                                        onChange={(e) => { setPriceOperation(e.target.value) }}
+                                        autoComplete="off"
+                                    />
+                                    {errors.priceOperation && <p className={cx("errors")}>{errors.priceOperation}</p>}
+                                </div>
+
+
+                                <button className={cx("btnCreat")} onClick={upload}>Tạo thao tác</button>
+
+                            </div>
                         </div>
-
-                        <div className="mb-3 mt-4">
-                            <h5>Chọn thiết bị</h5>
-                            <select className={`form-control mt-2 ${cx("inputForm")} ${errors.idCategori ? ' border-danger' : ''} `} aria-label="Default select example"
-                                value={idCategori} onChange={(e) => setidCategori(e.target.value)}
-                            >
-                                <option value="0">Chọn thiết bị</option>
-                                {
-                                    listCategories?.map((catagory, i) =>
-                                        <option key={i} value={catagory.id}>{catagory.nameCategories}</option>
-                                    )
-                                }
-                            </select>
-                            {errors.idCategori && <p className={cx("errors")}>{errors.idCategori}</p>}
-
-                        </div>
-
-                        <div className="mb-3 mt-4">
-                            <h5>Tên thao tác</h5>
-                            <input
-                                type="text"
-                                className={`form-control mt-2 ${cx("inputForm")} ${errors.nameOperation ? ' border-danger' : ''} `}
-                                id="exampleFormControlInput1"
-                                placeholder="Nhập tên thao tác"
-                                value={nameOperation}
-                                onChange={(e) => { setNameOperation(e.target.value) }}
-                                autoComplete="off"
-                            />
-                            {errors.nameOperation && <p className={cx("errors")}>{errors.nameOperation}</p>}
-                        </div>
-
-                        <div className="mb-3 mt-4">
-                            <h5>Giá thao tác</h5>
-                            <input
-                                type="number"
-                                className={`form-control mt-2 ${cx("inputForm")} ${errors.priceOperation ? ' border-danger' : ''} `}
-                                id="exampleFormControlInput1"
-                                placeholder="Nhập giá thao tác"
-                                value={priceOperation}
-                                onChange={(e) => { setPriceOperation(e.target.value) }}
-                                autoComplete="off"
-                            />
-                            {errors.priceOperation && <p className={cx("errors")}>{errors.priceOperation}</p>}
-                        </div>
-
-
-                        <button className={cx("btnCreat")} onClick={upload}>Tạo thao tác</button>
-
+                        {listOperation && listOperation?.length > 0 && (
+                            <div className="col-lg-6 col-md-6 col-sm-12">
+                                <div className="card-body">
+                                    <h5>Danh sách thao tác</h5>
+                                    <Table rowKey={"id"} className="mt-3" dataSource={listOperation} columns={columns} />
+                                </div>
+                            </div>
+                        )}
                     </div>
+
                 </div>
             </div>
         </>

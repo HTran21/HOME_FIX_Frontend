@@ -297,7 +297,7 @@ function ListOrder() {
 
     useEffect(() => {
 
-        socket.on("accept_form_success", () => {
+        socket.on("featchOrder", () => {
             fetchOrder();
         });
 

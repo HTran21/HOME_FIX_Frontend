@@ -12,6 +12,14 @@ import axios from '../../../service/customize_axios';
 import moment from 'moment';
 import { toast } from "react-toastify";
 const cx = classNames.bind(styles);
+
+import { io } from "socket.io-client";
+
+const socket = io.connect("http://localhost:3000", {
+    transports: ["websocket"],
+});
+
+
 function TaskDetail() {
 
     const { id } = useParams();
@@ -150,6 +158,7 @@ function TaskDetail() {
                     if (res.data.success) {
                         toast.success(res.data.message);
                         navigate("/repairer/confirm/" + id);
+                        socket.emit("orderStatusChange")
                     }
                     else {
                         toast.error(res.data.message)
@@ -164,7 +173,7 @@ function TaskDetail() {
     return (
         <div className="container">
             <div className={cx("titlePage")}>
-                <div className={cx("iconBack")} onClick={() => navigate(-1)}>
+                <div className={cx("iconBack")} onClick={() => navigate("/repairer/work")}>
                     <FontAwesomeIcon icon={faArrowLeft} />
                 </div>
                 <h4>Thao tác tiến hành</h4>

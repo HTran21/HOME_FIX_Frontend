@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { Tabs, Space, Table, Tag, Drawer, Tooltip, Button } from 'antd';
 
 import className from "classnames/bind";
-import styles from "./DetailOrder.module.scss";
+import styles from "./DetailOrderAdmin.module.scss";
 
 const cx = className.bind(styles);
 import moment from 'moment';
@@ -19,12 +19,11 @@ const socket = io.connect("http://localhost:3000", {
     transports: ["websocket"],
 });
 
-function DetailOrder() {
+function DetailOrderAdmin() {
 
     const { id } = useParams();
     const [data, setData] = useState();
     const navigation = useNavigate();
-    const [paymentMethod, setPaymentMethod] = useState("");
 
     const VND = new Intl.NumberFormat('vi-VN', {
         style: 'currency',
@@ -86,45 +85,11 @@ function DetailOrder() {
 
     const [pagination, setPagination] = useState({});
 
-    const [loadings, setLoadings] = useState(false);
 
     function handleTableChange() {
         setPagination(data);
     }
 
-    const paymentCash = (id) => {
-        setLoadings(true);
-        axios.post("http://localhost:3000/payment/cash", { ID_DetailOrder: id, paymentMethod: paymentMethod })
-            .then(res => {
-                if (res.data.success) {
-                    setTimeout(() => {
-                        setLoadings(false)
-                        window.location.reload();
-                        toast.success(res.data.message);
-                    }, 2000)
-                }
-                else {
-                    toast.error(res.data.message)
-                }
-            })
-    }
-
-    const paymentVNPay = (id) => {
-        setLoadings(true);
-
-        axios.post("http://localhost:3000/payment/vnpay/create_payment_url", { ID_DetailOrder: id, paymentMethod: paymentMethod })
-            .then(res => {
-                if (res.data.success) {
-                    setTimeout(() => {
-                        setLoadings(false);
-                        // window.location.href = res.data.data.url;
-                        featchData()
-                    }, 2000);
-                } else {
-                    toast.error(res.data.message)
-                }
-            })
-    }
 
     useEffect(() => {
         socket.on("confirm_payment_success", (data) => {
@@ -212,53 +177,17 @@ function DetailOrder() {
                                                     </div>
                                                 </div>
                                             ) : (
-                                                data?.paymentStatus === 'W' ? (
-                                                    <div>
-                                                        <p className={cx("paymentMethod")}>Phương thức thanh toán: {data?.paymentMethod === 'cash' ? 'Tiền mặt' : 'VNPay'}</p>
-                                                        <div className={cx("waitConfirm")}>
-                                                            <div className={cx("layoutIcon")}>
-                                                                <FontAwesomeIcon className={cx("iconWait")} icon={faHourglassHalf} />
-                                                            </div>
-                                                            <h5>Vui lòng chờ xác nhận</h5>
+
+                                                <div>
+                                                    <p className={cx("paymentMethod")}>Phương thức thanh toán: {data?.paymentMethod === 'cash' ? 'Tiền mặt' : 'VNPay'}</p>
+                                                    <div className={cx("waitConfirm")}>
+                                                        <div className={cx("layoutIcon")}>
+                                                            <FontAwesomeIcon className={cx("iconWait")} icon={faHourglassHalf} />
                                                         </div>
+                                                        <h5>Vui lòng chờ xác nhận</h5>
                                                     </div>
-                                                ) : (
-                                                    <>
-                                                        <p className={cx("titlePay")}>Chọn phương thức thanh toán</p>
+                                                </div>
 
-                                                        <div className={cx("selectGroup")}>
-
-                                                            <div className="form-check m-0">
-                                                                <input
-                                                                    className="form-check-input d-none"
-                                                                    type="radio"
-                                                                    name="flexRadioDefault"
-                                                                    id="cashMethod"
-                                                                    value={"cash"}
-                                                                    onChange={(e) => setPaymentMethod(e.target.value)}
-                                                                />
-                                                                <label className={`${cx("selectPayMethoid", `${paymentMethod === 'cash' ? 'active' : ''}`)} form-check-label`} htmlFor="cashMethod">
-                                                                    <FontAwesomeIcon className={cx("iconPay")} icon={faMoneyBill1} />Tiền mặt
-                                                                </label>
-                                                            </div>
-                                                            <div className="form-check m-0">
-                                                                <input
-                                                                    className="form-check-input d-none"
-                                                                    type="radio"
-                                                                    name="flexRadioDefault"
-                                                                    id="vnpayMethod"
-                                                                    value={"vnpay"}
-                                                                    onChange={(e) => setPaymentMethod(e.target.value)}
-                                                                />
-                                                                <label className={`${cx("selectPayMethoid", `${paymentMethod === 'vnpay' ? 'active' : ''}`)} form-check-label`} htmlFor="vnpayMethod">
-                                                                    <img src="../../icon/iconVNPay.png" className={cx("imageVNPay")} alt="" /> VNPay
-                                                                </label>
-                                                            </div>
-
-                                                        </div>
-                                                        <Button type="primary" className={cx("btnPay")} loading={loadings} onClick={paymentMethod === 'cash' ? () => paymentCash(data?.id) : () => paymentVNPay(data?.id)} disabled={paymentMethod.trim() === "" ? true : false}>Thanh Toán</Button>
-                                                    </>
-                                                )
                                             )}
 
                                     </div>
@@ -273,4 +202,4 @@ function DetailOrder() {
     );
 }
 
-export default DetailOrder;
+export default DetailOrderAdmin;

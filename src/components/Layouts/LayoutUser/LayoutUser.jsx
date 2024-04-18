@@ -64,7 +64,8 @@ const LayoutUser = () => {
             dispatch(doLogoutAction());
             // toast.success("Đăng xuất thành công");
             navigate("/login");
-            console.log("Logout thanh cong")
+            // console.log("Logout thanh cong")
+            localStorage.removeItem("room")
         }
 
     };

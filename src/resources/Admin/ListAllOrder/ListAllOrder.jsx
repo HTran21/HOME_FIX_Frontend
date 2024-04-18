@@ -200,7 +200,7 @@ function ListAllOrder() {
                 let text = status === 'C' ? 'Đã hủy' : (status === 'W' ? 'Đang chờ' : (status === 'A' ? 'Đã duyệt' : (status === 'R' ? 'Đang sửa' : 'Hoàn thành')));
 
                 return (
-                    <Tag key={index + 1} style={{ width: "70px", textAlign: "center" }} color={color} >
+                    <Tag key={index + 1} style={{ width: "75px", textAlign: "center" }} color={color} >
                         {text}
                     </Tag>
 
@@ -209,16 +209,68 @@ function ListAllOrder() {
 
         },
         {
+            title: 'Thanh toán',
+            key: 'paymentStatus',
+            dataIndex: 'DetailOrder',
+            render: (_, { DetailOrder, index }) => (
+                DetailOrder?.paymentStatus === 'P' ? (
+                    <div>
+                        Đã thanh toán
+                    </div>
+                ) : (
+                    DetailOrder?.paymentStatus === 'P' ? (
+                        <div>
+                            Chưa thanh toán
+                        </div>
+                    ) : (
+                        <div>
+                            Chưa duyệt
+                        </div>
+                    )
+                )
+            )
+
+        },
+        {
+            title: 'Phương thức',
+            key: 'paymentStatus',
+            dataIndex: 'DetailOrder',
+            render: (_, { DetailOrder, index }) => (
+                DetailOrder?.paymentMethod === 'vnpay' ? (
+                    <div>
+                        VNPay
+                    </div>
+                ) : (
+                    DetailOrder?.paymentMethod === 'cash' ? (
+                        <div>Tiền mặt</div>
+                    ) : (
+                        <div>
+                            Chưa duyệt
+                        </div>
+                    )
+                )
+            )
+
+        },
+        {
             title: 'Action',
             key: 'action',
             render: (_, record, index) => (
                 <Space size="middle" key={index + 1}>
-                    <Link to={`/repair/accept/${record?.id}`}>
-                        <FontAwesomeIcon icon={faCircleCheck} className={`${cx("iconAccept")} ${(record?.status === 'W') ? '' : 'd-none'}`} size="xl" style={{ color: "#00a851", }} />
-                    </Link>
-                    <FontAwesomeIcon icon={faCircleXmark} onClick={() => showModal(record)}
-                        className={`${cx("iconDenied")} ${record?.status === 'W' ? '' : 'd-none'}`} size="xl" style={{ color: "#e00000", }} />
-                    <FontAwesomeIcon icon={faChevronRight} size="lg" style={{ color: "#005eff", marginLeft: "10px" }} onClick={() => showDrawer(record)} />
+                    {(record && record?.DetailOrder && (record?.DetailOrder.paymentStatus === 'P' || record?.DetailOrder.paymentStatus === 'UP')) ? (
+                        <Link to={"/admin/order/" + record?.DetailOrder.id}>
+                            <p>Xem chi tiết</p>
+                        </Link>
+                    ) : (
+                        <>
+                            <Link to={`/repair/accept/${record?.id}`}>
+                                <FontAwesomeIcon icon={faCircleCheck} className={`${cx("iconAccept")} ${(record?.status === 'W') ? '' : 'd-none'}`} size="xl" style={{ color: "#00a851", }} />
+                            </Link>
+                            <FontAwesomeIcon icon={faCircleXmark} onClick={() => showModal(record)}
+                                className={`${cx("iconDenied")} ${record?.status === 'W' ? '' : 'd-none'}`} size="xl" style={{ color: "#e00000", }} />
+                            <FontAwesomeIcon icon={faChevronRight} size="lg" style={{ color: "#005eff", marginLeft: "10px" }} onClick={() => showDrawer(record)} />
+                        </>
+                    )}
                 </Space>
             ),
         },
@@ -431,8 +483,11 @@ function ListAllOrder() {
                         </div>
                     </div>
                     <div className={cx("statusOrder")}>
-                        <span>Trạng thái:</span> <div className={`${cx("status")} ${record && record?.status == 'W' ? 'text-warning border-warning' :
-                            (record?.status == 'A' ? 'text-success border-success' : (record?.status === 'R' ? 'text-warning text-opacity-50 border-warning-subtle' : (record?.state === 'S' ? 'text-primary border-primary' : 'text-danger border-danger')))}`}>
+                        <span>Trạng thái:</span>
+                        <div className={`${cx("status")} ${record && record?.status === 'W' ? 'text-warning border-warning' :
+                            (record?.status === 'A' ? 'text-success border-success' :
+                                (record?.status === 'R' ? 'text-warning text-opacity-50 border-warning-subtle' :
+                                    (record?.status === 'S' ? 'text-primary border-primary' : 'text-danger border-danger')))}`}>
                             {record && record?.status === 'W' ? 'Đang chờ' : (record?.status == 'A' ? 'Đã duyệt' : (record?.status === 'R' ? 'Đang sửa' : (record?.status === 'S' ? 'Hoàn thành' : 'Đã hủy')))}
                         </div>
                     </div>

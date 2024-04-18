@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { AndroidOutlined, AppleOutlined } from '@ant-design/icons';
-import { Tabs, DatePicker, Modal } from 'antd';
+import { Tabs, DatePicker, Modal, Badge } from 'antd';
 import axios from '../../../service/customize_axios';
 import { io } from "socket.io-client";
 import moment from 'moment';
@@ -25,6 +25,7 @@ function ListWork() {
     const [data, setData] = useState();
     const [dateSelect, setDateSelect] = useState(moment().format('YYYY-MM-DD'));
     const [recored, setRecord] = useState();
+    const [show, setShow] = useState(true);
     const onChange = (date, dateString) => {
         console.log(dateString);
         if (dateString && dateString.trim() === '') {
@@ -73,12 +74,12 @@ function ListWork() {
     const navigatoConfirm = (work) => {
         navigate("/repairer/confirm/" + work.id)
     }
-
-
     const items = [
         {
             key: '1',
-            label: 'Công việc mới',
+            label: <Badge dot={listWorkToDay && listWorkToDay.some(item => item.Order.status === 'A')}>
+                Công việc mới
+            </Badge>,
             children: (
 
                 <div className="row listWork">
@@ -122,7 +123,9 @@ function ListWork() {
         },
         {
             key: '2',
-            label: 'Đang tiến hành',
+            label: <Badge dot={listWorkToDay && listWorkToDay.some(item => item.Order.status === 'R')}>
+                Đang tiến hành
+            </Badge>,
             children: (
                 <div className="row listWork">
                     <div className="d-flex justify-content-center mb-2">
@@ -166,7 +169,9 @@ function ListWork() {
         },
         {
             key: '3',
-            label: 'Hoàn thành',
+            label: <Badge dot={listWorkToDay && listWorkToDay.some(item => item.Order.status === 'S')}>
+                Hoàn thành
+            </Badge>,
             children: (
                 <div className="row listWork">
                     <div className="d-flex justify-content-center mb-2">
@@ -206,7 +211,9 @@ function ListWork() {
         },
         {
             key: '4',
-            label: 'Chờ xác nhận',
+            label: <Badge dot={listWorkToDay && listWorkToDay.some(item => item.paymentStatus === 'W')}>
+                Chờ xác nhận
+            </Badge>,
             children: (
                 <div className="row listWork">
                     <div className="d-flex justify-content-center mb-2">
@@ -267,7 +274,7 @@ function ListWork() {
                         featchListWork()
                         handleCancel()
 
-                        socket.emit("confirm_payment", { ID_DetailOrder })
+                        socket.emit("confirm_payment", { ID_DetailOrder, message: "Đã xác nhận thanh toán thành công" })
                     }
                     else {
                         toast.error(res.data.message)
@@ -282,12 +289,6 @@ function ListWork() {
         <>
             <div className="container">
                 <div className={cx("titlePage")}>
-                    {/* <div className={cx("searchGroup")}>
-                    <div className={cx("searchBorder")}>
-                        <input className={cx("inputSearch")} type="text" id="search" autoComplete="off" />
-                        <label htmlFor="search"><FontAwesomeIcon icon={faMagnifyingGlass} /></label>
-                    </div>
-                </div> */}
                     <h4>Danh sách công việc</h4>
 
                 </div>

@@ -134,8 +134,9 @@ function AcceptForm() {
                 .then(res => {
                     if (res.data.success) {
                         setLoadings(false)
-                        toast.success("Duyệt đơn sửa chữa thành công")
-                        socket.emit("accept_form")
+                        toast.success("Duyệt đơn sửa chữa thành công");
+                        navigate("/admin/order/");
+                        socket.emit("orderStatusChange")
                     }
                 })
         } else {

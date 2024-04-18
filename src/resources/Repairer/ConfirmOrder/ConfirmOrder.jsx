@@ -11,6 +11,13 @@ import axios from '../../../service/customize_axios';
 import { faArrowLeft, faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
 const cx = classNames.bind(styles);
 
+import { io } from "socket.io-client";
+
+const socket = io.connect("http://localhost:3000", {
+    transports: ["websocket"],
+});
+
+
 function ConfirmOrder() {
     const { id } = useParams();
     const [totalAmount, setTotalAmount] = useState(0);
@@ -121,6 +128,7 @@ function ConfirmOrder() {
                         getDetailOrder();
                         fetchListTask();
                         fetchData();
+                        socket.emit("orderStatusChange")
                     }
                     else {
                         toast.error(res.data.message);
@@ -144,6 +152,7 @@ function ConfirmOrder() {
                     if (res.data.success) {
                         toast.success(res.data.message)
                         fetchListTask();
+                        socket.emit("orderStatusChange")
 
                     }
                     else {

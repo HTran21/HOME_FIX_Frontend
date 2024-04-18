@@ -30,6 +30,7 @@ function RepairerHomePage() {
                 // console.log("List work", res.data[0].DetailOrders)
                 if (res.data) {
                     setListworkToDay(res.data.DetailOrders)
+                    console.log(res.data.DetailOrders)
                 }
             })
     }, [])
@@ -68,23 +69,29 @@ function RepairerHomePage() {
                     <div className="row listWork">
                         {listWorkToDay && listWorkToDay.length > 0 ? (
                             listWorkToDay?.map((work, index) => (
-                                <div key={index} className={`col-lg-4 col-md-6 col-sm-12`}>
-                                    <div className={cx("cardWork")} >
-                                        <div className="row" >
-                                            <div className="col"><p className={cx("titleWorkContent")}>Sửa chữa {work.Order.Categori.nameCategories}</p></div>
-                                            <div className="col text-end">{work.timeRepair} {currentDate}</div>
-                                        </div>
-                                        <div className="row">
-                                            <div className={`${cx("contentWork")}`}>
-                                                <p>Tên: {work.Order.fullName}</p>
-                                                <p>Số điện thoại: {work.Order.phone}</p>
-                                                <p>Địa Chỉ:  {work.Order.address}</p>
+                                work.Order.status === 'W' ? (
+                                    <div key={index} className={`col-lg-4 col-md-6 col-sm-12`}>
+                                        <div className={cx("cardWork")} >
+                                            <div className="row" >
+                                                <div className="col"><p className={cx("titleWorkContent")}>Sửa chữa {work.Order.Categori.nameCategories}</p></div>
+                                                <div className="col text-end">{work.timeRepair} {currentDate}</div>
                                             </div>
+                                            <div className="row">
+                                                <div className={`${cx("contentWork")}`}>
+                                                    <p>Tên: {work.Order.fullName}</p>
+                                                    <p>Số điện thoại: {work.Order.phone}</p>
+                                                    <p>Địa Chỉ:  {work.Order.address}</p>
+                                                </div>
 
+                                            </div>
                                         </div>
-                                    </div>
 
+                                    </div>
+                                ) : <div key={index} className={cx("emptyWork")}>
+                                    <img src="../public/icon/verified.png" alt="" />
+                                    <p>Bạn đã hoàn thành công việc</p>
                                 </div>
+
                             ))
                         ) : (
                             <div className={cx("emptyWork")}>
