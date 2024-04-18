@@ -18,6 +18,7 @@ import {
     ShopOutlined,
     CalendarOutlined,
     LineChartOutlined,
+    UserOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
@@ -61,13 +62,19 @@ const itemsSlider = [
         // getItem(<Link to="/admin/specialize" className='text-decoration-none'>Chuyên môn</Link>, '11'),
         // getItem(<Link to="" className='text-decoration-none'>Tạo thao tác</Link>, '12'),
     ]),
-    getItem('Sửa chữa', 'sub4', <img src="../../public/icon/car-repair.png" style={{ width: "15px" }} className={cx("iconSidebar")} alt="" />, [
-        getItem(<Link to="/admin/order" className='text-decoration-none'>Danh sách</Link>, '13'),
+    getItem('Khách hàng', 'sub4', <UserOutlined />, [
+        getItem(<Link to="/admin/customer" className='text-decoration-none'>Danh sách</Link>, '10'),
+        // getItem(<Link to="" className='text-decoration-none'>Thêm dịch vụ</Link>, '10'),
+        // getItem(<Link to="/admin/specialize" className='text-decoration-none'>Chuyên môn</Link>, '11'),
+        // getItem(<Link to="" className='text-decoration-none'>Tạo thao tác</Link>, '12'),
+    ]),
+    getItem('Sửa chữa', 'sub5', <img src="../../public/icon/car-repair.png" style={{ width: "15px" }} className={cx("iconSidebar")} alt="" />, [
+        getItem(<Link to="/admin/order" className='text-decoration-none'>Danh sách</Link>, '11'),
 
     ]),
     getItem(<Link to="/admin/calendar" className='text-decoration-none'>Lịch làm việc</Link>, '14', <CalendarOutlined />),
     getItem(<Link to="/admin/brand" className='text-decoration-none'>Nhãn hàng</Link>, '15', <ShopOutlined />),
-    getItem('Thống kê', 'sub5', <LineChartOutlined />, [
+    getItem('Thống kê', 'sub6', <LineChartOutlined />, [
         getItem(<Link to="/admin/statistic/earn" className='text-decoration-none'>Doanh thu</Link>, '16'),
         getItem(<Link to="/admin/statistic/order" className='text-decoration-none'>Sửa chữa</Link>, '17'),
     ]),
@@ -121,10 +128,10 @@ const LayoutAdmin = () => {
             <Layout>
                 <Header className={cx("headerAdminLayout")}>
                     <div className={cx("infoUser")}>
-                        <div className={cx("iconBell")}>
+                        {/* <div className={cx("iconBell")}>
                             <FontAwesomeIcon icon={faBell} />
 
-                        </div>
+                        </div> */}
 
                         <img className={cx("imgAvatar")} src={`http://localhost:3000/${user?.avatar}`} alt="" />
                         {/* <Dropdown

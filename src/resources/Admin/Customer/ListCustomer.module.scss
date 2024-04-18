@@ -1,0 +1,183 @@
+.containerPage {
+    padding: 10px 20px;
+}
+
+.contentPage {
+    margin-top: 10px;
+    // box-shadow: 00px 10px 10px rgba(206, 202, 202, 0.821);
+    padding: 10px;
+}
+
+.headerListProducts {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .btnAddProduct {
+        background-image: linear-gradient(to right, #77A1D3 0%, #79CBCA 51%, #77A1D3 100%);
+        margin-right: 10px;
+        padding: 10px 20px;
+        text-align: center;
+        text-transform: uppercase;
+        transition: 0.5s;
+        background-size: 200% auto;
+        color: white;
+        box-shadow: 0 0 20px #eee;
+        border-radius: 10px;
+        float: right;
+        // display: block;
+    }
+
+    .btnAddProduct:hover {
+        background-position: right center;
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .searchGroup {
+        display: flex;
+
+
+        .searchBorder {
+
+            padding: 5px 10px;
+            border-radius: 10px;
+            box-shadow: 5px 5px 5px #a3a1a1;
+            border: 1px solid rgba(143, 138, 138, 0.34);
+
+            .iconSearch {
+                padding: 5px;
+                cursor: pointer;
+
+            }
+
+            .inputSearch {
+                border: none;
+                outline: none;
+                background-color: transparent;
+                max-width: 162px;
+                transition: max-width 0.3s ease;
+            }
+
+            @media screen and (max-width: 768px) {
+                .inputSearch {
+                    max-width: 100px;
+                }
+            }
+        }
+    }
+}
+
+.avatarUser {
+    width: 40px;
+    border-radius: 50%;
+}
+
+.groupInput {
+    margin: 5px auto;
+    display: grid;
+    grid-template-columns: 50px auto;
+
+    input {
+        border: 1px solid rgb(179, 179, 190);
+        border-left: none;
+        padding: 10px;
+        outline: none;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+
+    label {
+        border: 1px solid rgb(179, 179, 190);
+        border-right: none;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 18px;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+
+    }
+}
+
+.groupForm2 {
+    display: grid;
+    margin: 5px auto;
+    grid-template-columns: 40px auto 30px;
+
+    .iconInputForm2 {
+        border: 1px solid rgb(179, 179, 190);
+        border-right: none;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 18px;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+    }
+
+    .inputForm2 {
+        border: 1px solid rgb(179, 179, 190);
+        border-left: none;
+        padding: 10px;
+        outline: none;
+        border-right: none;
+    }
+
+    .iconEye {
+        border: 1px solid rgb(179, 179, 190);
+        font-size: 18px;
+        padding-top: 5px;
+        border-left: none;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+}
+
+.groupInput3 {
+    margin: 5px auto;
+
+    select {
+        border: 1px solid rgb(179, 179, 190);
+        padding: 10px;
+    }
+}
+
+.addressInput {
+    border: 1px solid rgb(179, 179, 190);
+    border-radius: 10px;
+    margin-top: 5px;
+    padding: 5px;
+}
+
+.errors {
+    color: #ec1616;
+    padding-left: 10px;
+    margin: 0;
+}
+
+.borderError {
+    border-radius: 10px;
+    border: 1px solid red;
+}
+
+.roleUser {
+    border: 1px solid rgba(255, 51, 0, 0.433);
+    border-radius: 5px;
+    color: red;
+}
+
+.dataEmpty {
+    img {
+        width: 50px;
+        opacity: 0.7;
+    }
+
+    p {
+        margin: 5px auto;
+        font-weight: 500;
+        color: #706b6b;
+    }
+}

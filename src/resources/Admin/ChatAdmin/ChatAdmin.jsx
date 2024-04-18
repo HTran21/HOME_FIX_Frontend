@@ -32,6 +32,7 @@ function ChatAdmin() {
     const [checkRoom, setCheckRoom] = useState();
     const [nameUserChat, setNameUserChat] = useState();
     const [avatarUserChat, setAvatarUserChat] = useState();
+    const [newMessageRoom, setNewMessageRoom] = useState();
     const [newMessage, setNewMessage] = useState(false);
 
     const getListRoomOfAdmin = async () => {
@@ -141,9 +142,18 @@ function ChatAdmin() {
                         setListMessage(res.data.listMessage)
                     })
             }
+            setNewMessageRoom(data.room)
+            setNewMessage(true)
+            console.log("Data room", data)
         })
 
     }, [socket])
+
+    console.log(newMessage)
+
+    const handleInputFocus = () => {
+        setNewMessage(false);
+    }
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -155,13 +165,13 @@ function ChatAdmin() {
                 <div className="col-lg-3 col-md-4 col-sm-12">
                     <div className={cx("peopleContact")}>
                         <div className="p-3">
-                            <input
+                            {/* <input
                                 type="email"
                                 className="form-control"
                                 id="exampleFormControlInput1"
                                 placeholder="Search..."
-                            />
-
+                            /> */}
+                            <h4>Đoạn chat</h4>
                         </div>
 
                         <div className={cx("listContact")}>
@@ -171,7 +181,7 @@ function ChatAdmin() {
                                         <div className={cx("userContact", { active: item.id === checkRoom })} onClick={() => handleRoomMessageUser(item)}>
                                             <img src={`http://localhost:3000/${item.User.avatar}`} alt="" />
                                             <p className="fw-bold">{item.User.username}</p>
-                                            <div className={`${cx("notificationMess")} ${newMessage ? '' : 'd-none'}`}>
+                                            <div className={`${cx("notificationMess")} ${item.id == newMessageRoom && newMessage ? '' : 'd-none'}`}>
 
                                             </div>
                                         </div>
@@ -235,7 +245,8 @@ function ChatAdmin() {
                             {/* <hr className="m-0" /> */}
                             <div className={cx("uploadTextContact")}>
                                 <div className={cx("groupInput")}>
-                                    <input value={text} onChange={(e) => setText(e.target.value)} onKeyDown={(e) => handleKeyDown(e)} type="text" name="" id="" placeholder="Viết tin nhắn..." />
+                                    <input value={text} onChange={(e) => setText(e.target.value)} onKeyDown={(e) => handleKeyDown(e)}
+                                        onFocus={handleInputFocus} type="text" name="" id="" placeholder="Viết tin nhắn..." />
                                     <div className={cx("iconSend")} onClick={() => sendMessage()}>
                                         <FontAwesomeIcon icon={faPaperPlane} />
                                     </div>
@@ -245,7 +256,7 @@ function ChatAdmin() {
                     ) : (
                         <div className={cx("chooseContact")}>
                             <img className={cx("imgaeContact")} src="../illustration/chat.png" alt="" />
-                            <p>Vui lòng chọn phòng chat để được hỗ trợ</p>
+                            <p>Vui lòng chọn phòng chat</p>
                         </div>
                     )}
                 </div>

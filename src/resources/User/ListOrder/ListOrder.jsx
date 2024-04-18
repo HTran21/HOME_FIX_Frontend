@@ -220,6 +220,50 @@ function ListOrder() {
 
         },
         {
+            title: 'Thanh toán',
+            key: 'paymentStatus',
+            dataIndex: 'DetailOrder',
+            render: (_, { DetailOrder, index }) => (
+                DetailOrder?.paymentStatus === 'P' ? (
+                    <div>
+                        Đã thanh toán
+                    </div>
+                ) : (
+                    DetailOrder?.paymentStatus === 'P' ? (
+                        <div>
+                            Chưa thanh toán
+                        </div>
+                    ) : (
+                        <div>
+                            Chưa duyệt
+                        </div>
+                    )
+                )
+            )
+
+        },
+        {
+            title: 'Phương thức',
+            key: 'paymentStatus',
+            dataIndex: 'DetailOrder',
+            render: (_, { DetailOrder, index }) => (
+                DetailOrder?.paymentMethod === 'vnpay' ? (
+                    <div>
+                        VNPay
+                    </div>
+                ) : (
+                    DetailOrder?.paymentMethod === 'cash' ? (
+                        <div>Tiền mặt</div>
+                    ) : (
+                        <div>
+                            Chưa duyệt
+                        </div>
+                    )
+                )
+            )
+
+        },
+        {
             title: 'Action',
             key: 'action',
             align: 'center',

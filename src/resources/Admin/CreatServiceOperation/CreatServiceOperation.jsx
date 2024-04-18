@@ -127,6 +127,9 @@ function CreatServiceOperation() {
             title: 'Giá',
             dataIndex: 'price',
             key: 'price',
+            render: (price, index) => (
+                <p key={index}> {VND.format(price)}</p>
+            )
         },
     ];
 

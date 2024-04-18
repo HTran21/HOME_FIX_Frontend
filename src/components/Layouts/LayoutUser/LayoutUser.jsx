@@ -100,10 +100,10 @@ const LayoutUser = () => {
             <Layout>
                 <Header className={cx("headerAdminLayout")}>
                     <div className={cx("infoUser")}>
-                        <div className={cx("iconBell")}>
+                        {/* <div className={cx("iconBell")}>
                             <FontAwesomeIcon icon={faBell} />
 
-                        </div>
+                        </div> */}
 
                         <img className={cx("imgAvatar")} src={`http://localhost:3000/${user?.avatar}`} alt="" />
                         {/* <Dropdown

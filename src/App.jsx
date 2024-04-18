@@ -46,6 +46,7 @@ import ChatAdmin from './resources/Admin/ChatAdmin/ChatAdmin';
 import Statistical from './resources/Admin/Statistical/Statistical';
 import StatisticalOrder from './resources/Admin/StatisticalOrder/StatisticalOrder';
 import DetailOrderAdmin from './resources/Admin/DetailOrderAdmin/DetailOrderAdmin';
+import ListCustomer from './resources/Admin/Customer/ListCustomer';
 
 import ProfileUser from './resources/User/ProfileUser/ProfileUser';
 import Chat from './resources/User/Chat/Chat';
@@ -242,6 +243,12 @@ function App() {
         {
           path: "staff",
           element: <Staff />
+
+        },
+        {
+          path: "customer",
+          // element: <Customer />
+          element: <ListCustomer />
 
         },
         {

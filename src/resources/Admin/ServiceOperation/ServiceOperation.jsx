@@ -11,6 +11,12 @@ import Accordion from 'react-bootstrap/Accordion';
 import { Modal } from 'antd';
 import { toast } from "react-toastify";
 
+const VND = new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
+});
+
+
 function ServiceOperation() {
 
     const [data, setData] = useState();
@@ -151,7 +157,7 @@ function ServiceOperation() {
                                                                         <tr key={keyindex}>
                                                                             <td>{keyindex + 1}</td>
                                                                             <td style={{ maxWidth: "100px" }}>{operation.nameOperation}</td>
-                                                                            <td>{operation.price}</td>
+                                                                            <td>{VND.format(operation.price)}</td>
                                                                             <td>
                                                                                 <FontAwesomeIcon onClick={() => showModal(operation)} icon={faPenToSquare} style={{ color: "#5680c8", marginRight: "10px" }} size="lg" />
                                                                                 <FontAwesomeIcon onClick={() => handleShowDelete(operation)} icon={faTrash} size="lg" style={{ color: "#d72828", }} />

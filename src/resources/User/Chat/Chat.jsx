@@ -29,7 +29,8 @@ function Chat() {
     const [text, setText] = useState('');
     const [listMessage, setListMessage] = useState([])
     const [checkRoom, setCheckRoom] = useState();
-
+    const [newMessageRoom, setNewMessageRoom] = useState();
+    const [newMessage, setNewMessage] = useState(false);
 
     // const getListRoomOfUser = async () => {
     //     const res = await axios.get("http://localhost:3000/message/listRoomOfUser", {
@@ -136,6 +137,7 @@ function Chat() {
                         setListMessage(res.data.listMessage)
                     })
             }
+            setNewMessage(true)
         })
 
     }, [socket])
@@ -144,6 +146,10 @@ function Chat() {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [listMessage]);
 
+    const handleInputFocus = () => {
+        setNewMessage(false);
+    }
+
 
     return (
         <div className={cx("containerPage")}>
@@ -151,12 +157,13 @@ function Chat() {
                 <div className="col-lg-3 col-md-4 col-sm-12">
                     <div className={cx("peopleContact")}>
                         <div className="p-3">
-                            <input
+                            {/* <input
                                 type="email"
                                 className="form-control"
                                 id="exampleFormControlInput1"
                                 placeholder="Search..."
-                            />
+                            /> */}
+                            <h4>Đoạn chat</h4>
 
                         </div>
 
@@ -165,6 +172,7 @@ function Chat() {
                                 onClick={() => joinRoom()}>
                                 <img src="../public/User/profileSupport.png" alt="" />
                                 <p className="fw-bold">Home Fix</p>
+                                <div className={`${cx("notificationMess")} ${newMessage ? '' : 'd-none'}`}></div>
                             </div>
                             <hr className="m-0" />
 
@@ -179,6 +187,7 @@ function Chat() {
                                 <div className={cx("userContact")}>
                                     <img src="../public/User/profileSupport.png" alt="" />
                                     <p>Home Fix  <FontAwesomeIcon icon={faCircleCheck} style={{ color: "#0091ff", }} /></p>
+
                                 </div>
                                 <FontAwesomeIcon className={cx("iconMore")} icon={faEllipsisVertical} />
                             </div>
@@ -225,7 +234,8 @@ function Chat() {
                             {/* <hr className="m-0" /> */}
                             <div className={cx("uploadTextContact")}>
                                 <div className={cx("groupInput")}>
-                                    <input value={text} onChange={(e) => setText(e.target.value)} onKeyDown={(e) => handleKeyDown(e)} type="text" name="" id="" placeholder="Viết tin nhắn..." />
+                                    <input value={text} onChange={(e) => setText(e.target.value)} onKeyDown={(e) => handleKeyDown(e)}
+                                        onFocus={handleInputFocus} type="text" name="" id="" placeholder="Viết tin nhắn..." />
                                     <div className={cx("iconSend")} onClick={() => sendMessage()}>
                                         <FontAwesomeIcon icon={faPaperPlane} />
                                     </div>
