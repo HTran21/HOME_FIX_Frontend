@@ -46,17 +46,42 @@ function CreateCalenderRepair() {
 
     }
     return (
-        <div className="container">
-            <div className={`${cx("titlePage")}`}>
-                <h4>Đăng ký làm việc</h4>
-                <button className={cx("btnAdd")} onClick={() => upload()}>Tạo</button>
-            </div>
-            <div className="contentPage">
-                <div className={cx("dateRange")}>
-                    <p>Tạo lịch làm việc</p>
-                    <RangePicker onChange={onChange} className={cx("dateSelect")} />
+        <>
+            <>
+                <style>
+                    {
+                        ` .ant-picker-panels > *:first-child button.ant-picker-header-next-btn {
+            visibility: visible !important;
+          }
+          
+          .ant-picker-panels > *:first-child button.ant-picker-header-super-next-btn {
+            visibility: visible !important;
+          }
+          
+          .ant-picker-panels > *:last-child {
+            display: none;
+          }
+          
+          .ant-picker-panel-container, .ant-picker-footer {
+            width: 280px !important;
+          }
+          
+          .ant-picker-footer-extra > div {
+            flex-wrap: wrap !important; 
+          `}
+
+                </style></>
+            <div className="container">
+                <div className={`${cx("titlePage")}`}>
+                    <h4>Đăng ký làm việc</h4>
+                    <button className={cx("btnAdd")} onClick={() => upload()}>Tạo</button>
                 </div>
-                {/* <div className={`row ${cx("dateRange")}`}>
+                <div className="contentPage">
+                    <div className={cx("dateRange")}>
+                        <p>Tạo lịch làm việc</p>
+                        <RangePicker onChange={onChange} className={cx("dateSelect")} />
+                    </div>
+                    {/* <div className={`row ${cx("dateRange")}`}>
                     <div className="col">
                         <h6>Chọn ngày bắt đầu</h6>
                         <DatePicker className={cx("dateSelect")} onChange={onChange} />
@@ -68,8 +93,9 @@ function CreateCalenderRepair() {
                         <DatePicker className={cx("dateSelect")} onChange={onChange} />
                     </div>
                 </div> */}
-            </div>
-        </div >
+                </div>
+            </div >
+        </>
     );
 }
 

@@ -117,7 +117,7 @@ function DetailOrder() {
                 if (res.data.success) {
                     setTimeout(() => {
                         setLoadings(false);
-                        // window.location.href = res.data.data.url;
+                        window.location.href = res.data.data.url;
                         featchData()
                     }, 2000);
                 } else {
