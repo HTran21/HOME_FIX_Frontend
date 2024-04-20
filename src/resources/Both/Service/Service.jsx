@@ -7,12 +7,12 @@ import { faClock, faMoneyBill1, faStar, faThumbsUp } from "@fortawesome/free-reg
 import { faCalendarDay, faUsers, faScrewdriverWrench, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import axios from '../../../service/customize_axios';
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
 function Service() {
-
+    const navigate = useNavigate();
     const [listService, setListService] = useState();
 
     const fetchData = () => {
@@ -72,7 +72,7 @@ function Service() {
                                     <div className={cx("detailService")}>
                                         <img className={cx("imageService")} src={`http://localhost:3000/${service.logoService}`} alt="" />
                                         <div className={cx("titleDetailService")}>{service.nameService}</div>
-                                        <Link className="text-decoration-none" to={`/detail/${service.id}`}><div className={cx("viewDetailService")}>XEM CHI TIẾT<FontAwesomeIcon className={cx("iconDetailService")} icon={faArrowRight} /></div></Link>
+                                        <Link className="text-decoration-none" to={`/service/detail/${service.id}`}><div className={cx("viewDetailService")}>XEM CHI TIẾT<FontAwesomeIcon className={cx("iconDetailService")} icon={faArrowRight} /></div></Link>
 
                                     </div>
                                 </div>

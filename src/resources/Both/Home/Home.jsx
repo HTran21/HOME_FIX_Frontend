@@ -8,6 +8,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useEffect } from "react";
+import axios from '../../../service/customize_axios';
+import moment from 'moment';
 
 const cx = classNames.bind(styles);
 
@@ -15,6 +19,22 @@ function HomePage() {
 
     const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
     const user = useSelector((state) => state.user.user);
+    const [listService, setListService] = useState();
+    const [listComment, setListComment] = useState();
+
+    const fetchService = () => {
+        axios.get("http://localhost:3000/service/getService")
+            .then(res => {
+                setListService(res.data.listService);
+            })
+            .catch(error => {
+                console.error("Error fetching service data:", error);
+            });
+    };
+    useEffect(() => {
+        fetchService()
+    }, [])
+
 
     const settings = {
         infinite: true,
@@ -251,7 +271,7 @@ function HomePage() {
                             Hệ thống sửa chữa đa dạng, từ máy móc đến điện tử, đảm bảo tiện ích cho mọi gia đình
                         </div>
                         <div className={cx("userComment")}>
-                            Nguyễn Văn Minh
+                            Trần Hoàng Trân
                         </div>
                     </div>
                     <div className={cx("comment")}>
@@ -259,7 +279,7 @@ function HomePage() {
                             Chất lượng dịch vụ hàng đầu, đội ngũ kỹ thuật viên chuyên nghiệp, luôn sẵn lòng hỗ trợ.
                         </div>
                         <div className={cx("userComment")}>
-                            Trần Văn Tiến
+                            Trần Trường Duy
                         </div>
                     </div>
                     <div className={cx("comment")}>
@@ -267,7 +287,7 @@ function HomePage() {
                             Phản hồi nhanh chóng, giải quyết vấn đề một cách chuyên nghiệp, tiết kiệm thời gian và công sức.
                         </div>
                         <div className={cx("userComment")}>
-                            Lý Minh Hào
+                            Bùi Tuấn Kiệt
                         </div>
                     </div>
                     <div className={cx("comment")}>
@@ -275,10 +295,9 @@ function HomePage() {
                             Sự lựa chọn hoàn hảo cho việc bảo dưỡng và sửa chữa thiết bị, mang lại sự yên tâm và hài lòng cho khách hàng.
                         </div>
                         <div className={cx("userComment")}>
-                            Đặng Thu Mai
+                            Phan Đài Cát
                         </div>
                     </div>
-
                 </Slider>
             </section>
 
@@ -324,61 +343,33 @@ function HomePage() {
             </section>
             <section className="ourNews mb-5 container">
                 <div className="tiltleOurNews">
-                    <h1 className="text-center">Tin tức gần đây </h1>
+                    <h1 className="text-center">Bài viết gần đây</h1>
                     <div className={`m-auto mb-3 mt-3 ${cx("line")}`}></div>
                     <div className={cx("contentOurNews")}>
                         <div className="row">
-                            <div className="col">
-                                <div className={cx("cardNews")}>
-                                    <div className={cx("imgCard")}>
-                                        <img src="../public/imagerepair/image2.jpg" alt="" />
-                                    </div>
-                                    <div className={cx("contentCard")}>
-                                        <p className="dateNews mb-0 d-flex align-items-center" style={{ fontSize: "14px" }}>
-                                            Nov, 17, 2016 - root - Uncategorized
-                                        </p>
-                                        <div className="detailNews mt-2">
-                                            <h4>Hello world!</h4>
-                                            Welcome to WordPress. This is your first post. Edit or delete it, then start writing!
+                            {listService?.map((service, index) => (
+                                <div key={index} className="col">
+                                    <div className={cx("cardNews")}>
+                                        <div className={cx("imgCard")}>
+                                            <img src={`http://localhost:3000/${service.logoService}`} alt="" />
                                         </div>
-                                        <div className={cx("btnCard")}>Đọc thêm <FontAwesomeIcon icon={faChevronRight} /></div>
+                                        <div className={cx("contentCard")}>
+                                            <p className="dateNews mb-0 d-flex align-items-center" style={{ fontSize: "14px" }}>
+                                                {moment(service.createdAt).format("DD/MM/YYYY HH:mm")}
+                                            </p>
+                                            <div className="detailNews mt-2">
+                                                <h4>{service.nameService}</h4>
+
+                                            </div>
+                                            <Link className={cx("btnCard")} to={`/service/detail/${service.id}`} key={index}>
+                                                Đọc thêm <FontAwesomeIcon icon={faChevronRight} />
+                                            </Link>
+                                            {/* <div className={cx("btnCard")}>Đọc thêm <FontAwesomeIcon icon={faChevronRight} /></div> */}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="col">
-                                <div className={cx("cardNews")}>
-                                    <div className={cx("imgCard")}>
-                                        <img src="../public/imagerepair/image2.jpg" alt="" />
-                                    </div>
-                                    <div className={cx("contentCard")}>
-                                        <p className="dateNews mb-0 d-flex align-items-center" style={{ fontSize: "14px" }}>
-                                            Nov, 17, 2016 - root - Uncategorized
-                                        </p>
-                                        <div className="detailNews mt-2">
-                                            <h4>Hello world!</h4>
-                                            Welcome to WordPress. This is your first post. Edit or delete it, then start writing!
-                                        </div>
-                                        <div className={cx("btnCard")}>Đọc thêm <FontAwesomeIcon icon={faChevronRight} /></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col">
-                                <div className={cx("cardNews")}>
-                                    <div className={cx("imgCard")}>
-                                        <img src="../public/imagerepair/image2.jpg" alt="" />
-                                    </div>
-                                    <div className={cx("contentCard")}>
-                                        <p className="dateNews mb-0 d-flex align-items-center" style={{ fontSize: "14px" }}>
-                                            Nov, 17, 2016 - root - Uncategorized
-                                        </p>
-                                        <div className="detailNews mt-2">
-                                            <h4>Hello world!</h4>
-                                            Welcome to WordPress. This is your first post. Edit or delete it, then start writing!
-                                        </div>
-                                        <div className={cx("btnCard")}>Đọc thêm <FontAwesomeIcon icon={faChevronRight} /></div>
-                                    </div>
-                                </div>
-                            </div>
+                            ))}
+
 
                         </div>
                     </div>

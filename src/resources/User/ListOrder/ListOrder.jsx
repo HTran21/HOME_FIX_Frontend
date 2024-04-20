@@ -103,12 +103,14 @@ function ListOrder() {
             title: 'STT',
             dataIndex: 'key',
             key: 'id',
+            width: 60,
             render: (text, record, index) => <a>{index + 1}</a>,
         },
         {
             title: 'Họ tên',
             dataIndex: 'fullName',
-            key: 'fullName'
+            key: 'fullName',
+            fixed: 'left'
         },
 
         {
@@ -382,7 +384,10 @@ function ListOrder() {
                         pageSizeOptions: ['5', '10', '15']
                     }}
                     onChange={handleTableChange}
-                    rowKey={"id"} />
+                    rowKey={"id"}
+                    scroll={{
+                        x: 1200,
+                    }} />
             </div>
             <Drawer onClose={onClose} open={open} width={600} title={
                 <div className={cx("titleForm")}>

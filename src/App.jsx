@@ -164,7 +164,7 @@ function App() {
           element: <Contact />
         },
         {
-          path: "detail/:id",
+          path: "/service/detail/:id",
           element: <DetailRepair />
         },
 
@@ -441,7 +441,7 @@ function App() {
         window.location.pathname === "/register" ||
         // window.location.pathname.startsWith("/") ||
         window.location.pathname === "/" ||
-        window.location.pathname === "/service" ||
+        window.location.pathname.startsWith("/service") ||
         window.location.pathname === "/product" ||
         window.location.pathname === "/about" ||
         window.location.pathname === "/contact"

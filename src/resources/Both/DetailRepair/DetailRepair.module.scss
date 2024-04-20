@@ -95,3 +95,112 @@
 .nameService.active {
     color: #337CCF;
 }
+
+.layoutComment {
+    min-height: 100px;
+    margin: 20px 0px;
+    padding: 10px 0px 10px 0px;
+
+    .ratingService {
+        margin: 20px 0px 0px 0;
+        display: grid;
+        grid-template-columns: 160px auto;
+        padding-bottom: 20px;
+        border-bottom: 1px solid rgba(199, 199, 207, 0.533);
+
+        .startRating {
+            padding: 10px 0px;
+            border-right: 1px solid rgba(217, 217, 217, 0.825);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            .pointRating {
+                font-size: 26px;
+                font-weight: bold;
+                color: orange;
+                text-align: center;
+            }
+
+            .start {
+                color: orange;
+            }
+        }
+
+        .overviewRating {
+            padding: 0px 10px;
+
+            .progessRating {
+                display: grid;
+                grid-template-columns: 40px auto;
+            }
+        }
+    }
+
+    .listComment {
+
+        .layoutDetailComment {
+            padding: 10px;
+            border-bottom: 1px solid rgba(199, 199, 207, 0.533);
+
+            .nameUserComment {
+                font-size: 15px;
+                font-weight: bold;
+                // display: flex;
+                display: grid;
+                grid-template-columns: auto 20px;
+
+                .iconMore {
+                    background-color: rgba(216, 216, 216, 0.695);
+                    width: 20px;
+                    height: 20px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 50%;
+                    cursor: pointer;
+
+                }
+            }
+
+            .comment {
+                font-weight: 500;
+            }
+
+        }
+    }
+
+    .uploadTextContact {
+        padding: 20px 0px;
+
+        .groupInput {
+            display: grid;
+            grid-template-columns: auto 40px;
+            // border: 1px solid red;
+            background-color: #d6d3d361;
+            border-radius: 20px;
+
+            input {
+                border: none;
+                outline: none;
+                padding: 10px 0px 10px 15px;
+                border-top-left-radius: 20px;
+                border-bottom-left-radius: 20px;
+                background-color: transparent;
+            }
+
+            .iconSend {
+                background-color: #337CCF;
+                border-radius: 50%;
+                justify-content: center;
+                display: flex;
+                align-items: center;
+                color: #fff;
+                cursor: pointer;
+            }
+
+        }
+    }
+
+}

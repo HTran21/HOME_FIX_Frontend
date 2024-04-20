@@ -63,7 +63,7 @@ function AdminHomePage() {
     const featchEarning = async () => {
         let res = await axios.get("http://localhost:3000/statistical/earning");
         if (res && res.data) {
-            console.log(res.data)
+            // console.log(res.data)
             setDataEarning(res.data.earningTotal)
         }
     }

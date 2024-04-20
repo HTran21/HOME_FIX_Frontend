@@ -107,7 +107,8 @@ function Register() {
                                         <span className="h1 fw-bold mb-0"><img className={cx("imgLogo")} src="../image/logo/logo8.png" alt="" />
                                             <p className={cx("textLogo")}>HOME FIX</p></span>
                                         <h2>CHÀO MỪNG BẠN ĐẾN VỚI HOMEFIX</h2>
-                                        <p className="mt-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo earum eligendi error accusantium quos praesentium numquam nesciunt voluptatem iusto enim eius molestias soluta laborum dolor.</p>
+                                        <p className="mt-3">
+                                            Xin chào và hoan nghênh đến với dịch vụ sửa chữa tận nơi của chúng tôi! Chúng tôi tận tâm mang đến giải pháp an tâm cho mọi vấn đề kỹ thuật, với đội ngũ thợ chuyên nghiệp và dịch vụ đáng tin cậy. Hãy để chúng tôi giúp bạn giải quyết mọi thách thức!</p>
                                     </div>
                                     <div className="col-md-7 col-lg-7 d-flex align-items-center">
                                         <div className="card-body p-4 p-lg-4 text-black">

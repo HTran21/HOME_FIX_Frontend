@@ -97,12 +97,14 @@ function ListAllOrder() {
             title: 'STT',
             dataIndex: 'key',
             key: 'id',
+            width: 60,
             render: (text, record, index) => <a>{index + 1}</a>,
         },
         {
             title: 'Họ tên',
             dataIndex: 'fullName',
-            key: 'fullName'
+            key: 'fullName',
+            fixed: 'left',
         },
 
         {
@@ -205,7 +207,7 @@ function ListAllOrder() {
                     </Tag>
 
                 );
-            }
+            },
 
         },
         {
@@ -228,7 +230,7 @@ function ListAllOrder() {
                         </div>
                     )
                 )
-            )
+            ),
 
         },
         {
@@ -249,8 +251,7 @@ function ListAllOrder() {
                         </div>
                     )
                 )
-            )
-
+            ),
         },
         {
             title: 'Action',
@@ -348,6 +349,9 @@ function ListAllOrder() {
                     }}
                     onChange={handleTableChange}
                     rowKey={"id"}
+                    scroll={{
+                        x: 1200,
+                    }}
                 />
             </div>
             <Drawer onClose={onClose} open={open} width={600} title={

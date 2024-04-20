@@ -143,23 +143,19 @@
 }
 
 
-.cardNews {
-    height: 400px;
-    display: grid;
-    grid-template-rows: 200px auto;
-}
 
-.imgCard {
-    width: 370px;
-    height: 180px;
-    overflow: hidden;
-}
+// .imgCard {
+//     width: 100px;
+//     height: 100px;
+//     overflow: hidden;
+// }
 
 .imgCard img {
+    height: 100px;
+    max-width: 100px;
     width: 100%;
-    height: auto;
-    object-fit: cover;
-    object-position: center center;
+    display: flex;
+    margin: auto;
 }
 
 .contentCard {
