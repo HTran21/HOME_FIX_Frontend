@@ -87,7 +87,7 @@ function Login() {
                                             <p className={cx("textLogo")}>HOME FIX</p></span>
                                         <h2>CHÀO MỪNG BẠN ĐẾN VỚI HOMEFIX</h2>
                                         <p className="mt-3">
-                                            Xin chào và hoan nghênh đến với dịch vụ sửa chữa tận nơi của chúng tôi! Chúng tôi tận tâm mang đến giải pháp an tâm cho mọi vấn đề kỹ thuật, với đội ngũ thợ chuyên nghiệp và dịch vụ đáng tin cậy. Hãy để chúng tôi giúp bạn giải quyết mọi thách thức!</p>
+                                            Xin chào và hoan nghênh đến với dịch vụ sửa chữa tận nơi của chúng tôi!</p>
                                     </div>
                                     <div className="col-md-5 col-lg-5 d-flex align-items-center">
                                         <div className="card-body p-4 p-lg-5 text-black">

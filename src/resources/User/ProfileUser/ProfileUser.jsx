@@ -70,12 +70,12 @@ function ProfileUser() {
         },
         {
             title: 'Ngày đăng ký',
-            dataIndex: 'desireDate',
-            key: 'desireDate',
-            render: (_, { desireDate, index }) => {
+            dataIndex: 'createdAt',
+            key: 'createdAt',
+            render: (_, { createdAt, index }) => {
                 return (
                     <div key={index + 1}>
-                        {moment(desireDate).format('DD/MM/YYYY')}
+                        {moment(createdAt).format('DD/MM/YYYY')}
                     </div>
                 )
             }

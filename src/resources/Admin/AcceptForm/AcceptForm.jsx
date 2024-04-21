@@ -7,7 +7,8 @@ import { toast, useToast } from "react-toastify";
 import { useSelector } from "react-redux";
 import moment from 'moment';
 const cx = classNames.bind(styles);
-import { Button, Flex } from 'antd';
+import { Button, DatePicker, Flex } from 'antd';
+import dayjs from "dayjs";
 
 import { io } from "socket.io-client";
 
@@ -33,11 +34,13 @@ function AcceptForm() {
     const [idService, setIdService] = useState();
     const [selectDay, setSelectDay] = useState('');
     const [listRepairer, setListRepairer] = useState();
-    const [timeslot, setTimeslot] = useState('');
+    // const [timeslot, setTimeslot] = useState('');
     const [idSchedule, setIdSchedule] = useState();
     const [listTimeSlot, setListTimeSlot] = useState();
     // const [idRepairer, setIdRepairer] = useState();
     const [errors, setErrors] = useState({});
+    const [dateRepairArray, setDateRepairArray] = useState([]);
+    const [totalOrderRepairer, setTotalOrderRepairer] = useState(0);
 
     const getDetailOrder = async () => {
         if (id) {
@@ -51,9 +54,12 @@ function AcceptForm() {
                 setIdService(detailOrder.data.data.data.Categori.ID_Service)
                 setDesRepair(detailOrder.data.data.data.desProblem)
                 setNameService(detailOrder.data.data.data.Categori.Service.nameService)
-                setDateRepair(moment(detailOrder.data.data.data.desireDate).format('YYYY-MM-DD'))
+                // setDateRepair(moment(detailOrder.data.data.data.desireDate).format('YYYY-MM-DD'))
+                // console.log(detailOrder.data.data.data.desireDate)
+                const dateArray = detailOrder.data.data.data.desireDate.split(",")
+                setDateRepairArray(dateArray.map(date => dayjs(date)))
                 setCategory(detailOrder.data.data.data.Categori.nameCategories)
-                if (detailOrder.data.data.data.ID_Product != undefined) {
+                if (detailOrder.data.data.data.ID_Product != undefined && detailOrder.data.data.data.ID_Product != 0) {
                     setProduct(detailOrder.data.data.data.Product.nameProduct)
                     setBrand(detailOrder.data.data.data.Product.Brand.nameBrand)
 
@@ -71,9 +77,15 @@ function AcceptForm() {
 
     }, [])
 
+    const onChange = (date, dateString) => {
+        // console.log(date, dateString);
+        setSelectDay(dateString)
+    };
+
 
     useEffect(() => {
         if (idService && selectDay) {
+            console.log("Date select", selectDay)
             axios.get("http://localhost:3000/schedule/dayWorkService/" + id, {
                 params: {
                     selectDay: selectDay,
@@ -83,19 +95,36 @@ function AcceptForm() {
             })
                 .then(res => {
                     setListRepairer(res.data);
-                    console.log(res.data)
+                    // console.log(res.data)
                     setIdSchedule('');
-                    setTimeslot('');
+                    // setTimeslot('');
+                    setTotalOrderRepairer(0)
                 })
         }
     }, [selectDay])
 
+    // useEffect(() => {
+    //     if (idSchedule && idSchedule != 0) {
+    //         axios.get("http://localhost:3000/schedule/timeslot/ " + idSchedule)
+    //             .then(res => {
+    //                 // console.log("Time slot", res.data)
+    //                 setListTimeSlot(res.data)
+    //             })
+    //     }
+
+    // }, [idSchedule])
+
     useEffect(() => {
         if (idSchedule && idSchedule != 0) {
-            axios.get("http://localhost:3000/schedule/timeslot/ " + idSchedule)
+            axios.get("http://localhost:3000/schedule/totalOrderDay/ " + idSchedule)
                 .then(res => {
-                    console.log("Time slot", res.data)
-                    setListTimeSlot(res.data)
+                    // console.log("Time slot", res.data)
+                    // setListTimeSlot(res.data)
+                    if (res.data.success) {
+                        setTotalOrderRepairer(res.data.totalOrderDay)
+                    } else {
+                        toast.error(res.data.message)
+                    }
                 })
         }
 
@@ -124,13 +153,13 @@ function AcceptForm() {
             newErrors.idRepairer = 'Vui lòng chọn thợ sửa chữa'
         }
 
-        if (!timeslot) {
-            newErrors.timeslot = 'Vui lòng chọn thời gian sửa chữa'
-        }
+        // if (!timeslot) {
+        //     newErrors.timeslot = 'Vui lòng chọn thời gian sửa chữa'
+        // }
         if (Object.keys(newErrors).length === 0) {
             setErrors();
             setLoadings(true)
-            axios.post("http://localhost:3000/order/accept/" + id, { idSchedule, timeslot })
+            axios.post("http://localhost:3000/order/accept/" + id, { idSchedule })
                 .then(res => {
                     if (res.data.success) {
                         setLoadings(false)
@@ -173,12 +202,12 @@ function AcceptForm() {
                                             <p className={cx("textLogo")}>HOME FIX</p></span>
                                     </div>
                                     <div className="row">
-                                        <h6 className="mb-2">Thông tin khác hàng</h6>
+                                        <h6 className="mb-1">Thông tin khác hàng</h6>
                                         <div className="col-md-6 mb-3">
                                             <div className="form-floating">
                                                 <input type="text" className={`form-control ${cx("inputForm")}`} placeholder="name@example.com"
                                                     value={fullName || ''} onChange={() => { }} readOnly />
-                                                <label htmlFor="floatingInput">Họ và tên</label>
+                                                <label htmlFor="floatingInput">Họ và tên *</label>
 
 
                                             </div>
@@ -188,14 +217,14 @@ function AcceptForm() {
                                             <div className="form-floating">
                                                 <input type="text" className={`form-control `} placeholder="name@example.com"
                                                     value={address || ''} onChange={() => { }} readOnly />
-                                                <label htmlFor="floatingInput">Địa chỉ</label>
+                                                <label htmlFor="floatingInput">Địa chỉ *</label>
                                             </div>
                                         </div>
                                         <div className="col-md-6 mb-3">
                                             <div className="form-floating">
                                                 <input type="text" className={`form-control ${cx("inputForm")}`} placeholder="name@example.com"
                                                     value={phone || ''} onChange={() => { }} readOnly />
-                                                <label htmlFor="floatingInput">Số điện thoại</label>
+                                                <label htmlFor="floatingInput">Số điện thoại *</label>
 
                                             </div>
                                         </div>
@@ -203,7 +232,7 @@ function AcceptForm() {
                                             <div className="form-floating">
                                                 <input type="text" className={`form-control ${cx("inputForm")}`} placeholder="name@example.com"
                                                     value={email || ''} onChange={() => { }} readOnly />
-                                                <label htmlFor="floatingInput">Email</label>
+                                                <label htmlFor="floatingInput">Email *</label>
                                             </div>
                                         </div>
                                     </div>
@@ -214,7 +243,7 @@ function AcceptForm() {
                                             <div className="form-floating">
                                                 <input type="text" className={`form-control ${cx("inputForm")}`} placeholder="name@example.com"
                                                     value={nameService || ''} onChange={() => { }} />
-                                                <label htmlFor="floatingInput">Email</label>
+                                                <label htmlFor="floatingInput">Dịch vụ *</label>
                                             </div>
                                         </div>
 
@@ -226,24 +255,24 @@ function AcceptForm() {
                                             <div className="form-floating">
                                                 <input type="text" className={`form-control ${cx("inputForm")} `} placeholder="name@example.com"
                                                     value={brand || ''} onChange={() => { }} readOnly />
-                                                <label htmlFor="floatingInput">Nhãn hàng</label>
+                                                <label htmlFor="floatingInput">Nhãn hàng *</label>
                                             </div>
                                         </div>
                                         <div className="col-md-6 mb-4">
                                             <div className="form-floating">
                                                 <input type="text" className={`form-control ${cx("inputForm")}`} placeholder="name@example.com"
                                                     value={category || ''} onChange={() => { }} readOnly />
-                                                <label htmlFor="floatingInput">Loại thiết bị</label>
+                                                <label htmlFor="floatingInput">Loại thiết bị *</label>
                                             </div>
                                         </div>
-                                        <div className="col-md-6 mb-4">
+                                        <div className="col-md-6 mb-2">
                                             <div className="form-floating">
                                                 <input type="text" className={`form-control ${cx("inputForm")} `} placeholder="name@example.com"
                                                     value={product} onChange={() => { }} readOnly />
-                                                <label htmlFor="floatingInput">Thiết bị</label>
+                                                <label htmlFor="floatingInput">Thiết bị *</label>
                                             </div>
                                         </div>
-                                        <div className="col-md-6 mb-4">
+                                        <div className="col-md-6 mb-2">
                                             <div className="form-floating">
                                                 <textarea className={`form-control ${cx("inputForm")}`} placeholder="Leave a comment here" id="floatingTextarea2"
                                                     value={desRepair} onChange={(e) => setDesRepair(e.target.value)} readOnly></textarea>
@@ -253,30 +282,44 @@ function AcceptForm() {
                                     </div>
                                     <div className="row">
                                         <h6 className="mb-1">Thời gian mong muốn</h6>
-                                        <div className="col-md-6 mb-3 pb-2">
+                                        <div className="col">
                                             <div className="form-outline">
                                                 <label className="form-label" htmlFor="dayRepair">
-                                                    Ngày sửa chữa
+                                                    Ngày sửa chữa *
                                                 </label>
-                                                <input
+                                                {/* <input
                                                     type="date"
                                                     id="dayRepair"
                                                     className={`form-control p-3s ${cx("inputForm")}`}
                                                     value={dateRepair} onChange={() => { }} readOnly
+                                                /> */}
+                                                <DatePicker
+                                                    multiple
+                                                    onChange={() => { }}
+                                                    status={errors && errors.dateRepairArray ? 'error' : ''}
+                                                    maxTagCount="responsive"
+                                                    value={dateRepairArray}
+                                                    size="large"
+                                                    disabledDate={(current) => current.isBefore(moment().add(3, 'day'))} disabled
                                                 />
                                             </div>
                                         </div>
 
                                     </div>
                                     <div className="row">
-                                        <h6 className="mb-1">Thời gian sửa chữa</h6>
+                                        <h6 className="mt-2">Thời gian sửa chữa</h6>
                                         <div className="col-md-6 mb-3 pb-2">
                                             <div className="form-floating mt-2">
-                                                <input type="date" className={`form-control ${cx("inputForm")} ${errors && errors.selectDay ? 'is-invalid' : ''}`}
+                                                {/* <input type="date" className={`form-control ${cx("inputForm")} ${errors && errors.selectDay ? 'is-invalid' : ''}`}
                                                     value={selectDay} onChange={(e) => setSelectDay(e.target.value)} placeholder="name@example.com"
                                                 />
-                                                <label htmlFor="floatingInput">Chọn ngày</label>
-                                                {errors && <p className="text-danger">{errors.selectDay}</p>}
+                                                <label htmlFor="floatingInput">Chọn ngày *</label>
+                                                {errors && <p className="text-danger">{errors.selectDay}</p>} */}
+
+                                                <DatePicker onChange={onChange} style={{ width: "100%", padding: "16px" }}
+                                                    placeholder="Chọn ngày sửa chữa" size="large"
+                                                    disabledDate={(current) => current.isBefore(moment().add(1, 'day'))}
+                                                />
                                             </div>
                                         </div>
                                         <div className="col-md-6 mb-3 pb-2">
@@ -290,13 +333,13 @@ function AcceptForm() {
                                                     )}
 
                                                 </select>
-                                                <label htmlFor="floatingInput">Thợ sửa chữa</label>
+                                                <label htmlFor="floatingInput">Thợ sửa chữa *</label>
                                                 {errors && <p className="text-danger">{errors.idRepairer}</p>}
                                             </div>
                                         </div>
 
                                     </div>
-                                    <div className="timeSlots">
+                                    {/* <div className="timeSlots">
                                         <h6 className="mb-1">Khung giờ sửa chữa</h6>
                                         {errors && <p className="text-danger">{errors.timeslot}</p>}
                                         <div className={`timeMorning ${idSchedule && idSchedule != 0 ? '' : 'd-none'}`}>
@@ -381,6 +424,9 @@ function AcceptForm() {
 
                                         </div>
 
+                                    </div> */}
+                                    <div className={`totalOrder`}>
+                                        <h6>Tổng số đơn của thợ: {totalOrderRepairer}</h6>
                                     </div>
 
                                     <div className="d-inline">

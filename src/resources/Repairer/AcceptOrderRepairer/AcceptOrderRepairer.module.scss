@@ -76,7 +76,8 @@
 }
 
 .timeSlot {
-    background-color: rgb(240, 232, 232);
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgba(229, 225, 225, 0.922);
     width: 90px;
     height: 30px;
     display: flex;
@@ -86,13 +87,13 @@
     cursor: pointer;
 }
 
-.active {
-    background-color: #0078a8;
-    color: #fff;
-}
-
 .listTimeSlot {
     display: flex;
     flex-wrap: wrap;
-    gap: 5px;
+
+}
+
+.active {
+    background-color: #0078a8;
+    color: #fff;
 }

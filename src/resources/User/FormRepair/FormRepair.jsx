@@ -6,12 +6,14 @@ import axios from '../../../service/customize_axios';
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import moment from "moment";
+import { DatePicker } from 'antd';
 
 const cx = classNames.bind(styles);
 
 function FormRepair() {
 
     const idUser = useSelector((state) => state.user.user.id);
+    const user = useSelector((state) => state.user.user);
 
     const [listCategories, setListCategories] = useState();
     const [listBrands, setListBrands] = useState();
@@ -23,12 +25,14 @@ function FormRepair() {
 
     const [idService, setIdService] = useState();
     const [idProduct, setIdProduct] = useState();
-    const [fullName, setFullName] = useState('');
-    const [address, setAddress] = useState('');
-    const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
+    const [fullName, setFullName] = useState(user.username);
+    const [address, setAddress] = useState(user.address);
+    const [email, setEmail] = useState(user.email);
+    const [phone, setPhone] = useState(user.phone);
     const [desRepair, setDesRepair] = useState('');
     const [dateRepair, setDateRepair] = useState('');
+
+    const [dateRepairArray, setDateRepairArray] = useState([]);
 
     const fetchService = () => {
         axios.get("http://localhost:3000/service/getService")
@@ -92,19 +96,22 @@ function FormRepair() {
 
     const handleServiceChange = (e) => {
         const newService = e.target.value;
-        setIdService(newService); // Cập nhật state dịch vụ
+        setIdService(newService);
 
-        // Nếu người dùng chọn lại dịch vụ sửa chữa thiết bị gia dụng, đặt các trường về rỗng
         if (newService !== "1") {
-            setDesRepair(""); // Đặt mô tả lỗi về rỗng
-            setidCategori(""); // Đặt loại thiết bị về rỗng
-            setIdProduct(""); // Đặt thiết bị về rỗng
+            setDesRepair("");
+            setidCategori("");
+            setIdProduct("");
         }
+    };
+
+    const onChange = (date, dateString) => {
+        console.log(dateString);
+        setDateRepairArray(date)
     };
 
     const uploadRepair = () => {
         const newErrors = {};
-        const futureDate = moment().add(1, 'days');
 
         if (fullName.trim() === '') {
             newErrors.fullName = 'Vui lòng nhập họ tên'
@@ -126,14 +133,13 @@ function FormRepair() {
         if (!idService) {
             newErrors.idService = 'Vui lòng chọn dịch vụ'
         }
-        if (!dateRepair) {
-            newErrors.dateRepair = 'Vui lòng chọn ngày sửa chữa'
-        } else if (moment(dateRepair).isBefore(futureDate, 'day')) {
-            newErrors.dateRepair = "Vui lòng chọn ngày tương lai";
+        if (dateRepairArray.length === 0) {
+            newErrors.dateRepairArray = 'Vui lòng chọn ngày sửa chữa'
         }
         if (Object.keys(newErrors).length === 0) {
             setErrors();
-            axios.post("http://localhost:3000/order", { idUser, fullName, address, phone, email, idCategori, idProduct, desRepair, dateRepair })
+            console.log('Date', dateRepairArray)
+            axios.post("http://localhost:3000/order", { idUser, fullName, address, phone, email, idCategori, idProduct, desRepair, dateRepairArray })
                 .then(res => {
                     if (res.data.success === false) {
                         toast.error(res.data.message)
@@ -145,7 +151,8 @@ function FormRepair() {
                         setPhone('');
                         setEmail('');
                         setIdService('');
-                        setDateRepair('');
+                        // setDateRepair('');
+                        setDateRepairArray('');
                     }
                 })
         }
@@ -177,7 +184,7 @@ function FormRepair() {
                                             <div className="form-floating">
                                                 <input type="text" className={`form-control ${cx("inputForm")} ${errors && errors.fullName ? 'is-invalid' : ''}`} placeholder="name@example.com"
                                                     value={fullName} onChange={(e) => setFullName(e.target.value)} />
-                                                <label htmlFor="floatingInput">Họ và tên</label>
+                                                <label htmlFor="floatingInput">Họ và tên *</label>
                                                 {errors && <p className={cx("errors")}>{errors.fullName}</p>}
 
 
@@ -187,7 +194,7 @@ function FormRepair() {
                                             <div className="form-floating">
                                                 <input type="text" className={`form-control ${cx("inputForm")} ${errors && errors.address ? 'is-invalid' : ''}`} placeholder="name@example.com"
                                                     value={address} onChange={(e) => setAddress(e.target.value)} />
-                                                <label htmlFor="floatingInput">Địa chỉ</label>
+                                                <label htmlFor="floatingInput">Địa chỉ *</label>
                                                 {errors && <p className={cx("errors")}>{errors.address}</p>}
                                             </div>
                                         </div>
@@ -195,7 +202,7 @@ function FormRepair() {
                                             <div className="form-floating">
                                                 <input type="text" className={`form-control ${cx("inputForm")} ${errors && errors.phone ? 'is-invalid' : ''} `} placeholder="name@example.com"
                                                     value={phone} onChange={(e) => setPhone(e.target.value)} />
-                                                <label htmlFor="floatingInput">Số điện thoại</label>
+                                                <label htmlFor="floatingInput">Số điện thoại *</label>
                                                 {errors && <p className={cx("errors")}>{errors.phone}</p>}
                                             </div>
                                         </div>
@@ -203,7 +210,7 @@ function FormRepair() {
                                             <div className="form-floating">
                                                 <input type="text" className={`form-control ${cx("inputForm")} ${errors && errors.email ? 'is-invalid' : ''}`} placeholder="name@example.com"
                                                     value={email} onChange={(e) => setEmail(e.target.value)} />
-                                                <label htmlFor="floatingInput">Email</label>
+                                                <label htmlFor="floatingInput">Email *</label>
                                                 {errors && <p className={cx("errors")}>{errors.email}</p>}
                                             </div>
                                         </div>
@@ -224,7 +231,7 @@ function FormRepair() {
                                                         )
                                                     }
                                                 </select>
-                                                <label htmlFor="floatingInput">Dịch vụ</label>
+                                                <label htmlFor="floatingInput">Dịch vụ *</label>
                                                 {errors && <p className={cx("errors")}>{errors.idService}</p>}
                                             </div>
                                         </div>
@@ -249,7 +256,7 @@ function FormRepair() {
                                                                 )
                                                             }
                                                         </select>
-                                                        <label htmlFor="floatingInput">Loại thiết bị</label>
+                                                        <label htmlFor="floatingInput">Loại thiết bị *</label>
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6 mb-4">
@@ -275,7 +282,7 @@ function FormRepair() {
                                                                 )
                                                             }
                                                         </select>
-                                                        <label htmlFor="floatingInput">Loại thiết bị</label>
+                                                        <label htmlFor="floatingInput">Loại thiết bị *</label>
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6 mb-4">
@@ -301,7 +308,7 @@ function FormRepair() {
                                                                 )
                                                             }
                                                         </select>
-                                                        <label htmlFor="floatingInput">Thương hiệu</label>
+                                                        <label htmlFor="floatingInput">Thương hiệu *</label>
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6 mb-4">
@@ -317,7 +324,7 @@ function FormRepair() {
                                                                 )
                                                             }
                                                         </select>
-                                                        <label htmlFor="floatingInput">Loại thiết bị</label>
+                                                        <label htmlFor="floatingInput">Loại thiết bị *</label>
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6 mb-4">
@@ -333,7 +340,7 @@ function FormRepair() {
                                                                 )
                                                             }
                                                         </select>
-                                                        <label htmlFor="floatingInput">Thiết bị</label>
+                                                        <label htmlFor="floatingInput">Thiết bị *</label>
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6 mb-4">
@@ -354,18 +361,24 @@ function FormRepair() {
                                     </div>
                                     <div className="row">
                                         <h6 className="mb-1">Thời gian sửa chữa</h6>
-                                        <div className="col-md-6 mb-3 pb-2">
+                                        <div className="col">
                                             <div className="form-outline">
                                                 <label className="form-label" htmlFor="dayRepair">
-                                                    Ngày sửa chữa
+                                                    Ngày sửa chữa *
                                                 </label>
-                                                <input
-                                                    type="date"
-                                                    id="dayRepair"
-                                                    className={`form-control p-3s ${cx("inputForm")} ${errors && errors.dateRepair ? 'is-invalid' : ''}`}
-                                                    value={dateRepair} onChange={(e) => setDateRepair(e.target.value)}
+                                                <DatePicker
+                                                    multiple
+                                                    onChange={onChange}
+                                                    status={errors && errors.dateRepairArray ? 'error' : ''}
+                                                    maxTagCount="responsive"
+                                                    value={dateRepairArray}
+                                                    onCha
+                                                    size="large"
+                                                    placeholder="Chọn ngày mong muốn"
+
+                                                    disabledDate={(current) => current.isBefore(moment().add(1, 'day'))}
                                                 />
-                                                {errors && <p className={cx("errors")}>{errors.dateRepair}</p>}
+                                                {errors && <p className={cx("errors")}>{errors.dateRepairArray}</p>}
                                             </div>
                                         </div>
                                         {/* <div className="col-md-6 mb-4 pb-2">
@@ -418,6 +431,7 @@ function FormRepair() {
                         </div>
                     </div>
                 </div>
+
             </section>
 
         </>

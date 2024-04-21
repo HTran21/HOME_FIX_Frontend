@@ -6,7 +6,9 @@ import axios from '../../../service/customize_axios';
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import moment from 'moment';
+import { DatePicker } from "antd";
 const cx = classNames.bind(styles);
+import dayjs from "dayjs";
 
 function FormRepairEdit() {
     // const history = useHistory();
@@ -32,10 +34,11 @@ function FormRepairEdit() {
     const [dateRepair, setDateRepair] = useState('');
     const [data, setData] = useState();
 
+    const [dateRepairArray, setDateRepairArray] = useState([]);
+
     const getDetailOrder = async () => {
         if (id) {
             const detailOrder = await axios.get("http://localhost:3000/order/detail/" + id);
-            console.log("Detail", detailOrder.data.data.data)
             if (detailOrder.data.data.data) {
                 setFullName(detailOrder.data.data.data.fullName)
                 setAddress(detailOrder.data.data.data.address)
@@ -43,7 +46,8 @@ function FormRepairEdit() {
                 setEmail(detailOrder.data.data.data.email)
                 setidCategori(detailOrder.data.data.data.ID_Categori)
                 setDesRepair(detailOrder.data.data.data.desProblem)
-                setDateRepair(moment(detailOrder.data.data.data.desireDate).format('YYYY-MM-DD'))
+                const dateArray = detailOrder.data.data.data.desireDate.split(',');
+                setDateRepairArray(dateArray.map(date => dayjs(date)))
                 if (detailOrder.data.data.data.ID_Product != undefined) {
                     setIdProduct(detailOrder.data.data.data.ID_Product)
 
@@ -130,6 +134,11 @@ function FormRepairEdit() {
         }
     };
 
+    const onChange = (date, dateString) => {
+        console.log(date, dateString);
+        setDateRepairArray(date)
+    };
+
     const uploadRepair = () => {
         const newErrors = {};
         const futureDate = moment().add(1, 'days');
@@ -153,14 +162,17 @@ function FormRepairEdit() {
         if (!idService) {
             newErrors.idService = 'Vui lòng chọn dịch vụ'
         }
-        if (!dateRepair) {
-            newErrors.dateRepair = 'Vui lòng chọn ngày sửa chữa'
-        } else if (moment(dateRepair).isBefore(futureDate, 'day')) {
-            newErrors.dateRepair = "Vui lòng chọn ngày tương lai";
+        // if (!dateRepair) {
+        //     newErrors.dateRepair = 'Vui lòng chọn ngày sửa chữa'
+        // } else if (moment(dateRepair).isBefore(futureDate, 'day')) {
+        //     newErrors.dateRepair = "Vui lòng chọn ngày tương lai";
+        // }
+        if (dateRepairArray.length === 0) {
+            newErrors.dateRepairArray = 'Vui lòng chọn ngày sửa chữa'
         }
         if (Object.keys(newErrors).length === 0) {
             setErrors();
-            axios.put("http://localhost:3000/order/update/" + id, { idUser, fullName, address, phone, email, idCategori, idProduct, desRepair, dateRepair })
+            axios.put("http://localhost:3000/order/update/" + id, { idUser, fullName, address, phone, email, idCategori, idProduct, desRepair, dateRepairArray })
                 .then(res => {
                     console.log(res.data)
                     if (res.data.data.success === false) {
@@ -201,7 +213,7 @@ function FormRepairEdit() {
                                             <div className="form-floating">
                                                 <input type="text" className={`form-control ${cx("inputForm")} ${errors && errors.fullName ? 'is-invalid' : ''}`} placeholder="name@example.com"
                                                     value={fullName || ''} onChange={(e) => setFullName(e.target.value)} />
-                                                <label htmlFor="floatingInput">Họ và tên</label>
+                                                <label htmlFor="floatingInput">Họ và tên *</label>
                                                 {errors && <p className={cx("errors")}>{errors.fullName}</p>}
 
 
@@ -212,7 +224,7 @@ function FormRepairEdit() {
                                             <div className="form-floating">
                                                 <input type="text" className={`form-control ${cx("inputForm")} ${errors && errors.address ? 'is-invalid' : ''}`} placeholder="name@example.com"
                                                     value={address || ''} onChange={(e) => setAddress(e.target.value)} />
-                                                <label htmlFor="floatingInput">Địa chỉ</label>
+                                                <label htmlFor="floatingInput">Địa chỉ *</label>
                                                 {errors && <p className={cx("errors")}>{errors.address}</p>}
                                             </div>
                                         </div>
@@ -220,7 +232,7 @@ function FormRepairEdit() {
                                             <div className="form-floating">
                                                 <input type="text" className={`form-control ${cx("inputForm")} ${errors && errors.phone ? 'is-invalid' : ''} `} placeholder="name@example.com"
                                                     value={phone || ''} onChange={(e) => setPhone(e.target.value)} />
-                                                <label htmlFor="floatingInput">Số điện thoại</label>
+                                                <label htmlFor="floatingInput">Số điện thoại *</label>
                                                 {errors && <p className={cx("errors")}>{errors.phone}</p>}
                                             </div>
                                         </div>
@@ -228,7 +240,7 @@ function FormRepairEdit() {
                                             <div className="form-floating">
                                                 <input type="text" className={`form-control ${cx("inputForm")} ${errors && errors.email ? 'is-invalid' : ''}`} placeholder="name@example.com"
                                                     value={email || ''} onChange={(e) => setEmail(e.target.value)} />
-                                                <label htmlFor="floatingInput">Email</label>
+                                                <label htmlFor="floatingInput">Email *</label>
                                                 {errors && <p className={cx("errors")}>{errors.email}</p>}
                                             </div>
                                         </div>
@@ -249,14 +261,14 @@ function FormRepairEdit() {
                                                         )
                                                     }
                                                 </select>
-                                                <label htmlFor="floatingInput">Dịch vụ</label>
+                                                <label htmlFor="floatingInput">Dịch vụ *</label>
                                                 {errors && <p className={cx("errors")}>{errors.idService}</p>}
                                             </div>
                                         </div>
 
                                     </div>
 
-                                    <div className="row">
+                                    <div className="">
                                         <h6 className="mb-2">Thông tin thiết bị</h6>
                                         {idService === "1" ? (
                                             <div className="row">
@@ -273,7 +285,7 @@ function FormRepairEdit() {
                                                                 )
                                                             }
                                                         </select>
-                                                        <label htmlFor="floatingInput">Loại thiết bị</label>
+                                                        <label htmlFor="floatingInput">Loại thiết bị *</label>
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6 mb-4">
@@ -299,7 +311,7 @@ function FormRepairEdit() {
                                                                 )
                                                             }
                                                         </select>
-                                                        <label htmlFor="floatingInput">Loại thiết bị</label>
+                                                        <label htmlFor="floatingInput">Loại thiết bị *</label>
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6 mb-4">
@@ -325,7 +337,7 @@ function FormRepairEdit() {
                                                                 )
                                                             }
                                                         </select>
-                                                        <label htmlFor="floatingInput">Thương hiệu</label>
+                                                        <label htmlFor="floatingInput">Thương hiệu *</label>
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6 mb-4">
@@ -341,7 +353,7 @@ function FormRepairEdit() {
                                                                 )
                                                             }
                                                         </select>
-                                                        <label htmlFor="floatingInput">Loại thiết bị</label>
+                                                        <label htmlFor="floatingInput">Loại thiết bị *</label>
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6 mb-4">
@@ -357,7 +369,7 @@ function FormRepairEdit() {
                                                                 )
                                                             }
                                                         </select>
-                                                        <label htmlFor="floatingInput">Thiết bị</label>
+                                                        <label htmlFor="floatingInput">Thiết bị *</label>
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6 mb-4">
@@ -378,18 +390,28 @@ function FormRepairEdit() {
                                     </div>
                                     <div className="row">
                                         <h6 className="mb-1">Thời gian sửa chữa</h6>
-                                        <div className="col-md-6 mb-3 pb-2">
+                                        <div className="col">
                                             <div className="form-outline">
                                                 <label className="form-label" htmlFor="dayRepair">
-                                                    Ngày sửa chữa
+                                                    Ngày sửa chữa *
                                                 </label>
-                                                <input
+                                                {/* <input
                                                     type="date"
                                                     id="dayRepair"
                                                     className={`form-control p-3s ${cx("inputForm")} ${errors && errors.dateRepair ? 'is-invalid' : ''}`}
                                                     value={dateRepair} onChange={(e) => setDateRepair(e.target.value)}
                                                 />
-                                                {errors && <p className={cx("errors")}>{errors.dateRepair}</p>}
+                                                {errors && <p className={cx("errors")}>{errors.dateRepair}</p>} */}
+                                                <DatePicker
+                                                    multiple
+                                                    onChange={onChange}
+                                                    status={errors && errors.dateRepairArray ? 'error' : ''}
+                                                    maxTagCount="responsive"
+                                                    value={dateRepairArray}
+                                                    size="large"
+                                                    disabledDate={(current) => current.isBefore(moment().add(1, 'day'))}
+                                                />
+                                                {errors && <p className={cx("errors")}>{errors.dateRepairArray}</p>}
                                             </div>
                                         </div>
 

@@ -65,6 +65,9 @@ function ListWork() {
     }, [dateSelect])
     const navigate = useNavigate();
 
+    const navigatoAccept = (work) => {
+        navigate("/repairer/accept/" + work.id);
+    }
     const navigatoDetail = (work) => {
         navigate("/repairer/work/" + work.id);
     }
@@ -75,6 +78,52 @@ function ListWork() {
         navigate("/repairer/confirm/" + work.id)
     }
     const items = [
+        {
+            key: '0',
+            label: <Badge dot={listWorkToDay && listWorkToDay.some(item => item.Order.status === 'W')}>
+                Duyệt công việc
+            </Badge>,
+            children: (
+
+                <div className="row listWork">
+                    <div className="d-flex justify-content-center mb-2">
+                        <DatePicker onChange={onChange} style={{ width: "200px", padding: "10px" }} />
+                    </div>
+                    {listWorkToDay && listWorkToDay.length > 0 ? (
+                        listWorkToDay?.map((work, index) => (
+                            work.Order.status === 'W' ? (
+                                <div key={index} className={`col-lg-4 col-md-6 col-sm-12`} >
+                                    <div className={cx("cardWork")} onClick={() => navigatoAccept(work)} >
+                                        <div className="row" >
+                                            <div className="col-6"><p className={cx("titleWorkContent")}>Sửa chữa {work.Order.Categori.nameCategories}</p></div>
+                                            <div className="col-6 text-end">{work.timeRepair} {dateSelect}</div>
+                                        </div>
+                                        <div className="row">
+                                            <div className={`${cx("contentWork")}`}>
+                                                <p>Tên: {work.Order.fullName}</p>
+                                                <p>Số điện thoại: {work.Order.phone}</p>
+                                                <p>Địa Chỉ:  {work.Order.address}</p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            ) : ''
+
+                        ))
+                    ) : (
+                        <div className={`${cx("emptyWork")}`}>
+                            <img className="mt-5" src="../public/icon/emptyWork.png" alt="" />
+                            <p>Không có công việc</p>
+                        </div>
+                    )}
+
+
+                </div>
+            )
+
+        },
         {
             key: '1',
             label: <Badge dot={listWorkToDay && listWorkToDay.some(item => item.Order.status === 'A')}>
@@ -293,7 +342,7 @@ function ListWork() {
 
                 </div>
                 <div className="contentPage">
-                    <Tabs defaultActiveKey="1" items={items} onChange={onChangTab} />
+                    <Tabs defaultActiveKey="0" items={items} onChange={onChangTab} />
                 </div>
 
             </div>

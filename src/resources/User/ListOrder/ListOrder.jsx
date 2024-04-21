@@ -4,13 +4,14 @@ import className from "classnames/bind";
 import styles from "./ListOrder.module.scss";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faPaypal, faTwitter } from "@fortawesome/free-brands-svg-icons";
-import { Tabs, Space, Table, Tag, Drawer, Modal, Tooltip } from 'antd';
+import { Tabs, Space, Table, Tag, Drawer, Modal, Tooltip, DatePicker } from 'antd';
 import { faChevronRight, faCircleCheck, faCircleUser, faClockRotateLeft, faDesktop, faMoneyBill, faPenToSquare, faScrewdriverWrench, faTrash, faTrashCan, faWallet } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import moment from 'moment';
 import { toast } from "react-toastify";
 const cx = className.bind(styles);
+import dayjs from 'dayjs';
 
 import { io } from "socket.io-client";
 
@@ -23,10 +24,12 @@ function ListOrder() {
     const idUser = useSelector((state) => state.user.user.id);
     const [data, setData] = useState();
     const [listOrder, setListOrder] = useState();
+    const [dateArrray, setDateArray] = useState([])
     const fetchOrder = async () => {
         let getOrder = await axios.get("http://localhost:3000/order/user/" + idUser);
         setListOrder(getOrder.data.data);
         console.log("Data", getOrder.data.data)
+
     }
 
     useEffect(() => {
@@ -138,20 +141,20 @@ function ListOrder() {
             }
         },
         {
-            title: 'Ngày mong muốn',
-            dataIndex: 'desireDate',
-            key: 'desireDate',
+            title: 'Ngày đăng ký',
+            dataIndex: 'createdAt',
+            key: 'createdAt',
             defaultSortOrder: 'descend',
             sorter: (a, b) => {
-                const dateA = new Date(a.desireDate);
-                const dateB = new Date(b.desireDate);
+                const dateA = new Date(a.createdAt);
+                const dateB = new Date(b.createdAt);
 
                 return dateA - dateB;
             },
-            render: (_, { desireDate, index }) => {
+            render: (_, { createdAt, index }) => {
                 return (
                     <div key={index + 1}>
-                        {moment(desireDate).format('DD/MM/YYYY')}
+                        {moment(createdAt).format('DD/MM/YYYY')}
                     </div>
                 )
             }
@@ -303,9 +306,13 @@ function ListOrder() {
     const showDrawer = (record) => {
         setOpen(true);
         setRecord(record);
+        let formatDate = record.desireDate.split(",");
+        setDateArray(formatDate.map(date => dayjs(date)))
+        console.log(formatDate)
     };
     const onClose = () => {
         setOpen(false);
+        setDateArray('')
     };
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -490,35 +497,42 @@ function ListOrder() {
 
                             </div>
                         </div>
-                        <div className="row">
-                            <div className="col-lg-6 col-md-6 col-sm-12">
-                                <div className="form-floating mb-3" >
-                                    <input
-                                        type="text"
-                                        className={`${cx("inputForm")} form-control`}
-                                        id="floatingInput"
-                                        placeholder="name@example.com"
-                                        readOnly defaultValue={moment(record?.desireDate).format("DD/MM/YYYY")} onChange={() => { }}
-                                    />
+                        <div className="">
+                            <div className="form-floating mb-3" >
+                                {/* <input
+                                    type="text"
+                                    className={`${cx("inputForm")} form-control`}
+                                    id="floatingInput"
+                                    placeholder="name@example.com"
+                                    readOnly defaultValue={moment(record?.desireDate).format("DD/MM/YYYY")} onChange={() => { }}
+                                />
 
-                                    <label htmlFor="floatingInput">Thời gian mong muốn</label>
-                                </div>
+                                <label htmlFor="floatingInput">Thời gian mong muốn</label> */}
+                                <p className="fw-bold">Thời gian mong muốn</p>
+                                <DatePicker
+                                    multiple
+                                    onChange={() => { }}
+                                    maxTagCount="responsive"
+                                    value={dateArrray}
+                                    size="large"
+                                    disabled
+                                />
+                            </div>
+
+                        </div>
+                        <div className="">
+                            <div className="form-floating mb-3">
+                                <textarea
+                                    className={`${cx("inputForm")} form-control`}
+                                    placeholder="Leave a comment here"
+                                    id="floatingTextarea2"
+                                    style={{ height: 50 }}
+                                    value={record?.desProblem} readOnly onChange={() => { }}
+                                />
+                                <label htmlFor="floatingTextarea2">Comments</label>
 
                             </div>
-                            <div className="col-lg-6 col-md-6 col-sm-12">
-                                <div className="form-floating mb-3">
-                                    <textarea
-                                        className={`${cx("inputForm")} form-control`}
-                                        placeholder="Leave a comment here"
-                                        id="floatingTextarea2"
-                                        style={{ height: 50 }}
-                                        value={record?.desProblem} readOnly onChange={() => { }}
-                                    />
-                                    <label htmlFor="floatingTextarea2">Comments</label>
 
-                                </div>
-
-                            </div>
                         </div>
                     </div>
                     {record && record.DetailOrder ? (

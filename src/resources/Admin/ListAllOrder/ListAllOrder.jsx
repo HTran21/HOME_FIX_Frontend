@@ -4,19 +4,22 @@ import className from "classnames/bind";
 import styles from "./ListAllOrder.module.scss";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faTwitter } from "@fortawesome/free-brands-svg-icons";
-import { Tabs, Space, Table, Tag, Drawer, Modal } from 'antd';
+import { Tabs, Space, Table, Tag, Drawer, Modal, DatePicker } from 'antd';
 import { faChevronRight, faCircleCheck, faCircleUser, faCircleXmark, faClockRotateLeft, faDesktop, faPenToSquare, faScrewdriverWrench, faTrash, faTrashCan, faWallet } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import moment from 'moment';
 import { toast } from "react-toastify";
 const cx = className.bind(styles);
+import dayjs from 'dayjs';
+
 
 function ListAllOrder() {
 
     const idUser = useSelector((state) => state.user.user.id);
     const [data, setData] = useState();
     const [listOrder, setListOrder] = useState();
+    const [dateArrray, setDateArray] = useState([])
     const fetchOrder = async () => {
         let getOrder = await axios.get("http://localhost:3000/order/getAllOrder");
         setListOrder(getOrder.data.data);
@@ -135,7 +138,7 @@ function ListAllOrder() {
             title: 'Ngày đăng ký',
             dataIndex: 'createdAt',
             key: 'createdAt',
-            defaultSortOrder: 'ascend',
+            defaultSortOrder: 'desc',
             sorter: (a, b) => {
                 const dateA = new Date(a.createdAt);
                 const dateB = new Date(b.createdAt);
@@ -150,25 +153,25 @@ function ListAllOrder() {
                 )
             }
         },
-        {
-            title: 'Ngày mong muốn',
-            dataIndex: 'desireDate',
-            key: 'desireDate',
-            defaultSortOrder: 'descend',
-            sorter: (a, b) => {
-                const dateA = new Date(a.desireDate);
-                const dateB = new Date(b.desireDate);
+        // {
+        //     title: 'Ngày mong muốn',
+        //     dataIndex: 'desireDate',
+        //     key: 'desireDate',
+        //     defaultSortOrder: 'descend',
+        //     sorter: (a, b) => {
+        //         const dateA = new Date(a.desireDate);
+        //         const dateB = new Date(b.desireDate);
 
-                return dateA - dateB;
-            },
-            render: (_, { desireDate, index }) => {
-                return (
-                    <div key={index + 1}>
-                        {moment(desireDate).format('DD/MM/YYYY')}
-                    </div>
-                )
-            }
-        },
+        //         return dateA - dateB;
+        //     },
+        //     render: (_, { desireDate, index }) => {
+        //         return (
+        //             <div key={index + 1}>
+        //                 {moment(desireDate).format('DD/MM/YYYY')}
+        //             </div>
+        //         )
+        //     }
+        // },
         {
             title: 'Trạng thái',
             key: 'status',
@@ -263,17 +266,22 @@ function ListAllOrder() {
                             <p>Xem chi tiết</p>
                         </Link>
                     ) : (
-                        <>
-                            <Link to={`/repair/accept/${record?.id}`}>
-                                <FontAwesomeIcon icon={faCircleCheck} className={`${cx("iconAccept")} ${(record?.status === 'W') ? '' : 'd-none'}`} size="xl" style={{ color: "#00a851", }} />
-                            </Link>
-                            <FontAwesomeIcon icon={faCircleXmark} onClick={() => showModal(record)}
-                                className={`${cx("iconDenied")} ${record?.status === 'W' ? '' : 'd-none'}`} size="xl" style={{ color: "#e00000", }} />
+                        record?.DetailOrder && record?.DetailOrder.ID_Schedule ? (
                             <FontAwesomeIcon icon={faChevronRight} size="lg" style={{ color: "#005eff", marginLeft: "10px" }} onClick={() => showDrawer(record)} />
-                        </>
+                        ) : (
+                            <>
+                                <Link to={`/repair/accept/${record?.id}`}>
+                                    <FontAwesomeIcon icon={faCircleCheck} className={`${cx("iconAccept")} ${(record?.status === 'W') ? '' : 'd-none'}`} size="xl" style={{ color: "#00a851", }} />
+                                </Link>
+                                <FontAwesomeIcon icon={faCircleXmark} onClick={() => showModal(record)}
+                                    className={`${cx("iconDenied")} ${record?.status === 'W' ? '' : 'd-none'}`} size="xl" style={{ color: "#e00000", }} />
+                                <FontAwesomeIcon icon={faChevronRight} size="lg" style={{ color: "#005eff", marginLeft: "10px" }} onClick={() => showDrawer(record)} />
+                            </>
+                        )
                     )}
                 </Space>
             ),
+            align: 'center'
         },
     ];
 
@@ -282,9 +290,12 @@ function ListAllOrder() {
     const showDrawer = (record) => {
         setOpen(true);
         setRecord(record);
+        let formatDate = record.desireDate.split(",");
+        setDateArray(formatDate.map(date => dayjs(date)))
     };
     const onClose = () => {
         setOpen(false);
+        setDateArray('')
     };
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -455,6 +466,38 @@ function ListAllOrder() {
 
                             </div>
                         </div>
+                        <div className="">
+                            <div className="form-floating mb-3" >
+                                <p className="fw-bold">Thời gian mong muốn</p>
+                                <DatePicker
+                                    multiple
+                                    onChange={() => { }}
+                                    maxTagCount="responsive"
+                                    value={dateArrray}
+                                    size="large"
+                                    disabled
+                                />
+                            </div>
+
+                        </div>
+
+                        <div className="">
+                            <div className="form-floating mb-3">
+                                <textarea
+                                    className={`${cx("inputForm")} form-control`}
+                                    placeholder="Leave a comment here"
+                                    id="floatingTextarea2"
+                                    style={{ height: 50 }}
+                                    value={record?.desProblem} readOnly onChange={() => { }}
+                                />
+                                <label htmlFor="floatingTextarea2">Comments</label>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div className={cx("inforRepair")}>
+                        <h5 className="mb-2">Thông tin sửa chữa</h5>
                         <div className="row">
                             <div className="col-lg-6 col-md-6 col-sm-12">
                                 <div className="form-floating mb-3" >
@@ -463,26 +506,28 @@ function ListAllOrder() {
                                         className={`${cx("inputForm")} form-control`}
                                         id="floatingInput"
                                         placeholder="name@example.com"
-                                        readOnly defaultValue={moment(record?.desireDate).format("DD/MM/YYYY")} onChange={() => { }}
+                                        readOnly value={record?.DetailOrder && record?.DetailOrder.Schedule.Repairer.usernameRepairer} onChange={() => { }}
                                     />
 
-                                    <label htmlFor="floatingInput">Thời gian mong muốn</label>
+                                    <label htmlFor="floatingInput">Họ tên thợ</label>
                                 </div>
 
                             </div>
                             <div className="col-lg-6 col-md-6 col-sm-12">
                                 <div className="form-floating mb-3">
-                                    <textarea
+                                    <input
+                                        type="text"
                                         className={`${cx("inputForm")} form-control`}
-                                        placeholder="Leave a comment here"
-                                        id="floatingTextarea2"
-                                        style={{ height: 50 }}
-                                        value={record?.desProblem} readOnly onChange={() => { }}
+                                        id="floatingInput"
+                                        placeholder="name@example.com"
+                                        readOnly value={record?.DetailOrder && moment(record?.DetailOrder.Schedule.workDay).format('YYYY-MM-DD')} onChange={() => { }}
                                     />
-                                    <label htmlFor="floatingTextarea2">Comments</label>
-
+                                    <label htmlFor="floatingInput">Ngày sửa chữa</label>
                                 </div>
 
+                            </div>
+                            <div>
+                                <p ><span className="fw-bold">Thời gian sửa chữa:</span> {record?.DetailOrder && record.DetailOrder.timeRepair ? record.DetailOrder.timeRepair : 'Đang chờ thợ duyệt'}</p>
                             </div>
                         </div>
                     </div>
