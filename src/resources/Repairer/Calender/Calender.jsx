@@ -24,7 +24,7 @@ function CalenderRepairer() {
         try {
             const response = await axios.get('http://localhost:3000/schedule/dayWork/' + id);
             setData(response.data.data)
-            console.log("Date", response.data.data)
+            // console.log("Date", response.data.data)
         } catch (error) {
             console.error('Error fetching data:', error);
         }

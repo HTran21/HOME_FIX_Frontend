@@ -81,7 +81,7 @@ function AcceptOrderRepairer() {
                 axios.put("http://localhost:3000/order/acceptRepairer/" + ID_Order, { selectedTimeSlots })
                     .then(res => {
                         if (res.data.success) {
-                            toast.success("Tiến hành sửa chữa")
+                            toast.success("Duyệt đơn sửa chữa thành công")
                             setLoadings(false)
                             navigate("/repairer/work")
                             getDetailOrder()

@@ -36,7 +36,7 @@ function DetailOrder() {
             .then(res => {
                 if (res.data.success) {
                     setData(res.data.detailOrder)
-                    // console.log(res.data.detailOrder)
+                    console.log(res.data.detailOrder)
                 }
                 else {
                     toast.error(res.data.message)
@@ -54,6 +54,18 @@ function DetailOrder() {
             dataIndex: 'key',
             key: 'id',
             render: (text, record, index) => <a>{index + 1}</a>,
+        },
+        {
+            title: 'Loại thiết bị',
+            dataIndex: 'Operation',
+            key: 'nameCategories',
+            render: (_, { Operation, index }) => {
+                return (
+                    <div key={index + 1} >
+                        {Operation.Categori.nameCategories}
+                    </div>
+                )
+            }
         },
         {
             title: 'Tên thao tác',
@@ -74,7 +86,7 @@ function DetailOrder() {
             render: (_, { Operation, index }) => {
                 return (
                     <div key={index + 1}>
-                        {Operation.price}
+                        {VND.format(Operation.price)}
                     </div>
                 )
             }
@@ -228,7 +240,7 @@ function DetailOrder() {
 
                                                         <div className={cx("selectGroup")}>
 
-                                                            <div className="form-check m-0">
+                                                            {/* <div className="form-check m-0">
                                                                 <input
                                                                     className="form-check-input d-none"
                                                                     type="radio"
@@ -240,7 +252,7 @@ function DetailOrder() {
                                                                 <label className={`${cx("selectPayMethoid", `${paymentMethod === 'cash' ? 'active' : ''}`)} form-check-label`} htmlFor="cashMethod">
                                                                     <FontAwesomeIcon className={cx("iconPay")} icon={faMoneyBill1} />Tiền mặt
                                                                 </label>
-                                                            </div>
+                                                            </div> */}
                                                             <div className="form-check m-0">
                                                                 <input
                                                                     className="form-check-input d-none"

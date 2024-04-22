@@ -8,7 +8,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import moment from 'moment';
 import axios from '../../../service/customize_axios';
 
-import { faArrowLeft, faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faChevronRight, faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
 const cx = classNames.bind(styles);
 
 import { io } from "socket.io-client";
@@ -19,6 +19,7 @@ const socket = io.connect("http://localhost:3000", {
 
 
 function ConfirmOrder() {
+    const navigate = useNavigate();
     const { id } = useParams();
     const [totalAmount, setTotalAmount] = useState(0);
     const [data, setData] = useState();
@@ -39,6 +40,7 @@ function ConfirmOrder() {
         if (id) {
             const detailOrder = await axios.get("http://localhost:3000/order/fullDetail/" + id);
             setData(detailOrder.data.exsitDetailOrder)
+            // console.log("Data", detailOrder.data.exsitDetailOrder)
 
         }
     }
@@ -163,25 +165,47 @@ function ConfirmOrder() {
 
     }
 
+    useEffect(() => {
+
+        socket.on("featchOrder", () => {
+            getDetailOrder();
+        });
+
+    }, [socket])
+
+
     return (
         <>
             <div className="container">
                 <div className={cx("titlePage")}>
-                    <h4>Xác nhận đơn sửa chữa</h4>
+                    <div className={cx("iconBack")} onClick={() => navigate("/repairer/work")}>
+                        <FontAwesomeIcon icon={faArrowLeft} />
+                    </div>
+                    <p className={cx("textTitle")}>Xác nhận đơn sửa chữa</p>
                     <div className="d-flex">
                         <Button className="d-inline" type="primary" onClick={showDrawer}>Đơn sửa chữa</Button>
                         <div className={`d-inline ms-auto ${cx("amountNumber")}`}>Tổng tiền: {VND.format(totalAmount)}</div>
                     </div>
                     <div className={cx("statusPayment")}>
                         <div>
-                            <Button onClick={() => showModal()} className="d-inline" type="primary" >Thêm thao tác</Button>
+                            <Button onClick={() => showModal()} className={`d-inline ${data?.paymentStatus === 'P' ? 'd-none' : ''}`} type="primary" >Thêm thao tác</Button>
                         </div>
                         <p className="p-2 ms-auto">Thanh toán: {taskRepair?.paymentStatus == 'UP' ? 'Chưa thanh toán' : (taskRepair?.paymentStatus == 'W' ? 'Chờ xác nhận' : 'Đã thanh toán')}</p>
 
                     </div>
+                    <hr className="m-1" style={{ color: "#c5c0c0", opacity: "1" }} />
                 </div>
+                <div className={cx("methodPayment")}>
+
+                    <p className={cx("textMethodPayment")}><span className="fw-bold">Phương thức thanh toán:</span> {data?.paymentMethod === 'vnpay' ? 'VNPay' : (data?.paymentMethod === 'cash' ? 'Tiền mặt' : 'Chọn thanh toán')}</p>
+                    <Link to={`/repairer/select/` + data?.id} className={`${cx("iconMethodPayment")} ${data?.paymentStatus === 'P' ? 'd-none' : ''}`}>
+                        <FontAwesomeIcon icon={faChevronRight} />
+                    </Link>
+
+                </div>
+                <hr className="m-1" style={{ color: "#c5c0c0", opacity: "1" }} />
                 <div className="contentPage">
-                    <div className="listTask mt-2 mb-2">
+                    <div className="listTask mb-2">
 
                         <div className="row">
                             {listTask?.map((task, index) => (
@@ -210,9 +234,7 @@ function ConfirmOrder() {
                     </div>
 
 
-                    <div className={cx("backHome")}>
-                        <Link to={'/repairer/work'} className="text-decoration"> <button className={cx("btnBackHome")}>Về trang công việc </button></Link>
-                    </div>
+
                 </div>
 
             </div >

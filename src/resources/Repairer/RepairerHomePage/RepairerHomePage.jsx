@@ -16,7 +16,7 @@ function RepairerHomePage() {
     // console.log("ID", id)
 
     const currentDate = moment().format('YYYY-MM-DD');
-    // const currentDate = '2024-04-13';
+    // const currentDate = '2024-04-24';
     // console.log("CurrentDay", currentDate);
     const [listWorkToDay, setListworkToDay] = useState();
     useEffect(() => {
@@ -30,27 +30,16 @@ function RepairerHomePage() {
                 // console.log("List work", res.data[0].DetailOrders)
                 if (res.data) {
                     setListworkToDay(res.data.DetailOrders)
-                    console.log(res.data.DetailOrders)
+                    // console.log(res.data.DetailOrders)
                 }
             })
     }, [])
 
+    const completedWorksCount = listWorkToDay?.every(work => work.Order.status !== 'W');
+
     return (
         <div className="container">
             <section className={cx("introHomePage")}>
-                {/* <div className="row">
-                    <div className="col-md-12 col-lg-6">
-                        <div className={cx("titleIntro")}>
-                            <h1 >CHÀO MỪNG NHỮNG NGƯỜI THỢ TUYỆT VỜI</h1>
-                        </div>
-                        <div className={cx("line")} ></div>
-                        <h4>Chúng ta cùng nhau tạo nên những thứ tuyệt vời</h4>
-                        <button className={cx("btnGet")}><Link className="text-decoration-none text-light">Đăng ký sửa chữa ngay</Link></button>
-                    </div>
-                    <div className="col-md-6 col-lg-6 ">
-                        <img className={cx("imgHomePage")} src="../illustration/repairman.png" alt="" />
-                    </div>
-                </div> */}
                 <div className={cx("contentIntro")}>
                     <div className="row align-items-center">
                         <div className="col-6">
@@ -87,10 +76,8 @@ function RepairerHomePage() {
                                         </div>
 
                                     </div>
-                                ) : <div key={index} className={cx("emptyWork")}>
-                                    <img src="../public/icon/verified.png" alt="" />
-                                    <p>Bạn đã hoàn thành công việc</p>
-                                </div>
+                                ) :
+                                    null
 
                             ))
                         ) : (
@@ -100,82 +87,17 @@ function RepairerHomePage() {
                             </div>
                         )}
 
-                        {/* <div className={`col-lg-4 col-md-6 col-sm-12`}>
-                            <div className={cx("cardWork")} >
-                                <div className="row" >
-                                    <div className="col"><p className={cx("titleWorkContent")}>Sửa chữa tủ lạnh</p></div>
-                                    <div className="col text-end">8h 28/03/2024</div>
-                                </div>
-                                <div className="row">
-                                    <div className={`${cx("contentWork")}`}>
-                                        <p>Tên: Trần Văn A</p>
-                                        <p>Số điện thoại: 09754314</p>
-                                        <p>Địa Chỉ: Khu II, Phường Xuân Khánh, Quận Ninh Kiều, Thành Phố Cần Thơ</p>
-                                    </div>
-
-                                </div>
+                        {listWorkToDay.length > 0 && listWorkToDay?.every(work => (work.Order.status === 'S')) && (
+                            <div className={cx("emptyWork")}>
+                                < img src="../public/icon/verified.png" alt="" />
+                                <p>Bạn đã hoàn thành công việc</p>
                             </div>
+                        )}
 
-                        </div> */}
-                        {/* <div className={` col-lg-4 col-md-6 col-sm-12`}>
-                            <div className={cx("cardWorK")}>
-                                <div className="row">
-                                    <div className="col"><p className={cx("titleWorkContent")}>Sửa chữa tủ lạnh</p></div>
-                                    <div className="col text-end">8h 28/03/2024</div>
-                                </div>
-                                <div className="row">
-                                    <div className={`${cx("contentWork")}`}>
-                                        <p>Tên: Trần Văn A</p>
-                                        <p>Số điện thoại: 09754314</p>
-                                        <p>Địa Chỉ: Khu II, Phường Xuân Khánh, Quận Ninh Kiều, Thành Phố Cần Thơ</p>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div>
-                        <div className={`col-lg-4 col-md-6 col-sm-12`}>
-                            <div className={cx("cardWorK")}>
-                                <div className="row">
-                                    <div className="col"><p className={cx("titleWorkContent")}>Sửa chữa tủ lạnh</p></div>
-                                    <div className="col text-end">8h 28/03/2024</div>
-                                </div>
-                                <div className="row">
-                                    <div className={`${cx("contentWork")}`}>
-                                        <p>Tên: Trần Văn A</p>
-                                        <p>Số điện thoại: 09754314</p>
-                                        <p>Địa Chỉ: Khu II, Phường Xuân Khánh, Quận Ninh Kiều, Thành Phố Cần Thơ</p>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div>
-                        <div className={` col-lg-4 col-md-6 col-sm-12`}>
-                            <div className={cx("cardWorK")}>
-                                <div className="row">
-                                    <div className="col"><p className={cx("titleWorkContent")}>Sửa chữa tủ lạnh</p></div>
-                                    <div className="col text-end">8h 28/03/2024</div>
-                                </div>
-                                <div className="row">
-                                    <div className={`${cx("contentWork")}`}>
-                                        <p>Tên: Trần Văn A</p>
-                                        <p>Số điện thoại: 09754314</p>
-                                        <p>Địa Chỉ: Khu II, Phường Xuân Khánh, Quận Ninh Kiều, Thành Phố Cần Thơ</p>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div> */}
-                        {/* <div className={cx("emptyWork")}>
-                            <img src="../public/icon/emptyWork.png" alt="" />
-                            <p>Không có công việc</p>
-                        </div> */}
                     </div>
                 </div>
-            </section>
-        </div>
+            </section >
+        </div >
 
     );
 }

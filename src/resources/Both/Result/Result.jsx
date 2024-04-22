@@ -54,6 +54,7 @@ function Result() {
                 if (res.data.success && res.data.payment) {
                     toast.success(res.data.message)
                     setData(res.data.data)
+                    socket.emit("orderStatusChange")
                 } else {
                     toast.error("Thanh toán thất bại")
                 }

@@ -53,7 +53,7 @@ function Login() {
                         }
                         else if (res.data.data.role === 'RP') {
                             dispatch(doLoginAction(res.data.data.infoRepairer))
-                            console.log("Dang nhap voi tu cach tho")
+                            // console.log("Dang nhap voi tu cach tho")
                             navigate("/repairer");
 
                         }

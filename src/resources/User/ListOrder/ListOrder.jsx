@@ -281,7 +281,7 @@ function ListOrder() {
                             </Tooltip>
                         </Link>
                     ) : (
-                        record.DetailOrder && record?.DetailOrder.paymentStatus == 'UP' ? (
+                        record.DetailOrder && record?.DetailOrder.paymentStatus == 'UP' && record?.DetailOrder.paymentMethod == 'vnpay' ? (
                             <Link to={`/user/order/` + record.DetailOrder.id}>
                                 <Tooltip title="Thanh toán" className={cx("btnPay")}>
                                     <FontAwesomeIcon icon={faPaypal} />
@@ -560,7 +560,7 @@ function ListOrder() {
                                             className={`${cx("inputForm")} form-control`}
                                             id="floatingInput"
                                             placeholder="name@example.com"
-                                            readOnly value={record?.DetailOrder.timeRepair} onChange={() => { }}
+                                            readOnly value={(record?.DetailOrder.timeRepair).split('-')[0]} onChange={() => { }}
                                         />
                                         <label htmlFor="floatingInput">Giờ dự kiến</label>
                                     </div>

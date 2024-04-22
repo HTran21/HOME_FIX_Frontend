@@ -38,8 +38,10 @@ function ListWork() {
 
     const onChangTab = (key) => {
         setDateSelect(moment().format('YYYY-MM-DD'))
+
     }
     const [listWorkToDay, setListworkToDay] = useState();
+    const [listWorkAccept, setListworkAccept] = useState();
 
     const featchListWork = () => {
         if (dateSelect.trim() !== '') {
@@ -52,15 +54,28 @@ function ListWork() {
                 .then(res => {
                     if (res.data) {
                         setListworkToDay(res.data.DetailOrders)
-                        console.log("Data", res.data.DetailOrders)
+                        // console.log("Data", res.data.DetailOrders)
                     }
 
                     // console.log("Date", res.data[0].DetailOrders)
                 })
         }
     }
+
+    const featchListWorkAccept = () => {
+        axios.get("http://localhost:3000/schedule/workRepair/" + id)
+            .then(res => {
+                if (res.data) {
+                    setListworkAccept(res.data.DetailOrders)
+                    // console.log("Data", res.data.DetailOrders)
+                }
+
+                // console.log("Date", res.data[0].DetailOrders)
+            })
+    }
     useEffect(() => {
         featchListWork()
+        featchListWorkAccept()
 
     }, [dateSelect])
     const navigate = useNavigate();
@@ -80,17 +95,17 @@ function ListWork() {
     const items = [
         {
             key: '0',
-            label: <Badge dot={listWorkToDay && listWorkToDay.some(item => item.Order.status === 'W')}>
+            label: <Badge dot={listWorkAccept && listWorkAccept.some(item => item.Order.status === 'W')}>
                 Duyệt công việc
             </Badge>,
             children: (
 
                 <div className="row listWork">
-                    <div className="d-flex justify-content-center mb-2">
+                    {/* <div className="d-flex justify-content-center mb-2">
                         <DatePicker onChange={onChange} style={{ width: "200px", padding: "10px" }} />
-                    </div>
-                    {listWorkToDay && listWorkToDay.length > 0 ? (
-                        listWorkToDay?.map((work, index) => (
+                    </div> */}
+                    {listWorkAccept && listWorkAccept.length > 0 ? (
+                        listWorkAccept?.map((work, index) => (
                             work.Order.status === 'W' ? (
                                 <div key={index} className={`col-lg-4 col-md-6 col-sm-12`} >
                                     <div className={cx("cardWork")} onClick={() => navigatoAccept(work)} >
@@ -260,7 +275,7 @@ function ListWork() {
         },
         {
             key: '4',
-            label: <Badge dot={listWorkToDay && listWorkToDay.some(item => item.paymentStatus === 'W')}>
+            label: <Badge dot={listWorkToDay && listWorkToDay.some(item => item.paymentStatus === 'UP' && item.paymentMethod === 'vnpay')}>
                 Chờ xác nhận
             </Badge>,
             children: (
@@ -270,9 +285,9 @@ function ListWork() {
                     </div>
                     {listWorkToDay && listWorkToDay.length > 0 ? (
                         listWorkToDay?.map((work, index) => (
-                            (work.Order.status === 'S' && work.paymentStatus === 'W') ? (
-                                <div key={index} className={`col-lg-4 col-md-6 col-sm-12`} >
-                                    <div className={cx("cardWork")} onClick={() => showModal(work)} >
+                            (work.Order.status === 'S' && work.paymentStatus === 'UP' && work.paymentMethod === 'vnpay') ? (
+                                <div key={index} className={`col-lg-4 col-md-6 col-sm-12`} onClick={() => navigatoConfirm(work)}>
+                                    <div className={cx("cardWork")} >
                                         <div className="row" >
                                             <div className="col-6"><p className={cx("titleWorkContent")}>Sửa chữa {work.Order.Categori.nameCategories}</p></div>
                                             <div className="col-6 text-end">{work.timeRepair} {dateSelect}</div>
@@ -296,8 +311,9 @@ function ListWork() {
                             <img className="mt-5" src="../public/icon/emptyWork.png" alt="" />
                             <p>Không có công việc</p>
                         </div>
-                    )}
-                </div>
+                    )
+                    }
+                </div >
             ),
         }
     ];

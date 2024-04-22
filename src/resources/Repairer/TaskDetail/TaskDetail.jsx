@@ -41,6 +41,9 @@ function TaskDetail() {
         if (id) {
             const detailOrder = await axios.get("http://localhost:3000/order/fullDetail/" + id);
             setData(detailOrder.data.exsitDetailOrder)
+            console.log(detailOrder.data.exsitDetailOrder.Order.Categori.ID_Service)
+            setIdService(detailOrder.data.exsitDetailOrder.Order.Categori.ID_Service)
+            setidCategori(detailOrder.data.exsitDetailOrder.Order.Categori.id)
 
         }
     }
@@ -116,17 +119,17 @@ function TaskDetail() {
             console.log("Tong", total)
             setListTask(prevState => [...prevState, selectedeOperation]);
             setIsModalOpen(false);
-            setIdService("");
-            setidCategori("")
-            setOperation("")
-            setListOperations()
+            // setIdService("");
+            // setidCategori("")
+            // setOperation("")
+            // setListOperations()
         }
     };
     const handleCancel = () => {
         setIsModalOpen(false);
-        setIdService("");
-        setidCategori("")
-        setOperation("")
+        // setIdService("");
+        // setidCategori("")
+        // setOperation("")
     };
 
     const deleteTask = (task) => {
@@ -176,7 +179,7 @@ function TaskDetail() {
                 <div className={cx("iconBack")} onClick={() => navigate("/repairer/work")}>
                     <FontAwesomeIcon icon={faArrowLeft} />
                 </div>
-                <h4>Thao tác tiến hành</h4>
+                <h4>Thao tác sửa chữa</h4>
                 <div className="d-flex">
                     <Button className="d-inline" type="primary" onClick={showDrawer}>Đơn sửa chữa</Button>
                     <Button className="d-inline ms-auto" type="primary" onClick={showModal}>Thêm thao tác</Button>
@@ -214,7 +217,7 @@ function TaskDetail() {
                 </div>
             </div>
             <Modal title="Thêm thao tác" okText="Thêm" cancelText="Đóng" centered open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                <select className="form-select mb-2" value={idService} onChange={(e) => setIdService(e.target.value)} aria-label="Default select example">
+                <select className="form-select mb-2" value={idService} onChange={(e) => setIdService(e.target.value)} disabled aria-label="Default select example">
                     <option value="0">Chọn dịch vụ</option>
                     {
                         listService?.map((service, i) =>
@@ -222,7 +225,7 @@ function TaskDetail() {
                         )
                     }
                 </select>
-                <select className="form-select mb-2" aria-label="Default select example"
+                <select className="form-select mb-2" aria-label="Default select example" disabled
                     value={idCategori} onChange={(e) => setidCategori(e.target.value)}>
                     <option value="0">Chọn thiết bị</option>
                     {
@@ -266,7 +269,7 @@ function TaskDetail() {
                     <h6>Thông tin sửa chữa</h6>
                     <p className={cx("textInfor")}><span className={cx("tileInfo")}>Ngày sửa chữa:</span> {moment(data?.Schedule.workDay).format('DD-MM-YYYY')}</p>
                     <p className={cx("textInfor")}><span className={cx("tileInfo")}>Thợ sửa chữa:</span> {data?.Schedule.Repairer.usernameRepairer}</p>
-                    <p className={cx("textInfor")}><span className={cx("tileInfo")}>Thời gian</span> {data?.timeRepair}</p>
+                    <p className={cx("textInfor")}><span className={cx("tileInfo")}>Thời gian</span> {data?.timeRepair.split('-')[0]}</p>
                 </div>
             </Drawer>
         </div>

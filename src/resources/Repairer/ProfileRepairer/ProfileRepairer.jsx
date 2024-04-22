@@ -21,7 +21,7 @@ function ProfileRepairer() {
         axios.get("http://localhost:3000/repair/profile/" + id)
             .then(res => {
                 setData(res.data.data.user)
-                console.log("Data", res.data.data.user)
+                // console.log("Data", res.data.data.user)
             })
             .catch((error) => console.log(error));
 
