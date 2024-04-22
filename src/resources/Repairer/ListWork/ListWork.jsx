@@ -339,7 +339,7 @@ function ListWork() {
                         featchListWork()
                         handleCancel()
 
-                        socket.emit("confirm_payment", { ID_DetailOrder, message: "Đã xác nhận thanh toán thành công" })
+                        // socket.emit("confirm_payment", { ID_DetailOrder, message: "Đã xác nhận thanh toán thành công" })
                     }
                     else {
                         toast.error(res.data.message)

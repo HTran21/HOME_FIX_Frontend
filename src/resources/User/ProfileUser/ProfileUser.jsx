@@ -4,18 +4,20 @@ import className from "classnames/bind";
 import styles from "./ProfileUser.module.scss";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faPaypal, faTwitter } from "@fortawesome/free-brands-svg-icons";
-import { Tabs, Space, Table, Tag, Drawer, Tooltip } from 'antd';
+import { Tabs, Space, Table, Tag, Drawer, Tooltip, DatePicker } from 'antd';
 import { faAnglesRight, faChevronRight, faMoneyBill, faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import moment from 'moment';
 const cx = className.bind(styles);
+import dayjs from 'dayjs';
 
 function ProfileUser() {
     const idUser = useSelector((state) => state.user.user.id);
 
     const [data, setData] = useState();
     const [listOrder, setListOrder] = useState();
+    const [dateArrray, setDateArray] = useState([])
 
     const fetchProfile = async () => {
         let getUser = await axios.get("http://localhost:3000/getProfile");
@@ -158,9 +160,12 @@ function ProfileUser() {
     const showDrawer = (record) => {
         setOpen(true);
         setRecord(record);
+        let formatDate = record.desireDate.split(",");
+        setDateArray(formatDate.map(date => dayjs(date)))
     };
     const onClose = () => {
         setOpen(false);
+        setDateArray('')
     };
 
 
@@ -388,7 +393,7 @@ function ProfileUser() {
                         <div className="row">
                             <div className="col-lg-6 col-md-6 col-sm-12">
                                 <div className="form-floating mb-3" >
-                                    <input
+                                    {/* <input
                                         type="text"
                                         className={`${cx("inputForm")} form-control`}
                                         id="floatingInput"
@@ -396,7 +401,16 @@ function ProfileUser() {
                                         readOnly defaultValue={moment(record?.desireDate).format("DD/MM/YYYY")} onChange={() => { }}
                                     />
 
-                                    <label htmlFor="floatingInput">Thời gian mong muốn</label>
+                                    <label htmlFor="floatingInput">Thời gian mong muốn</label> */}
+                                    <p className="fw-bold">Thời gian mong muốn</p>
+                                    <DatePicker
+                                        multiple
+                                        onChange={() => { }}
+                                        maxTagCount="responsive"
+                                        value={dateArrray}
+                                        size="large"
+                                        disabled
+                                    />
                                 </div>
 
                             </div>

@@ -87,7 +87,7 @@ function RepairerHomePage() {
                             </div>
                         )}
 
-                        {listWorkToDay.length > 0 && listWorkToDay?.every(work => (work.Order.status === 'S')) && (
+                        {listWorkToDay?.length > 0 && listWorkToDay?.every(work => (work.Order.status === 'S')) && (
                             <div className={cx("emptyWork")}>
                                 < img src="../public/icon/verified.png" alt="" />
                                 <p>Bạn đã hoàn thành công việc</p>

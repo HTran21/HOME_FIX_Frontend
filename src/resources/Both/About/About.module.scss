@@ -13,7 +13,7 @@
 .line {
     width: 60px;
     border: 1px solid#35A4DC;
-    margin: 10px auto;
+    margin: 5px auto;
 }
 
 
@@ -24,7 +24,7 @@
 
         .titleIntro {
             font-size: 34px;
-            font-weight: 500;
+            font-weight: bold;
             text-align: center;
         }
 
@@ -44,10 +44,14 @@
         text-align: center;
 
         .titleTheTeam {
-            font-size: 30px;
-            font-size: 400;
+            font-size: 34px;
+            font-weight: bold;
         }
     }
+}
+
+.cardPeople {
+    width: 230px;
 }
 
 .imageAppliance {
@@ -57,13 +61,23 @@
 }
 
 .profilePeople {
-    height: 270px;
+    height: 200px;
     overflow: hidden;
+    cursor: pointer;
+
+}
+
+.profilePeople:hover {
+    .imageProfile {
+        transform: scale(1.1);
+    }
 }
 
 .imageProfile {
-    width: 100%;
+    width: auto;
+    height: 100%;
     border-radius: 5px 5px 0px 0px;
+    transition: 0.5s;
 }
 
 .desProfile {
@@ -72,9 +86,10 @@
     border-radius: 0px 0px 5px 5px;
 
     .textDes {
-        font-size: 12px;
+        font-size: 14px;
         font-weight: bold;
         margin: 0;
+        color: #fff;
     }
 }
 

@@ -27,6 +27,7 @@ function Service() {
     }
     useEffect(() => {
         fetchData();
+        window.scrollTo(0, 0);
     }, [])
 
     const onChange = (key) => {

@@ -4,11 +4,27 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock, faMoneyBill1, faStar, faThumbsUp } from "@fortawesome/free-regular-svg-icons";
 import { faCalendarDay, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { Tabs } from 'antd';
+import { useEffect, useState } from "react";
 const { TabPane } = Tabs;
+import axios from '../../../service/customize_axios';
+import { Link } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
 function About() {
+
+    const [listRepairer, setListRepairer] = useState();
+    const featchListRepairer = () => {
+        axios.get("http://localhost:3000/repair/getAllRepairer")
+            .then(res => {
+                console.log(res.data)
+                setListRepairer(res.data)
+            })
+    }
+
+    useEffect(() => {
+        featchListRepairer()
+    }, [])
 
     const onChange = (key) => {
     };
@@ -54,7 +70,6 @@ function About() {
                         Tầm nhìn của bạn, Tương lai của chúng tôi
                     </div>
                     <div className={cx("desIntro")}>
-
                         Tầm nhìn của chúng tôi là trở thành đối tác tin cậy hàng đầu trong lĩnh vực sửa chữa và bảo dưỡng thiết bị gia dụng. Chúng tôi cam kết cung cấp dịch vụ chất lượng cao, hiệu quả và đổi mới, đồng hành cùng khách hàng trong mọi nhu cầu sửa chữa và bảo dưỡng, đem lại cuộc sống tiện lợi và an tâm.
                     </div>
                     <div className={cx("contentIntro")}>
@@ -64,11 +79,6 @@ function About() {
                             </div>
                             <div className="col">
                                 <Tabs defaultActiveKey="1" items={items} onChange={onChange}>
-                                    {items.map((item) => (
-                                        <TabPane key={item.key} tab={item.tab}>
-                                            {item.content}
-                                        </TabPane>
-                                    ))}
                                 </Tabs>
                             </div>
                         </div>
@@ -76,49 +86,25 @@ function About() {
                 </div>
                 <div className={cx("theTeam")}>
                     <div className={cx("titleTheTeam")}>
-                        NHÓM CHÚNG TÔI
+                        Nhóm chúng tôi
                     </div>
                     <div className={cx("line")}></div>
-                    <p>Chúng tôi là những người tuyệt vời</p>
-                    <div className={cx("listPeople")}>
-                        <div className="row">
-                            <div className="col-lg-3 col-md-4 col-sm-6 m-auto mt-3">
-                                <div className={cx("profilePeople")}>
-                                    <img className={cx("imageProfile")} src="../public/User/user1.jpg" alt="" />
+                    <p className="fw-bold">Chúng tôi là những người tuyệt vời</p>
+                    <div className={`${cx("listPeople")}`}>
+                        <div className="row m-auto">
+                            {listRepairer?.map((repairer, index) => (
+                                <div key={index} className="col-lg-3 col-md-4 col-sm-6 m-auto mt-3">
+                                    <div className={cx("cardPeople")}>
+                                        <div className={cx("profilePeople")}>
+                                            <img className={cx("imageProfile")} src={`http://localhost:3000/${repairer.avatarRepairer}`} alt="" />
+                                        </div>
+                                        <div className={cx("desProfile")}>
+                                            <h5 className="text-light">{repairer.usernameRepairer}</h5>
+                                            <p className={cx("textDes")}>{repairer.Service.nameService}</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className={cx("desProfile")}>
-                                    <h5 className="text-light">Alan Daunin</h5>
-                                    <p className={cx("textDes")}>TECHNICIEN</p>
-                                </div>
-                            </div>
-                            <div className="col-lg-3 col-md-4 col-sm-6 m-auto mt-3">
-                                <div className={cx("profilePeople")}>
-                                    <img className={cx("imageProfile")} src="../User/user2.jpg" alt="" />
-                                </div>
-                                <div className={cx("desProfile")}>
-                                    <h5 className="text-light">Alan Daunin</h5>
-                                    <p className={cx("textDes")}>TECHNICIEN</p>
-                                </div>
-                            </div>
-                            <div className="col-lg-3 col-md-4 col-sm-6 m-auto mt-3">
-                                <div className={cx("profilePeople")}>
-                                    <img className={cx("imageProfile")} src="../User/user3.jpg" alt="" />
-                                </div>
-                                <div className={cx("desProfile")}>
-                                    <h5 className="text-light">Alan Daunin</h5>
-                                    <p className={cx("textDes")}>CEO - FOUNDER</p>
-                                </div>
-                            </div>
-
-                            <div className="col-lg-3 col-md-4 col-sm-6 m-auto mt-3">
-                                <div className={cx("profilePeople")}>
-                                    <img className={cx("imageProfile")} src="../User/user4.jpg" alt="" />
-                                </div>
-                                <div className={cx("desProfile")}>
-                                    <h5 className="text-light">Alan Daunin</h5>
-                                    <p className={cx("textDes")}>CEO - FOUNDER</p>
-                                </div>
-                            </div>
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -129,12 +115,12 @@ function About() {
                                 <h2>Làm cho tất cả có ý nghĩa.</h2>
                                 <p className="pe-5">Chúng tôi làm mọi thứ trở nên ý nghĩa. Giúp cho bạn cảm thấy hài lòng về mọi thứ bạn mong muốn. Hãy đến với
                                     chúng tôi để trải nghiệm dịch vụ tuyệt vời</p>
-                                <button className={cx("btnReadMore")}>Đọc thêm</button>
+                                <Link to={"/service"} className="text-decoration-none"> <button className={cx("btnReadMore")}>Đọc thêm</button></Link>
                             </div>
                         </div>
-                        {/* <div className="col-lg-6 col-md-6 col-sm-12">
+                        <div className="col-lg-6 col-md-6 col-sm-12">
                             <iframe className="m-auto d-flex" width="560" height="315" src="https://www.youtube.com/embed/SIEaicTT7Ms?si=cSKYg4bzeu3FFD_I" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
-                        </div> */}
+                        </div>
                     </div>
                 </div>
             </section>

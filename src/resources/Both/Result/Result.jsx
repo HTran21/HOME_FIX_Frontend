@@ -52,9 +52,10 @@ function Result() {
         axios.get(`http://localhost:3000/payment/vnpay/vnpay_return?${signData}`)
             .then(res => {
                 if (res.data.success && res.data.payment) {
+                    socket.emit("confirm_payment", { message: "Đã xác nhận thanh toán thành công" })
                     toast.success(res.data.message)
                     setData(res.data.data)
-                    socket.emit("orderStatusChange")
+
                 } else {
                     toast.error("Thanh toán thất bại")
                 }

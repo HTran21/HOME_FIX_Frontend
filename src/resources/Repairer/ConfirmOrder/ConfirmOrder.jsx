@@ -167,7 +167,9 @@ function ConfirmOrder() {
 
     useEffect(() => {
 
-        socket.on("featchOrder", () => {
+        socket.on("confirm_payment_success", (data) => {
+            toast.success(data)
+            console.log("Data nhan tu socket")
             getDetailOrder();
         });
 

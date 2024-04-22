@@ -28,7 +28,7 @@ function ListOrder() {
     const fetchOrder = async () => {
         let getOrder = await axios.get("http://localhost:3000/order/user/" + idUser);
         setListOrder(getOrder.data.data);
-        console.log("Data", getOrder.data.data)
+        // console.log("Data", getOrder.data.data)
 
     }
 
