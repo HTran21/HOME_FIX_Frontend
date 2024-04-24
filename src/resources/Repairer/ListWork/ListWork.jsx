@@ -9,15 +9,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { AndroidOutlined, AppleOutlined } from '@ant-design/icons';
 import { Tabs, DatePicker, Modal, Badge } from 'antd';
 import axios from '../../../service/customize_axios';
-import { io } from "socket.io-client";
 import moment from 'moment';
 import { toast } from "react-toastify";
 const cx = classNames.bind(styles);
 
-const socket = io.connect("http://localhost:3000", {
-    transports: ["websocket"],
-});
-
+import socket from "../../../service/socketService";
 function ListWork() {
 
     const user = useSelector((state) => state.user.user);
@@ -66,8 +62,8 @@ function ListWork() {
         axios.get("http://localhost:3000/schedule/workRepair/" + id)
             .then(res => {
                 if (res.data) {
-                    setListworkAccept(res.data.DetailOrders)
-                    // console.log("Data", res.data.DetailOrders)
+                    setListworkAccept(res.data)
+                    console.log("Work accept", res.data)
                 }
 
                 // console.log("Date", res.data[0].DetailOrders)
@@ -95,9 +91,11 @@ function ListWork() {
     const items = [
         {
             key: '0',
-            label: <Badge dot={listWorkAccept && listWorkAccept.some(item => item.Order.status === 'W')}>
-                Duyệt công việc
-            </Badge>,
+            label:
+                <Badge dot={listWorkAccept && listWorkAccept.length > 0}>
+                    Duyệt công việc
+                </Badge>
+            ,
             children: (
 
                 <div className="row listWork">
@@ -106,7 +104,7 @@ function ListWork() {
                     </div> */}
                     {listWorkAccept && listWorkAccept.length > 0 ? (
                         listWorkAccept?.map((work, index) => (
-                            work.Order.status === 'W' ? (
+                            work.Order.status == 'P' ? (
                                 <div key={index} className={`col-lg-4 col-md-6 col-sm-12`} >
                                     <div className={cx("cardWork")} onClick={() => navigatoAccept(work)} >
                                         <div className="row" >
@@ -157,7 +155,7 @@ function ListWork() {
                                     <div className={cx("cardWork")} onClick={() => navigatoDetail(work)} >
                                         <div className="row" >
                                             <div className="col-6"><p className={cx("titleWorkContent")}>Sửa chữa {work.Order.Categori.nameCategories}</p></div>
-                                            <div className="col-6 text-end">{work.timeRepair} {dateSelect}</div>
+                                            <div className="col-6 text-end">{dateSelect}</div>
                                         </div>
                                         <div className="row">
                                             <div className={`${cx("contentWork")}`}>
@@ -202,7 +200,7 @@ function ListWork() {
                                     <div className={cx("cardWork")} onClick={() => navigatoTask(work)} >
                                         <div className="row" >
                                             <div className="col-6"><p className={cx("titleWorkContent")}>Sửa chữa {work.Order.Categori.nameCategories}</p></div>
-                                            <div className="col-6 text-end">{work.timeRepair} {dateSelect}</div>
+                                            <div className="col-6 text-end">{dateSelect}</div>
                                         </div>
                                         <div className="row">
                                             <div className={`${cx("contentWork")}`}>
@@ -248,7 +246,7 @@ function ListWork() {
                                     <div className={cx("cardWork")} onClick={() => navigatoConfirm(work)} >
                                         <div className="row" >
                                             <div className="col-6"><p className={cx("titleWorkContent")}>Sửa chữa {work.Order.Categori.nameCategories}</p></div>
-                                            <div className="col-6 text-end">{work.timeRepair} {dateSelect}</div>
+                                            <div className="col-6 text-end">{dateSelect}</div>
                                         </div>
                                         <div className="row">
                                             <div className={`${cx("contentWork")}`}>
@@ -290,7 +288,7 @@ function ListWork() {
                                     <div className={cx("cardWork")} >
                                         <div className="row" >
                                             <div className="col-6"><p className={cx("titleWorkContent")}>Sửa chữa {work.Order.Categori.nameCategories}</p></div>
-                                            <div className="col-6 text-end">{work.timeRepair} {dateSelect}</div>
+                                            <div className="col-6 text-end">{dateSelect}</div>
                                         </div>
                                         <div className="row">
                                             <div className={`${cx("contentWork")}`}>
@@ -354,7 +352,7 @@ function ListWork() {
         <>
             <div className="container">
                 <div className={cx("titlePage")}>
-                    <h4>Danh sách công việc</h4>
+                    <p className={cx("textTitle")}>Danh sách công việc</p>
 
                 </div>
                 <div className="contentPage">

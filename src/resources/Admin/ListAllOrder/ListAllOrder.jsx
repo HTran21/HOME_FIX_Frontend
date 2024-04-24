@@ -13,6 +13,11 @@ import { toast } from "react-toastify";
 const cx = className.bind(styles);
 import dayjs from 'dayjs';
 
+import { io } from "socket.io-client";
+
+const socket = io.connect("http://localhost:3000", {
+    transports: ["websocket"],
+});
 
 function ListAllOrder() {
 
@@ -182,6 +187,10 @@ function ListAllOrder() {
                     value: 'W'
                 },
                 {
+                    text: 'Đang duyệt',
+                    value: 'P'
+                },
+                {
                     text: 'Đã duyệt',
                     value: 'A'
                 },
@@ -195,14 +204,14 @@ function ListAllOrder() {
                 },
                 {
                     text: 'Đã hủy',
-                    value: 'D'
+                    value: 'C'
                 },
 
             ],
             onFilter: (value, record) => record.status.indexOf(value) === 0,
             render: (_, { status, index }) => {
-                let color = status === 'C' ? 'red' : (status === 'W' ? 'yellow' : (status === 'A' ? 'green' : (status === 'R' ? 'orange' : 'blue')));
-                let text = status === 'C' ? 'Đã hủy' : (status === 'W' ? 'Đang chờ' : (status === 'A' ? 'Đã duyệt' : (status === 'R' ? 'Đang sửa' : 'Hoàn thành')));
+                let color = status === 'C' ? 'red' : (status === 'W' ? 'yellow' : (status === 'A' ? 'green' : (status === 'R' ? 'orange' : (status === 'P' ? 'pink' : 'blue'))));
+                let text = status === 'C' ? 'Đã hủy' : (status === 'W' ? 'Đang chờ' : (status === 'A' ? 'Đã duyệt' : (status === 'R' ? 'Đang sửa' : (status === 'P' ? 'Đang duyệt' : 'Hoàn thành'))));
 
                 return (
                     <Tag key={index + 1} style={{ width: "75px", textAlign: "center" }} color={color} >
@@ -326,6 +335,16 @@ function ListAllOrder() {
     function handleTableChange(data) {
         setPagination(data);
     }
+
+    useEffect(() => {
+        socket.on("fetchNotification", () => {
+            fetchOrder();
+        })
+        socket.on("featchOrder", () => {
+            fetchOrder();
+        });
+    }, [socket])
+
 
 
     return (

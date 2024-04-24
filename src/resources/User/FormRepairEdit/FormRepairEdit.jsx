@@ -409,7 +409,7 @@ function FormRepairEdit() {
                                                     maxTagCount="responsive"
                                                     value={dateRepairArray}
                                                     size="large"
-                                                    disabledDate={(current) => current.isBefore(moment().add(1, 'day'))}
+                                                    disabledDate={(current) => current.isBefore(moment().add(0, 'day'))}
                                                 />
                                                 {errors && <p className={cx("errors")}>{errors.dateRepairArray}</p>}
                                             </div>

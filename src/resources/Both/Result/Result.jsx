@@ -10,6 +10,8 @@ import { toast } from "react-toastify";
 import { Button } from "antd";
 const cx = classNames.bind(styles);
 
+import socket from "../../../service/socketService";
+
 function Result() {
 
     const [searchParams] = useSearchParams();

@@ -1,17 +1,25 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import styles from "./LayoutRepairer.module.scss";
 import classNames from 'classnames/bind';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Button, Drawer, Modal } from 'antd';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarDays, faChartLine, faChartPie, faHouse, faRightFromBracket, faScrewdriverWrench, faToolbox, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faCalendarDays, faChartLine, faChartPie, faHouse, faRightFromBracket, faScrewdriverWrench, faToolbox, faUser } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import AuthenService from "../../../service/AuthService";
 import { doLogoutAction } from "../../../redux/reducer/userSlice";
+import axios from '../../../service/customize_axios';
+
+import { io } from "socket.io-client";
+
+const socket = io.connect("http://localhost:3000", {
+    transports: ["websocket"],
+});
+
 
 const cx = classNames.bind(styles);
 function LayoutRepairer() {
@@ -21,6 +29,7 @@ function LayoutRepairer() {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user.user);
     const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+
 
     const handleLogout = async () => {
         const res = await AuthenService.logoutApi();
@@ -32,6 +41,34 @@ function LayoutRepairer() {
         }
 
     };
+
+    const [listNotification, setListNotification] = useState()
+
+    const fetchNotification = () => {
+        if (user && user.role) {
+            let ID_User = user.id;
+            let role = user.role;
+            axios.get('http://localhost:3000/notification/userNotification', {
+                params: {
+                    ID_User: ID_User,
+                    role: role
+                }
+            })
+                .then(res => {
+                    // console.log(res.data)
+                    setListNotification(res.data)
+                })
+        }
+
+    }
+
+    const countUnreadNotifications = () => {
+        return listNotification?.filter(notification => notification.read === 'UR').length
+    }
+
+    useEffect(() => {
+        fetchNotification();
+    }, [])
 
     const [open, setOpen] = useState(false);
 
@@ -53,7 +90,24 @@ function LayoutRepairer() {
     };
     const handleCancel = () => {
         setIsModalOpen(false);
+
+
     };
+
+
+    useEffect(() => {
+        socket.on("fetchNotification", () => {
+            fetchNotification();
+            countUnreadNotifications();
+        })
+
+        socket.on("fetchNotificationAfterRead", () => {
+            fetchNotification();
+            countUnreadNotifications();
+            // console.log("Dem lai notication")
+        })
+    }, [socket])
+
     return (
         <>
             <Navbar expand="lg" className="bg-body-tertiary">
@@ -72,20 +126,6 @@ function LayoutRepairer() {
             <div>
                 <Outlet />
             </div>
-            {/* <Drawer title={<span className={cx("titleDrawer")}>MENU</span>}
-                closeIcon={null} onClose={onClose} open={open}
-                placement="left" width={300}
-            >
-                <div className={cx("listMenu")}>
-                    <div className={cx("item")}><FontAwesomeIcon className={cx("iconItem")} icon={faHouse} /><p className={cx("contentItem")}>Trang chủ</p></div>
-                    <div className={cx("item")}><FontAwesomeIcon className={cx("iconItem")} icon={faToolbox} /><p className={cx("contentItem")}>Công việc</p></div>
-                    <div className={cx("item")}><FontAwesomeIcon className={cx("iconItem")} icon={faCalendarDays} /><p className={cx("contentItem")}>Lịch làm việc</p></div>
-                    <div className={cx("item")}><FontAwesomeIcon className={cx("iconItem")} icon={faUser} /><p className={cx("contentItem")}>Thông tin</p></div>
-
-                    <div className={`${cx("item")} mt-5`}><FontAwesomeIcon className={cx("iconItem")} icon={faRightFromBracket} /><p className={cx("contentItem")}>Đăng xuất</p></div>
-                </div>
-
-            </Drawer> */}
             <Drawer title={
                 <div className={cx("infoRepairer")}>
                     <img className={cx("avatarProfile")} src={`http://localhost:3000/${user.avatar}`} alt="" />
@@ -101,6 +141,13 @@ function LayoutRepairer() {
                 <div className={cx("listMenu")}>
                     <Link to={"/repairer"} className="text-decoration-none"><div className={cx("item")} onClick={() => setOpen(false)}>
                         <FontAwesomeIcon className={cx("iconItem")} icon={faHouse} /><p className={cx("contentItem")}>Trang chủ</p></div>
+                    </Link>
+                    <Link to={"/repairer/notification"} className="text-decoration-none" onClick={() => setOpen(false)}>
+                        <div className={cx("item2")}>
+                            <FontAwesomeIcon className={cx("iconItem")} icon={faBell} />
+                            <p className={cx("contentItem")}>Thông báo</p>
+                            <div className={`${cx("countNotification")} ${countUnreadNotifications() == 0 ? 'd-none' : ''}`}>{countUnreadNotifications()}</div>
+                        </div>
                     </Link>
                     <Link to={"/repairer/work"} className="text-decoration-none" onClick={() => setOpen(false)}>
                         <div className={cx("item")}><FontAwesomeIcon className={cx("iconItem")} icon={faToolbox} /><p className={cx("contentItem")}>Công việc</p></div>
@@ -121,7 +168,7 @@ function LayoutRepairer() {
 
                 </div>
 
-            </Drawer>
+            </Drawer >
             <Modal title="Đăng xuất" open={isModalOpen} centered
                 onOk={handleLogout} onCancel={handleCancel}
                 okButtonProps={{ style: { backgroundColor: "red" } }}

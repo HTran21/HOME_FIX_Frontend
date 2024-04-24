@@ -9,11 +9,7 @@ import moment from 'moment';
 const cx = classNames.bind(styles);
 import { Button, TimePicker } from 'antd';
 
-import { io } from "socket.io-client";
-
-const socket = io.connect("http://localhost:3000", {
-    transports: ["websocket"],
-});
+import socket from "../../../service/socketService";
 
 const format = 'HH:mm';
 
@@ -86,6 +82,7 @@ function AcceptOrderRepairer() {
                             navigate("/repairer/work")
                             getDetailOrder()
                             socket.emit("orderStatusChange")
+                            socket.emit("newNotification")
                         }
                         else {
                             toast.error(res.data.message)

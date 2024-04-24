@@ -69,3 +69,57 @@
         display: none;
     }
 }
+
+.newMessage {
+    background-color: rgba(73, 158, 233, 0.208);
+    border-radius: 10px;
+    padding: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.newMessage:hover {
+    background-color: rgba(223, 215, 215, 0.115);
+}
+
+.message {
+    border-radius: 10px;
+    padding: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.message:hover {
+    background-color: rgba(73, 158, 233, 0.208);
+}
+
+.titleMessage {
+    font-weight: bold;
+    display: grid;
+    grid-template-columns: auto auto;
+
+    .timeMessage {
+        text-align: end;
+        font-weight: normal;
+        font-size: 13px;
+        color: #5f5f5f85;
+    }
+}
+
+.listNotification {
+    height: 400px;
+    overflow: auto;
+    width: 350px;
+}
+
+.emptyNotification {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    opacity: 0.75;
+
+    .imgEmptyNotification {
+        margin: auto auto 10px auto;
+    }
+
+}

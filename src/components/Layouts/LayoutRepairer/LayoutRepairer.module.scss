@@ -122,6 +122,45 @@
     }
 }
 
+
+.item2 {
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 30px auto 20px;
+    background-color: #cacfd0a8;
+    border-radius: 10px;
+    margin: 0px 0px 5px 0px;
+    cursor: pointer;
+
+    .iconItem {
+        font-size: 18px;
+        color: #000000;
+        margin: 2px;
+    }
+
+    .contentItem {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+        font-family: 'Reem Kufi', sans-serif;
+    }
+
+    .countNotification {
+        font-size: 15px;
+        font-weight: bold;
+        background-color: rgb(255, 0, 0);
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        color: #fff;
+        margin: auto;
+    }
+
+}
+
 .itemLogout {
     position: absolute;
     bottom: 20px;

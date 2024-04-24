@@ -28,7 +28,7 @@ function ListOrder() {
     const fetchOrder = async () => {
         let getOrder = await axios.get("http://localhost:3000/order/user/" + idUser);
         setListOrder(getOrder.data.data);
-        // console.log("Data", getOrder.data.data)
+        console.log("Data", getOrder.data.data)
 
     }
 
@@ -212,8 +212,8 @@ function ListOrder() {
             ],
             onFilter: (value, record) => record.status.indexOf(value) === 0,
             render: (_, { status, index }) => {
-                let color = status === 'C' ? 'red' : (status === 'W' ? 'yellow' : (status === 'A' ? 'green' : (status === 'R' ? 'orange' : 'blue')));
-                let text = status === 'C' ? 'Đã hủy' : (status === 'W' ? 'Đang chờ' : (status === 'A' ? 'Đã duyệt' : (status === 'R' ? 'Đang sửa' : 'Hoàn thành')));
+                let color = status === 'C' ? 'red' : (status === 'W' ? 'yellow' : (status === 'A' ? 'green' : (status === 'R' ? 'orange' : (status === 'P' ? 'pink' : 'blue'))));
+                let text = status === 'C' ? 'Đã hủy' : (status === 'W' ? 'Đang chờ' : (status === 'A' ? 'Đã duyệt' : (status === 'R' ? 'Đang sửa' : (status === 'P' ? 'Đang duyệt' : 'Hoàn thành'))));
 
                 return (
                     <Tag key={index + 1} style={{ width: "75px", textAlign: "center" }} color={color} >
@@ -234,15 +234,10 @@ function ListOrder() {
                         Đã thanh toán
                     </div>
                 ) : (
-                    DetailOrder?.paymentStatus === 'P' ? (
-                        <div>
-                            Chưa thanh toán
-                        </div>
-                    ) : (
-                        <div>
-                            Chưa duyệt
-                        </div>
-                    )
+
+                    <div>
+                        Chưa thanh toán
+                    </div>
                 )
             )
 
@@ -261,7 +256,7 @@ function ListOrder() {
                         <div>Tiền mặt</div>
                     ) : (
                         <div>
-                            Chưa duyệt
+                            Chưa thanh toán
                         </div>
                     )
                 )
@@ -340,13 +335,6 @@ function ListOrder() {
 
     const [pagination, setPagination] = useState({});
 
-    // function handleTableChange() {
-    //     requestToServer().then((data) => {
-    //         const newPagination = { ...pagination };
-    //         newPagination.total = your_value;
-    //         setPagination(newPagination);
-    //     });
-    // }
     function handleTableChange(data) {
         setPagination(data);
     }
@@ -535,7 +523,7 @@ function ListOrder() {
 
                         </div>
                     </div>
-                    {record && record.DetailOrder ? (
+                    {record && record.DetailOrder && record?.status !== 'P' ? (
                         <div className={cx("inforRepair")}>
                             <h5 className="mb-2">Thông tin Sửa chữa</h5>
                             <div className="row">
@@ -620,8 +608,8 @@ function ListOrder() {
                         <div className={`${cx("status")} ${record && record?.status === 'W' ? 'text-warning border-warning' :
                             (record?.status === 'A' ? 'text-success border-success' :
                                 (record?.status === 'R' ? 'text-warning text-opacity-50 border-warning-subtle' :
-                                    (record?.status === 'S' ? 'text-primary border-primary' : 'text-danger border-danger')))}`}>
-                            {record && record?.status === 'W' ? 'Đang chờ' : (record?.status == 'A' ? 'Đã duyệt' : (record?.status === 'R' ? 'Đang sửa' : (record?.status === 'S' ? 'Hoàn thành' : 'Đã hủy')))}
+                                    (record?.status === 'S' ? 'text-primary border-primary' : (record?.status === 'P' ? 'text-danger border-danger-subtle' : 'text-danger border-danger'))))}`}>
+                            {record && record?.status === 'W' ? 'Đang chờ' : (record?.status == 'A' ? 'Đã duyệt' : (record?.status === 'R' ? 'Đang sửa' : (record?.status === 'S' ? 'Hoàn thành' : (record?.status === 'P' ? 'Đang duyệt' : 'Đã hủy'))))}
                         </div>
                     </div>
                 </div>

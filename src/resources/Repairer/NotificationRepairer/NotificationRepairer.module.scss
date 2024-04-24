@@ -1,0 +1,78 @@
+.titlePage {
+    .textTitle {
+        font-size: 26px;
+        text-align: center;
+        font-family: 'Reem Kufi', sans-serif;
+        margin: 5px 0px;
+
+    }
+}
+
+.detailNotification {
+    border: 1px solid rgba(216, 212, 212, 0.358);
+    border-radius: 10px;
+    padding: 10px 15px;
+    display: grid;
+    grid-template-columns: 30px auto;
+    margin: 5px 0px;
+    cursor: pointer;
+
+
+    .iconNotification {
+        font-size: 20px;
+        margin: auto 0px;
+        color: rgb(16, 175, 184);
+    }
+
+    .cotentNotification {
+        .titleNotification {
+            font-size: 15px;
+            font-weight: bold;
+        }
+    }
+}
+
+.detailNotification:hover {
+    background-color: rgba(223, 215, 215, 0.115);
+}
+
+.active {
+    background-color: rgba(73, 158, 233, 0.208);
+}
+
+.emptyNotification {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    opacity: 0.75;
+    margin-top: 50px;
+
+    .imgEmptyNotification {
+        margin: auto auto 10px auto;
+    }
+
+    .titleMessage {
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+}
+
+.titleMessageEmpty {
+    font-weight: bold;
+    font-size: 16px;
+    font-family: 'Reem Kufi', sans-serif;
+}
+
+.titleMessage {
+    font-weight: bold;
+    display: grid;
+    grid-template-columns: auto auto;
+
+    .timeMessage {
+        text-align: end;
+        font-weight: normal;
+        font-size: 13px;
+        color: #5f5f5f85;
+    }
+}

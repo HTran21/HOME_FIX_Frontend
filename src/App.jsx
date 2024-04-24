@@ -66,6 +66,7 @@ import ConfirmOrder from './resources/Repairer/ConfirmOrder/ConfirmOrder';
 import Statistic from './resources/Repairer/Statistic/Statistic';
 import AcceptOrderRepairer from './resources/Repairer/AcceptOrderRepairer/AcceptOrderRepairer';
 import SelectPayment from './resources/Repairer/SelectPayment/SelectPayment';
+import NotificationRepairer from './resources/Repairer/NotificationRepairer/NotificationRepairer';
 
 import Loading from './components/Loading/Loading';
 import OnTopButton from './components/OnTopButton/OnTopButton';
@@ -374,6 +375,10 @@ function App() {
         {
           path: "profile/edit",
           element: <EditProfileRepairer />
+        },
+        {
+          path: "notification",
+          element: <NotificationRepairer />
         },
 
       ]

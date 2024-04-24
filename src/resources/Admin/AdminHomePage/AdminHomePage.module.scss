@@ -10,7 +10,7 @@
     padding: 5px 5px 5px 15px;
     cursor: pointer;
     transition: 0.5s;
-    background-color: #dedede3c;
+    background-color: #eeeeee43;
 
 }
 
@@ -46,43 +46,43 @@
 }
 
 .cardBody.violet {
-    border-left: 4px solid rgba(202, 131, 204, 0.564);
+    border-left: 4px solid rgb(202, 131, 204);
     color: #fff;
 
     .iconCard {
-        color: rgba(202, 131, 204, 0.564);
+        color: rgb(202, 131, 204);
         background-color: rgba(236, 189, 239, 0.77);
     }
 
 }
 
 .cardBody.blue {
-    border-left: 4px solid rgba(131, 198, 204, 0.564);
+    border-left: 4px solid rgb(131, 198, 204);
     color: #fff;
 
     .iconCard {
-        color: rgba(131, 198, 204, 0.564);
+        color: rgb(131, 198, 204);
         background-color: rgba(186, 233, 239, 0.564);
     }
 
 }
 
 .cardBody.yellow {
-    border-left: 4px solid rgba(205, 195, 82, 0.564);
+    border-left: 4px solid rgb(255, 243, 115);
     color: #fff;
 
     .iconCard {
-        color: rgba(229, 219, 25, 0.667);
+        color: rgb(229, 219, 25);
         background-color: rgba(245, 243, 187, 0.563);
     }
 }
 
 .cardBody.darkblue {
-    border-left: 4px solid rgba(55, 96, 209, 0.564);
+    border-left: 4px solid rgb(55, 96, 209);
     color: #fff;
 
     .iconCard {
-        color: rgba(30, 110, 201, 0.564);
+        color: rgb(30, 110, 201);
         background-color: rgba(188, 219, 245, 0.564);
     }
 

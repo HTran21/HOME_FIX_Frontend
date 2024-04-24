@@ -53,7 +53,7 @@ function ProfileRepairer() {
                                             src={`http://localhost:3000/${user?.avatar}`}
                                             alt="Generic placeholder image"
                                             className="img-fluid img-thumbnail mt-4 mb-2"
-                                            style={{ width: 150, zIndex: 1 }}
+                                            style={{ width: 150, zIndex: 1, height: "130px", objectFit: "cover" }}
                                         />
                                         <Link to={"/repairer/profile/edit"} className="btn btn-outline-dark text-decoration-none" data-mdb-ripple-color="dark"
                                             style={{ zIndex: 1 }}>

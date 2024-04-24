@@ -10,6 +10,12 @@ import { DatePicker } from 'antd';
 
 const cx = classNames.bind(styles);
 
+import { io } from "socket.io-client";
+
+const socket = io.connect("http://localhost:3000", {
+    transports: ["websocket"],
+});
+
 function FormRepair() {
 
     const idUser = useSelector((state) => state.user.user.id);
@@ -146,6 +152,7 @@ function FormRepair() {
                     }
                     else {
                         toast.success(res.data.message)
+                        socket.emit("newNotification")
                         setFullName('');
                         setAddress('');
                         setPhone('');
@@ -376,7 +383,7 @@ function FormRepair() {
                                                     size="large"
                                                     placeholder="Chọn ngày mong muốn"
 
-                                                    disabledDate={(current) => current.isBefore(moment().add(1, 'day'))}
+                                                    disabledDate={(current) => current.isBefore(moment().add(0, 'day'))}
                                                 />
                                                 {errors && <p className={cx("errors")}>{errors.dateRepairArray}</p>}
                                             </div>

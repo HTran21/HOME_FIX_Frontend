@@ -12,12 +12,7 @@ import moment from 'moment';
 import { toast } from "react-toastify";
 const cx = className.bind(styles);
 
-import { io } from "socket.io-client";
-
-const socket = io.connect("http://localhost:3000", {
-    transports: ["websocket"],
-});
-
+import socket from "../../../service/socketService";
 
 function Chat() {
 

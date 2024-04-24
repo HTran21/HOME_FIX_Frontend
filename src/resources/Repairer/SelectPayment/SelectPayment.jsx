@@ -11,12 +11,7 @@ import axios from '../../../service/customize_axios';
 import { faArrowLeft, faMagnifyingGlass, faTriangleExclamation, faXmark } from "@fortawesome/free-solid-svg-icons";
 const cx = classNames.bind(styles);
 
-import { io } from "socket.io-client";
-
-const socket = io.connect("http://localhost:3000", {
-    transports: ["websocket"],
-});
-
+import socket from "../../../service/socketService";
 
 function SelectPayment() {
     const navigate = useNavigate();
@@ -54,6 +49,8 @@ function SelectPayment() {
                             navigate(`/repairer/confirm/` + id)
                             // socket.emit("confirm_payment", { id, message: "Đã xác nhận thanh toán thành công" })
                             socket.emit("orderStatusChange")
+                            socket.emit("newNotification")
+
                         }, 1500)
 
                     }
@@ -61,7 +58,6 @@ function SelectPayment() {
                         toast.error(res.data.message)
                     }
                 })
-
         }
     }
 

@@ -12,12 +12,13 @@ import moment from 'moment';
 import { toast } from "react-toastify";
 const cx = className.bind(styles);
 
-import { io } from "socket.io-client";
+// import { io } from "socket.io-client";
 
-const socket = io.connect("http://localhost:3000", {
-    transports: ["websocket"],
-});
+// const socket = io.connect("http://localhost:3000", {
+//     transports: ["websocket"],
+// });
 
+import socket from "../../../service/socketService";
 
 function ChatAdmin() {
 
@@ -149,7 +150,7 @@ function ChatAdmin() {
 
     }, [socket])
 
-    console.log(newMessage)
+    // console.log(newMessage)
 
     const handleInputFocus = () => {
         setNewMessage(false);

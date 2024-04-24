@@ -11,12 +11,7 @@ import axios from '../../../service/customize_axios';
 import { faArrowLeft, faChevronRight, faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
 const cx = classNames.bind(styles);
 
-import { io } from "socket.io-client";
-
-const socket = io.connect("http://localhost:3000", {
-    transports: ["websocket"],
-});
-
+import socket from "../../../service/socketService";
 
 function ConfirmOrder() {
     const navigate = useNavigate();
@@ -169,8 +164,9 @@ function ConfirmOrder() {
 
         socket.on("confirm_payment_success", (data) => {
             toast.success(data)
-            console.log("Data nhan tu socket")
             getDetailOrder();
+            console.log("Data nhan tu socket")
+
         });
 
     }, [socket])

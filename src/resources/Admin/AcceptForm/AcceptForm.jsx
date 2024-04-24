@@ -166,6 +166,8 @@ function AcceptForm() {
                         toast.success("Duyệt đơn sửa chữa thành công");
                         navigate("/admin/order/");
                         socket.emit("orderStatusChange")
+                        socket.emit("newNotification")
+
                     }
                 })
         } else {
@@ -300,7 +302,7 @@ function AcceptForm() {
                                                     maxTagCount="responsive"
                                                     value={dateRepairArray}
                                                     size="large"
-                                                    disabledDate={(current) => current.isBefore(moment().add(3, 'day'))} disabled
+                                                    disabledDate={(current) => current.isBefore(moment().add(1, 'day'))} disabled
                                                 />
                                             </div>
                                         </div>
@@ -318,7 +320,7 @@ function AcceptForm() {
 
                                                 <DatePicker onChange={onChange} style={{ width: "100%", padding: "16px" }}
                                                     placeholder="Chọn ngày sửa chữa" size="large"
-                                                    disabledDate={(current) => current.isBefore(moment().add(1, 'day'))}
+                                                    disabledDate={(current) => current.isBefore(moment().add(0, 'day'))}
                                                 />
                                             </div>
                                         </div>

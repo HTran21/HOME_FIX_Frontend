@@ -6,6 +6,7 @@ import GlobalStyles from './components/GlobalStyles/index.js';
 
 import { Provider, useDispatch } from 'react-redux';
 import { store } from './redux/store/store.js';
+import socket from './service/socketService.js';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 
