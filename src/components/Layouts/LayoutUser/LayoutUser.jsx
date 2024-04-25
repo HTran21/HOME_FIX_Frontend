@@ -131,6 +131,26 @@ const LayoutUser = () => {
         }
     }
 
+
+    const linkNotification = (type) => {
+        if (type === 'order_new') {
+            setOpen(false)
+            return navigate('/user/order');
+        } else if (type === 'order_approved') {
+            setOpen(false)
+            return navigate('/user/order');
+        } else if (type === 'order_completed') {
+            setOpen(false)
+            return navigate('/user/order');
+        } else if (type === 'payment_request') {
+            setOpen(false)
+            return navigate('/user/order');
+        } else if (type === 'order_approved_request') {
+            return 'Yêu cầu duyệt đơn sửa chữa'
+        }
+    }
+
+
     const [open, setOpen] = useState(false)
 
     const handleChangeOpen = (newOpen) => {
@@ -174,10 +194,7 @@ const LayoutUser = () => {
 
             ) : (
                 listNotification?.map((notification, index) => (
-                    <div className={`${cx(`${notification.read === 'UR' ? 'newMessage' : 'message'}`)} m-1`} key={index}
-                        onClick={(e) => {
-                            e && e.preventDefault && e.preventDefault();
-                        }}>
+                    <div onClick={() => linkNotification(notification.typeNotification)} className={`${cx(`${notification.read === 'UR' ? 'newMessage' : 'message'}`)} m-1`} key={index}>
                         <div className='p-1'>
                             <div className={cx("titleMessage")}>
                                 {typeNotification(notification.typeNotification)}
@@ -191,6 +208,7 @@ const LayoutUser = () => {
                             </div>
                         </div>
                     </div>
+
                 ))
             )}
         </div>
@@ -210,6 +228,7 @@ const LayoutUser = () => {
             fetchNotification();
         })
     }, [socket])
+
 
 
     return (
@@ -246,7 +265,7 @@ const LayoutUser = () => {
                             </Dropdown>
                         </div>
                     </Header>
-                    <Content>
+                    <Content style={{ backgroundColor: "#fff" }}>
                         <div>
                             <Outlet />
                         </div>

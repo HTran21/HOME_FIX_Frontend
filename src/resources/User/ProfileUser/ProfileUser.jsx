@@ -179,7 +179,7 @@ function ProfileUser() {
     return (
         <div className="containerPage">
             <div className="contentPage">
-                <section style={{ backgroundColor: "#eee" }}>
+                <section>
                     <div className="container mt-2">
                         <div className="row">
                             <div className="col-lg-4">

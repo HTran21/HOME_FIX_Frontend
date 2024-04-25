@@ -42,11 +42,11 @@ function ListOrder() {
         let cancelCount = 0;
 
         listOrder?.forEach((order) => {
-            if (order.status === 'W') {
+            if (order.status === 'W' || order.state === 'P') {
                 awaitCount++;
             } else if (order.status === 'S') {
                 successCount++;
-            } else {
+            } else if (order.status === 'C') {
                 cancelCount++;
             }
         });
@@ -103,11 +103,14 @@ function ListOrder() {
 
     const columns = [
         {
-            title: 'STT',
-            dataIndex: 'key',
+            title: 'ID',
+            dataIndex: 'id',
             key: 'id',
             width: 60,
-            render: (text, record, index) => <a>{index + 1}</a>,
+            sorter: (a, b) => {
+                return a.id - b.id;
+            },
+            // render: (text, record, index) => <a>{index + 1}</a>,
         },
         {
             title: 'Họ tên',

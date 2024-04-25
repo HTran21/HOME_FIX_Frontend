@@ -23,7 +23,7 @@ function ListWork() {
     const [recored, setRecord] = useState();
     const [show, setShow] = useState(true);
     const onChange = (date, dateString) => {
-        console.log(dateString);
+        // console.log(dateString);
         if (dateString && dateString.trim() === '') {
             setDateSelect(moment().format('YYYY-MM-DD'))
         }
@@ -48,9 +48,11 @@ function ListWork() {
                 }
             })
                 .then(res => {
-                    if (res.data) {
-                        setListworkToDay(res.data.DetailOrders)
-                        // console.log("Data", res.data.DetailOrders)
+                    if (res.data.success) {
+                        setListworkToDay(res.data.listWork.DetailOrders)
+                        // console.log("Data", res.data.listWork.DetailOrders)
+                    } else {
+                        setListworkToDay('')
                     }
 
                     // console.log("Date", res.data[0].DetailOrders)
@@ -108,7 +110,7 @@ function ListWork() {
                                 <div key={index} className={`col-lg-4 col-md-6 col-sm-12`} >
                                     <div className={cx("cardWork")} onClick={() => navigatoAccept(work)} >
                                         <div className="row" >
-                                            <div className="col-6"><p className={cx("titleWorkContent")}>Sửa chữa {work.Order.Categori.nameCategories}</p></div>
+                                            <div className="col-6">ID: {work.ID_Order} <p className={cx("titleWorkContent")}>Sửa chữa {work.Order.Categori.nameCategories}</p></div>
                                             <div className="col-6 text-end">{work.timeRepair} {dateSelect}</div>
                                         </div>
                                         <div className="row">
@@ -154,7 +156,7 @@ function ListWork() {
                                 <div key={index} className={`col-lg-4 col-md-6 col-sm-12`} >
                                     <div className={cx("cardWork")} onClick={() => navigatoDetail(work)} >
                                         <div className="row" >
-                                            <div className="col-6"><p className={cx("titleWorkContent")}>Sửa chữa {work.Order.Categori.nameCategories}</p></div>
+                                            <div className="col-6">ID: {work.ID_Order} <p className={cx("titleWorkContent")}>Sửa chữa {work.Order.Categori.nameCategories}</p></div>
                                             <div className="col-6 text-end">{dateSelect}</div>
                                         </div>
                                         <div className="row">
@@ -199,7 +201,7 @@ function ListWork() {
                                 <div key={index} className={`col-lg-4 col-md-6 col-sm-12`} >
                                     <div className={cx("cardWork")} onClick={() => navigatoTask(work)} >
                                         <div className="row" >
-                                            <div className="col-6"><p className={cx("titleWorkContent")}>Sửa chữa {work.Order.Categori.nameCategories}</p></div>
+                                            <div className="col-6">ID: {work.ID_Order} <p className={cx("titleWorkContent")}>Sửa chữa {work.Order.Categori.nameCategories}</p></div>
                                             <div className="col-6 text-end">{dateSelect}</div>
                                         </div>
                                         <div className="row">
@@ -245,7 +247,7 @@ function ListWork() {
                                 <div key={index} className={`col-lg-4 col-md-6 col-sm-12`} >
                                     <div className={cx("cardWork")} onClick={() => navigatoConfirm(work)} >
                                         <div className="row" >
-                                            <div className="col-6"><p className={cx("titleWorkContent")}>Sửa chữa {work.Order.Categori.nameCategories}</p></div>
+                                            <div className="col-6">ID: {work.ID_Order} <p className={cx("titleWorkContent")}>Sửa chữa {work.Order.Categori.nameCategories}</p></div>
                                             <div className="col-6 text-end">{dateSelect}</div>
                                         </div>
                                         <div className="row">
@@ -287,7 +289,7 @@ function ListWork() {
                                 <div key={index} className={`col-lg-4 col-md-6 col-sm-12`} onClick={() => navigatoConfirm(work)}>
                                     <div className={cx("cardWork")} >
                                         <div className="row" >
-                                            <div className="col-6"><p className={cx("titleWorkContent")}>Sửa chữa {work.Order.Categori.nameCategories}</p></div>
+                                            <div className="col-6">ID: {work.ID_Order} <p className={cx("titleWorkContent")}>Sửa chữa {work.Order.Categori.nameCategories}</p></div>
                                             <div className="col-6 text-end">{dateSelect}</div>
                                         </div>
                                         <div className="row">

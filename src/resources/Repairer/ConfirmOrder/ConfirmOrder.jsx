@@ -165,6 +165,7 @@ function ConfirmOrder() {
         socket.on("confirm_payment_success", (data) => {
             toast.success(data)
             getDetailOrder();
+            fetchListTask()
             console.log("Data nhan tu socket")
 
         });
@@ -188,7 +189,7 @@ function ConfirmOrder() {
                         <div>
                             <Button onClick={() => showModal()} className={`d-inline ${data?.paymentStatus === 'P' ? 'd-none' : ''}`} type="primary" >Thêm thao tác</Button>
                         </div>
-                        <p className="p-2 ms-auto">Thanh toán: {taskRepair?.paymentStatus == 'UP' ? 'Chưa thanh toán' : (taskRepair?.paymentStatus == 'W' ? 'Chờ xác nhận' : 'Đã thanh toán')}</p>
+                        <p className="p-2 ms-auto">Thanh toán: {taskRepair?.paymentStatus == 'UP' ? 'Chưa thanh toán' : (taskRepair?.paymentStatus == 'P' ? 'Đã thanh toán' : 'Chờ xác nhận')}</p>
 
                     </div>
                     <hr className="m-1" style={{ color: "#c5c0c0", opacity: "1" }} />

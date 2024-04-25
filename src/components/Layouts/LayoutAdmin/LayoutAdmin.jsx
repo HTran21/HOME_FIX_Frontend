@@ -76,6 +76,7 @@ const itemsSlider = [
     ]),
     getItem('Sửa chữa', 'sub5', <img src="../../icon/car-repair.png" style={{ width: "15px" }} className={cx("iconSidebar")} alt="" />, [
         getItem(<Link to="/admin/order" className='text-decoration-none'>Danh sách</Link>, '11'),
+        getItem(<Link to="/admin/order/feedback" className='text-decoration-none'>Phản hồi</Link>, '12'),
 
     ]),
     getItem(<Link to="/admin/calendar" className='text-decoration-none'>Lịch làm việc</Link>, '14', <CalendarOutlined />),
@@ -152,6 +153,24 @@ const LayoutAdmin = () => {
         } else if (type === 'order_approved_request') {
             return 'Yêu cầu duyệt đơn sửa chữa'
         }
+        else if (type === 'order_feedback') {
+            return 'Phản hồi đơn sửa chữa'
+        }
+    }
+
+    const linkNotification = (type) => {
+        if (type === 'order_new') {
+            setOpen(false)
+            return '/admin/order';
+        } else if (type === 'order_approved') {
+            return 'Đơn sửa chữa đã duyệt';
+        } else if (type === 'order_completed') {
+            return 'Đơn sửa chữa hoàn thành';
+        } else if (type === 'payment_request') {
+            return 'Yêu cầu thanh toán';
+        } else if (type === 'order_approved_request') {
+            return 'Yêu cầu duyệt đơn sửa chữa'
+        }
     }
 
     const [open, setOpen] = useState(false)
@@ -197,23 +216,22 @@ const LayoutAdmin = () => {
 
             ) : (
                 listNotification?.map((notification, index) => (
-                    <div className={`${cx(`${notification.read === 'UR' ? 'newMessage' : 'message'}`)} m-1`} key={index}
-                        onClick={(e) => {
-                            e && e.preventDefault && e.preventDefault();
-                        }}>
-                        <div className='p-1'>
-                            <div className={cx("titleMessage")}>
-                                {typeNotification(notification.typeNotification)}
-                                <div className={cx("timeMessage")}>
-                                    <FontAwesomeIcon icon={faClock} className='me-1' />
-                                    {moment(notification.createdAt).format("HH:mm DD/MM/YYYY")}
+                    <Link key={index} to={"/admin/order"} className='text-decoration-none text-dark'>
+                        <div onClick={() => linkNotification(notification.typeNotification)} className={`${cx(`${notification.read === 'UR' ? 'newMessage' : 'message'}`)} m-1`} >
+                            <div className='p-1'>
+                                <div className={cx("titleMessage")}>
+                                    {typeNotification(notification.typeNotification)}
+                                    <div className={cx("timeMessage")}>
+                                        <FontAwesomeIcon icon={faClock} className='me-1' />
+                                        {moment(notification.createdAt).format("HH:mm DD/MM/YYYY")}
+                                    </div>
+                                </div>
+                                <div className={cx("contentMewssage")}>
+                                    {notification.contentNotification}
                                 </div>
                             </div>
-                            <div className={cx("contentMewssage")}>
-                                {notification.contentNotification}
-                            </div>
                         </div>
-                    </div>
+                    </Link>
                 ))
             )}
         </div>

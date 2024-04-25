@@ -14,7 +14,7 @@ const socket = io.connect("http://localhost:3000", {
     transports: ["websocket"],
 });
 
-import { faArrowLeft, faClipboard, faClock, faMagnifyingGlass, faTriangleExclamation, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faClipboard, faClock, faMagnifyingGlass, faMessage, faTriangleExclamation, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 const cx = classNames.bind(styles);
 
@@ -90,6 +90,8 @@ function NotificationRepairer() {
             return 'Yêu cầu thanh toán';
         } else if (type === 'order_approved_request') {
             return 'Yêu cầu duyệt đơn'
+        } else if (type === 'order_feedback_success') {
+            return 'Phản hồi được duyệt'
         }
     }
 
@@ -119,7 +121,7 @@ function NotificationRepairer() {
                                     <div key={index} className="col-lg-4 col-md-6 col-sm-12">
                                         <div className={cx("detailNotification", `${notification.read === 'UR' ? 'active' : ''}`)}>
                                             <div className={cx("iconNotification")}>
-                                                <FontAwesomeIcon icon={faClipboard} style={{ color: "#e6b400", }} />
+                                                <FontAwesomeIcon icon={notification.typeNotification === 'order_approved_request' ? faClipboard : faMessage} style={{ color: `${notification.typeNotification === 'order_approved_request' ? '#e6b400' : '#8DECB4'}` }} />
                                             </div>
                                             <div className={cx("cotentNotification")}>
                                                 <div className={cx("titleMessage")}>

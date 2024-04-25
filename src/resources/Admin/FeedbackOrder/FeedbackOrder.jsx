@@ -1,11 +1,11 @@
 import axios from "../../../service/customize_axios";
 import { useEffect, useState } from "react";
 import className from "classnames/bind";
-import styles from "./ListAllOrder.module.scss";
+import styles from "./FeedbackOrder.module.scss";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faTwitter } from "@fortawesome/free-brands-svg-icons";
-import { Tabs, Space, Table, Tag, Drawer, Modal, DatePicker } from 'antd';
-import { faChevronRight, faCircleCheck, faCircleUser, faCircleXmark, faClockRotateLeft, faDesktop, faPenToSquare, faScrewdriverWrench, faTrash, faTrashCan, faWallet } from "@fortawesome/free-solid-svg-icons";
+import { Tabs, Space, Table, Tag, Drawer, Modal, DatePicker, Popover } from 'antd';
+import { faChevronRight, faCircleCheck, faCircleUser, faCircleXmark, faClockRotateLeft, faDesktop, faMessage, faPenToSquare, faScrewdriverWrench, faTrash, faTrashCan, faWallet } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import moment from 'moment';
@@ -19,20 +19,21 @@ const socket = io.connect("http://localhost:3000", {
     transports: ["websocket"],
 });
 
-function ListAllOrder() {
+function FeedbackOrder() {
 
     const idUser = useSelector((state) => state.user.user.id);
     const [data, setData] = useState();
-    const [listOrder, setListOrder] = useState();
+    const [listFeedback, setListFeedback] = useState();
     const [dateArrray, setDateArray] = useState([])
-    const fetchOrder = async () => {
-        let getOrder = await axios.get("http://localhost:3000/order/getAllOrder");
-        setListOrder(getOrder.data.data);
+    const fetchFeedback = async () => {
+        let getFeedback = await axios.get("http://localhost:3000/feedback/getAll");
+        console.log(getFeedback.data)
+        setListFeedback(getFeedback.data)
     }
 
 
     useEffect(() => {
-        fetchOrder();
+        fetchFeedback();
     }, [])
 
     const overView = () => {
@@ -40,12 +41,12 @@ function ListAllOrder() {
         let successCount = 0;
         let cancelCount = 0;
 
-        listOrder?.forEach((order) => {
-            if (order.status === 'W') {
+        listFeedback?.forEach((feedback) => {
+            if (feedback.feedbackStatus === 'W') {
                 awaitCount++;
-            } else if (order.status === 'S') {
+            } else if (feedback.feedbackStatus === 'S') {
                 successCount++;
-            } else if (order.status === 'C') {
+            } else if (feedback.feedbackStatus === 'C') {
                 cancelCount++;
             }
         });
@@ -59,13 +60,13 @@ function ListAllOrder() {
 
     const cardData = [
         {
-            title: 'TỔNG ĐƠN',
-            number: `${listOrder?.length}`,
-            icon: faScrewdriverWrench,
+            title: 'PHẢN HỒI',
+            number: `${listFeedback?.length}`,
+            icon: faMessage,
             color: 'blue',
         },
         {
-            title: 'HOÀN THÀNH',
+            title: 'ĐÃ DUYỆT',
             number: `${successCount.successCount}`,
             icon: faCircleCheck,
             color: 'green',
@@ -77,12 +78,27 @@ function ListAllOrder() {
             color: 'yellow',
         },
         {
-            title: 'ĐÃ HỦY',
+            title: 'TỪ CHỐI',
             number: `${cancleCount.cancelCount}`,
             icon: faTrashCan,
             color: 'red',
         },
     ];
+
+    function Card({ title, number, icon, color }) {
+        return (
+            <div className={cx("cardBody", color)}>
+                <div className={cx("iconCard")}>
+                    <FontAwesomeIcon icon={icon} />
+                </div>
+                <div className={cx("contentOverview")}>
+                    <p className={cx("numberCard")}>{number}</p>
+                    <p className={cx("titleCard")}>{title}</p>
+                </div>
+            </div>
+        );
+    }
+
 
     function Card({ title, number, icon, color }) {
         return (
@@ -109,112 +125,42 @@ function ListAllOrder() {
             sorter: (a, b) => {
                 return a.id - b.id;
             },
-            // render: (text, record, index) => <a>{index + 1}</a>,
+            align: 'center'
+
         },
         {
-            title: 'Họ tên',
-            dataIndex: 'fullName',
-            key: 'fullName',
+            title: 'ID_Order',
+            dataIndex: 'ID_Order',
+            key: 'ID_Order',
             fixed: 'left',
+            width: 100,
+            align: 'center'
         },
+        {
+            title: 'Người gửi',
+            key: 'usernameRepairer',
+            align: 'center',
+            render: (_, record, index) => {
 
-        {
-            title: 'Dịch vụ',
-            dataIndex: 'Categori',
-            key: 'nameService',
-            render: (_, { Categori, index }) => {
-                return (
-                    <div key={index + 1} >
-                        {Categori.Service.nameService}
-                    </div>
-                )
-            }
-        },
-        {
-            title: 'Loại thiết bị',
-            dataIndex: "Categori",
-            key: 'nameCategories',
-            render: (_, { Categori, index }) => {
-                return (
-                    <div key={index + 1}>
-                        {Categori.nameCategories}
-                    </div>
-                )
-            }
-        },
-        {
-            title: 'Ngày đăng ký',
-            dataIndex: 'createdAt',
-            key: 'createdAt',
-            defaultSortOrder: 'desc',
-            sorter: (a, b) => {
-                const dateA = new Date(a.createdAt);
-                const dateB = new Date(b.createdAt);
+                let text = record.accountType === 'RP' ? `${record.Order.DetailOrder.Schedule.Repairer.usernameRepairer}` : (record.accountType === 'KH' ? `${record.Order.User.username}` : 'Khác');
 
-                return dateA - dateB;
+                return (
+                    <div key={index}>
+                        {text}
+                    </div>
+
+                );
             },
-            render: (_, { createdAt, index }) => {
-                return (
-                    <div key={index + 1}>
-                        {moment(createdAt).format('DD/MM/YYYY')}
-                    </div>
-                )
-            }
         },
-        // {
-        //     title: 'Ngày mong muốn',
-        //     dataIndex: 'desireDate',
-        //     key: 'desireDate',
-        //     defaultSortOrder: 'descend',
-        //     sorter: (a, b) => {
-        //         const dateA = new Date(a.desireDate);
-        //         const dateB = new Date(b.desireDate);
-
-        //         return dateA - dateB;
-        //     },
-        //     render: (_, { desireDate, index }) => {
-        //         return (
-        //             <div key={index + 1}>
-        //                 {moment(desireDate).format('DD/MM/YYYY')}
-        //             </div>
-        //         )
-        //     }
-        // },
         {
-            title: 'Trạng thái',
-            key: 'status',
-            dataIndex: 'status',
-            filters: [
-                {
-                    text: 'Đang chờ',
-                    value: 'W'
-                },
-                {
-                    text: 'Đang duyệt',
-                    value: 'P'
-                },
-                {
-                    text: 'Đã duyệt',
-                    value: 'A'
-                },
-                {
-                    text: 'Đang sửa',
-                    value: 'R'
-                },
-                {
-                    text: 'Hoàn thành',
-                    value: 'Y'
-                },
-                {
-                    text: 'Đã hủy',
-                    value: 'C'
-                },
-
-            ],
-            onFilter: (value, record) => record.status.indexOf(value) === 0,
-            render: (_, { status, index }) => {
-                let color = status === 'C' ? 'red' : (status === 'W' ? 'yellow' : (status === 'A' ? 'green' : (status === 'R' ? 'orange' : (status === 'P' ? 'pink' : 'blue'))));
-                let text = status === 'C' ? 'Đã hủy' : (status === 'W' ? 'Đang chờ' : (status === 'A' ? 'Đã duyệt' : (status === 'R' ? 'Đang sửa' : (status === 'P' ? 'Đang duyệt' : 'Hoàn thành'))));
+            title: 'Role',
+            dataIndex: 'accountType',
+            key: 'accountType',
+            width: 100,
+            align: 'center',
+            render: (_, { accountType, index }) => {
+                let color = accountType === 'RP' ? 'orange' : (accountType === 'KH' ? 'green' : 'blue')
+                let text = accountType === 'RP' ? 'Thợ' : (accountType === 'KH' ? 'Khách hàng' : 'Khác');
 
                 return (
                     <Tag key={index + 1} style={{ width: "75px", textAlign: "center" }} color={color} >
@@ -223,83 +169,120 @@ function ListAllOrder() {
 
                 );
             },
-
         },
         {
-            title: 'Thanh toán',
-            key: 'paymentStatus',
-            dataIndex: 'DetailOrder',
-            render: (_, { DetailOrder, index }) => (
-                DetailOrder?.paymentStatus === 'P' ? (
-                    <div>
-                        Đã thanh toán
+            title: 'Loại yêu cầu',
+            dataIndex: "feedbackType",
+            key: 'feedbackType',
+            render: (_, { feedbackType, index }) => {
+                return (
+                    <div key={index + 1}>
+                        {feedbackType === 'change_date_repair' ? 'Đổi ngày sửa chữa' : (feedbackType === 'cancle_order' ? 'Hủy đơn' : 'Khác')}
                     </div>
-                ) : (
-                    DetailOrder?.paymentStatus === 'P' ? (
-                        <div>
-                            Chưa thanh toán
-                        </div>
-                    ) : (
-                        <div>
-                            Chưa duyệt
-                        </div>
-                    )
                 )
-            ),
-
+            },
+            align: 'center'
         },
         {
-            title: 'Phương thức',
-            key: 'paymentStatus',
-            dataIndex: 'DetailOrder',
-            render: (_, { DetailOrder, index }) => (
-                DetailOrder?.paymentMethod === 'vnpay' ? (
-                    <div>
-                        VNPay
-                    </div>
-                ) : (
-                    DetailOrder?.paymentMethod === 'cash' ? (
-                        <div>Tiền mặt</div>
-                    ) : (
-                        <div>
-                            Chưa duyệt
+            title: 'Lý do',
+            dataIndex: 'contentFeedback',
+            key: 'contentFeedback',
+            render: (contentFeedback, index) => {
+                return (
+                    <Popover content={contentFeedback} title="Lý do" >
+                        <div className={cx("contentFeedback")}>
+                            {contentFeedback}
                         </div>
-                    )
+
+                    </Popover>
                 )
-            ),
+            },
+            align: 'center'
+        },
+        {
+            title: 'Ngày thay đổi',
+            dataIndex: 'dateChange',
+            key: 'dateChange',
+            width: 150,
+            defaultSortOrder: 'desc',
+            sorter: (a, b) => {
+                const dateA = new Date(a.dateChange);
+                const dateB = new Date(b.dateChange);
+
+                return dateA - dateB;
+            },
+            render: (_, { dateChange, index }) => {
+                return (
+                    <div key={index + 1}>
+                        {moment(dateChange).format('DD/MM/YYYY')}
+                    </div>
+                )
+            },
+            align: 'center'
+        },
+        {
+            title: 'Trạng thái',
+            key: 'feedbackStatus',
+            width: 120,
+            dataIndex: 'feedbackStatus',
+            filters: [
+                {
+                    text: 'Đang chờ',
+                    value: 'W'
+                },
+                {
+                    text: 'Đã duyệt',
+                    value: 'S'
+                },
+                {
+                    text: 'Đã hủy',
+                    value: 'C'
+                },
+            ],
+            onFilter: (value, record) => record.feedbackStatus.indexOf(value) === 0,
+            render: (_, { feedbackStatus, index }) => {
+                let color = feedbackStatus === 'C' ? 'red' : (feedbackStatus === 'W' ? 'yellow' : 'green');
+                let text = feedbackStatus === 'C' ? 'Đã hủy' : (feedbackStatus === 'W' ? 'Đang chờ' : 'Đã duyệt');
+
+                return (
+                    <Tag key={index + 1} style={{ width: "75px", textAlign: "center" }} color={color} >
+                        {text}
+                    </Tag>
+
+                );
+            },
+            align: 'center'
+
         },
         {
             title: 'Action',
             key: 'action',
+            width: 150,
             render: (_, record, index) => (
                 <Space size="middle" key={index + 1}>
-                    {(record && record?.DetailOrder && (record?.DetailOrder.paymentStatus === 'P' || record?.DetailOrder.paymentStatus === 'UP')) ? (
-                        <Link to={"/admin/order/" + record?.DetailOrder.id}>
-                            <p>Xem chi tiết</p>
-                        </Link>
-                    ) : (
-                        record?.DetailOrder && record?.DetailOrder.ID_Schedule ? (
-                            <FontAwesomeIcon icon={faChevronRight} size="lg" style={{ color: "#005eff", marginLeft: "10px" }} onClick={() => showDrawer(record)} />
-                        ) : (
-                            <>
-                                <Link to={`/repair/accept/${record?.id}`}>
-                                    <FontAwesomeIcon icon={faCircleCheck} className={`${cx("iconAccept")} ${(record?.status === 'W') ? '' : 'd-none'}`} size="xl" style={{ color: "#00a851", }} />
-                                </Link>
-                                <FontAwesomeIcon icon={faCircleXmark} onClick={() => showModal(record)}
-                                    className={`${cx("iconDenied")} ${record?.status === 'W' ? '' : 'd-none'}`} size="xl" style={{ color: "#e00000", }} />
-                                <FontAwesomeIcon icon={faChevronRight} size="lg" style={{ color: "#005eff", marginLeft: "10px" }} onClick={() => showDrawer(record)} />
-                            </>
-                        )
-                    )}
+                    <Link to={`/repair/editAccept/${record?.ID_Order}`}>
+                        <FontAwesomeIcon icon={faCircleCheck} className={`${cx("iconAccept")} ${(record?.feedbackStatus === 'W') ? '' : 'd-none'}`} size="xl" style={{ color: "#00a851", }} />
+                    </Link>
+                    <FontAwesomeIcon icon={faCircleXmark} className={`${cx("iconDenied")} 
+                    ${record?.feedbackStatus === 'W' ? '' : 'd-none'}`} size="xl" style={{ color: "#e00000", }} />
+                    <FontAwesomeIcon icon={faChevronRight} size="lg" style={{ color: "#005eff" }} onClick={() => showDrawer(record.Order)} />
                 </Space>
             ),
             align: 'center'
         },
     ];
 
+    const [pagination, setPagination] = useState({});
+
+    function handleTableChange(data) {
+        setPagination(data);
+    }
+
+
     const [open, setOpen] = useState(false);
     const [record, setRecord] = useState();
     const showDrawer = (record) => {
+        console.log(record)
         setOpen(true);
         setRecord(record);
         let formatDate = record.desireDate.split(",");
@@ -310,83 +293,48 @@ function ListAllOrder() {
         setDateArray('')
     };
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [dataModal, setDataModal] = useState();
-    const showModal = (data) => {
-        setIsModalOpen(true);
-        setDataModal(data);
-
-    };
-    const handleOk = (id) => {
-        axios.put("http://localhost:3000/order/denied/" + id)
-            .then(res => {
-                if (res.data.data.success === false) {
-                    toast.error(res.data.data.message)
-                } else {
-                    toast.success(res.data.data.message);
-                    fetchOrder();
-                    setIsModalOpen(false);
-                }
-            })
-    };
-    const handleCancel = () => {
-        setIsModalOpen(false);
-    };
-
-    const [pagination, setPagination] = useState({});
-
-    function handleTableChange(data) {
-        setPagination(data);
-    }
-
-    useEffect(() => {
-        socket.on("fetchNotification", () => {
-            fetchOrder();
-        })
-        socket.on("featchOrder", () => {
-            fetchOrder();
-        });
-    }, [socket])
-
 
 
     return (
-        <div className={cx("containerPage")}>
-            <div className="titlePage">
-                <h4>Danh sách đơn sửa chữa</h4>
-                <div className="overviewOrder">
-                    <div className="row">
-                        {cardData.map((card, index) => (
-                            <div className="col-sm-12 col-md-6 col-lg-3 mt-2" key={index}>
-                                <Card
-                                    icon={card.icon}
+        <>
+            <div className={cx("containerPage")}>
+                <div className="titlePage">
+                    <h4>Danh sách phản hồi</h4>
+                    <div className="overviewOrder">
+                        <div className="row">
+                            {cardData.map((card, index) => (
+                                <div className="col-sm-12 col-md-6 col-lg-3 mt-2" key={index}>
+                                    <Card
+                                        icon={card.icon}
 
-                                    number={card.number}
-                                    title={card.title}
+                                        number={card.number}
+                                        title={card.title}
 
-                                    color={card.color}
-                                />
-                            </div>
+                                        color={card.color}
+                                    />
+                                </div>
 
-                        ))}
+                            ))}
+                        </div>
                     </div>
+
                 </div>
-            </div>
-            <div className="contentPage">
-                {/* <Table className="mt-4" columns={columns} dataSource={data} /> */}
-                <Table className="mt-4" columns={columns} dataSource={listOrder}
-                    pagination={{
-                        defaultPageSize: 5,
-                        showSizeChanger: true,
-                        pageSizeOptions: ['5', '10', '15']
-                    }}
-                    onChange={handleTableChange}
-                    rowKey={"id"}
-                    scroll={{
-                        x: 1200,
-                    }}
-                />
-            </div>
+                <div className="contentPage">
+
+                    <Table className="mt-4" columns={columns} dataSource={listFeedback}
+                        pagination={{
+                            defaultPageSize: 5,
+                            showSizeChanger: true,
+                            pageSizeOptions: ['5', '10', '15']
+                        }}
+                        onChange={handleTableChange}
+                        rowKey={"id"}
+                        scroll={{
+                            x: 1200,
+                        }}
+                    />
+                </div>
+            </div >
             <Drawer onClose={onClose} open={open} width={600} title={
                 <div className={cx("titleForm")}>
                     <h3 className={cx("titleRepair")}>ĐĂNG KÝ SỬA CHỮA</h3>
@@ -564,11 +512,8 @@ function ListAllOrder() {
                     </div>
                 </div>
             </Drawer>
-            <Modal title="Xóa đơn sửa chữa" okText="Từ chối" cancelText="Đóng" okButtonProps={{ style: { background: "red" } }} open={isModalOpen} onOk={() => handleOk(dataModal?.id)} onCancel={handleCancel}>
-                <p>Bạn có chắc chắn muốn từ chối đơn sửa chữa {dataModal?.Categori.nameCategories}</p>
-            </Modal>
-        </div >
+        </>
     );
 }
 
-export default ListAllOrder;
+export default FeedbackOrder;

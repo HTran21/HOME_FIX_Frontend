@@ -7,7 +7,7 @@ import { toast, useToast } from "react-toastify";
 import { useSelector } from "react-redux";
 import moment from 'moment';
 const cx = classNames.bind(styles);
-import { Button, TimePicker } from 'antd';
+import { Button, TimePicker, Modal, DatePicker, Select } from 'antd';
 
 import socket from "../../../service/socketService";
 
@@ -17,9 +17,10 @@ function AcceptOrderRepairer() {
     // const history = useHistory();
     const navigate = useNavigate();
     const { id } = useParams();
+    const user = useSelector((state) => state.user.user);
 
     const [data, setData] = useState();
-    const [listTimeSlot, setListTimeSlot] = useState();
+    const [listTimeSlot, setListTimeSlot] = useState("");
     const [idSchedule, setIdSchedule] = useState()
 
     const getDetailOrder = async () => {
@@ -28,7 +29,7 @@ function AcceptOrderRepairer() {
             if (detailOrder.data.success) {
                 // console.log(detailOrder.data.exsitDetailOrder)
                 setData(detailOrder.data.exsitDetailOrder)
-                console.log(detailOrder.data.exsitDetailOrder)
+                // console.log(detailOrder.data.exsitDetailOrder)
                 setIdSchedule(detailOrder.data.exsitDetailOrder.ID_Schedule)
             }
             else {
@@ -43,10 +44,10 @@ function AcceptOrderRepairer() {
 
     useEffect(() => {
         if (data && idSchedule != 0) {
-            console.log("idSchedule", idSchedule)
+            // console.log("idSchedule", idSchedule)
             axios.get("http://localhost:3000/schedule/timeslot/" + idSchedule)
                 .then(res => {
-                    console.log("Time slot", res.data)
+                    // console.log("Time slot", res.data)
                     setListTimeSlot(res.data)
                 })
         }
@@ -92,6 +93,72 @@ function AcceptOrderRepairer() {
 
         }
     }
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [dateChange, setDateChange] = useState();
+    const [contentFeedback, setContentFeedback] = useState('');
+    const [feedbackType, setFeedbackType] = useState('');
+    const [errors, setErrors] = useState({})
+    const onChange = (date, dateString) => {
+        // console.log(date, dateString);
+        setDateChange(dateString);
+    };
+
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+    const handleOk = () => {
+        const newErrors = {};
+
+        if (feedbackType.trim() === '') {
+            newErrors.feedbackType = 'Vui lòng chọn kiểu phản hồi'
+        }
+
+        if (feedbackType !== 'cancle_repair_order') {
+            if (!dateChange) {
+                newErrors.dateChange = 'Vui lòng chọn ngày thay đổi'
+            }
+        }
+
+        if (contentFeedback.trim() === '') {
+            newErrors.contentFeedback = 'Vui lòng nhập lý do phản hồi'
+        }
+
+        if (Object.keys(newErrors).length === 0) {
+            setErrors();
+            if (user && data) {
+                let role = user.role;
+                let ID_Order = data.ID_Order
+                // setIsModalOpen(false);
+                axios.post("http://localhost:3000/feedback", { ID_Order, role, feedbackType, contentFeedback, dateChange })
+                    .then(res => {
+                        if (res.data.success) {
+                            toast.success(res.data.message)
+                            console.log(res.data)
+                            handleCancel()
+                            socket.emit("newNotification")
+                        } else {
+                            toast.error(res.data.message)
+                        }
+                    })
+                // console.log("contentFeedBack", contentFeedback)
+                // console.log("dateChange", dateChange)
+                // console.log("role", role)
+                // console.log("ID_Order", ID_Order)
+            }
+        } else {
+            setErrors(newErrors)
+        }
+
+
+    };
+    const handleCancel = () => {
+        setIsModalOpen(false);
+        setFeedbackType('');
+        setDateChange(null);
+        setContentFeedback('');
+    };
+
 
     return (
         <>
@@ -210,32 +277,7 @@ function AcceptOrderRepairer() {
                                     </div>
                                     <div className={cx("timeSlots")}>
                                         <h6 className="mb-1">Khung giờ sửa chữa</h6>
-                                        {/* <label className={`${cx("timeSlot")} form-check-label`} htmlFor="timeslot1">
-                                            {data?.timeRepair}
-                                        </label> */}
-                                        {/* <TimePicker.RangePicker
-                                            style={{ width: "100%", marginTop: "5px" }}
-                                            disabledTime={() => ({
-                                                disabledHours: () => [7],
-                                                disabledMinutes: (selectedHour) => {
-                                                    if (selectedHour === 7) {
-                                                        return [...Array(30).keys()].map((i) => i + 30);
-                                                    } else {
-                                                        return [];
-                                                    }
-                                                }
-                                            })}
-                                            size="large"
-                                            onChange={onChange}
-                                            format={format}
-                                        /> */}
-                                        {/* <TimePicker.RangePicker
-                                            style={{ width: "100%", marginTop: "5px" }}
 
-                                            size="large"
-                                            onChange={onChange}
-                                            format={format}
-                                        /> */}
                                         <div className="timeMorning">
                                             <div className={cx("listTimeSlot")}>
                                                 {timeSlotMorning.map((time, index) => (
@@ -267,13 +309,16 @@ function AcceptOrderRepairer() {
 
                                 </div>
 
-                                <div className="d-inline">
+                                <div className="d-flex flex-row mb-2 ">
 
-                                    <Button type="primary" loading={loadings} className="mt-3 ms-2 mb-2" onClick={() => performRepair()}>
+                                    <Button type="primary" loading={loadings} className=" ms-3" onClick={() => performRepair()}>
                                         Duyệt
                                     </Button>
-                                    <Button className="ms-2">
+                                    <Button className=" ms-2">
                                         <Link className="text-decoration-none" onClick={() => navigate(-1)}>Đóng</Link>
+                                    </Button>
+                                    <Button className="ms-auto me-3" onClick={showModal}>
+                                        Phản hồi
                                     </Button>
                                 </div>
                             </div>
@@ -283,7 +328,48 @@ function AcceptOrderRepairer() {
 
 
             </section >
+            <Modal title="Phản hồi về đơn sửa chữa" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} okText="Gửi" cancelText="Đóng">
+                <div className="mb-3">
+                    <Select
+                        value={feedbackType}
+                        style={{ width: "100%", height: "45px" }}
+                        onChange={(value) => setFeedbackType(value)}
+                        options={[
+                            {
+                                value: '',
+                                label: 'Chọn loại phản hồi',
+                            },
+                            {
+                                value: 'change_date_repair',
+                                label: 'Thay đổi ngày sửa chữa',
+                            },
 
+                            {
+                                value: 'cancle_repair_order',
+                                label: 'Hủy đơn sửa chữa',
+                            },
+                        ]}
+                    />
+                    {errors && <p className="text-danger ms-2">{errors.feedbackType}</p>}
+                </div>
+                <div className="mb-3">
+                    <DatePicker defaultValue={null} disabled={feedbackType === 'cancle_repair_order' ? true : false} style={{ width: "100%", padding: "10px" }} disabledDate={(current) => current.isBefore(moment().add(0, 'day'))} onChange={onChange} placeholder="Chọn ngày sửa chữa mới" />
+                    {errors && <p className="text-danger ms-2">{errors.dateChange}</p>}
+                </div>
+                <div className="form-floating mt-3">
+                    <textarea
+                        className="form-control"
+                        placeholder="Leave a comment here"
+                        id="floatingTextarea2"
+                        style={{ height: 100 }}
+                        value={contentFeedback} onChange={(e) => setContentFeedback(e.target.value)}
+                    />
+                    <label htmlFor="floatingTextarea2">Lý do</label>
+                    {errors && <p className="text-danger ms-2">{errors.contentFeedback}</p>}
+                </div>
+
+
+            </Modal>
         </>
     );
 }

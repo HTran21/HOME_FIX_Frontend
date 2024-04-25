@@ -1,0 +1,195 @@
+.containerPage {
+    padding: 10px 20px;
+}
+
+
+.cardBody:hover {
+    transform: translateY(-5px);
+}
+
+.cardBody {
+    max-width: 300px;
+    display: grid;
+    grid-template-columns: 60px auto;
+    padding: 10px;
+    transition: 0.5s;
+    cursor: pointer;
+
+    .iconCard {
+        font-size: 20px;
+        display: flex;
+        margin: auto;
+        padding: 15px;
+        border-radius: 5px;
+        background-color: #DBE9FF;
+        color: #4B93FF;
+    }
+
+    .contentOverview {
+        margin-left: 10px;
+
+        .numberCard {
+            margin: 0px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .titleCard {
+            margin: 0px;
+            font-family: 'Reem Kufi', sans-serif;
+            font-size: 16px;
+            color: #000;
+
+        }
+    }
+
+
+
+
+}
+
+.cardBody.blue {
+    color: #fff;
+
+    .iconCard {
+        color: rgba(26, 102, 208, 0.564);
+        background-color: rgba(200, 206, 218, 0.564);
+    }
+
+}
+
+.cardBody.green {
+    color: #fff;
+
+    .iconCard {
+        color: rgba(8, 166, 98, 0.564);
+        background-color: rgba(200, 218, 210, 0.564);
+    }
+
+}
+
+.cardBody.yellow {
+    color: #fff;
+
+    .iconCard {
+        color: rgb(248, 238, 58);
+        background-color: rgba(235, 234, 193, 0.411);
+    }
+}
+
+.cardBody.red {
+    color: #fff;
+
+    .iconCard {
+        color: rgba(201, 30, 30, 0.564);
+        background-color: rgba(218, 200, 200, 0.564);
+    }
+
+}
+
+
+.oder {
+    margin: 0px;
+
+    .inforUser {
+        .fullName {
+            font-weight: bold;
+        }
+
+        p {
+            // font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 15px;
+
+            span {
+                font-weight: bold;
+            }
+        }
+    }
+
+    .inforRepair {
+        p {
+            // font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 15px;
+
+            span {
+                font-weight: bold;
+            }
+        }
+    }
+
+    .statusOrder {
+        display: flex;
+        font-size: 15px;
+
+        span {
+            font-weight: bold;
+            margin: auto 0px;
+        }
+
+        .status {
+            padding: 5px;
+            margin-left: 10px;
+            border-radius: 5px;
+            border: 1px solid rgba(0, 0, 255, 0);
+        }
+    }
+}
+
+.inputForm {
+    border: 1px solid rgba(145, 139, 139, 0.566);
+}
+
+.titleForm {
+    display: flex;
+    align-items: center;
+
+    .titleRepair {
+        font-family: 'Reem Kufi', sans-serif;
+        font-weight: bold;
+        font-size: 20px;
+
+    }
+
+    .imgLogo {
+        width: 30px;
+        display: inline-block;
+    }
+
+    .textLogo {
+        font-weight: bold;
+        font-family: 'Reem Kufi', sans-serif;
+        display: inline-block;
+        font-size: 20px;
+        margin-left: 5px;
+    }
+}
+
+.iconAccept,
+.iconDenied {
+    transition: 0.5s;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.iconAccept:hover {
+    transform: scale(1.2);
+    box-shadow: rgba(0, 144, 96, 0.777) 0px 4px 16px, rgba(0, 152, 101, 0.656) 0px 8px 24px, rgba(0, 149, 67, 0.678) 0px 10px 56px;
+    border-radius: 50%;
+}
+
+.iconDenied:hover {
+    transform: scale(1.2);
+    box-shadow: rgba(144, 0, 0, 0.777) 0px 4px 16px, rgba(152, 0, 0, 0.656) 0px 6px 24px, rgba(149, 0, 0, 0.678) 0px 8px 56px;
+    border-radius: 50%;
+}
+
+.contentFeedback {
+    white-space: nowrap;
+    width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}

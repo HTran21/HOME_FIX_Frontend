@@ -40,10 +40,10 @@ function Header() {
     };
 
     const items = [
-        // {
-        //     label: <Link to={"/user"} className={`${cx("dropdownItem")} text-decoration-none`}>Thông tin cá nhân</Link>,
-        //     key: '0',
-        // },
+        {
+            label: <Link to={user.role === 'KH' ? '/user' : (user.role === 'RP' ? '/repairer' : '/admin')} className={`${cx("dropdownItem")} text-decoration-none`}>Thông tin cá nhân</Link>,
+            key: '0',
+        },
         {
             label: <p className={cx("dropdownItem")}>Đăng xuất</p>,
             key: '1',
@@ -51,12 +51,12 @@ function Header() {
         }
     ];
 
-    if (user.role === 'KH') {
-        items.unshift({
-            label: <Link to={"/user"} className={`${cx("dropdownItem")} text-decoration-none`}>Thông tin cá nhân</Link>,
-            key: '0',
-        });
-    }
+    // if (user.role === 'KH') {
+    //     items.unshift({
+    //         label: <Link to={"/user"} className={`${cx("dropdownItem")} text-decoration-none`}>Thông tin cá nhân</Link>,
+    //         key: '0',
+    //     });
+    // }
 
     const itemOnly = [
         {

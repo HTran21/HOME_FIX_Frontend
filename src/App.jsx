@@ -78,6 +78,9 @@ import NotFound from './components/NotFound/NotFound';
 import EditProfileRepairer from './resources/Repairer/EditProfileRepairer/EditProfileRepairer';
 
 import Test from './resources/Both/Test/Test';
+import FeedbackOrder from './resources/Admin/FeedbackOrder/FeedbackOrder';
+import EditAcceptForm from './resources/Admin/EditAcceptForm/EditAcceptForm';
+import FeedbackRepairer from './resources/Repairer/FeedbackRepairer/FeedbackRepairer';
 
 
 const Layout = () => {
@@ -264,6 +267,11 @@ function App() {
           element: <DetailOrderAdmin />,
         },
         {
+          path: "order/feedback",
+          element: <FeedbackOrder />
+
+        },
+        {
           path: "calendar",
           element: <CalendarStaff />
 
@@ -356,6 +364,7 @@ function App() {
           path: "accept/:id",
           element: <AcceptOrderRepairer />
         },
+
         {
           path: "calendar",
           element: <CalanderRepairer />
@@ -379,6 +388,10 @@ function App() {
         {
           path: "notification",
           element: <NotificationRepairer />
+        },
+        {
+          path: "feedback",
+          element: <FeedbackRepairer />
         },
 
       ]
@@ -409,6 +422,10 @@ function App() {
       path: "repair/accept/:id",
       element: <AcceptForm />
 
+    },
+    {
+      path: "repair/editAccept/:id",
+      element: <EditAcceptForm />
     },
     {
       path: "test",
