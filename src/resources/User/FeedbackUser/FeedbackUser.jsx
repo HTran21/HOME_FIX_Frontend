@@ -1,11 +1,11 @@
 import axios from "../../../service/customize_axios";
 import { useEffect, useState } from "react";
 import className from "classnames/bind";
-import styles from "./FeedbackOrder.module.scss";
+import styles from "./FeedbackUser.module.scss";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faTwitter } from "@fortawesome/free-brands-svg-icons";
-import { Tabs, Space, Table, Tag, Drawer, Modal, DatePicker, Popover, Tooltip } from 'antd';
-import { faBan, faChevronRight, faCircleCheck, faCircleUser, faCircleXmark, faClockRotateLeft, faDesktop, faMessage, faPenToSquare, faScrewdriverWrench, faTrash, faTrashCan, faWallet } from "@fortawesome/free-solid-svg-icons";
+import { Tabs, Space, Table, Tag, Drawer, Modal, DatePicker, Popover } from 'antd';
+import { faChevronRight, faCircleCheck, faCircleUser, faCircleXmark, faClockRotateLeft, faDesktop, faMessage, faPenToSquare, faScrewdriverWrench, faTrash, faTrashCan, faWallet } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import moment from 'moment';
@@ -19,18 +19,33 @@ const socket = io.connect("http://localhost:3000", {
     transports: ["websocket"],
 });
 
-function FeedbackOrder() {
+function FeedbackUser() {
 
     const user = useSelector((state) => state.user.user);
     const [data, setData] = useState();
     const [listFeedback, setListFeedback] = useState();
     const [dateArrray, setDateArray] = useState([])
-    const fetchFeedback = async () => {
-        let getFeedback = await axios.get("http://localhost:3000/feedback/getAll");
-        // console.log(getFeedback.data)
-        setListFeedback(getFeedback.data)
+    const fetchFeedback = () => {
+        let id = user.id
+        let role = user.role
+        console.log(id)
+        if (id && role) {
+            axios.get("http://localhost:3000/feedback/getByUser", {
+                params: {
+                    ID_User: id,
+                    role: role
+                }
+            })
+                .then(res => {
+                    if (res.data.success) {
+                        console.log("Data", res.data)
+                        setListFeedback(res.data.listFeedback)
+                    } else {
+                        toast.error(res.data.message)
+                    }
+                })
+        }
     }
-
 
     useEffect(() => {
         fetchFeedback();
@@ -61,7 +76,7 @@ function FeedbackOrder() {
     const cardData = [
         {
             title: 'PHẢN HỒI',
-            number: `${listFeedback?.length}`,
+            number: `${listFeedback?.length || 0}`,
             icon: faMessage,
             color: 'blue',
         },
@@ -125,8 +140,7 @@ function FeedbackOrder() {
             sorter: (a, b) => {
                 return a.id - b.id;
             },
-            align: 'center',
-            defaultSortOrder: 'desc',
+            align: 'center'
 
         },
         {
@@ -136,22 +150,6 @@ function FeedbackOrder() {
             fixed: 'left',
             width: 100,
             align: 'center'
-        },
-        {
-            title: 'Người gửi',
-            key: 'usernameRepairer',
-            align: 'center',
-            render: (_, record, index) => {
-
-                let text = record.accountType === 'RP' ? `${record.Order.DetailOrder.Schedule.Repairer.usernameRepairer}` : (record.accountType === 'KH' ? `${record.Order.User.username}` : 'Khác');
-
-                return (
-                    <div key={index}>
-                        {text}
-                    </div>
-
-                );
-            },
         },
         {
             title: 'Role',
@@ -205,7 +203,7 @@ function FeedbackOrder() {
             dataIndex: 'dateChange',
             key: 'dateChange',
             width: 150,
-
+            defaultSortOrder: 'desc',
             sorter: (a, b) => {
                 const dateA = new Date(a.dateChange);
                 const dateB = new Date(b.dateChange);
@@ -261,12 +259,9 @@ function FeedbackOrder() {
             width: 150,
             render: (_, record, index) => (
                 <Space size="middle" key={index + 1}>
-                    <Link className={`${record.feedbackType === 'change_date_repair' ? '' : 'd-none'}`} to={`/repair/editAccept/${record?.ID_Order}?feedback=${record?.id}`}>
+                    {/* <Link to={`/repair/editAccept/${record?.ID_Order}`}>
                         <FontAwesomeIcon icon={faCircleCheck} className={`${cx("iconAccept")} ${(record?.feedbackStatus === 'W') ? '' : 'd-none'}`} size="xl" style={{ color: "#00a851", }} />
-                    </Link>
-                    <Tooltip title="Hủy đơn" onClick={() => showModalCancelOrder(record)}>
-                        <FontAwesomeIcon icon={faBan} className={`${cx("iconAccept")} ${(record?.feedbackStatus === 'W') ? '' : 'd-none'} ${record.feedbackType === 'cancel_repair_order' ? '' : 'd-none'}`} size="xl" style={{ color: "#00a851", }} />
-                    </Tooltip>
+                    </Link> */}
                     <FontAwesomeIcon icon={faCircleXmark} onClick={() => showModal(record)} className={`${cx("iconDenied")} 
                     ${record?.feedbackStatus === 'W' ? '' : 'd-none'}`} size="xl" style={{ color: "#e00000", }} />
                     <FontAwesomeIcon icon={faChevronRight} size="lg" style={{ color: "#005eff" }} onClick={() => showDrawer(record.Order)} />
@@ -286,7 +281,6 @@ function FeedbackOrder() {
     const [open, setOpen] = useState(false);
     const [record, setRecord] = useState();
     const showDrawer = (record) => {
-        console.log(record)
         setOpen(true);
         setRecord(record);
         let formatDate = record.desireDate.split(",");
@@ -319,8 +313,8 @@ function FeedbackOrder() {
                 .then(res => {
                     if (res.data.success) {
                         toast.success(res.data.message);
-                        handleCancel();
-                        socket.emit("newNotification")
+                        fetchFeedback()
+                        handleCancel()
                     } else {
                         toast.success(res.data.message);
                     }
@@ -329,36 +323,6 @@ function FeedbackOrder() {
 
 
     }
-
-    const [openModalCancelOrder, setModalCancelOrder] = useState(false);
-    const [feedbackCancel, setFeedbackCancel] = useState();
-    const showModalCancelOrder = (record) => {
-        setModalCancelOrder(true)
-        setFeedbackCancel(record)
-    }
-    const handleCancelModal = () => {
-        setModalCancelOrder(false);
-        setFeedbackCancel();
-    }
-    const handleAcceptCancelOrder = (feedback) => {
-        const ID_Feedback = feedback.id;
-        if (ID_Feedback) {
-            axios.post(`http://localhost:3000/order/cancelOrder/` + ID_Feedback)
-                .then(res => {
-                    if (res.data.success) {
-                        toast.success(res.data.message);
-                        handleCancelModal();
-                        fetchFeedback();
-                        socket.emit("newNotification");
-                    } else {
-                        toast.success(res.data.message);
-                    }
-                })
-        }
-
-
-    }
-
 
 
 
@@ -565,7 +529,7 @@ function FeedbackOrder() {
 
                             </div>
                             <div>
-                                <p ><span className="fw-bold">Thời gian sửa chữa:</span> {record?.DetailOrder && record.DetailOrder.timeRepair ? record.DetailOrder.timeRepair : 'Đang chờ thợ duyệt'}</p>
+                                <p ><span className="fw-bold">Thời gian sửa chữa:</span> {record?.DetailOrder && record.DetailOrder.timeRepair ? record.DetailOrder.timeRepair.split('-')[0] : 'Đang chờ thợ duyệt'}</p>
                             </div>
                         </div>
                     </div>
@@ -580,14 +544,11 @@ function FeedbackOrder() {
                     </div>
                 </div>
             </Drawer>
-            <Modal title="Từ chối phản hồi" open={openModal} onOk={() => handleOk(feedbackDelete)} onCancel={handleCancel} okButtonProps={{ style: { backgroundColor: 'red' } }} okText="Xóa" cancelText="Đóng">
-                <p>Bạn chắc chắn muốn xóa phản hồi này?</p>
-            </Modal>
-            <Modal title="Duyệt hủy đơn" open={openModalCancelOrder} onOk={() => handleAcceptCancelOrder(feedbackCancel)} onCancel={handleCancelModal} okText="Duyệt" cancelText="Đóng">
-                <p>Bạn chắc chắn duyệt phản hồi hủy đơn này?</p>
+            <Modal title="Basic Modal" open={openModal} onOk={() => handleOk(feedbackDelete)} onCancel={handleCancel} okButtonProps={{ style: { backgroundColor: 'red' } }} okText="Xóa" cancelText="Đóng">
+                <p>Bạn chắc chắn muốn xóa phản hồi này.</p>
             </Modal>
         </>
     );
 }
 
-export default FeedbackOrder;
+export default FeedbackUser;

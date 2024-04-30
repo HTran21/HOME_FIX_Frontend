@@ -5,7 +5,7 @@ import styles from "./LayoutUser.module.scss";
 import { DownOutlined } from '@ant-design/icons';
 import { Dropdown, Space, Button, Badge, Popover } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faClipboardList, faClock, faHeadset } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faClipboardList, faClock, faHeadset, faMessage } from "@fortawesome/free-solid-svg-icons";
 import AuthenService from "../../../service/AuthService";
 import { doLogoutAction } from "../../../redux/reducer/userSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -57,7 +57,8 @@ const itemsSlider = [
 
     getItem(<Link to="/user" className='text-decoration-none'>Thông tin</Link>, '1', <UserOutlined />),
     getItem(<Link to="/user/order" className='text-decoration-none'>Đơn hàng</Link>, '2', <FontAwesomeIcon icon={faClipboardList} />),
-    getItem(<Link to="/user/chat" className='text-decoration-none'>Hỗ trợ</Link>, '3', <FontAwesomeIcon icon={faHeadset} />),
+    getItem(<Link to="/user/feedback" className='text-decoration-none'>Phản hồi</Link>, '3', <FontAwesomeIcon icon={faMessage} />),
+    getItem(<Link to="/user/chat" className='text-decoration-none'>Hỗ trợ</Link>, '4', <FontAwesomeIcon icon={faHeadset} />),
 
 ];
 
@@ -92,7 +93,7 @@ const LayoutUser = () => {
                 }
             })
                 .then(res => {
-                    console.log(res.data)
+                    // console.log(res.data)
                     setListNotification(res.data)
                 })
         }
@@ -126,8 +127,11 @@ const LayoutUser = () => {
             return 'Đơn sửa chữa hoàn thành';
         } else if (type === 'payment_request') {
             return 'Yêu cầu thanh toán';
-        } else if (type === 'order_approved_request') {
-            return 'Yêu cầu duyệt đơn sửa chữa'
+        } else if (type === 'order_feedback_success') {
+            return 'Phản hồi đã được duyệt';
+        }
+        else if (type === 'order_feedback_denied') {
+            return 'Phản hồi đã bị từ chối';
         }
     }
 
@@ -147,6 +151,13 @@ const LayoutUser = () => {
             return navigate('/user/order');
         } else if (type === 'order_approved_request') {
             return 'Yêu cầu duyệt đơn sửa chữa'
+        } else if (type === 'order_feedback_success') {
+            setOpen(false)
+            return navigate('/user/feedback')
+        }
+        else if (type === 'order_feedback_denied') {
+            setOpen(false)
+            return navigate('/user/feedback')
         }
     }
 

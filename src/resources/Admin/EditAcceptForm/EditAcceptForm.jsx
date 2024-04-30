@@ -1,6 +1,6 @@
 import styles from "./EditAcceptForm.module.scss";
 import classNames from 'classnames/bind';
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from '../../../service/customize_axios';
 import { toast, useToast } from "react-toastify";
@@ -19,7 +19,11 @@ const socket = io.connect("http://localhost:3000", {
 function EditAcceptForm() {
     // const history = useHistory();
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+
     const { id } = useParams();
+
+    const ID_Feedback = searchParams.get("feedback");
 
     const [nameService, setNameService] = useState();
     const [fullName, setFullName] = useState();
@@ -130,9 +134,10 @@ function EditAcceptForm() {
         if (Object.keys(newErrors).length === 0) {
             console.log("ID_Order", id)
             console.log("ID_Order", idSchedule)
+            console.log("ID_Feedback", ID_Feedback)
             setErrors();
             setLoadings(true)
-            axios.put("http://localhost:3000/order/editaccept/" + id, { idSchedule })
+            axios.put("http://localhost:3000/order/editaccept/" + id, { idSchedule, ID_Feedback })
                 .then(res => {
                     if (res.data.success) {
                         setLoadings(false)
@@ -271,10 +276,7 @@ function EditAcceptForm() {
                                         <h6 className="mt-2">Thời gian sửa chữa</h6>
                                         <div className="col-md-6 pb-2">
                                             <div className="form-floating mt-2">
-                                                {/* <DatePicker value={dateRepair} style={{ width: "100%", padding: "16px", marginBottom: "10px" }}
-                                                    placeholder="Ngày cũ" size="large"
-                                                    disabled disabledDate={(current) => current.isBefore(moment().add(0, 'day'))}
-                                                /> */}
+
                                                 <DatePicker value={selectDay} onChange={onChange} style={{ width: "100%", padding: "16px" }}
                                                     placeholder="Chọn ngày sửa chữa mới" size="large"
                                                     disabledDate={(current) => current.isBefore(moment().add(0, 'day'))}

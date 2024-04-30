@@ -154,9 +154,7 @@ function Service() {
                                     TIẾT KIỆM TIỀN VỚI CHÚNG TÔI
                                 </div>
                                 <div className={cx("contentPos")}>
-                                    Trước đây anh ấy không đến văn phòng.
-                                    Trò chuyện miễn phí hoặc không. Không có khối lượng ở lối vào.
-                                    Fusce feugiat đất fermen sau đó.
+                                    Tiết kiệm chi phí với dịch vụ sửa chữa tận nhà của chúng tôi. Khám phá cách chúng tôi giúp bạn tiết kiệm tiền và thời gian thông qua việc sửa chữa thiết bị gia dụng tận nơi
                                 </div>
                             </div>
                         </div>
@@ -169,9 +167,7 @@ function Service() {
                                     DỊCH VỤ BẢO HÀNH 6 THÁNG
                                 </div>
                                 <div className={cx("contentPos")}>
-                                    Trước đây anh ấy không đến văn phòng.
-                                    Trò chuyện miễn phí hoặc không. Không có khối lượng ở lối vào.
-                                    Fusce feugiat đất fermen sau đó.
+                                    Dịch vụ bảo hành 6 tháng của chúng tôi mang đến sự an tâm và tiết kiệm cho bạn. Hãy trải nghiệm chất lượng và sự đảm bảo của chúng tôi ngay hôm nay.
                                 </div>
                             </div>
                         </div>
@@ -184,9 +180,7 @@ function Service() {
                                     KỸ THUẬT VIÊN KINH NGHIỆM
                                 </div>
                                 <div className={cx("contentPos")}>
-                                    Trước đây anh ấy không đến văn phòng.
-                                    Trò chuyện miễn phí hoặc không. Không có khối lượng ở lối vào.
-                                    Fusce feugiat đất fermen sau đó.
+                                    Khám phá sự khác biệt với đội ngũ kỹ thuật viên kinh nghiệm của chúng tôi. Sự am hiểu và tinh thần trách nhiệm sẽ đồng hành cùng bạn trong mọi dịch vụ sửa chữa.
                                 </div>
                             </div>
                         </div>
@@ -200,9 +194,7 @@ function Service() {
                                     ĐẢM BẢO CHẤT LƯỢNG
                                 </div>
                                 <div className={cx("contentPos")}>
-                                    Trước đây anh ấy không đến văn phòng.
-                                    Trò chuyện miễn phí hoặc không. Không có khối lượng ở lối vào.
-                                    Fusce feugiat đất fermen sau đó.
+                                    Chúng tôi cam kết đảm bảo chất lượng cao nhất cho mọi dịch vụ. Sự tin tưởng của khách hàng là động lực để chúng tôi không ngừng nâng cao và hoàn thiện
                                 </div>
                             </div>
                         </div>
@@ -215,9 +207,7 @@ function Service() {
                                     DỊCH VỤ CÙNG NGÀY
                                 </div>
                                 <div className={cx("contentPos")}>
-                                    Trước đây anh ấy không đến văn phòng.
-                                    Trò chuyện miễn phí hoặc không. Không có khối lượng ở lối vào.
-                                    Fusce feugiat đất fermen sau đó.
+                                    Sửa chữa nhanh chóng, hiệu quả, tiện lợi và tiết kiệm thời gian. Chúng tôi cam kết mang đến cho bạn sự hài lòng và an tâm trong mọi lúc, mọi nơi
                                 </div>
                             </div>
                         </div>
@@ -230,9 +220,7 @@ function Service() {
                                     DỊCH VỤ 5 SAO
                                 </div>
                                 <div className={cx("contentPos")}>
-                                    Trước đây anh ấy không đến văn phòng.
-                                    Trò chuyện miễn phí hoặc không. Không có khối lượng ở lối vào.
-                                    Fusce feugiat đất fermen sau đó.
+                                    Sự lựa chọn hàng đầu cho sự hài lòng và chất lượng. Với đội ngũ chuyên nghiệp và dịch vụ tận tâm, chúng tôi mang đến trải nghiệm tuyệt vời nhất cho khách hàng
                                 </div>
                             </div>
                         </div>
@@ -255,7 +243,7 @@ function Service() {
                                         100.000VND
                                     </div>
                                     <div className={cx("desService")}>
-                                        Lorem ipsum dolor sit amet
+                                        Mức giá hợp lý
                                     </div>
                                 </div>
                             </div>
@@ -271,7 +259,7 @@ function Service() {
                                         150.000VND
                                     </div>
                                     <div className={cx("desService")}>
-                                        Lorem ipsum dolor sit amet
+                                        Mức giá tiết kiệm
                                     </div>
                                 </div>
                             </div>
@@ -287,7 +275,7 @@ function Service() {
                                         100.000VND
                                     </div>
                                     <div className={cx("desService")}>
-                                        Lorem ipsum dolor sit amet
+                                        Mức giá thông thường
                                     </div>
                                 </div>
                             </div>
@@ -303,7 +291,7 @@ function Service() {
                                         150.000VND
                                     </div>
                                     <div className={cx("desService")}>
-                                        Lorem ipsum dolor sit amet
+                                        Mức giá cuối tuần
                                     </div>
                                 </div>
                             </div>

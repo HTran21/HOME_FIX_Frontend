@@ -5,7 +5,7 @@ import styles from "./ListOrder.module.scss";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faPaypal, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { Tabs, Space, Table, Tag, Drawer, Modal, Tooltip, DatePicker } from 'antd';
-import { faChevronRight, faCircleCheck, faCircleUser, faClockRotateLeft, faDesktop, faMoneyBill, faPenToSquare, faScrewdriverWrench, faTrash, faTrashCan, faWallet } from "@fortawesome/free-solid-svg-icons";
+import { faChevronRight, faCircleCheck, faCircleInfo, faCircleUser, faClockRotateLeft, faDesktop, faMoneyBill, faPenToSquare, faScrewdriverWrench, faTrash, faTrashCan, faWallet } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import moment from 'moment';
@@ -286,11 +286,20 @@ function ListOrder() {
                                 </Tooltip>
                             </Link>
                         ) : (
-                            <>
-                                <Link to={`/repair/edit/${record?.id}?ID_Service=${record.Categori.ID_Service}`}><FontAwesomeIcon className={`${(record?.status === 'W') ? '' : 'd-none'}`} icon={faPenToSquare} size="lg" style={{ color: "#024bca", }} /></Link>
-                                <FontAwesomeIcon className={`${record?.status === 'W' ? '' : 'd-none'}`} icon={faTrash} onClick={() => showModal(record)} size="lg" style={{ color: "#cc0000", }} />
-                                <FontAwesomeIcon icon={faChevronRight} size="lg" style={{ color: "#005eff", marginLeft: "10px" }} onClick={() => showDrawer(record)} />
-                            </>
+                            record.status === 'A' ? (
+                                <Link to={`/user/order/` + record.DetailOrder.id}>
+                                    <Tooltip title="Chi tiết">
+                                        <FontAwesomeIcon size="lg" icon={faCircleInfo} style={{ color: "#004dd1", }} />
+                                    </Tooltip>
+                                </Link>
+                            ) : (
+                                <>
+                                    <Link to={`/repair/edit/${record?.id}?ID_Service=${record.Categori.ID_Service}`}><FontAwesomeIcon className={`${(record?.status === 'W') ? '' : 'd-none'}`} icon={faPenToSquare} size="lg" style={{ color: "#024bca", }} /></Link>
+                                    <FontAwesomeIcon className={`${record?.status === 'W' ? '' : 'd-none'}`} icon={faTrash} onClick={() => showModal(record)} size="lg" style={{ color: "#cc0000", }} />
+                                    <FontAwesomeIcon icon={faChevronRight} size="lg" style={{ color: "#005eff", marginLeft: "10px" }} onClick={() => showDrawer(record)} />
+                                </>
+                            )
+
                         )
                     )}
 
@@ -304,6 +313,7 @@ function ListOrder() {
     const showDrawer = (record) => {
         setOpen(true);
         setRecord(record);
+
         let formatDate = record.desireDate.split(",");
         setDateArray(formatDate.map(date => dayjs(date)))
         console.log(formatDate)
@@ -551,7 +561,7 @@ function ListOrder() {
                                             className={`${cx("inputForm")} form-control`}
                                             id="floatingInput"
                                             placeholder="name@example.com"
-                                            readOnly value={(record?.DetailOrder.timeRepair).split('-')[0]} onChange={() => { }}
+                                            readOnly value={record?.DetailOrder.timeRepair != null ? (record?.DetailOrder.timeRepair).split('-')[0] : ''} onChange={() => { }}
                                         />
                                         <label htmlFor="floatingInput">Giờ dự kiến</label>
                                     </div>

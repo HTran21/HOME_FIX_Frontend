@@ -81,6 +81,7 @@ import Test from './resources/Both/Test/Test';
 import FeedbackOrder from './resources/Admin/FeedbackOrder/FeedbackOrder';
 import EditAcceptForm from './resources/Admin/EditAcceptForm/EditAcceptForm';
 import FeedbackRepairer from './resources/Repairer/FeedbackRepairer/FeedbackRepairer';
+import FeedbackUser from './resources/User/FeedbackUser/FeedbackUser';
 
 
 const Layout = () => {
@@ -327,6 +328,10 @@ function App() {
         {
           path: "chat",
           element: <Chat />,
+        },
+        {
+          path: "feedback",
+          element: <FeedbackUser />,
         },
 
 

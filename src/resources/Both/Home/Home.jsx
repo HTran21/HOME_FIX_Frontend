@@ -183,8 +183,6 @@ function HomePage() {
 
                         </div>
 
-                    </div>
-                    <div className="row mt-5">
                         <div className="col">
                             <div className={cx("service")}>
                                 <div className={cx("leftService")}>
@@ -343,7 +341,7 @@ function HomePage() {
             </section>
             <section className="ourNews mb-5 container">
                 <div className="tiltleOurNews">
-                    <h1 className="text-center">Bài viết gần đây</h1>
+                    <h2 className="text-center">Bài viết gần đây</h2>
                     <div className={`m-auto mb-3 mt-3 ${cx("line")}`}></div>
                     <div className={cx("contentOurNews")}>
                         <div className="row">

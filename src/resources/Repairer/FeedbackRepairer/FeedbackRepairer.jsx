@@ -30,7 +30,7 @@ function FeedbackRepairer() {
             })
                 .then(res => {
                     if (res.data.success) {
-                        console.log("Data", res.data)
+                        console.log("Data", res.data.listFeedback[0])
                         setListFeedback(res.data.listFeedback)
                     } else {
                         toast.error(res.data.message)
@@ -38,6 +38,8 @@ function FeedbackRepairer() {
                 })
         }
     }
+
+    console.log(listFeedback)
 
     useEffect(() => {
         fetchFeedback()
@@ -56,7 +58,7 @@ function FeedbackRepairer() {
                                 <div className={cx("cardFeedback")}>
                                     <div className={cx("titleCard")}>
                                         <div className="idOrder">ID Order: {feedback.ID_Order}</div>
-                                        <div className="statusFeedback ms-auto">
+                                        <div className="statusfeedback ms-auto">
                                             <FontAwesomeIcon className="me-1" icon={feedback.feedbackStatus === 'W' ? faClock : faCircleCheck} />
                                             {feedback.feedbackStatus === 'W' ? 'Đang chờ' : 'Đã duyệt'}
                                         </div>
@@ -68,7 +70,13 @@ function FeedbackRepairer() {
                                     </div>
                                 </div>
                             </div>
-                        ))}
+                        )
+
+
+
+
+                        )}
+
 
                     </div>
                 </div>

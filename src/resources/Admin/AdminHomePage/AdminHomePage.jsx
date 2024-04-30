@@ -126,21 +126,40 @@ function AdminHomePage() {
                 )
             }
         },
+        // {
+        //     title: 'Ngày đăng ký',
+        //     dataIndex: 'createdAt',
+        //     key: 'createdAt',
+        //     defaultSortOrder: 'descend',
+        //     sorter: (a, b) => {
+        //         const dateA = new Date(a.desireDate);
+        //         const dateB = new Date(b.desireDate);
+
+        //         return dateA - dateB;
+        //     },
+        //     render: (_, { createdAt, index }) => {
+        //         return (
+        //             <div key={index + 1}>
+        //                 {moment(createdAt).format('DD/MM/YYYY')}
+        //             </div>
+        //         )
+        //     }
+        // },
         {
             title: 'Ngày đăng ký',
             dataIndex: 'createdAt',
             key: 'createdAt',
-            defaultSortOrder: 'descend',
+            defaultSortOrder: 'desc',
             sorter: (a, b) => {
-                const dateA = new Date(a.desireDate);
-                const dateB = new Date(b.desireDate);
+                const dateA = new Date(a.createdAt);
+                const dateB = new Date(b.createdAt);
 
                 return dateA - dateB;
             },
-            render: (_, { desireDate, index }) => {
+            render: (_, { createdAt, index }) => {
                 return (
                     <div key={index + 1}>
-                        {moment(desireDate).format('DD/MM/YYYY')}
+                        {moment(createdAt).format('DD/MM/YYYY')}
                     </div>
                 )
             }

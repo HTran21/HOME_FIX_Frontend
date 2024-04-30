@@ -117,7 +117,6 @@ const LayoutAdmin = () => {
                 }
             })
                 .then(res => {
-                    // console.log(res.data)
                     setListNotification(res.data)
                 })
         }
@@ -161,7 +160,7 @@ const LayoutAdmin = () => {
     const linkNotification = (type) => {
         if (type === 'order_new') {
             setOpen(false)
-            return '/admin/order';
+            return navigate('/admin/order');
         } else if (type === 'order_approved') {
             return 'Đơn sửa chữa đã duyệt';
         } else if (type === 'order_completed') {
@@ -170,6 +169,10 @@ const LayoutAdmin = () => {
             return 'Yêu cầu thanh toán';
         } else if (type === 'order_approved_request') {
             return 'Yêu cầu duyệt đơn sửa chữa'
+        }
+        else if (type === 'order_feedback') {
+            setOpen(false)
+            return navigate('/admin/order/feedback');
         }
     }
 
@@ -180,6 +183,7 @@ const LayoutAdmin = () => {
         if (newOpen) {
             return;
         } else {
+            console.log("Load doi trang thai")
             const listNotificationUnRead = listNotification?.filter(notification => notification.read === 'UR');
             if (listNotificationUnRead.length === 0) {
                 return;
@@ -216,22 +220,20 @@ const LayoutAdmin = () => {
 
             ) : (
                 listNotification?.map((notification, index) => (
-                    <Link key={index} to={"/admin/order"} className='text-decoration-none text-dark'>
-                        <div onClick={() => linkNotification(notification.typeNotification)} className={`${cx(`${notification.read === 'UR' ? 'newMessage' : 'message'}`)} m-1`} >
-                            <div className='p-1'>
-                                <div className={cx("titleMessage")}>
-                                    {typeNotification(notification.typeNotification)}
-                                    <div className={cx("timeMessage")}>
-                                        <FontAwesomeIcon icon={faClock} className='me-1' />
-                                        {moment(notification.createdAt).format("HH:mm DD/MM/YYYY")}
-                                    </div>
-                                </div>
-                                <div className={cx("contentMewssage")}>
-                                    {notification.contentNotification}
+                    <div key={index} onClick={() => linkNotification(notification.typeNotification)} className={`${cx(`${notification.read === 'UR' ? 'newMessage' : 'message'}`)} m-1`} >
+                        <div className='p-1'>
+                            <div className={cx("titleMessage")}>
+                                {typeNotification(notification.typeNotification)}
+                                <div className={cx("timeMessage")}>
+                                    <FontAwesomeIcon icon={faClock} className='me-1' />
+                                    {moment(notification.createdAt).format("HH:mm DD/MM/YYYY")}
                                 </div>
                             </div>
+                            <div className={cx("contentMewssage")}>
+                                {notification.contentNotification}
+                            </div>
                         </div>
-                    </Link>
+                    </div>
                 ))
             )}
         </div>
