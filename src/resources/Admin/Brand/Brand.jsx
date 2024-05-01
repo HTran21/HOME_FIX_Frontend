@@ -243,7 +243,7 @@ function Brand() {
                                                 {brand.nameBrand}
                                             </p>
                                             <p className={cx("quantityItem")}>
-                                                15 thiết bị
+                                                {/* 15 thiết bị */}
                                             </p>
                                         </div>
                                     </div>

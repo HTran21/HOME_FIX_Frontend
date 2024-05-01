@@ -8,7 +8,7 @@ import axios from "../../../service/customize_axios";
 import { Link } from "react-router-dom";
 
 import Chart from 'chart.js/auto';
-import { Line } from 'react-chartjs-2';
+import { Doughnut, Line } from 'react-chartjs-2';
 
 import 'rsuite/dist/rsuite.min.css';
 // import { DateRangePicker } from 'rsuite';
@@ -30,6 +30,8 @@ function AdminHomePage() {
     const [dataTable, setDataTable] = useState();
     const [dataStatisticalOverview, setDataStatitsticalOverview] = useState();
     const [dataEarning, setDataEarning] = useState();
+    const [dataEarningPie, setDataEarningPie] = useState();
+    const [totalAmount, setTotalAmount] = useState();
     const [date, setDate] = useState([]);
 
     const handleDateRangeChange = (value) => {
@@ -39,14 +41,17 @@ function AdminHomePage() {
     const onChange = (date, dateString) => {
         if (dateString != null) {
             setDate(dateString)
-            axios.get("http://localhost:3000/statistical/earning", {
+            let dateSend = { type: "datepicker", data: dateString };
+            axios.get("http://localhost:3000/statistical/earningSelect", {
                 params: {
-                    date
+                    dateSend
                 }
             })
                 .then(res => {
-                    // console.log("Data doanh thu", res.data.earningTotal)
+                    console.log("Data doanh thu", res.data)
                     setDataEarning(res.data.earningTotal)
+                    setTotalAmount(res.data.totalAmount)
+                    setDataEarningPie(res.data.listAmountByService)
                 })
 
         }
@@ -61,10 +66,12 @@ function AdminHomePage() {
     }
 
     const featchEarning = async () => {
-        let res = await axios.get("http://localhost:3000/statistical/earning");
+        let res = await axios.get("http://localhost:3000/statistical/earningSelect");
         if (res && res.data) {
             // console.log(res.data)
             setDataEarning(res.data.earningTotal)
+            setTotalAmount(res.data.totalAmount)
+            setDataEarningPie(res.data.listAmountByService)
         }
     }
 
@@ -303,6 +310,24 @@ function AdminHomePage() {
         }
     };
 
+    const chartData = {
+        labels: dataEarningPie?.map(item => item.service.nameService),
+        datasets: [{
+            label: 'Tổng đơn',
+            data: dataEarningPie?.map(item => item.totalAmount),
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.7)',
+                'rgba(54, 162, 235, 0.7)',
+                'rgba(255, 206, 86, 0.7)',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+            ],
+            borderWidth: 1
+        }]
+    };
 
     return (
         <>
@@ -327,67 +352,23 @@ function AdminHomePage() {
                     <div className={cx("chartMoney")}>
                         <h5>Thống kê doanh thu</h5>
                         <div className="row mb-3">
-                            <div className="col-lg-7 col-md-12" style={{ minHeight: "300px" }}>
+                            <div className="col-lg-8 col-md-12 d-flex align-items-center">
+                                <h6>Tổng doanh thu: {VND.format(totalAmount)}</h6>
+
+                            </div>
+                            <div className={`${cx("dateRange")} col-lg-4 col-md-12`}>
+
+                                <RangePicker onChange={onChange} className={cx("dateRangePicker")} />
+
+
+                            </div>
+                            <div className="col-lg-8 col-md-8 col-sm-12">
                                 <Line data={revenueData} options={chartOptions} />
                             </div>
-                            <div className={`${cx("dateRange")} col-lg-5 col-md-12`}>
-                                {/* <DateRangePicker format="MM/dd/yyyy" character=" – "
-                                    onChange={handleDateRangeChange} className={cx("dateRangePicker")} /> */}
-                                <RangePicker onChange={onChange} className={cx("dateRangePicker")} />
-                                {/* {dateRange && (
-                                    <div>
-                                        Từ: {dateRange[0] ? dateRange[0].toLocaleDateString() : 'Chưa chọn'}
-                                        <br />
-                                        Đến: {dateRange[1] ? dateRange[1].toLocaleDateString() : 'Chưa chọn'}
-                                    </div>
-                                )} */}
-                                <div className={cx("contentDateRange")}>
-                                    <div className="row">
-                                        <div className="col-6">
-                                            <div className={cx("totalEarning")}>
-                                                <div className={cx("number")}>
-                                                    65,802
-                                                </div>
-                                                <div className={cx("titleNumber")}>
-                                                    Orders
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-6">
-                                            <div className={cx("totalEarning")}>
-                                                <div className={cx("number")}>
-                                                    65,802
-                                                </div>
-                                                <div className={cx("titleNumber")}>
-                                                    Orders
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-6">
-                                            <div className={cx("totalEarning")}>
-                                                <div className={cx("number")}>
-                                                    65,802
-                                                </div>
-                                                <div className={cx("titleNumber")}>
-                                                    Orders
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-6">
-                                            <div className={cx("totalEarning")}>
-                                                <div className={cx("number")}>
-                                                    65,802
-                                                </div>
-                                                <div className={cx("titleNumber")}>
-                                                    Orders
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div className="col-lg-4 col-md-4 col-sm-12 d-flex justify-content-center align-items-center">
+                                <Doughnut style={{ maxHeight: "300px", maxWidth: "300px" }} data={chartData} />
                             </div>
+
                         </div>
 
 

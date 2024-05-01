@@ -229,7 +229,7 @@ function EditProduct() {
 
 
                     <button type="button" className={cx("btnAddService")} onClick={uploadService}>
-                        Tạo sản phẩm
+                        Cập nhật
                     </button>
 
                 </div>
