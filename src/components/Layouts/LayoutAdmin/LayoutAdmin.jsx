@@ -64,15 +64,11 @@ const itemsSlider = [
     ]),
     getItem('Nhân viên', 'sub3', <img src="../../icon/group.png" className={cx("iconSidebar")} alt="" />, [
         getItem(<Link to="/admin/staff" className='text-decoration-none'>Danh sách</Link>, '9'),
-        // getItem(<Link to="" className='text-decoration-none'>Thêm dịch vụ</Link>, '10'),
-        // getItem(<Link to="/admin/specialize" className='text-decoration-none'>Chuyên môn</Link>, '11'),
-        // getItem(<Link to="" className='text-decoration-none'>Tạo thao tác</Link>, '12'),
+
     ]),
     getItem('Khách hàng', 'sub4', <UserOutlined />, [
         getItem(<Link to="/admin/customer" className='text-decoration-none'>Danh sách</Link>, '10'),
-        // getItem(<Link to="" className='text-decoration-none'>Thêm dịch vụ</Link>, '10'),
-        // getItem(<Link to="/admin/specialize" className='text-decoration-none'>Chuyên môn</Link>, '11'),
-        // getItem(<Link to="" className='text-decoration-none'>Tạo thao tác</Link>, '12'),
+
     ]),
     getItem('Sửa chữa', 'sub5', <img src="../../icon/car-repair.png" style={{ width: "15px" }} className={cx("iconSidebar")} alt="" />, [
         getItem(<Link to="/admin/order" className='text-decoration-none'>Danh sách</Link>, '11'),
@@ -286,7 +282,7 @@ const LayoutAdmin = () => {
                         </Dropdown>
                     </div>
                 </Header>
-                <Content style={{ backgroundColor: "#fff" }}>
+                <Content style={{ backgroundColor: "#F0F3F7" }}>
                     <div>
                         <Outlet />
                     </div>

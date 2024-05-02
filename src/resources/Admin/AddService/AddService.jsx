@@ -95,7 +95,7 @@ function AddService() {
     return (
         <>
             <div className={cx("containerPage")}>
-                <div className="titleProduct">
+                <div className={cx("titlePage")}>
                     <h4 className="d-inline-block">Thêm dịch vụ</h4>
                 </div>
                 <div className={cx("contentPage")}>

@@ -138,7 +138,7 @@ function ListCustomer() {
     return (
         <>
             <div className={cx("containerPage")}>
-                <div className="titlePage">
+                <div className={cx("titlePage")}>
                     <h4 className="d-inline-block">Danh sách nhân viên</h4>
 
                 </div>

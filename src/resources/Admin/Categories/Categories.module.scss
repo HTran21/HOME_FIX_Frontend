@@ -2,13 +2,23 @@
     padding: 10px 20px;
 }
 
-.contentPage {
-    padding: 10px 20px;
+.titlePage {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px 15px;
+
 }
 
-// .AddCategories {
-//     border: 1px solid red;
-// }
+.contentPage {
+    margin-top: 10px;
+}
+
+.AddCategories {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 15px 15px;
+    margin-top: 10px;
+}
 
 // .listCategories {
 //     border: 1px solid blue;
@@ -66,6 +76,12 @@
     border-radius: 10px;
     padding: 10px;
     cursor: pointer;
+    background-color: #fff;
+    transition: 0.5s;
+}
+
+.cardProduct:hover {
+    transform: translateY(-5px);
 }
 
 .borderImage {

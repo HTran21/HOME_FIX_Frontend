@@ -70,8 +70,8 @@ function AdminServices() {
 
     return (
         <>
-            <div className={cx("containerPage")}>
-                <div className={cx("titleProduct")}>
+            <div className={cx("containerPage")} style={{ backgroundColor: "#F0F3F7" }}>
+                <div className={cx("titlePage")}>
                     <h4 className="d-inline-block">Danh sách dịch vụ</h4>
                     <div className={cx("buttonAdd")}>
                         <Link to={"/admin/addService"} className="text-decoration-none"><button className={cx("btnAddService")}>Thêm dịch vụ</button></Link>
@@ -116,6 +116,7 @@ function AdminServices() {
 
 
                         )}
+
 
 
                         <Modal

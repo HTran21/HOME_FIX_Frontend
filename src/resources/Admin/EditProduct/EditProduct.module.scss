@@ -2,10 +2,19 @@
     padding: 10px 20px;
 }
 
-.contentPage {
-    padding: 10px 20px;
+.titlePage {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px 15px;
 }
 
+
+.contentPage {
+    padding: 10px 15px;
+    background-color: #fff;
+    margin-top: 20px;
+    border-radius: 10px;
+}
 
 .titleContentService {
     display: grid;
@@ -23,9 +32,9 @@
     }
 }
 
-.titleService {
-    width: 50%;
-}
+// .titleService {
+//     width: 50%;
+// }
 
 @media only screen and (max-width: 920px) {
     .titleService {
@@ -38,17 +47,15 @@
 }
 
 .labelImgService {
-    border: 1px solid rgba(176, 174, 174, 0.693);
-    width: 200px;
-    height: 200px;
+    min-height: 223px;
     display: flex;
     margin-top: 10px;
     border-radius: 10px;
 }
 
 .imgService {
-    max-width: 200px;
-    max-height: 190px;
+    max-width: 300px;
+    max-height: 200px;
     margin: auto;
     display: flex;
 

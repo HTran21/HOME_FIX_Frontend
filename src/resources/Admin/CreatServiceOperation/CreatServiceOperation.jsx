@@ -157,7 +157,7 @@ function CreatServiceOperation() {
     return (
         <>
             <div className={cx("containerPage")}>
-                <div className="titleProduct">
+                <div className={cx("titlePage")}>
                     <h4 className="d-inline-block">Tạo thao tác cho dịch vụ</h4>
                 </div>
                 <div className={cx("contentPage")}>
@@ -173,7 +173,7 @@ function CreatServiceOperation() {
                     <div className="row">
                         <div className="col-lg-6 col-md-6 col-sm-12">
                             <div>
-                                <div className="mb-3 mt-4">
+                                <div className="mb-3 mt-3">
                                     <h5>Chọn loại dịch vụ</h5>
                                     <select className={`form-control mt-2 ${cx("inputForm")} ${errors.idService ? ' border-danger' : ''} `} aria-label="Default select example"
                                         value={idService} onChange={(e) => setIdService(e.target.value)}
@@ -240,7 +240,7 @@ function CreatServiceOperation() {
                         </div>
                         {listOperation && listOperation?.length > 0 && (
                             <div className="col-lg-6 col-md-6 col-sm-12">
-                                <div className="card-body">
+                                <div className="card-body mt-3">
                                     <h5>Danh sách thao tác</h5>
                                     <Table rowKey={"id"} className="mt-3" dataSource={listOperation} columns={columns} />
                                 </div>

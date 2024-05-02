@@ -2,13 +2,29 @@
     padding: 10px 20px;
 }
 
-.contentPage {
-    padding: 10px 20px;
+.titlePage {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px 15px;
+
 }
 
-.filter {}
+.contentPage {
+    // padding: 10px 20px;
+    margin-top: 20px;
+}
 
-.listProducts {}
+.filter {
+    background-color: #fff;
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+
+// .listProducts {
+//     background-color: #fff;
+//     padding: 10px 15px;
+//     border-radius: 10px;
+// }
 
 .titleFilter {
     font-size: 16px;
@@ -36,6 +52,9 @@
 .headerListProducts {
     display: flex;
     align-items: center;
+    background-color: #fff;
+    padding: 20px 15px;
+    border-radius: 10px;
 
     .btnAddProduct {
         background-image: linear-gradient(to right, #77A1D3 0%, #79CBCA 51%, #77A1D3 100%);
@@ -77,6 +96,7 @@
             .inputSearch {
                 border: none;
                 outline: none;
+                background-color: transparent;
             }
         }
     }
@@ -88,7 +108,7 @@
 }
 
 .contentListProduct {
-    margin-top: 30px;
+    margin-top: 10px;
 
 }
 
@@ -100,6 +120,7 @@
     box-shadow: rgba(147, 138, 138, 0.25) 0px 5px 5px, rgba(188, 179, 179, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
     border-radius: 10px;
     padding: 10px;
+    background-color: #fff;
 }
 
 .iconMore {
@@ -139,6 +160,7 @@
     font-size: 17px;
     font-weight: bold;
     cursor: pointer;
+
 }
 
 .titleProduct:hover {

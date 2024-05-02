@@ -159,8 +159,8 @@ function Categories() {
 
     return (
         <>
-            <div className={cx("containerPage")}>
-                <div className="titleProduct">
+            <div className={cx("containerPage")} style={{ backgroundColor: "#F0F3F7" }}>
+                <div className={cx("titlePage")}>
                     <h4 className="d-inline-block">Loại thiết bị</h4>
                 </div>
                 <div className={cx("contentPage")}>

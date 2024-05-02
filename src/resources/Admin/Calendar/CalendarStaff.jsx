@@ -51,7 +51,7 @@ function CalendarStaff() {
       `}
             </style>
             <div className={cx("containerPage")}>
-                <div className="titleProduct">
+                <div className={cx("titlePage")}>
                     <h4 className="d-inline-block">Lịch làm việc</h4>
                 </div>
                 <div className={cx("contentPage")}>
@@ -93,7 +93,7 @@ function CalendarStaff() {
                                         //     ))}
 
                                         // </ul>
-                                        <ul style={{ listStyle: "none" }}>
+                                        <ul style={{ listStyle: "none", padding: "0px" }}>
                                             {displayList.map((repairer, index) => (
                                                 <li key={index}>
                                                     <Badge color='blue' /> {repairer.usernameRepairer}

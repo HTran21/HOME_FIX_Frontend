@@ -352,8 +352,8 @@ function ListAllOrder() {
 
     return (
         <div className={cx("containerPage")}>
-            <div className="titlePage">
-                <h4>Danh sách đơn sửa chữa</h4>
+            <div >
+                <h4 className={cx("titlePage")}>Danh sách đơn sửa chữa</h4>
                 <div className="overviewOrder">
                     <div className="row">
                         {cardData.map((card, index) => (
@@ -372,8 +372,7 @@ function ListAllOrder() {
                     </div>
                 </div>
             </div>
-            <div className="contentPage">
-                {/* <Table className="mt-4" columns={columns} dataSource={data} /> */}
+            <div className={cx("contentPage")}>
                 <Table className="mt-4" columns={columns} dataSource={listOrder}
                     pagination={{
                         defaultPageSize: 5,
@@ -549,7 +548,7 @@ function ListAllOrder() {
 
                             </div>
                             <div>
-                                <p ><span className="fw-bold">Thời gian sửa chữa:</span> {record?.DetailOrder && record.DetailOrder.timeRepair ? record.DetailOrder.timeRepair : 'Đang chờ thợ duyệt'}</p>
+                                <p ><span className="fw-bold">Thời gian sửa chữa:</span> {record?.DetailOrder && record.DetailOrder.timeRepair ? record.DetailOrder.timeRepair.split('-')[0] : 'Đang chờ thợ duyệt'}</p>
                             </div>
                         </div>
                     </div>

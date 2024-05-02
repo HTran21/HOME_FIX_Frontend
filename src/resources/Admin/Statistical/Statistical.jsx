@@ -123,7 +123,7 @@ function Statistical() {
             setDataEarning(res.data.earningTotal)
             setTotalAmount(res.data.totalAmount)
             setDataEarningPie(res.data.listAmountByService)
-            // console.log(res.data)
+            console.log(res.data.earningTotal)
         }
     }
 
@@ -255,33 +255,33 @@ function Statistical() {
 
     return (
         <div className={cx("containerPage")}>
-            <div className="titlePage">
-                <h4>Thống kê doanh thu</h4>
-            </div>
-            <div className="contentPage">
-                <div className="datepick">
-                    <Space className="mt-3">
-                        <Select style={{ width: "130px" }} value={type} onChange={setType}>
-                            <Option value="datepicker">Khoảng ngày</Option>
-                            <Option value="month">Tháng</Option>
-                            <Option value="year">Năm</Option>
-                        </Select>
-                        <PickerWithType type={type} onChange={handleDateChange} />
-                    </Space>
-                    <Button loading={loadings} type="primary" className="ms-5 mt-2" onClick={handleConfirm}>Thống kê</Button>
-                </div>
-
-                <div className="chart mt-4 row">
-                    <div className="col-lg-9 col-md-8 col-sm-12">
-                        <h6>Tổng doanh thu: {VND.format(totalAmount)}</h6>
-                        <Line data={revenueData} style={{ maxHeight: "500px" }} options={chartOptions} />
-                    </div>
-                    <div className="col-lg-3 col-md-4 col-sm-12 d-flex justify-content-center align-items-center">
-                        <Doughnut style={{ maxHeight: "300px", maxWidth: "300px" }} data={chartData} />
+            <div className={cx("contentPage")}>
+                <div className={cx("chartCard")}>
+                    <h4>Thống kê doanh thu</h4>
+                    <div className="datepick">
+                        <Space className="mt-3">
+                            <Select style={{ width: "130px" }} value={type} onChange={setType}>
+                                <Option value="datepicker">Khoảng ngày</Option>
+                                <Option value="month">Tháng</Option>
+                                <Option value="year">Năm</Option>
+                            </Select>
+                            <PickerWithType type={type} onChange={handleDateChange} />
+                        </Space>
+                        <Button loading={loadings} type="primary" className="ms-5 mt-2" onClick={handleConfirm}>Thống kê</Button>
                     </div>
 
+                    <div className="chart mt-4 row">
+                        <div className="col-lg-9 col-md-8 col-sm-12">
+                            <h6>Tổng doanh thu: {VND.format(totalAmount)}</h6>
+                            <Line data={revenueData} style={{ maxHeight: "500px" }} options={chartOptions} />
+                        </div>
+                        <div className="col-lg-3 col-md-4 col-sm-12 d-flex justify-content-center align-items-center">
+                            <Doughnut style={{ maxHeight: "300px", maxWidth: "300px" }} data={chartData} />
+                        </div>
+
+                    </div>
                 </div>
-                <div className="chart mt-5">
+                <div className={cx("chartCard")} style={{ marginTop: "20px" }}>
                     <h4>Thống kê loại thiết bị sửa chữa</h4>
                     <div className="datepick">
                         <Space className="mt-3">

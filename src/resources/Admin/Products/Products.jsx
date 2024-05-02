@@ -146,13 +146,13 @@ function Products() {
 
     return (
         <>
-            <div className={cx("containerPage")}>
-                <div className="titleProduct">
+            <div className={cx("containerPage")} style={{ backgroundColor: "#F0F3F7" }}>
+                <div className={cx("titlePage")}>
                     <h4 className="d-inline-block">Danh sách sản phẩm</h4>
                 </div>
                 <div className={cx("contentPage")}>
                     <div className="row">
-                        <div className="col-lg-2 col-sm-12">
+                        <div className="col-lg-2 col-sm-12" >
                             <div className={cx("filter")}>
                                 <p className={cx("titleFilter")}><FilterOutlined className="pe-2" />Bộ lọc</p>
                                 <p className={cx("allProduct")} onClick={() => fetchData()}>Tất cả thiết bị</p>

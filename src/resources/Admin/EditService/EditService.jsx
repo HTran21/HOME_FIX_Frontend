@@ -95,7 +95,7 @@ function EditService() {
     return (
         <>
             <div className={cx("containerPage")}>
-                <div className="titleProduct">
+                <div className={cx("titlePage")}>
                     <h4 className="d-inline-block">Chỉnh sửa dịch vụ</h4>
                 </div>
                 <div className={cx("contentPage")}>

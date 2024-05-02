@@ -188,7 +188,7 @@ function Brand() {
     return (
         <>
             <div className={cx("containerPage")}>
-                <div className="titleProduct">
+                <div className={cx("titlePage")}>
                     <h4 className="d-inline-block">Danh sách Thương hiệu</h4>
                 </div>
                 <div className={cx("contentPage")}>

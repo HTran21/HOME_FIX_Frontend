@@ -258,37 +258,38 @@ function StatisticalOrder() {
 
     return (
         <div className={cx("containerPage")}>
-            <div className="titlePage">
-                <h4>Thống kê đơn sửa chữa</h4>
-            </div>
             <div className="contentPage">
-                <div className="datepick">
-                    <Space className="mt-3">
-                        <Select style={{ width: "130px" }} value={type} onChange={setType}>
-                            <Option value="datepicker">Khoảng ngày</Option>
-                            {/* <Option value="week">Tuần</Option> */}
-                            <Option value="month">Tháng</Option>
-                            <Option value="year">Năm</Option>
-                        </Select>
-                        <PickerWithType type={type} onChange={handleDateChange} />
-                    </Space>
-                    <Button loading={loadings} type="primary" className="ms-5 mt-2" onClick={handleConfirm}>Thống kê</Button>
+                <div className={cx("chartCard")}>
+                    <h4>Thống kê đơn sửa chữa</h4>
+                    <div className="datepick">
+                        <Space className="mt-3">
+                            <Select style={{ width: "130px" }} value={type} onChange={setType}>
+                                <Option value="datepicker">Khoảng ngày</Option>
+                                {/* <Option value="week">Tuần</Option> */}
+                                <Option value="month">Tháng</Option>
+                                <Option value="year">Năm</Option>
+                            </Select>
+                            <PickerWithType type={type} onChange={handleDateChange} />
+                        </Space>
+                        <Button loading={loadings} type="primary" className="ms-5 mt-2" onClick={handleConfirm}>Thống kê</Button>
+                    </div>
+
+                    <div className="chart row mt-5">
+
+                        <div className="col-lg-8 col-md-6 col-sm-12">
+                            <Bar data={revenueData} style={{ maxHeight: "500px" }} options={chartOptions} />
+                            <h6 className="text-center mt-3">Số lượng đơn sửa chữa</h6>
+                        </div>
+                        <div className="col-lg-4 col-md-6 col-sm-12 justify-content-center align-items-center" style={{ display: "flex", flexDirection: "column" }}>
+
+                            <Doughnut style={{ maxHeight: "300px", maxWidth: "300px" }} data={chartData} />
+                        </div>
+                    </div>
                 </div>
 
-                <div className="chart row mt-5">
-                    {/* <Line data={revenueData} style={{ maxHeight: "500px" }} options={chartOptions} /> */}
-                    <div className="col-lg-8 col-md-6 col-sm-12">
-                        <Bar data={revenueData} style={{ maxHeight: "500px" }} options={chartOptions} />
-                        <h6 className="text-center mt-3">Số lượng đơn sửa chữa</h6>
-                    </div>
-                    <div className="col-lg-4 col-md-6 col-sm-12 justify-content-center align-items-center" style={{ display: "flex", flexDirection: "column" }}>
-                        {/* <h6 className="text-center mt-5 mb-3">Tỉ lệ đơn hàng theo dịch vụ</h6> */}
 
-                        <Doughnut style={{ maxHeight: "300px", maxWidth: "300px" }} data={chartData} />
-                    </div>
-                </div>
 
-                <div className="mt-5">
+                <div className={cx("chartCard")} style={{ marginTop: "20px" }}>
                     <h4>Thống kê loại thiết bị sửa chữa</h4>
                     <Space className="mt-3">
                         <Select style={{ width: "130px" }} value={type} onChange={setType}>

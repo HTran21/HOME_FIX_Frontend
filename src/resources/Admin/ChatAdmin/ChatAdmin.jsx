@@ -161,8 +161,8 @@ function ChatAdmin() {
     }, [listMessage]);
 
     return (
-        <div className={cx("containerPage")} style={{ backgroundColor: "#F5F5F5" }}>
-            <div className="contentPage row">
+        <div className={cx("containerPage")} >
+            <div className="contentPage row" style={{ marginTop: "10px" }}>
                 <div className="col-lg-3 col-md-4 col-sm-12">
                     <div className={cx("peopleContact")}>
                         <div className="p-3">
