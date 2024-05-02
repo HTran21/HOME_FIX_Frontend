@@ -137,9 +137,9 @@ function ProfileUser() {
             key: '1',
             label: 'Đơn sửa chữa',
             children: <Table columns={columns} dataSource={listOrder} pagination={{
-                defaultPageSize: 3,
+                defaultPageSize: 5,
                 showSizeChanger: true,
-                pageSizeOptions: ['3']
+                pageSizeOptions: ['5']
             }}
                 onChange={handleTableChange} rowKey={"id"} />,
         },
@@ -178,12 +178,12 @@ function ProfileUser() {
 
     return (
         <div className="containerPage">
-            <div className="contentPage">
+            <div className="contentPage mt-3">
                 <section>
                     <div className="container mt-2">
                         <div className="row">
                             <div className="col-lg-4">
-                                <div className="card mb-4">
+                                <div className="card mb-4 border-0">
                                     <div className="card-body text-center">
                                         <img
                                             src={`http://localhost:3000/${data?.avatar}`}
@@ -203,82 +203,61 @@ function ProfileUser() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="card mb-4 mb-lg-0">
-                                    <div className="card-body p-0">
-                                        <ul className="list-group list-group-flush rounded-3">
-                                            <li className="list-group-item d-flex justify-content-between align-items-center p-3">
-                                                <FontAwesomeIcon icon={faFacebook} size="lg" style={{ color: "#0085eb", }} />
-                                                <p className="mb-0">{data?.username}</p>
-                                            </li>
-                                            <li className="list-group-item d-flex justify-content-between align-items-center p-3">
-                                                <FontAwesomeIcon icon={faTwitter} size="lg" style={{ color: "#4194e1", }} />
-                                                <p className="mb-0">{data?.username}</p>
-                                            </li>
-                                            <li className="list-group-item d-flex justify-content-between align-items-center p-3">
-                                                <FontAwesomeIcon icon={faInstagram} size="lg" style={{ color: "#b69eff", }} />
-                                                <p className="mb-0">{data?.username}</p>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-lg-8">
-                                <div className="card mb-4">
+                                <div className="card mb-4 mb-lg-0 border-0">
                                     <div className="card-body">
                                         <div className="row">
-                                            <div className="col-sm-3">
+                                            <div className="col-sm-4">
                                                 <p className={cx("textProfile")}>Họ tên</p>
                                             </div>
-                                            <div className="col-sm-9">
+                                            <div className="col-sm-8">
                                                 <p className={cx("textProfile")}>{data?.username}</p>
                                             </div>
                                         </div>
                                         <hr />
                                         <div className="row">
-                                            <div className="col-sm-3">
+                                            <div className="col-sm-4">
                                                 <p className={cx("textProfile")}>Email</p>
                                             </div>
-                                            <div className="col-sm-9">
+                                            <div className="col-sm-8">
                                                 <p className={cx("textProfile")}>{data?.email}</p>
                                             </div>
                                         </div>
                                         <hr />
                                         <div className="row">
-                                            <div className="col-sm-3">
+                                            <div className="col-sm-4">
                                                 <p className={cx("textProfile")}>Số điện thoại</p>
                                             </div>
-                                            <div className="col-sm-9">
+                                            <div className="col-sm-8">
                                                 <p className={cx("textProfile")}>{data?.phone}</p>
                                             </div>
                                         </div>
                                         <hr />
                                         <div className="row">
-                                            <div className="col-sm-3">
+                                            <div className="col-sm-4">
                                                 <p className={cx("textProfile")}>Địa chỉ</p>
                                             </div>
-                                            <div className="col-sm-9">
+                                            <div className="col-sm-8">
                                                 <p className={cx("textProfile")}>{data?.address}</p>
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
-                                <div className="card p-0">
-                                    <div className="card-body p-0">
-                                        <div className="row">
-                                            <div className="col">
-                                                <div className={cx("cardInfo")}>
-                                                    <Tabs defaultActiveKey="1" items={items}
-                                                    />
-                                                    {/* <Table
+                            </div>
+                            <div className="col-lg-8">
+                                <div className="card p-0 border-0">
+                                    <div className="card-body p-0" style={{ marginBottom: "53px" }}>
+                                        <div className={cx("cardInfo")}>
+                                            <h4>Đơn sửa chữa gần đây</h4>
+                                            <Tabs defaultActiveKey="1" items={items}
+                                            />
+                                            {/* <Table
                                                 dataSource={data} // Dữ liệu của bảng
                                                 columns={columns} // Các cột của bảng
                                                 pagination={pagination} // Props phân trang
                                                 onChange={handleTableChange} // Callback khi phân trang hoặc sắp xếp thay đổi
                                             /> */}
 
-
-                                                </div>
-                                            </div>
 
                                         </div>
                                     </div>

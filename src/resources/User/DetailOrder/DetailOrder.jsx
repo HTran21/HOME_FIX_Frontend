@@ -275,7 +275,7 @@ function DetailOrder() {
                             <div className="row">
 
                                 <div className="col-lg-6">
-                                    <div className="card p-2">
+                                    <div className="card p-2 border-0">
                                         <div className={cx("titleRepair")}>
                                             <div className={cx("logo")}>
                                                 <img src="../../image/logo/logo8.png" alt="" />
@@ -320,7 +320,7 @@ function DetailOrder() {
 
                                 </div>
                                 <div className="col-lg-6">
-                                    <div className="card mb-4">
+                                    <div className="card mb-4 border-0">
                                         <div className="card-body" style={{ minHeight: "345px" }}>
                                             <h6 className="mb-2">Các thao tác đã thực hiện</h6>
                                             <Table columns={columns} dataSource={data?.TaskRepairs} pagination={{
@@ -331,7 +331,7 @@ function DetailOrder() {
                                                 onChange={handleTableChange} rowKey={"id"} />
                                         </div>
                                     </div>
-                                    <div className={`${data?.Order.status === 'A' ? 'd-none' : ''} card`}>
+                                    <div className={`${data?.Order.status === 'A' ? 'd-none' : ''} card border-0`}>
                                         <div className="card-body mb-3" >
                                             <p className={cx("totalAmout")}>Tổng thành tiền: {VND.format(data?.totalAmount)}</p>
                                             {data?.paymentStatus === 'P' ?

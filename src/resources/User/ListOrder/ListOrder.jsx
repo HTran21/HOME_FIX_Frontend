@@ -363,8 +363,8 @@ function ListOrder() {
 
     return (
         <div className={cx("containerPage")}>
-            <div className="titlePage">
-                <h4>Danh sách đơn sửa chữa</h4>
+            <div className="mt-2">
+                <h4 className={cx("titlePage")}>Danh sách đơn sửa chữa</h4>
                 <div className="overviewOrder">
                     <div className="row">
                         {cardData.map((card, index) => (
@@ -383,7 +383,7 @@ function ListOrder() {
                     </div>
                 </div>
             </div>
-            <div className="contentPage">
+            <div className={cx("contentPage")}>
                 {/* <Table className="mt-4" columns={columns} dataSource={data} /> */}
                 <Table className="mt-4" columns={columns} dataSource={listOrder}
                     pagination={{

@@ -148,7 +148,7 @@ function Chat() {
 
     return (
         <div className={cx("containerPage")}>
-            <div className="contentPage row">
+            <div className="contentPage row" style={{ marginTop: "10px" }}>
                 <div className="col-lg-3 col-md-4 col-sm-12">
                     <div className={cx("peopleContact")}>
                         <div className="p-3">

@@ -276,7 +276,7 @@ const LayoutUser = () => {
                             </Dropdown>
                         </div>
                     </Header>
-                    <Content style={{ backgroundColor: "#fff" }}>
+                    <Content style={{ backgroundColor: "#F0F3F7" }}>
                         <div>
                             <Outlet />
                         </div>

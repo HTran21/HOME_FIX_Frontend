@@ -330,8 +330,8 @@ function FeedbackUser() {
     return (
         <>
             <div className={cx("containerPage")}>
-                <div className="titlePage">
-                    <h4>Danh sách phản hồi</h4>
+                <div className="mt-2">
+                    <h4 className={cx("titlePage")}>Danh sách phản hồi</h4>
                     <div className="overviewOrder">
                         <div className="row">
                             {cardData.map((card, index) => (
@@ -351,7 +351,7 @@ function FeedbackUser() {
                     </div>
 
                 </div>
-                <div className="contentPage">
+                <div className={cx("contentPage")}>
 
                     <Table className="mt-4" columns={columns} dataSource={listFeedback}
                         pagination={{

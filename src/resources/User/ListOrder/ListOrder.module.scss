@@ -2,6 +2,20 @@
     padding: 10px 20px;
 }
 
+.titlePage {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px 15px;
+}
+
+.contentPage {
+    padding: 10px 15px;
+    background-color: #fff;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+
 
 .cardBody:hover {
     transform: translateY(-5px);
@@ -14,6 +28,11 @@
     padding: 10px;
     transition: 0.5s;
     cursor: pointer;
+    background-color: #fff;
+    margin-top: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 10px 10px rgba(194, 191, 191, 0.3);
+
 
     .iconCard {
         font-size: 20px;
@@ -73,8 +92,8 @@
     color: #fff;
 
     .iconCard {
-        color: rgba(229, 219, 25, 0.667);
-        background-color: rgba(212, 211, 182, 0.564);
+        color: rgb(248, 238, 58);
+        background-color: rgba(235, 234, 193, 0.411);
     }
 }
 

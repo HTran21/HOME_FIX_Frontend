@@ -112,11 +112,11 @@ function EditProfile() {
     return (
         <div className="containerPage">
             <div className="contentPage">
-                <section style={{ backgroundColor: "#eee" }}>
-                    <div className="container mt-2">
+                <section>
+                    <div className="container mt-3">
                         <div className="row">
                             <div className="col-lg-4">
-                                <div className="card mb-4">
+                                <div className="card border-0 mb-4" style={{ padding: "22px" }}>
                                     <div className="card-body text-center">
                                         <img
                                             src={imageShow}
@@ -140,7 +140,7 @@ function EditProfile() {
 
                             </div>
                             <div className="col-lg-8">
-                                <div className="card mb-4">
+                                <div className="card mb-4 border-0">
                                     <div className="card-body pb-4">
                                         <div className="row">
                                             <div className="col-sm-3">
