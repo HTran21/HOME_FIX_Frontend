@@ -9,16 +9,18 @@ import styles from "./DetailOrder.module.scss";
 
 const cx = className.bind(styles);
 import moment from 'moment';
-import Operation from "antd/es/transfer/operation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faHourglassHalf, faMessage, faMoneyBill1 } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faCloudArrowDown, faFilePdf, faHourglassHalf, faMessage, faMoneyBill1, faPrint } from "@fortawesome/free-solid-svg-icons";
 
 import { io } from "socket.io-client";
 import { useSelector } from "react-redux";
+import ComponentPDF from "../../../components/PDF/ComponentPDF";
+import { PDFViewer } from "@react-pdf/renderer";
 
 const socket = io.connect("http://localhost:3000", {
     transports: ["websocket"],
 });
+
 
 function DetailOrder() {
 
@@ -263,7 +265,18 @@ function DetailOrder() {
         setContentFeedback('');
     };
 
+    const [isModalPDF, setIsMoDalPDF] = useState(false);
 
+    const handlePDf = (data) => {
+        console.log("Data Modal", data)
+        setIsMoDalPDF(true)
+
+
+    }
+
+    const handleCancelPDF = () => {
+        setIsMoDalPDF(false)
+    }
 
     return (
         <>
@@ -271,7 +284,6 @@ function DetailOrder() {
                 <div className="contentPage">
                     <section>
                         <div className="container mt-2">
-
                             <div className="row">
 
                                 <div className="col-lg-6">
@@ -331,7 +343,7 @@ function DetailOrder() {
                                                 onChange={handleTableChange} rowKey={"id"} />
                                         </div>
                                     </div>
-                                    <div className={`${data?.Order.status === 'A' ? 'd-none' : ''} card border-0`}>
+                                    <div className={`${data?.Order.status === 'A' ? 'd-none' : ''} card border-0 mb-3`}>
                                         <div className="card-body mb-3" >
                                             <p className={cx("totalAmout")}>Tổng thành tiền: {VND.format(data?.totalAmount)}</p>
                                             {data?.paymentStatus === 'P' ?
@@ -397,6 +409,19 @@ function DetailOrder() {
 
                                         </div>
                                     </div>
+                                    <div className={cx("actionBill")}  >
+                                        <div onClick={() => handlePDf(data)} className={cx("btnSaveBill")} >
+
+                                            <FontAwesomeIcon icon={faFilePdf} />
+                                            <p>Xuất file PDF</p>
+
+                                        </div>
+                                        {/* <div className={cx("btnPrintBill")}>
+                                            <FontAwesomeIcon icon={faPrint} />
+                                            <p>In ra</p>
+                                        </div> */}
+
+                                    </div>
 
                                 </div>
                             </div>
@@ -460,6 +485,13 @@ function DetailOrder() {
                 </div>
 
 
+            </Modal>
+            <Modal footer={null} style={{ top: 5 }} width={1200} open={isModalPDF} onOk={() => handlePDf(data)} onCancel={handleCancelPDF} okText="Gửi" cancelText="Đóng">
+                <div className="p-3">
+                    <PDFViewer style={{ width: "100%", height: "100vh" }}>
+                        <ComponentPDF data={data} />
+                    </PDFViewer>
+                </div>
             </Modal>
         </>
     );

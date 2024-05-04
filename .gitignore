@@ -29,3 +29,6 @@ dist-ssr
 *.gif
 *.svg
 *.jpeg
+
+# Fonts
+*.ttf

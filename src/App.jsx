@@ -82,6 +82,9 @@ import FeedbackOrder from './resources/Admin/FeedbackOrder/FeedbackOrder';
 import EditAcceptForm from './resources/Admin/EditAcceptForm/EditAcceptForm';
 import FeedbackRepairer from './resources/Repairer/FeedbackRepairer/FeedbackRepairer';
 import FeedbackUser from './resources/User/FeedbackUser/FeedbackUser';
+import DetailOrderPDF from './resources/Both/DetailOrderPDF/DetailOrderPDF';
+import { PDFViewer } from '@react-pdf/renderer';
+import StatisticalRepairer from './resources/Admin/StatisticalRepairer/StatisticalRepairer';
 
 
 const Layout = () => {
@@ -170,6 +173,7 @@ function App() {
           path: "contact",
           element: <Contact />
         },
+
         {
           path: "/service/detail/:id",
           element: <DetailRepair />
@@ -285,6 +289,11 @@ function App() {
         {
           path: "statistic/order",
           element: <StatisticalOrder />
+
+        },
+        {
+          path: "statistic/repairer",
+          element: <StatisticalRepairer />
 
         },
         {
@@ -441,6 +450,10 @@ function App() {
       path: "result",
       element: <Result />
 
+    },
+    {
+      path: "orderpdf/:id",
+      element: <DetailOrderPDF />
     },
     {
       path: "403",

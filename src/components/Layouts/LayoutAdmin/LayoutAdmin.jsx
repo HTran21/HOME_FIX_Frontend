@@ -80,8 +80,9 @@ const itemsSlider = [
     getItem('Thống kê', 'sub6', <LineChartOutlined />, [
         getItem(<Link to="/admin/statistic/earn" className='text-decoration-none'>Doanh thu</Link>, '16'),
         getItem(<Link to="/admin/statistic/order" className='text-decoration-none'>Sửa chữa</Link>, '17'),
+        getItem(<Link to="/admin/statistic/repairer" className='text-decoration-none'>Nhân viên</Link>, '18'),
     ]),
-    getItem(<Link to="/admin/chat" className='text-decoration-none'>Hỗ trợ</Link>, '18', <FontAwesomeIcon icon={faHeadset} />),
+    getItem(<Link to="/admin/chat" className='text-decoration-none'>Hỗ trợ</Link>, '19', <FontAwesomeIcon icon={faHeadset} />),
 
 ];
 

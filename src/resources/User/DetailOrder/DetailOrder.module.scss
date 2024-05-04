@@ -217,3 +217,60 @@ h5 {
     color: #fff;
     cursor: pointer;
 }
+
+.actionBill {
+    display: flex;
+    background-color: #fff;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+
+    .btnSaveBill {
+        display: flex;
+        width: 200px;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 10px;
+        margin: 10px;
+        background-color: #ffe1e1;
+        color: rgb(255, 0, 0);
+        transition: 0.3s;
+        cursor: pointer;
+        text-decoration: none;
+
+        p {
+            margin-left: 5px;
+        }
+    }
+
+    .btnSaveBill:hover {
+        background-color: #fe2d2d;
+        color: #fff;
+    }
+
+    .btnPrintBill {
+        display: flex;
+        width: 150px;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 10px;
+        margin: 10px;
+        background-color: #CFFFEA;
+        color: rgb(8, 147, 8);
+        transition: 0.3s;
+        cursor: pointer;
+
+        p {
+            margin-left: 5px;
+        }
+    }
+
+    .btnPrintBill:hover {
+        background-color: #00C764;
+        color: #fff;
+    }
+}
