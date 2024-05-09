@@ -1,8 +1,7 @@
 import styles from "./Contact.module.scss";
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock, faEnvelope, faMoneyBill1, faStar, faThumbsUp } from "@fortawesome/free-regular-svg-icons";
-import { faCalendarDay, faLocationDot, faPhone, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarDay, faLocationDot, faEnvelope, faPhoneVolume, faClock } from "@fortawesome/free-solid-svg-icons";
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 
@@ -25,6 +24,60 @@ function Contact() {
             </section>
             <section className={`container ${cx("contactUser")}`}>
                 <div className="row">
+                    <div className="col-lg-3 col-md-6">
+                        <div className={cx("cardInfor")}>
+                            <div className={cx("iconInfor")}>
+                                <FontAwesomeIcon icon={faPhoneVolume} />
+                            </div>
+                            <div className={cx("contentInfor")}>
+                                <div className={cx("titleContent")}>
+                                    Số điện thoại
+                                </div>
+                                <p>(+84) 0971144857</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-lg-3 col-md-6">
+                        <div className={cx("cardInfor")}>
+                            <div className={cx("iconInfor")}>
+                                <FontAwesomeIcon icon={faEnvelope} />
+                            </div>
+                            <div className={cx("contentInfor")}>
+                                <div className={cx("titleContent")}>
+                                    Email
+                                </div>
+                                <p>homefix@gmail.com</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-lg-4 col-md-6">
+                        <div className={cx("cardInfor")}>
+                            <div className={cx("iconInfor")}>
+                                <FontAwesomeIcon icon={faLocationDot} />
+                            </div>
+                            <div className={cx("contentInfor")}>
+                                <div className={cx("titleContent")}>
+                                    Địa chỉ
+                                </div>
+                                <p>Đường số 10,Quận Ninh Kiều, TP.Cần Thơ</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-lg-2 col-md-6">
+                        <div className={cx("cardInfor")}>
+                            <div className={cx("iconInfor")}>
+                                <FontAwesomeIcon icon={faClock} />
+                            </div>
+                            <div className={cx("contentInfor")}>
+                                <div className={cx("titleContent")}>
+                                    Mở cửa
+                                </div>
+                                <p>8:00-17:00</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/* <div className="row">
                     <div className="col-lg-6 col-md-5 col-sm-12">
                         <div className="row">
                             <div className="col-lg-6 col-sm-12">
@@ -95,8 +148,8 @@ function Contact() {
 
                         </Form>
                     </div>
-                </div>
-            </section>
+                </div> */}
+            </section >
         </>
     );
 }

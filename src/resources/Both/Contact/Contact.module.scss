@@ -14,6 +14,10 @@
     text-align: center;
     margin: 50px 0px;
 
+    h2 {
+        font-size: 34px;
+    }
+
     .desIntro {
         max-width: 600px;
         margin: auto;
@@ -56,4 +60,61 @@
     /* change the direction of the change here */
     color: #fff;
     text-decoration: none;
+}
+
+.cardInfor {
+    background-color: #FAFAFA;
+    border-radius: 10px;
+    padding: 10px 0px;
+    display: grid;
+    grid-template-columns: 70px auto;
+    cursor: pointer;
+    margin: 5px;
+
+    .iconInfor {
+        font-size: 30px;
+        color: #1c5fa1c6;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+    }
+
+    .titleContent {
+        font-size: 17px;
+        font-weight: 500;
+    }
+
+    p {
+        font-size: 16px;
+        font-weight: bold;
+    }
+}
+
+.iconInfor:hover {
+    animation: shake 1s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes shake {
+
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+
+    20%,
+    80% {
+        transform: translate3d(2px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+
+    40%,
+    60% {
+        transform: translate3d(4px, 0, 0);
+    }
 }

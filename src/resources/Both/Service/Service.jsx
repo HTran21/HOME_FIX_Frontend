@@ -14,6 +14,14 @@ const cx = classNames.bind(styles);
 function Service() {
     const navigate = useNavigate();
     const [listService, setListService] = useState();
+    const [dataStatisticalOverview, setDataStatitsticalOverview] = useState();
+    const featchStatistical = async () => {
+        let res = await axios.get("http://localhost:3000/statistical/overview");
+        if (res && res.data) {
+            console.log(res.data.data)
+            setDataStatitsticalOverview(res.data.data)
+        }
+    }
 
     const fetchData = () => {
         axios.get("http://localhost:3000/service/getService")
@@ -27,6 +35,7 @@ function Service() {
     }
     useEffect(() => {
         fetchData();
+        featchStatistical();
         window.scrollTo(0, 0);
     }, [])
 
@@ -115,7 +124,7 @@ function Service() {
                     <div className="row">
                         <div className={`m-auto col-lg-4 col-md-6 col-sm-12 ${cx("detailRepair")}`}>
                             <div className={cx("numberInfor")}>
-                                365
+                                {dataStatisticalOverview?.totalRepair}
                             </div>
                             <div className={cx("titleInfor")}>
                                 DỰ ÁN ĐÃ THỰC HIỆN
@@ -123,7 +132,7 @@ function Service() {
                         </div>
                         <div className={`m-auto col-lg-4 col-md-6 col-sm-12 ${cx("detailRepair")}`}>
                             <div className={cx("numberInfor")}>
-                                1956
+                                {dataStatisticalOverview?.totalUser}
                             </div>
                             <div className={cx("titleInfor")}>
                                 KHÁCH HÀNG HÀI LÒNG
@@ -131,10 +140,10 @@ function Service() {
                         </div>
                         <div className={`m-auto col-lg-4 col-md-6 col-sm-12 ${cx("detailRepair")}`}>
                             <div className={cx("numberInfor")}>
-                                458
+                                {dataStatisticalOverview?.totalCategori}
                             </div>
                             <div className={cx("titleInfor")}>
-                                CUỘC GỌI TUYỆT VỜI
+                                THIẾT BỊ ĐA DẠNG
                             </div>
                         </div>
                     </div>

@@ -160,17 +160,16 @@
     max-width: 100px;
     width: 100%;
     display: flex;
-    margin: auto;
+    margin: auto auto 20px auto;
 }
 
 .contentCard {
     display: grid;
-    padding: 20px 10px;
 }
 
 .btnCard {
     background-image: linear-gradient(to right, #314755 0%, #26a0da 51%, #314755 100%);
-    margin-top: 30px;
+    margin-top: 10px;
     padding: 5px 10px;
     width: 150px;
     text-align: center;
@@ -188,4 +187,8 @@
     /* change the direction of the change here */
     color: #fff;
     text-decoration: none;
+}
+
+.cardNews {
+    padding: 10px;
 }
