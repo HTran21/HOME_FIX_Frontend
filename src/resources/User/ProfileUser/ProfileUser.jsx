@@ -74,6 +74,13 @@ function ProfileUser() {
             title: 'Ngày đăng ký',
             dataIndex: 'createdAt',
             key: 'createdAt',
+            defaultSortOrder: 'descend',
+            sorter: (a, b) => {
+                const dateA = new Date(a.createdAt);
+                const dateB = new Date(b.createdAt);
+
+                return dateA - dateB;
+            },
             render: (_, { createdAt, index }) => {
                 return (
                     <div key={index + 1}>
@@ -370,30 +377,18 @@ function ProfileUser() {
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col-lg-6 col-md-6 col-sm-12">
-                                <div className="form-floating mb-3" >
-                                    {/* <input
-                                        type="text"
-                                        className={`${cx("inputForm")} form-control`}
-                                        id="floatingInput"
-                                        placeholder="name@example.com"
-                                        readOnly defaultValue={moment(record?.desireDate).format("DD/MM/YYYY")} onChange={() => { }}
-                                    />
-
-                                    <label htmlFor="floatingInput">Thời gian mong muốn</label> */}
-                                    <p className="fw-bold">Thời gian mong muốn</p>
-                                    <DatePicker
-                                        multiple
-                                        onChange={() => { }}
-                                        maxTagCount="responsive"
-                                        value={dateArrray}
-                                        size="large"
-                                        disabled
-                                    />
-                                </div>
-
+                            <div className="form-floating mb-3" >
+                                <p className="fw-bold">Thời gian mong muốn</p>
+                                <DatePicker
+                                    multiple
+                                    onChange={() => { }}
+                                    maxTagCount="responsive"
+                                    value={dateArrray}
+                                    size="large"
+                                    disabled
+                                />
                             </div>
-                            <div className="col-lg-6 col-md-6 col-sm-12">
+                            <div>
                                 <div className="form-floating mb-3">
                                     <textarea
                                         className={`${cx("inputForm")} form-control`}
@@ -405,8 +400,9 @@ function ProfileUser() {
                                     <label htmlFor="floatingTextarea2">Comments</label>
 
                                 </div>
-
                             </div>
+
+
                         </div>
                     </div>
                     <div className={cx("statusOrder")}>

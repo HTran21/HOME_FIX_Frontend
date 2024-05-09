@@ -8,17 +8,19 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from '../../../service/customize_axios';
 import moment from 'moment';
+import { Modal } from 'antd';
+import { toast } from "react-toastify";
 
 function CalenderRepairer() {
     const user = useSelector((state) => state.user.user);
     const id = user?.id;
     const [data, setData] = useState();
-    const onChange = (date, dateString) => {
-        console.log(date, dateString);
-    };
-    const onPanelChange = (value, mode) => {
-        console.log(value.format('YYYY-MM-DD'), mode);
-    };
+    // const onChange = (date, dateString) => {
+    //     console.log(date, dateString);
+    // };
+    // const onPanelChange = (value, mode) => {
+    //     console.log(value.format('YYYY-MM-DD'), mode);
+    // };
 
     const fetchData = async () => {
         try {
@@ -32,24 +34,70 @@ function CalenderRepairer() {
     useEffect(() => {
         fetchData();
     }, [])
-    const cellRender = (value) => {
-        const date = value.format('YYYY-MM-DD');
-        if (data && data.length > 0) {
-            const isHighlighted = data.find((item) => moment(item.workDay).format('YYYY-MM-DD') === date);
-            console.log("isHiglth", isHighlighted)
-            if (isHighlighted) {
-                return <div className="highlighted-day" />;
-            }
-        }
-        return <></>; // Trả về một ReactNode rỗng cho các trường hợp không phù hợp
-    };
+    // const cellRender = (value) => {
+    //     const date = value.format('YYYY-MM-DD');
+    //     if (data && data.length > 0) {
+    //         const isHighlighted = data.find((item) => moment(item.workDay).format('YYYY-MM-DD') === date);
+    //         console.log("isHiglth", isHighlighted)
+    //         if (isHighlighted) {
+    //             return <div className="highlighted-day" />;
+    //         }
+    //     }
+    //     return <></>;
+    // };
 
-    const handleCalendar = () => {
-        console.log("Chon ngay")
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [record, setRecord] = useState();
+    const showModal = (date) => {
+        setIsModalOpen(true);
+        const formatDate = moment(date).format('YYYY-MM-DD')
+        console.log(formatDate)
+        setRecord(formatDate);
     }
 
+    const handleCancel = () => {
+        setIsModalOpen(false)
+        setRecord()
+    }
+    const handleOk = (date) => {
+        let currentDay = moment();
+        if (date && id) {
+            if (moment(date).isBefore(currentDay, 'day')) {
+                toast.error("Không thể xóa ngày làm việc trong quá khứ")
+                handleCancel()
+            } else {
+                axios.delete("http://localhost:3000/schedule/deleteSchedule", {
+                    params: {
+                        id: id,
+                        date: date
+                    }
+                })
+                    .then(res => {
+                        if (res.data.success) {
+                            handleCancel()
+                            toast.success(res.data.message)
+                            fetchData()
+                        } else {
+                            toast.error(res.data.message)
+                        }
+                    })
+            }
+        }
+    }
+
+    const [isModalListWork, setIsModalListWork] = useState(false)
+    const [recordListWork, setRecordListWork] = useState();
+    const showModalListWork = (listWork) => {
+        setIsModalListWork(true);
+        setRecordListWork(listWork);
+    }
+
+    const handleCancelListWork = () => {
+        setIsModalListWork(false)
+        setRecordListWork()
+    }
     return (
-        <div className="container">
+        <>
             <style>
                 {`
       .bg-gray {
@@ -57,145 +105,90 @@ function CalenderRepairer() {
       }
       `}
             </style>
-            <div className={`${cx("titlePage")}`}>
-                <h4>Lịch làm việc</h4>
-                <Link to={"/repairer/calendar/create"} className={`${cx("btnAdd")} text-decoration-none text-light`}> Tạo lịch </Link>
-            </div>
-            <div className="contentPage">
-                {/* <Calendar onPanelChange={onPanelChange} fullCellRender={cellRender} /> */}
-                {/* <Calendar
-                    renderCell={(date) => {
-                        const dateString = moment(date).format('YYYY-MM-DD');
-                        if (data && data.length > 0) {
-                            const isHighlighted = data.find((item) => moment(item.workDay).format('YYYY-MM-DD') === dateString);
-                            console.log("isHiglth", isHighlighted)
-                            if (isHighlighted != undefined) {
-                                return <div className={cx("highlightedDay")} ></div>;
+            <div className="container">
+                <div className={`${cx("titlePage")}`}>
+                    <h4>Lịch làm việc</h4>
+                    <Link to={"/repairer/calendar/create"} className={`${cx("btnAdd")} text-decoration-none text-light`}> Tạo lịch </Link>
+                </div>
+                <div className="contentPage">
+
+                    <Calendar
+                        bordered
+                        cellClassName={(date) => {
+                            const dateString = moment(date).format('YYYY-MM-DD');
+                            if (data && data.length > 0) {
+                                const isHighlighted = data.find((item) => moment(item.workDay).format('YYYY-MM-DD') === dateString);
+                                return isHighlighted ? 'bg-gray' : '';
                             }
-                        }
-                        return null;
-                    }}
-                /> */}
-                <Calendar
-                    bordered
-                    cellClassName={(date) => {
-                        const dateString = moment(date).format('YYYY-MM-DD');
-                        if (data && data.length > 0) {
-                            const isHighlighted = data.find((item) => moment(item.workDay).format('YYYY-MM-DD') === dateString);
-                            return isHighlighted ? 'bg-gray' : '';
-                        }
-                        return '';
-                    }}
+                            return '';
+                        }}
 
-                    renderCell={(value) => {
-                        if (data && data.length > 0) {
-                            const filteredData = data.filter(item => moment(item.workDay).format('YYYY-MM-DD') === moment(value).format('YYYY-MM-DD'));
-                            if (filteredData.length === 0) {
-                                return null;
+                        renderCell={(value) => {
+                            if (data && data.length > 0) {
+                                const filteredData = data.filter(item => moment(item.workDay).format('YYYY-MM-DD') === moment(value).format('YYYY-MM-DD'));
+                                if (filteredData.length === 0) {
+                                    return null;
+                                }
+                                const workToday = filteredData[0].DetailOrders;
+                                if (workToday.length) {
+                                    return (
+                                        <div>
+                                            Đơn: {workToday.length}
+                                        </div>
+                                    )
+                                }
                             }
-                            const workToday = filteredData[0].DetailOrders;
-                            if (workToday.length) {
-                                return (
-                                    <div>
-                                        Đơn: {workToday.length}
-                                    </div>
-                                )
+
+                        }}
+
+                        onSelect={(value) => {
+                            if (data && data.length > 0) {
+                                const filteredData = data.filter(item => moment(item.workDay).format('YYYY-MM-DD') === moment(value).format('YYYY-MM-DD'));
+                                if (filteredData.length === 0) {
+                                    return null;
+                                }
+                                const workToday = filteredData[0].DetailOrders;
+                                if (workToday.length > 0) {
+                                    showModalListWork(workToday)
+                                    console.log(workToday)
+                                } else {
+                                    showModal(value)
+                                }
                             }
-                        }
 
-                    }}
+                        }}
 
-                    onSelect={(value) => {
-                        if (data && data.length > 0) {
-                            const filteredData = data.filter(item => moment(item.workDay).format('YYYY-MM-DD') === moment(value).format('YYYY-MM-DD'));
-                            if (filteredData.length === 0) {
-                                return null;
-                            }
-                            const workToday = filteredData[0].DetailOrders;
-                            if (workToday) {
-                                console.log("Chon ngay", moment(value).format('DD/MM/YYYY'))
-                            }
-                        }
 
-                    }}
+                    />
 
-                />
-                {/* <Calendar bordered cellClassName={date => (date.getDay() % 2 ? 'bg-gray' : undefined)} /> */}
-                {/* <DatePicker placeholder="Chọn tuần" className={cx("calenderSelect")} onChange={onChange} picker="week" />
-
-                <div className="listDayWork mt-2 row">
-                    <div className={` col-lg-4 col-md-6 col-sm-12`}>
-                        <div className={cx("cardWork", "active")}>
-                            <div className="row">
-                                <div className="col"><p className={cx("titleWorkContent")}>Thứ 6 28/03/2024</p></div>
-
+                </div>
+            </div >
+            <Modal title="Xóa lịch làm việc" open={isModalOpen} onOk={() => handleOk(record)} onCancel={handleCancel} okButtonProps={{ style: { backgroundColor: 'red' } }} okText="Xóa" cancelText="Đóng">
+                <p>Bạn chắc chắn muốn xóa lịch làm việc ngày {moment(record).format('DD-MM-YYYY')}</p>
+            </Modal>
+            <Modal title="Danh sách công việc" open={isModalListWork} onOk={handleCancelListWork} onCancel={handleCancelListWork} okButtonProps={{ style: { display: "none" } }} okText="Xóa" cancelText="Đóng">
+                <div>
+                    {recordListWork?.map((work, index) => (
+                        <div key={index} className={cx("cardWork")}>
+                            <div className="row" >
+                                <div className="col-6">ID: {work.ID_Order}</div>
+                                <div className="col-6 text-end">{work.timeRepair.split('-')[0]} {moment(work.Schedule.workDay).format('DD/MM/YYYY')}</div>
                             </div>
                             <div className="row">
                                 <div className={`${cx("contentWork")}`}>
-                                    <p>Tên: Lý Truyng Tình</p>
-                                    <p>Đơn sửa chữa: 5</p>
-
+                                    <p className={cx("titleWorkContent")}>Sửa chữa {work.Order.Categori.nameCategories}</p>
+                                    <p>Tên: {work.Order.fullName}</p>
+                                    <p>Số điện thoại: {work.Order.phone}</p>
+                                    <p>Địa Chỉ:  {work.Order.address}</p>
                                 </div>
 
                             </div>
                         </div>
+                    ))}
+                </div>
+            </Modal>
+        </>
 
-                    </div>
-                    <div className={` col-lg-4 col-md-6 col-sm-12`}>
-                        <div className={cx("cardWork")}>
-                            <div className="row">
-                                <div className="col"><p className={cx("titleWorkContent")}>Thứ 7 29/03/2024</p></div>
-
-                            </div>
-                            <div className="row">
-                                <div className={`${cx("contentWork")}`}>
-                                    <p>Tên: Lý Truyng Tình</p>
-                                    <p>Đơn sửa chữa: 5</p>
-
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
-                    < div className={` col-lg-4 col-md-6 col-sm-12`}>
-                        <div className={cx("cardWork")}>
-                            <div className="row">
-                                <div className="col"><p className={cx("titleWorkContent")}>Thứ 2 31/04/2024</p></div>
-
-                            </div>
-                            <div className="row">
-                                <div className={`${cx("contentWork")}`}>
-                                    <p>Tên: Lý Truyng Tình</p>
-                                    <p>Đơn sửa chữa: 5</p>
-
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
-                    <div className={` col-lg-4 col-md-6 col-sm-12`}>
-                        <div className={cx("cardWork")}>
-                            <div className="row">
-                                <div className="col"><p className={cx("titleWorkContent")}>Thứ 3 01/04/2024</p></div>
-
-                            </div>
-                            <div className="row">
-                                <div className={`${cx("contentWork")}`}>
-                                    <p>Tên: Lý Truyng Tình</p>
-                                    <p>Đơn sửa chữa: 5</p>
-
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div> *
-                 </div> */}
-
-            </div>
-        </div >
     );
 }
 

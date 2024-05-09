@@ -22,16 +22,25 @@ const PickerWithType = ({ type, onChange }) => {
     if (type === 'year') return <DatePicker picker="year" onChange={onChange} />;
 };
 
+const PickerWithTypeCategori = ({ type, onChange }) => {
+    if (type === 'datepicker') return <RangePicker onChange={onChange} />
+    // if (type === 'week') return <DatePicker onChange={onChange} picker="week" />;
+    if (type === 'month') return <DatePicker picker="month" onChange={onChange} />;
+    if (type === 'year') return <DatePicker picker="year" onChange={onChange} />;
+};
+
 
 function Statistical() {
 
     const [type, setType] = useState('datepicker');
+    const [typeCategori, setTypeCategori] = useState('datepicker');
     const [dataEarning, setDataEarning] = useState();
     const [dataEarningCategori, setDataEarningCategori] = useState();
     const [dataEarningPie, setDataEarningPie] = useState();
     const [totalAmount, setTotalAmount] = useState();
     const [totalAmountCategori, setTotalAmountCategori] = useState();
     const [dateSend, setDateSend] = useState();
+    const [dateSendCategori, setDateSendCategori] = useState();
     const [loadings, setLoadings] = useState();
     const [loadingsCategori, setLoadingsCategori] = useState();
 
@@ -57,6 +66,27 @@ function Statistical() {
                 break;
         }
         setDateSend(dataToSend)
+
+    };
+
+
+
+    const handleDateChangeCategori = (dates, dateStrings) => {
+        let dataToSend = {};
+        switch (typeCategori) {
+            case 'datepicker':
+                dataToSend = { typeCategori: "datepicker", data: dateStrings };
+                break;
+            case 'month':
+                dataToSend = { typeCategori: "month", data: dateStrings };
+                break;
+            case 'year':
+                dataToSend = { typeCategori: "year", data: dateStrings };
+                break;
+            default:
+                break;
+        }
+        setDateSendCategori(dataToSend)
 
     };
 
@@ -89,11 +119,13 @@ function Statistical() {
 
     }
     const handleConfirmCategori = () => {
-        if (dateSend && dateSend.data) {
+        if (dateSendCategori && dateSendCategori.data) {
+            console.log(dateSendCategori)
+
             setLoadingsCategori(true)
             axios.get("http://localhost:3000/statistical/earningbyCategori", {
                 params: {
-                    dateSend
+                    dateSendCategori
                 }
             })
                 .then(res => {
@@ -285,12 +317,12 @@ function Statistical() {
                     <h4>Thống kê loại thiết bị sửa chữa</h4>
                     <div className="datepick">
                         <Space className="mt-3">
-                            <Select style={{ width: "130px" }} value={type} onChange={setType}>
+                            <Select style={{ width: "130px" }} value={typeCategori} onChange={setTypeCategori}>
                                 <Option value="datepicker">Khoảng ngày</Option>
                                 <Option value="month">Tháng</Option>
                                 <Option value="year">Năm</Option>
                             </Select>
-                            <PickerWithType type={type} onChange={handleDateChange} />
+                            <PickerWithTypeCategori type={typeCategori} onChange={handleDateChangeCategori} />
                         </Space>
                         <Button loading={loadingsCategori} type="primary" className="ms-5 mt-2" onClick={handleConfirmCategori}>Thống kê</Button>
                     </div>

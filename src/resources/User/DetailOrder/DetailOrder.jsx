@@ -409,7 +409,7 @@ function DetailOrder() {
 
                                         </div>
                                     </div>
-                                    <div className={cx("actionBill")}  >
+                                    <div className={`${cx("actionBill")} ${data?.Order.status === 'S' ? '' : 'd-none'}`}  >
                                         <div onClick={() => handlePDf(data)} className={cx("btnSaveBill")} >
 
                                             <FontAwesomeIcon icon={faFilePdf} />
@@ -486,7 +486,10 @@ function DetailOrder() {
 
 
             </Modal>
-            <Modal footer={null} style={{ top: 5 }} width={1200} open={isModalPDF} onOk={() => handlePDf(data)} onCancel={handleCancelPDF} okText="Gửi" cancelText="Đóng">
+            <Modal
+                style={{ top: 0 }} width={1200}
+                centered={false}
+                footer={null} open={isModalPDF} onOk={() => handlePDf(data)} onCancel={handleCancelPDF} okText="Gửi" cancelText="Đóng">
                 <div className="p-3">
                     <PDFViewer style={{ width: "100%", height: "100vh" }}>
                         <ComponentPDF data={data} />

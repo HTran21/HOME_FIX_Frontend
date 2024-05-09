@@ -46,6 +46,7 @@ function Staff() {
         axios.get("http://localhost:3000/admin/getAll")
             .then(res => {
                 setData(res.data.users)
+                console.log(res.data.users)
             })
             .catch((error) => console.log(error));
     }
@@ -68,6 +69,14 @@ function Staff() {
             dataIndex: 'username',
             key: 'username',
             align: 'center',
+            render: (_, record, index) => {
+                return (
+                    <div style={{ textAlign: "left" }}>
+                        <img className={cx("imageStaff")} src={`http://localhost:3000/${record?.avatar}`}></img>
+                        {record?.username}
+                    </div>
+                )
+            }
         },
         {
             title: 'Email',
@@ -92,12 +101,13 @@ function Staff() {
             dataIndex: 'role',
             key: 'role',
             render: (_, { role, index }) => {
-                let color = role === '=AD' ? 'blue' : (role === 'RP' ? 'orange' : 'green');
+                let color = role === 'AD' ? 'blue' : (role === 'RP' ? 'orange' : 'green');
+                let text = role === 'AD' ? 'Admin' : (role === 'RP' ? 'Thợ' : 'Khách hàng');
 
 
                 return (
-                    <Tag key={index + 1} style={{ width: "70px", textAlign: "center" }} color={color} >
-                        {role}
+                    <Tag key={index + 1} style={{ width: "75px", textAlign: "center" }} color={color} >
+                        {text}
                     </Tag>
 
                 );
@@ -121,6 +131,37 @@ function Staff() {
 
         },
         {
+            title: 'Trạng thái',
+            dataIndex: 'status',
+            key: 'status',
+            render: (_, { status, index }) => {
+                let color = status === 'Y' ? 'blue' : (status === 'D' ? 'red' : 'green');
+                let text = status === 'Y' ? 'Active' : (status === 'D' ? 'Deleted' : 'Blocked');
+
+
+                return (
+                    <Tag key={index + 1} style={{ width: "75px", textAlign: "center" }} color={color} >
+                        {text}
+                    </Tag>
+
+                );
+            },
+            align: 'center',
+            filters: [
+                {
+                    text: 'Active',
+                    value: 'Y',
+                },
+                {
+                    text: 'Deleted',
+                    value: 'D',
+                },
+
+            ],
+            onFilter: (value, record) => record.status.indexOf(value) === 0,
+
+        },
+        {
             title: 'Action',
             key: 'action',
             render: (_, record) => (
@@ -131,6 +172,13 @@ function Staff() {
             align: 'center',
         },
     ];
+
+    const [pagination, setPagination] = useState({});
+
+    function handleTableChange(data) {
+        setPagination(data);
+    }
+
 
 
     const [username, setUserName] = useState('');
@@ -399,7 +447,14 @@ function Staff() {
 
                     </div>
 
-                    <Table className="mt-4" columns={columns} rowKey="email" dataSource={data} />
+                    <Table className="mt-4"
+                        pagination={{
+                            defaultPageSize: 5,
+                            showSizeChanger: true,
+                            pageSizeOptions: ['5', '10', '15']
+                        }}
+                        onChange={handleTableChange}
+                        columns={columns} rowKey="email" dataSource={data} />
 
 
                 </div>

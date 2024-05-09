@@ -517,7 +517,7 @@ function ListAllOrder() {
 
                         </div>
                     </div>
-                    <div className={cx("inforRepair")}>
+                    <div className={`${cx("inforRepair")} ${record?.status === 'W' ? 'd-none' : ''}`}>
                         <h5 className="mb-2">Thông tin sửa chữa</h5>
                         <div className="row">
                             <div className="col-lg-6 col-md-6 col-sm-12">
@@ -527,7 +527,7 @@ function ListAllOrder() {
                                         className={`${cx("inputForm")} form-control`}
                                         id="floatingInput"
                                         placeholder="name@example.com"
-                                        readOnly value={record?.DetailOrder && record?.DetailOrder.Schedule.Repairer.usernameRepairer} onChange={() => { }}
+                                        readOnly value={record?.DetailOrder && record?.DetailOrder.Schedule.Repairer.usernameRepairer || ''} onChange={() => { }}
                                     />
 
                                     <label htmlFor="floatingInput">Họ tên thợ</label>

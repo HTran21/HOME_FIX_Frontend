@@ -117,7 +117,7 @@ function TaskDetail() {
             setIsModalOpen(false);
             // setIdService("");
             // setidCategori("")
-            // setOperation("")
+            setOperation("")
             // setListOperations()
         }
     };
@@ -125,7 +125,7 @@ function TaskDetail() {
         setIsModalOpen(false);
         // setIdService("");
         // setidCategori("")
-        // setOperation("")
+        setOperation("")
     };
 
     const deleteTask = (task) => {

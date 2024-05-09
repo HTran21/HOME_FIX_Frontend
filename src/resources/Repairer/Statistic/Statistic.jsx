@@ -1,4 +1,4 @@
-import { faCheck, faHourglassHalf, faMagnifyingGlass, faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
+import { faBan, faCheck, faHourglassHalf, faMagnifyingGlass, faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./Statistic.module.scss";
 import classNames from 'classnames/bind';
@@ -12,7 +12,7 @@ import axios from '../../../service/customize_axios';
 import { io } from "socket.io-client";
 import moment from 'moment';
 import { toast } from "react-toastify";
-import { Line } from 'react-chartjs-2';
+import { Bar, Doughnut, Line } from 'react-chartjs-2';
 const cx = classNames.bind(styles);
 
 const socket = io.connect("http://localhost:3000", {
@@ -22,8 +22,7 @@ const socket = io.connect("http://localhost:3000", {
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 const PickerWithType = ({ type, onChange }) => {
-    if (type === 'datepicker') return <RangePicker onChange={onChange} />
-    // if (type === 'week') return <DatePicker onChange={onChange} picker="week" />;
+    if (type === 'datepicker') return <RangePicker onChange={onChange} />;
     if (type === 'month') return <DatePicker picker="month" onChange={onChange} />;
     if (type === 'year') return <DatePicker picker="year" onChange={onChange} />;
 };
@@ -36,6 +35,8 @@ function Statistic() {
     const [data, setData] = useState();
     const [type, setType] = useState('datepicker');
     const [dataOrderRepairer, setDataOrderRepairer] = useState();
+    const [totalOrderSuccess, setTotalOrderSuccess] = useState();
+    const [totalOrderFail, setTotalOrderFail] = useState();
     const [dateSend, setDateSend] = useState();
     const [loadings, setLoadings] = useState();
 
@@ -61,10 +62,11 @@ function Statistic() {
             .then(res => {
                 if (res.data.success) {
                     setDataOrderRepairer(res.data.jobTotal)
+                    setTotalOrderSuccess(res.data.totalOrderSuccess)
+                    setTotalOrderFail(res.data.totalOrderFail)
                 }
             })
     }
-
 
     useEffect(() => {
         featchJob();
@@ -72,21 +74,21 @@ function Statistic() {
     }, [])
 
     const overView = () => {
-        let awaitCount = 0;
+        let failCount = 0;
         let successCount = 0;
 
         data?.forEach((order) => {
-            if (order.Order.status === 'A') {
-                awaitCount++;
+            if (order.Order.status === 'C') {
+                failCount++;
             } else if (order.Order.status === 'S') {
                 successCount++;
             }
         });
 
-        return { awaitCount, successCount };
+        return { failCount, successCount };
     }
 
-    const awaitCount = overView();
+    const failCount = overView();
     const successCount = overView();
 
 
@@ -108,7 +110,6 @@ function Statistic() {
         setDateSend(dataToSend)
 
     };
-
     const handleConfirm = () => {
         if (dateSend && dateSend.data) {
             setLoadings(true)
@@ -122,6 +123,9 @@ function Statistic() {
                         setTimeout(() => {
                             setLoadings(false)
                             setDataOrderRepairer(res.data.jobTotal)
+                            setTotalOrderSuccess(res.data.totalOrderSuccess)
+                            setTotalOrderFail(res.data.totalOrderFail)
+
                         }, 2000)
                     } else {
                         toast.error(res.data.message)
@@ -134,38 +138,72 @@ function Statistic() {
 
     }
 
-    const labels = dataOrderRepairer?.map(item => moment(item.workDay).format('DD/MM/YYYY'));
-    const jobData = dataOrderRepairer?.map(item => +item.count);
+    const labels = dataOrderRepairer?.map(item => item.workDay);
+    const successData = dataOrderRepairer?.map(item => item.successfulJobs);
+    const failureData = dataOrderRepairer?.map(item => item.failedJobs);
 
-    const revenueData = {
+    const chartData = {
         labels: labels,
         datasets: [
             {
-                label: 'Đơn sửa chữa',
-                data: jobData,
-                fill: false,
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.1
+                label: 'Đơn thành công',
+                backgroundColor: 'rgba(75,192,192,0.6)',
+                borderColor: 'rgba(75,192,192,1)',
+                borderWidth: 1,
+                hoverBackgroundColor: 'rgba(75,192,192,0.8)',
+                hoverBorderColor: 'rgba(75,192,192,1)',
+                data: successData
+            },
+            {
+                label: 'Đơn thất bại',
+                backgroundColor: 'rgba(255,99,132,0.6)',
+                borderColor: 'rgba(255,99,132,1)',
+                borderWidth: 1,
+                hoverBackgroundColor: 'rgba(255,99,132,0.8)',
+                hoverBorderColor: 'rgba(255,99,132,1)',
+                data: failureData
             }
         ]
     };
-
-    const chartOptions = {
+    const options = {
+        responsive: true,
         scales: {
-            y: {
-                beginAtZero: true,
-                title: {
-                    display: true,
-                    text: 'Đơn sửa chữa'
-                },
-            },
             x: {
-                title: {
-                    display: true,
-                    text: 'Ngày'
-                }
-            }
-        }
+                stacked: true,
+            },
+            y: {
+                stacked: true,
+            },
+        },
+    };
+
+    const totalOrder = totalOrderSuccess + totalOrderFail;
+    const dataPie = {
+        labels: ['Thành công', 'Thất bại'],
+        datasets: [
+            {
+                data: [(totalOrderSuccess / totalOrder) * 100, (totalOrderFail / totalOrder) * 100],
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.6)',
+                    'rgba(255, 99, 132, 0.6)',
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 99, 132, 1)',
+                ],
+                borderWidth: 1,
+            },
+        ],
+    };
+
+    const optionsPie = {
+        plugins: {
+            title: {
+                display: true,
+                text: 'Biểu đồ tỷ lệ thành công và thất bại của đơn sửa chữa',
+                fontSize: 16,
+            },
+        },
     };
 
     return (
@@ -215,11 +253,11 @@ function Statistic() {
                         <div className="col-6">
                             <div className={cx("overviewCard")}>
                                 <div className={cx("layoutIconW")}>
-                                    <FontAwesomeIcon icon={faHourglassHalf} />
+                                    <FontAwesomeIcon icon={faBan} />
                                 </div>
                                 <div className={cx("contentOverViewCard")}>
                                     <div className={cx("numberOverview")}>
-                                        {awaitCount.awaitCount}
+                                        {failCount.failCount}
                                     </div>
                                     <p>Công việc</p>
                                 </div>
@@ -236,17 +274,23 @@ function Statistic() {
                     <Space className="mt-2">
                         <Select style={{ width: "120px" }} value={type} onChange={setType}>
                             <Option value="datepicker">Khoảng ngày</Option>
-                            {/* <Option value="week">Tuần</Option> */}
                             <Option value="month">Tháng</Option>
                             <Option value="year">Năm</Option>
                         </Select>
                         <PickerWithType type={type} onChange={handleDateChange} />
                     </Space>
 
-                    <div className="chart mt-5">
-                        <Line data={revenueData} options={chartOptions} />
+                    <div className="chart mt-2">
+                        <Bar
+                            data={chartData}
+                            options={options}
+                        />
 
                     </div>
+                    <div className="d-flex">
+                        <Doughnut className="m-auto" style={{ maxWidth: "230px", maxHeight: "230px" }} data={dataPie} options={optionsPie} />
+                    </div>
+
                 </div>
 
 
